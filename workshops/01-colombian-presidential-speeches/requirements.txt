@@ -1,0 +1,10 @@
+nltk
+spacy
+# python -m spacy download es_core_news_md
+matplotlib
+wordcloud
+pandas
+textstat==0.2
+textdescriptives
+networkx
+jupyter
