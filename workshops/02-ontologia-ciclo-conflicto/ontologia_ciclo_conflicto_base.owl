@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="http://www.semanticweb.org/tesauro-cev-ciclo-conflicto"
+         xmlns="http://www.semanticweb.org/tesauro-cev-ciclo-conflicto#">
+
+<owl:Ontology rdf:about="http://www.semanticweb.org/tesauro-cev-ciclo-conflicto"/>
+
+<owl:ObjectProperty rdf:about="#usaArma">
+  <rdfs:domain rdf:resource="#EstructuraArmada"/>
+  <rdfs:range rdf:resource="#Arma"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#cometeHecho">
+  <rdfs:domain rdf:resource="#EstructuraArmada"/>
+  <rdfs:range rdf:resource="#HechoVictimizante"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#afectaA">
+  <rdfs:domain rdf:resource="#HechoVictimizante"/>
+  <rdfs:range rdf:resource="#ProfesionOficio"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#sedesmovilizaEn">
+  <rdfs:domain rdf:resource="#EstructuraArmada"/>
+  <rdfs:range rdf:resource="#PartidoPolitico"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:about="#Arma">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#HechoVictimizante">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#EstructuraArmada">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ProfesionOficio">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PartidoPolitico">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ArmaBlanca">
+  <rdfs:subClassOf rdf:resource="#Arma"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ArmaDeFuego">
+  <rdfs:subClassOf rdf:resource="#Arma"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Cuchillo">
+  <rdfs:subClassOf rdf:resource="#ArmaBlanca"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Machete">
+  <rdfs:subClassOf rdf:resource="#ArmaBlanca"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Puñal">
+  <rdfs:subClassOf rdf:resource="#ArmaBlanca"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Bayoneta">
+  <rdfs:subClassOf rdf:resource="#ArmaBlanca"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ArmaDeFuegoCorta">
+  <rdfs:subClassOf rdf:resource="#ArmaDeFuego"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ArmaDeFuegoLarga">
+  <rdfs:subClassOf rdf:resource="#ArmaDeFuego"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ArtefactoExplosivoImprovisado">
+  <rdfs:subClassOf rdf:resource="#ArmaDeFuego"/>
+</owl:Class>
+
+<owl:Class rdf:about="#MinaAntipersona">
+  <rdfs:subClassOf rdf:resource="#ArmaDeFuego"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Homicidio">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#DesaparicionForzada">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#DesplazamientoForzado">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ViolenciaSexual">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ReclutamientoForzado">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Secuestro">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Tortura">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#AmenazaALaVida">
+  <rdfs:subClassOf rdf:resource="#HechoVictimizante"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Masacre">
+  <rdfs:subClassOf rdf:resource="#Homicidio"/>
+</owl:Class>
+
+<owl:Class rdf:about="#EjecucionExtrajudicial">
+  <rdfs:subClassOf rdf:resource="#Homicidio"/>
+</owl:Class>
+
+<owl:Class rdf:about="#EstructuraArmadaLegal">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmada"/>
+</owl:Class>
+
+<owl:Class rdf:about="#EstructuraArmadaIlegal">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmada"/>
+</owl:Class>
+
+<owl:Class rdf:about="#GrupoGuerrillero">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmadaIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#GrupoParamilitar">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmadaIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#BandaCriminal">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmadaIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#GrupoArmadoOrganizado">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmadaIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PoliciaNacional">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmadaLegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#FuerzasMilitares">
+  <rdfs:subClassOf rdf:resource="#EstructuraArmadaLegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#OficioIlegal">
+  <rdfs:subClassOf rdf:resource="#ProfesionOficio"/>
+</owl:Class>
+
+<owl:Class rdf:about="#ProfesionLegal">
+  <rdfs:subClassOf rdf:resource="#ProfesionOficio"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Guerrillero">
+  <rdfs:subClassOf rdf:resource="#OficioIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Paramilitar">
+  <rdfs:subClassOf rdf:resource="#OficioIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Sicario">
+  <rdfs:subClassOf rdf:resource="#OficioIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Narcotraficante">
+  <rdfs:subClassOf rdf:resource="#OficioIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Miliciano">
+  <rdfs:subClassOf rdf:resource="#OficioIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Extorsionista">
+  <rdfs:subClassOf rdf:resource="#OficioIlegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Periodista">
+  <rdfs:subClassOf rdf:resource="#ProfesionLegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Abogado">
+  <rdfs:subClassOf rdf:resource="#ProfesionLegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Alcalde">
+  <rdfs:subClassOf rdf:resource="#ProfesionLegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Profesor">
+  <rdfs:subClassOf rdf:resource="#ProfesionLegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#DefensorDeDerechosHumanos">
+  <rdfs:subClassOf rdf:resource="#ProfesionLegal"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PartidoNacional">
+  <rdfs:subClassOf rdf:resource="#PartidoPolitico"/>
+</owl:Class>
+
+<owl:Class rdf:about="#PartidoInternacional">
+  <rdfs:subClassOf rdf:resource="#PartidoPolitico"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="#ELN">
+  <rdf:type rdf:resource="#GrupoGuerrillero"/>
+  <usaArma rdf:resource="#Fusil_AK47"/>
+  <cometeHecho rdf:resource="#Masacre_de_El_Aro"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#FARC_EP_grupo_armado">
+  <rdf:type rdf:resource="#GrupoGuerrillero"/>
+  <cometeHecho rdf:resource="#Desplazamiento_masivo_ejemplo"/>
+  <sedesmovilizaEn rdf:resource="#Partido_FARC_Comunes"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#BACRIM_generico">
+  <rdf:type rdf:resource="#BandaCriminal"/>
+  <usaArma rdf:resource="#Pistola_generica"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Fusil_AK47">
+  <rdf:type rdf:resource="#ArmaDeFuegoLarga"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Pistola_generica">
+  <rdf:type rdf:resource="#ArmaDeFuegoCorta"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Masacre_de_El_Aro">
+  <rdf:type rdf:resource="#Masacre"/>
+  <afectaA rdf:resource="#Periodista_afectado_ejemplo"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Desplazamiento_masivo_ejemplo">
+  <rdf:type rdf:resource="#DesplazamientoForzado"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Partido_FARC_Comunes">
+  <rdf:type rdf:resource="#PartidoNacional"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Partido_Union_Patriotica">
+  <rdf:type rdf:resource="#PartidoNacional"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Periodista_afectado_ejemplo">
+  <rdf:type rdf:resource="#Periodista"/>
+</owl:NamedIndividual>
+
+
+</rdf:RDF>
