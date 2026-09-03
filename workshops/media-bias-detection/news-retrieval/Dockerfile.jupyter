@@ -1,0 +1,40 @@
+# JupyterLab para trabajar el corpus.
+#
+# El código y los notebooks NO se copian a la imagen: llegan por bind mount en
+# /workspace (ver docker-compose.yml). Lo que se instala aquí son sólo las
+# dependencias, para no reconstruir la imagen cada vez que se edita una celda.
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Gana sobre la copia instalada en site-packages: se ejecuta el src montado,
+# así un cambio en src/ se ve en el notebook sin reconstruir la imagen.
+ENV PYTHONPATH=/workspace/src
+
+# psql para consultar la base desde la terminal de Jupyter; git para versionar
+# los notebooks sin salir del contenedor.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git \
+        postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Capa de dependencias: sólo se invalida si cambia pyproject.toml o src/.
+WORKDIR /app
+COPY pyproject.toml ./
+COPY src ./src
+RUN pip install ".[notebook,export,dev]"
+
+# uid 1000 para que los archivos escritos en el bind mount (exports, notebooks)
+# no queden como root en el host.
+RUN useradd --create-home --uid 1000 nb
+USER nb
+WORKDIR /workspace
+
+EXPOSE 8888
+CMD ["jupyter", "lab", \
+     "--ip=0.0.0.0", \
+     "--port=8888", \
+     "--no-browser", \
+     "--ServerApp.root_dir=/workspace"]

@@ -1,0 +1,163 @@
+# Jerarquía temática del corpus (CLAUDE.md §8).
+#
+# IMPORTANTE — cómo se usa esto:
+# Las keywords NO son parámetros de búsqueda. El discovery descarga el mes
+# completo de cada medio y el etiquetado temático se aplica DESPUÉS, sobre
+# título + URL + sección. Razón: los sitemaps no aceptan consultas, y filtrar
+# durante el discovery haría irreproducible el corpus si más adelante cambian
+# las keywords. Cambiar este archivo debe poder re-etiquetar el corpus existente
+# sin volver a descargar nada.
+#
+# `match_on` indica contra qué campos se evalúan las keywords.
+# El etiquetado es MULTI-ETIQUETA: un artículo puede pertenecer a varios temas.
+
+settings:
+  match_on: [title, url_path, section]
+  case_sensitive: false
+  strip_accents: true
+  # Un artículo sin ningún tema NO se descarta: se guarda con topics = [].
+  keep_untagged: true
+
+topics:
+  - id: politica
+    name: Política
+    active: true
+    children:
+      - id: gobierno
+        name: Gobierno
+        keywords: [gobierno, presidente, casa de narino, ministro, ministerio, consejo de ministros, gabinete]
+      - id: elecciones
+        name: Elecciones
+        keywords: [elecciones, electoral, candidato, votacion, urnas, campana electoral, registraduria, consulta popular]
+      - id: congreso
+        name: Congreso
+        keywords: [congreso, senado, camara de representantes, senador, representante a la camara, plenaria, legislatura]
+      - id: partidos_politicos
+        name: Partidos políticos
+        keywords: [partido, coalicion, bancada, centro democratico, partido liberal, partido conservador, pacto historico, cambio radical, partido verde]
+      - id: oposicion
+        name: Oposición
+        keywords: [oposicion, opositor, estatuto de oposicion]
+      - id: reformas
+        name: Reformas
+        keywords: [reforma, reforma tributaria, reforma pensional, reforma a la salud, reforma laboral, reforma politica]
+
+  - id: economia
+    name: Economía
+    active: true
+    children:
+      - id: inflacion
+        name: Inflación
+        keywords: [inflacion, ipc, costo de vida, precios al consumidor]
+      - id: empleo
+        name: Empleo
+        keywords: [empleo, desempleo, desocupacion, salario minimo, mercado laboral, informalidad]
+      - id: impuestos
+        name: Impuestos
+        keywords: [impuesto, tributaria, dian, iva, renta, gravamen]
+      - id: presupuesto
+        name: Presupuesto
+        keywords: [presupuesto general, deficit fiscal, deuda publica, regla fiscal, marco fiscal]
+      - id: comercio
+        name: Comercio
+        keywords: [exportaciones, importaciones, tlc, balanza comercial, aranceles, comercio exterior]
+      - id: economia_nacional
+        name: Economía nacional
+        keywords: [pib, crecimiento economico, banco de la republica, tasa de interes, dolar, devaluacion]
+
+  - id: seguridad
+    name: Seguridad
+    active: true
+    children:
+      - id: conflicto_armado
+        name: Conflicto armado
+        keywords: [conflicto armado, proceso de paz, acuerdo de paz, victimas, desplazamiento forzado, jep, farc]
+      - id: guerrillas
+        name: Guerrillas
+        keywords: [guerrilla, eln, farc, disidencias, secuestro, subversivo]
+      - id: grupos_paramilitares
+        name: Grupos paramilitares
+        keywords: [paramilitar, autodefensas, auc, clan del golfo, bacrim, grupo armado organizado]
+      - id: narcotrafico
+        name: Narcotráfico
+        keywords: [narcotrafico, coca, cocaina, cultivos ilicitos, erradicacion, fumigacion, capo, cartel]
+      - id: seguridad_ciudadana
+        name: Seguridad ciudadana
+        keywords: [homicidios, hurto, inseguridad, extorsion, microtrafico, policia]
+      - id: fuerzas_militares
+        name: Fuerzas militares
+        keywords: [ejercito, fuerzas militares, fuerza publica, militares, mindefensa, operacion militar]
+
+  - id: sociedad
+    name: Sociedad
+    active: true
+    children:
+      - id: protestas
+        name: Protestas
+        keywords: [protesta, paro, manifestacion, movilizacion, marcha, disturbios, bloqueo, estallido social]
+        notes: >
+          Tema de alto valor para el análisis de framing: el mismo hecho aparece
+          como "manifestación" o como "disturbios" según el medio.
+      - id: educacion
+        name: Educación
+        keywords: [educacion, colegio, universidad, estudiantes, icetex, matricula cero, docentes]
+      - id: salud
+        name: Salud
+        keywords: [salud, eps, hospital, sistema de salud, pandemia, covid, vacunacion]
+      - id: pobreza
+        name: Pobreza
+        keywords: [pobreza, desigualdad, hambre, subsidio, vulnerabilidad, gini]
+      - id: derechos_humanos
+        name: Derechos humanos
+        keywords: [derechos humanos, lider social, defensor de derechos, masacre, falsos positivos, onu]
+
+  - id: justicia
+    name: Justicia
+    active: true
+    children:
+      - id: corrupcion
+        name: Corrupción
+        keywords: [corrupcion, soborno, odebrecht, carrusel de contratacion, peculado, contraloria]
+      - id: procesos_judiciales
+        name: Procesos judiciales
+        keywords: [corte suprema, corte constitucional, consejo de estado, condena, tutela, imputacion]
+      - id: escandalos
+        name: Escándalos
+        keywords: [escandalo, chuzadas, ame el proceso, investigacion disciplinaria]
+      - id: fiscalia
+        name: Fiscalía
+        keywords: [fiscalia, fiscal general, procuraduria, imputacion de cargos]
+
+  - id: relaciones_internacionales
+    name: Relaciones internacionales
+    active: true
+    children:
+      - id: venezuela
+        name: Venezuela
+        keywords: [venezuela, maduro, chavez, frontera con venezuela, migracion venezolana]
+      - id: estados_unidos
+        name: Estados Unidos
+        keywords: [estados unidos, washington, casa blanca, plan colombia, descertificacion]
+      - id: relaciones_diplomaticas
+        name: Relaciones diplomáticas
+        keywords: [cancilleria, embajador, diplomatico, canciller, relaciones bilaterales]
+      - id: politica_exterior
+        name: Política exterior
+        keywords: [politica exterior, oea, onu, celac, acuerdo internacional]
+
+  - id: medio_ambiente
+    name: Medio ambiente
+    active: true
+    children:
+      - id: cambio_climatico
+        name: Cambio climático
+        keywords: [cambio climatico, calentamiento global, cop, emisiones, transicion energetica]
+      - id: mineria
+        name: Minería
+        keywords: [mineria, mina, carbon, oro, glifosato, licencia ambiental, fracking]
+      - id: deforestacion
+        name: Deforestación
+        keywords: [deforestacion, amazonia, tala, bosque, selva]
+      - id: recursos_naturales
+        name: Recursos naturales
+        keywords: [agua, paramo, rio, biodiversidad, parque natural, petroleo]

@@ -1,0 +1,185 @@
+# Medios del corpus y su estrategia de discovery verificada.
+#
+# Todo lo que aparece bajo `discovery` fue comprobado empíricamente el
+# 2026-08-31 (ver docs/01-research-and-architecture.md). `archive_from` es la
+# fecha más antigua VERIFICADA, no una aspiración.
+#
+# `domains` es una lista porque un medio puede cambiar de dominio en 20 años
+# (RTVC es el caso real). El mapeo dominio→medio es many-to-one y se resuelve
+# contra esta lista.
+
+defaults:
+  country: CO
+  language: es
+
+sources:
+  # ── Sitemap mensual propio: la columna vertebral del corpus ────────────────
+  - id: el_tiempo
+    name: El Tiempo
+    domains: [eltiempo.com, www.eltiempo.com, m.eltiempo.com]
+    source_type: newspaper
+    active: true
+    discovery:
+      strategy: monthly_sitemap
+      url_template: "https://www.eltiempo.com/sitemap-articles-{year}-{month:02d}.xml"
+      archive_from: 1990-01
+      # ⚠️ El archivo existe desde 1990 pero está ADELGAZADO antes de 2016-03.
+      # Medido con la tabla archive_density del propio corpus:
+      #   2016-01 → 48 URLs · 2016-02 → 39 · 2016-03 → 4.793
+      # El salto es en marzo de 2016, no en enero. Ver riesgo #2.
+      reliable_from: 2016-03
+      notes: >
+        Las URLs anteriores a ~2013 tienen forma /archivo/documento/MAM-0000000
+        (sin slug), por lo que el título NO puede derivarse de la URL y exige
+        fase de extracción.
+
+  - id: noticias_caracol
+    name: Noticias Caracol
+    domains: [noticiascaracol.com, www.noticiascaracol.com]
+    source_type: tv
+    active: true
+    discovery:
+      strategy: monthly_sitemap
+      url_template: "https://www.noticiascaracol.com/sitemap-{year}{month:02d}.xml"
+      archive_from: 2008-11
+      reliable_from: 2008-11
+      notes: 214 meses consecutivos verificados (2008-11 → 2026-08).
+
+  - id: blu_radio
+    name: Blu Radio
+    domains: [bluradio.com, www.bluradio.com]
+    source_type: radio
+    active: true
+    discovery:
+      strategy: monthly_sitemap
+      url_template: "https://www.bluradio.com/sitemap-{year}{month:02d}.xml"
+      archive_from: 2012-09
+      reliable_from: 2012-09
+      notes: >
+        166 meses. La emisora fue fundada en 2012, así que el archivo es
+        COMPLETO para su vida útil: la ausencia previa no es un hueco.
+
+  - id: la_republica
+    name: La República
+    domains: [larepublica.co, www.larepublica.co]
+    source_type: newspaper
+    active: true
+    discovery:
+      strategy: monthly_sitemap_gz
+      url_template: "https://www.larepublica.co/sitemaps/articles_{month_name_en}_{year}.xml.gz"
+      archive_from: 2012-01
+      reliable_from: 2012-01
+      notes: 175 sitemaps mensuales. El nombre del mes va en inglés y capitalizado.
+
+  - id: noticias_rcn
+    name: Noticias RCN
+    domains: [noticiasrcn.com, www.noticiasrcn.com]
+    source_type: tv
+    active: true
+    discovery:
+      strategy: monthly_sitemap_gz
+      url_template: "https://www.noticiasrcn.com/sitemaps/articles_{month_name_en}_{year}.xml.gz"
+      archive_from: 2013-01
+      reliable_from: 2013-01
+
+  # ── Arc XP: archivo propio superficial, requieren fuente secundaria ────────
+  - id: el_espectador
+    name: El Espectador
+    domains: [elespectador.com, www.elespectador.com]
+    source_type: newspaper
+    active: true
+    discovery:
+      strategy: arc_paginated
+      url_template: "https://www.elespectador.com/arc/outboundfeeds/sitemap/?outputType=xml&from={offset}"
+      archive_from: null          # sin archivo histórico propio alcanzable
+      reliable_from: null
+      fallback: [common_crawl, gdelt, wayback]
+      notes: >
+        Migró al CMS Arc; el sitemap sólo pagina lo reciente. Existen rutas
+        /arc/outboundfeeds/archivo/<sección>/ cuya profundidad NO se cuantificó.
+
+  - id: semana
+    name: Semana
+    domains: [semana.com, www.semana.com]
+    source_type: magazine
+    active: true
+    discovery:
+      strategy: arc_paginated
+      url_template: "https://www.semana.com/arc/outboundfeeds/sitemap/?outputType=xml&from={offset}"
+      max_offset: 300
+      archive_from: null
+      reliable_from: null
+      fallback: [common_crawl, gdelt, wayback]
+
+  - id: w_radio
+    name: W Radio
+    domains: [wradio.com.co, www.wradio.com.co]
+    source_type: radio
+    active: true
+    discovery:
+      strategy: arc_paginated
+      url_template: "https://www.wradio.com.co/arc/outboundfeeds/sitemap/?outputType=xml&from={offset}"
+      archive_from: null
+      reliable_from: null
+      fallback: [common_crawl, gdelt, wayback]
+      notes: >
+        ⚠️ SIN VERIFICAR. Los feeds Arc responden 200 y no aparecen en
+        robots.txt, pero no se cuantificó la profundidad. Confirmar antes de
+        incluirlo en un análisis comparativo.
+
+  # ── Casos especiales ──────────────────────────────────────────────────────
+  - id: cambio
+    name: Cambio
+    domains: [cambiocolombia.com]        # ⚠️ responde SIN www
+    source_type: magazine
+    active: true
+    discovery:
+      strategy: sitemap_index
+      url_template: "https://cambiocolombia.com/sitemap.xml"
+      archive_from: 2021-01
+      reliable_from: 2021-01
+      notes: >
+        Medio refundado en 2021. Su horizonte corto es un hecho del medio, no
+        una carencia del archivo: NO debe leerse como falta de cobertura.
+
+  - id: rtvc
+    name: RTVC — Sistema de Medios Públicos
+    domains: [rtvc.gov.co, www.rtvc.gov.co, inravision.gov.co, www.inravision.gov.co]
+    source_type: public_broadcaster
+    active: false                        # ⚠️ desactivado hasta resolver el dominio
+    discovery:
+      strategy: unresolved
+      archive_from: null
+      reliable_from: null
+      notes: >
+        rtvc.gov.co redirige (301) a inravision.gov.co. No se identificó un
+        mecanismo de discovery utilizable. Se deja inactivo a propósito en vez
+        de fingir cobertura.
+
+# ── Proveedores transversales (no son medios; cubren varios a la vez) ────────
+cross_source_providers:
+  - id: gdelt
+    enabled: true
+    coverage_from: 2017-01
+    notes: >
+        ⚠️ DOS modos de fallo silencioso, ambos verificados:
+        (1) bajo saturación devuelve HTTP 200 + JSON válido con artículos de
+            OTRA época → validar seendate ∈ ventana pedida, siempre;
+        (2) sólo 38% de las consultas en rango devuelven datos; los fallos son
+            cuerpos vacíos con HTTP 200 → un bloque vacío se reintenta, nunca
+            se marca completado.
+
+  - id: common_crawl
+    enabled: true
+    coverage_from: 2008-01
+    notes: >
+        127 colecciones (2008 → 2026). El índice devuelve offsets WARC, así que
+        permite recuperar el HTML COMPLETO, no sólo metadata. Principal
+        candidato para el hueco 2006-2016 de los medios Arc.
+
+  - id: wayback
+    enabled: false
+    coverage_from: 1996-01
+    notes: >
+        Último recurso. El archivo existe (3.434 páginas para eltiempo.com en
+        2008) pero las consultas wildcard devuelven 504 con frecuencia.

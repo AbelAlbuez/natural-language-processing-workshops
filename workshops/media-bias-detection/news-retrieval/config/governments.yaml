@@ -1,0 +1,50 @@
+# Gobiernos de Colombia que delimitan el corpus.
+#
+# El horizonte del proyecto (2006-08-07 → 2026-08-07) coincide exactamente con
+# cinco períodos presidenciales consecutivos. La toma de posesión en Colombia es
+# siempre el 7 de agosto.
+#
+# ⚠️ VERIFICAR ANTES DE LA ENTREGA: aunque el 7 de agosto es la fecha
+# constitucional de posesión y estos períodos son de dominio público, el
+# CLAUDE.md (§6) exige validar las fechas contra fuente confiable y dejar
+# constancia. Anotar la fuente en `source_note` cuando se verifique.
+
+governments:
+  - id: uribe_2
+    president: Álvaro Uribe Vélez
+    term: 2
+    start_date: 2006-08-07
+    end_date: 2010-08-07
+    source_note: null   # ← completar con la fuente verificada
+
+  - id: santos_1
+    president: Juan Manuel Santos
+    term: 1
+    start_date: 2010-08-07
+    end_date: 2014-08-07
+    source_note: null
+
+  - id: santos_2
+    president: Juan Manuel Santos
+    term: 2
+    start_date: 2014-08-07
+    end_date: 2018-08-07
+    source_note: null
+
+  - id: duque
+    president: Iván Duque Márquez
+    term: 1
+    start_date: 2018-08-07
+    end_date: 2022-08-07
+    source_note: null
+
+  - id: petro
+    president: Gustavo Petro Urrego
+    term: 1
+    start_date: 2022-08-07
+    end_date: 2026-08-07
+    source_note: null
+
+# El período que comienza el 2026-08-07 queda FUERA del horizonte del corpus.
+# No se incluye aquí a propósito: incorporarlo exige verificar quién asumió y
+# con qué fechas, y ampliar el horizonte es una decisión del equipo (§30).

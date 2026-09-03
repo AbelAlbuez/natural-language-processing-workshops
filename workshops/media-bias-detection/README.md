@@ -4,6 +4,22 @@ Proyecto final del curso de Procesamiento de Lenguaje Natural (PLN),
 Pontificia Universidad Javeriana — Ing. Luis Gabriel Moreno Sandoval, PhD.
 Grupo 1.
 
+## Las dos partes del proyecto
+
+| Carpeta | Qué es |
+|---|---|
+| esta raíz | **Prototipo multiagente** de detección de framing sobre un evento puntual, con búsqueda en vivo |
+| [`news-retrieval/`](news-retrieval/) | **Servicio de corpus histórico**: construye y versiona el corpus de prensa colombiana sobre el que se harán los análisis a escala |
+
+Son complementarios. El prototipo demuestra el método de análisis sobre unos
+pocos artículos; `news-retrieval/` construye la base de datos que permite
+aplicarlo a 20 años de cobertura y comparar entre gobiernos.
+
+Para empezar con el corpus sin recolectar nada, ver
+[`news-retrieval/docs/03-guia-del-equipo.md`](news-retrieval/docs/03-guia-del-equipo.md).
+Resúmenes de traspaso: [técnico](news-retrieval/docs/04-resumen-tecnico.md) ·
+[no técnico](news-retrieval/docs/05-resumen-del-proyecto.md).
+
 ## Alcance
 
 Detectar y comparar **sesgo mediático (framing)** en la cobertura de un

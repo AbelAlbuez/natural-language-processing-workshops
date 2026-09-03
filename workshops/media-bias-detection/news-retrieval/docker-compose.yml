@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: news-corpus-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-news_corpus}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-news_corpus}
+      POSTGRES_DB: ${DB_NAME:-news_corpus}
+      # Español para que ORDER BY y las búsquedas de texto ordenen bien
+      # nombres con tildes y ñ.
+      LANG: es_ES.utf8
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    ports:
+      # 5433 en el host: el 5432 ya lo ocupa otro Postgres local.
+      - "${DB_PORT_HOST:-5433}:5432"
+    volumes:
+      - news_corpus_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-news_corpus} -d ${DB_NAME:-news_corpus}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    image: news-corpus-jupyter
+    container_name: news-corpus-jupyter
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      JUPYTER_TOKEN: ${JUPYTER_TOKEN:-news-corpus}
+      # Dentro de la red de compose la base es "postgres:5432". El 5433 del
+      # .env es sólo el puerto publicado en el host; estas variables de entorno
+      # tienen prioridad sobre el .env al construir Settings.database_url.
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-news_corpus}
+      DB_PASSWORD: ${DB_PASSWORD:-news_corpus}
+      DB_NAME: ${DB_NAME:-news_corpus}
+    ports:
+      - "${JUPYTER_PORT:-8888}:8888"
+    volumes:
+      # El repo completo: los notebooks necesitan src/, config/ y exports/.
+      - .:/workspace
+      # Volumen anónimo que tapa el .venv del host (binarios de macOS, inútiles
+      # dentro del contenedor y confusos en el explorador de archivos).
+      - /workspace/.venv
+      # Ajustes de JupyterLab (layout, temas) entre reinicios.
+      - jupyter_home:/home/nb
+    working_dir: /workspace
+
+volumes:
+  news_corpus_data:
+  jupyter_home:
