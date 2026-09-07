@@ -103,3 +103,29 @@ resultado siempre pasa por el verificador antes de analizarse.
   consistencia del JSON devuelto por el modelo.
 - Evaluar si conviene subir `N_MEDIOS_BUSQUEDA` (hoy 2) a 3-4 para tener más
   robustez frente a medios descartados por el verificador.
+
+## Informe LaTeX
+
+La carpeta `informe/` contiene:
+
+- `IDEA PROYECTO PLN 2026 (1).docx` — documento de referencia existente.
+- `entrega1.tex` — fuente LaTeX de la Entrega 1.
+- `referencias.bib` — referencias bibliográficas usadas por `natbib`.
+- `entrega1.pdf` — PDF compilado de la entrega.
+
+Para compilar desde esta carpeta, ejecuta:
+
+```bash
+cd informe
+pdflatex entrega1.tex
+bibtex entrega1
+pdflatex entrega1.tex
+pdflatex entrega1.tex
+```
+
+Se requiere una distribución LaTeX instalada. En macOS se puede usar
+MacTeX. El informe utiliza los paquetes `babel` (español), `geometry`,
+`url` y `hyperref`, disponibles en la instalación usada para generar el PDF.
+El documento usa `article` manual a 10pt y dos columnas porque `IEEEtran.cls`
+no está instalada en esta distribución; las referencias se generan con el
+estilo numérico `ieeetr`.

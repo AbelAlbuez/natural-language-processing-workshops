@@ -1,0 +1,228 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{hyperref}
+
+\geometry{top=1.9cm,bottom=2cm,left=1.7cm,right=1.7cm,columnsep=0.65cm}
+\hypersetup{colorlinks=true, urlcolor=blue, citecolor=black, linkcolor=black}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+  {-2.5ex \@plus -1ex \@minus -.2ex}%
+  {1.3ex \@plus .2ex}%
+  {\normalfont\large\bfseries\centering}}
+\makeatother
+
+\title{\textbf{Detección de sesgo mediático mediante análisis de framing:\\
+arquitectura multiagente para noticias colombianas}}
+\author{Abel Albuez Sanchez, Kelly Joane Leon Torres, Juan Camilo Torres Peña, Jesús David Romero Melo\\
+\small\textit{Maestría en Ingeniería de Sistemas y Computación, Pontificia Universidad Javeriana, Bogotá D.C., Colombia}\\
+\small Procesamiento de Lenguaje Natural, 2026}
+\date{}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+\textit{Este trabajo aborda la detección de sesgo mediático como un problema
+de framing, distinto del análisis de sentimiento, en la cobertura colombiana
+de un mismo evento noticioso. Se propone una arquitectura multiagente que
+verifica el evento y compara la selección léxica, el encuadre de actores y
+citas, y el estilo o énfasis temático. El prototipo se prueba sobre un corpus
+curado de artículos y deja explícitamente pendientes las métricas cuantitativas
+del corpus final, sin reportar resultados que aún no han sido calculados.}
+\end{abstract}
+
+\noindent\textbf{Index Terms---} media bias, framing analysis, multi-agent systems,
+Spanish NLP, Colombian news.
+
+\section{IDEA DE PROYECTO}
+
+\subsection{Área y problema}
+
+El proyecto se ubica en el área de procesamiento de lenguaje natural aplicado
+al análisis de medios de comunicación y busca detectar y comparar sesgo
+mediático en la cobertura colombiana de un mismo evento noticioso. El objeto
+de estudio es el \emph{framing}: la manera en que la selección de palabras,
+la caracterización de los actores y el énfasis temático pueden orientar la
+interpretación de un hecho, incluso cuando distintos medios informan sobre el
+mismo acontecimiento.
+
+El problema no se formula como análisis de sentimiento. Una cobertura puede
+emplear un tono aparentemente neutro y, aun así, construir encuadres distintos
+mediante elecciones léxicas, atribución de roles, selección de citas y
+organización del contexto. El prototipo propone un pipeline multiagente que
+verifica primero que los artículos se refieran al mismo evento y después
+compara tres dimensiones: léxico/framing, actores/citas y estilo/énfasis.
+
+\subsection{Justificación}
+
+Comparar artículos sobre un mismo evento permite separar las diferencias de
+redacción de las diferencias producidas por tratar hechos distintos. Esta
+comparación es pertinente para el contexto colombiano, donde el corpus
+histórico que se está construyendo permitirá estudiar la cobertura de prensa a
+mayor escala y comparar períodos de gobierno. El prototipo actual sirve como
+prueba del método sobre pocos artículos y conserva una etapa explícita de
+verificación para no forzar el análisis de fuentes que no cubren el mismo hecho.
+
+La arquitectura se inspira en el sesgo por selección léxica y etiquetado
+(\emph{bias by word choice and labeling}, WCL) de \cite{hamborg2020}, en el
+análisis de framing centrado en personas de \cite{hamborg2023} y en la
+viabilidad de herramientas de análisis de cobertura basadas en modelos de
+lenguaje mostrada por \cite{mediabiasdetector2025}.
+
+\subsection{Preguntas de investigación}
+
+\begin{enumerate}
+  \item ¿Qué diferencias de selección léxica y etiquetado aparecen entre
+  medios colombianos al cubrir un mismo evento noticioso?
+  \item ¿Cómo cambia el encuadre de los actores según las personas o
+  instituciones citadas, los roles atribuidos y las voces que reciben espacio?
+  \item ¿Qué diferencias de énfasis temático y estilo pueden observarse entre
+  las coberturas y cómo complementan el análisis léxico y de actores?
+\end{enumerate}
+
+\section{ESTADO DEL ARTE}
+
+El sesgo mediático ha sido abordado en PLN principalmente como un problema
+de \emph{framing}, distinto del análisis de sentimiento: no se trata del
+tono positivo o negativo de un texto, sino de cómo la selección de
+palabras y el encuadre de los actores involucrados en un hecho puede
+inducir interpretaciones distintas en el lector ante el mismo evento.
+
+\cite{hamborg2020} define el concepto de \emph{bias by word choice and
+labeling} (WCL): el fenómeno por el cual distintos medios refieren al
+mismo concepto o actor usando términos diferentes que activan
+connotaciones distintas (por ejemplo, ``manifestantes'' frente a
+``vándalos'' para el mismo grupo de personas). Este trabajo establece el
+problema que aborda el presente proyecto y da nombre explícito a la
+categoría de sesgo que se busca detectar.
+
+\cite{hamborg2023} extiende este marco con un método de
+\emph{person-oriented framing analysis}: en vez de analizar el texto de
+forma agregada, el análisis se centra en cómo cada artículo retrata
+específicamente a las personas involucradas en el evento cubierto —a
+quién se cita directamente, a quién se atribuyen acciones, y con qué
+términos. Este enfoque es la base metodológica directa del componente de
+actores y citas de la arquitectura propuesta en este proyecto.
+
+Más recientemente, \cite{mediabiasdetector2025} presentan
+\emph{Media Bias Detector}, una herramienta que usa modelos de lenguaje
+de gran escala para anotar en tiempo casi real miles de artículos de
+noticias, permitiendo comparar cobertura entre medios a nivel de tema,
+tono y encuadre. Los autores señalan que los enfoques tradicionales de
+PLN, como el conteo de n-gramas, no logran capturar el contexto completo
+de un artículo, lo que motiva un enfoque basado en LLMs similar al
+adoptado en este proyecto.
+
+Este proyecto se ubica en la intersección de estas tres líneas: adopta la
+definición de sesgo por selección léxica de \cite{hamborg2020}, el
+enfoque centrado en actores de \cite{hamborg2023}, y la viabilidad de un
+pipeline basado en LLMs demostrada por \cite{mediabiasdetector2025},
+aplicándolos específicamente al corpus de medios colombianos.
+
+\section{DESCRIPCIÓN DEL CORPUS}
+
+\subsection{Fuente y curaduría}
+
+La fuente del prototipo es una curaduría manual por evento. Cada registro
+representa un artículo de un medio y se agrupan los registros que cubren un
+mismo hecho puntual mediante el campo \texttt{evento\_id}. El archivo de ejemplo,
+\texttt{corpus\_ejemplo.json}, contiene un evento sobre el fallo de la Corte
+Constitucional frente a una reforma tributaria y tres artículos de medios
+ficticios. Las diferencias de framing fueron diseñadas intencionalmente para
+probar el pipeline; por tanto, este archivo no debe confundirse con una
+colección de URLs periodísticas verificadas ni con el corpus histórico final.
+
+El corpus histórico de mayor escala se construirá por separado en
+\texttt{news-retrieval/}. En esta Entrega 1 no se reportan cifras de ese corpus porque
+aún no está completo.
+
+\subsection{Características y ejemplo}
+
+El ejemplo disponible contiene un evento, tres medios y fechas comprendidas
+entre el 14 y el 15 de octubre de 2024. El esquema de almacenamiento incluye
+\texttt{evento\_id}, \texttt{medio}, \texttt{fecha}, \texttt{titular}, \texttt{texto} y \texttt{url}; el orquestador usa
+\texttt{evento\_id} para agrupar artículos antes de ejecutar la verificación. Un
+fragmento real del registro de \emph{El Diario Nacional} es:
+
+\begin{quote}
+La Corte Constitucional declaró exequible la reforma tributaria impulsada por
+el Ejecutivo, en un fallo calificado por analistas como un espaldarazo a la
+política social del Gobierno. La ministra de Hacienda celebró la decisión como
+``un triunfo de la justicia social'' y aseguró que los recursos recaudados
+financiarán programas de salud y educación para los sectores más vulnerables.
+\end{quote}
+
+Este fragmento ilustra por qué el corpus es útil para una prueba de framing:
+la expresión ``espaldarazo'' y la cita sobre ``justicia social'' construyen un
+encuadre diferente del que aparece, por ejemplo, en el titular que denomina
+la reforma un ``impuestazo''.
+
+\subsection{Limitaciones del corpus actual}
+
+El corpus curado es pequeño y didáctico: reúne una sola noticia-evento y tres
+fuentes ficticias. Además, la búsqueda web implementada para el modo real
+recupera artículos sobre un tema, no garantiza que sean del mismo evento y
+por eso siempre pasa por el agente verificador. Estas condiciones limitan la
+posibilidad de generalizar los resultados del prototipo al conjunto de medios
+colombianos.
+
+\section{TEXTOMETRÍA BÁSICA}
+
+\subsection{Limpieza y representación}
+
+La limpieza se aplicará al campo \texttt{texto} después de conservar una copia del
+registro original. El procedimiento contempla normalizar espacios y caracteres
+problemáticos, segmentar el texto en oraciones y palabras, y conservar la
+información necesaria para distinguir titulares, cuerpo, fechas y medios. La
+normalización no debe eliminar las expresiones con carga de framing, por lo
+que los términos originales se conservarán para el análisis cualitativo y
+comparativo.
+
+\subsection{Medidas textuales y frecuencias}
+
+Las medidas básicas previstas incluyen número de palabras, número de
+oraciones, longitud media de oración, diversidad léxica y frecuencias de
+palabras y n-gramas. También se compararán las frecuencias por medio y por
+evento, prestando atención a los términos que nombran actores, acciones y
+conceptos centrales. Estas medidas describirán el corpus, pero no sustituirán
+el análisis contextual de framing: un término frecuente no es necesariamente
+un indicador de sesgo sin examinar el concepto al que refiere y su uso en el
+artículo.
+
+El corpus final todavía no está disponible con el tamaño suficiente para
+reportar resultados cuantitativos. % TODO: completar con cifras reales del corpus final
+
+\subsection{Visualización}
+
+La visualización prevista incluye distribuciones de longitud de artículos y
+oraciones, tablas o gráficos de frecuencia de términos por medio y
+comparaciones de n-gramas relevantes. Para evitar que las visualizaciones
+reduzcan el problema a sentimiento, se organizarán alrededor de actores,
+conceptos y expresiones de framing identificados en el pipeline. % TODO: completar con cifras reales del corpus final
+
+En la implementación actual, el agente de estilo/énfasis no calcula estas
+medidas: solicita al modelo una estimación cualitativa sobre extensión
+relativa, titular alarmista y presencia de contexto. Esta decisión es
+provisional y está documentada en el código; debe reemplazarse por métricas
+cuantitativas con \texttt{textstat} o \texttt{textdescriptives}, reutilizando el pipeline del
+Taller 1, antes de presentar resultados definitivos.
+
+Esta entrega documenta la idea, el fundamento académico, el formato del
+corpus y el plan de textometría del prototipo. Los resultados numéricos de
+frecuencias, medidas textuales y visualizaciones quedan pendientes hasta
+contar con el corpus final y ejecutar el procesamiento cuantitativo
+correspondiente. % TODO: completar con cifras reales del corpus final
+
+\bibliographystyle{ieeetr}
+\bibliography{referencias}
+
+\end{document}
