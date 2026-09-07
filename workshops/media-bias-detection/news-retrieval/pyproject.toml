@@ -21,7 +21,7 @@ dependencies = [
 [project.optional-dependencies]
 api = ["fastapi>=0.115.0", "uvicorn[standard]>=0.34.0"]
 export = ["pyarrow>=18.1.0", "pandas>=2.2.3"]
-notebook = ["jupyterlab>=4.3.0", "matplotlib>=3.9.0", "pandas>=2.2.3"]
+notebook = ["jupyterlab>=4.3.0", "matplotlib>=3.9.0", "pandas>=2.2.3", "wordcloud>=1.9.3", "nltk>=3.9.1"]
 dev = [
     "pytest>=8.3.4",
     "pytest-asyncio>=0.25.0",

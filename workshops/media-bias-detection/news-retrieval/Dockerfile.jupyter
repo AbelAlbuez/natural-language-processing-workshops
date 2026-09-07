@@ -26,6 +26,13 @@ COPY pyproject.toml ./
 COPY src ./src
 RUN pip install ".[notebook,export,dev]"
 
+# Corpus de stopwords de NLTK, descargado en build time: el notebook no debe
+# depender de red en tiempo de ejecución. NLTK_DATA lo hace visible también
+# al kernel, que corre como el usuario 'nb'.
+ENV NLTK_DATA=/usr/local/share/nltk_data
+RUN python -m nltk.downloader -d "$NLTK_DATA" stopwords \
+    && chmod -R a+rX "$NLTK_DATA"
+
 # uid 1000 para que los archivos escritos en el bind mount (exports, notebooks)
 # no queden como root en el host.
 RUN useradd --create-home --uid 1000 nb
