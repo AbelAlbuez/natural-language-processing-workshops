@@ -1,0 +1,20 @@
+[
+  {"pagina_inicio": 25, "parte": null, "capitulo": "Introducción"},
+
+  {"pagina_inicio": 35, "parte": "Parte I", "capitulo": null},
+  {"pagina_inicio": 36, "parte": "Parte I", "capitulo": "¿Quiénes son los pueblos étnicos en Colombia?"},
+
+  {"pagina_inicio": 59, "parte": "Parte II", "capitulo": null},
+  {"pagina_inicio": 60, "parte": "Parte II", "capitulo": "Corredores del conflicto armado en diecisiete macroterritorios étnicos"},
+
+  {"pagina_inicio": 119, "parte": "Parte III", "capitulo": null},
+  {"pagina_inicio": 120, "parte": "Parte III", "capitulo": "Violencias, daños y resistencias de los pueblos étnicos en el conflicto armado"},
+
+  {"pagina_inicio": 659, "parte": "Parte IV", "capitulo": null},
+  {"pagina_inicio": 660, "parte": "Parte IV", "capitulo": "Conclusiones"},
+  {"pagina_inicio": 665, "parte": "Parte IV", "capitulo": "Recomendaciones"},
+
+  {"pagina_inicio": 673, "parte": "Parte V", "capitulo": null},
+  {"pagina_inicio": 674, "parte": "Parte V", "capitulo": "Referencias"},
+  {"pagina_inicio": 750, "parte": "Parte V", "capitulo": "Anexos"}
+]
