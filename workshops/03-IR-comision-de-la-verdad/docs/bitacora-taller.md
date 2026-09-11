@@ -22,7 +22,7 @@ Estado de las actividades del enunciado
 |---|---|---|
 | 1 | Extracción y preparación del corpus | ✅ Completada |
 | 2 | Análisis exploratorio del corpus | 🟡 Cálculos y figuras listos; falta redacción |
-| 3 | Modelo de IR (TF-IDF) | 🟡 Implementado y ejecutado; el ranking colapsa (ver 6.4) |
+| 3 | Modelo de IR (TF-IDF) | 🟡 Implementado; el ranking colapsa (6.4) y la normalización lo mejora a medias (6.5) |
 | 4 | Métricas de relevancia (Rocchio, BM25) | 🔴 Pendiente |
 | 5 | Comparación de corpus + heatmap | 🔴 Pendiente |
 | 6 | Informe final | 🔴 Pendiente |
@@ -428,21 +428,108 @@ HALLAZGOS_Y_RECOMENDACIONES 3, NO_MATARAS 1, SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA 
 CONVOCATORIA_A_LA_PAZ_GRANDE 0.
 
 **Interpretación.** El modelo casi no discrimina por tema: le devuelve el mismo
-puñado de unidades a todas las entrevistas. La causa es la asimetría de longitud
-que ya estaba medida en 4.1 y 5.2 —consultas de ~4.100 tokens contra documentos
-de ~18—. Al normalizar en L2, una consulta larga reparte su peso entre miles de
-términos, así que ganan los documentos cortos cuyos pocos términos son todos
-frecuentes en cualquier entrevista: testimonios genéricos. Se ve en que el
-99,4 % de los top-1 son testimonios y en que la banda de puntajes es estrecha
-(0,18–0,50).
+puñado de unidades a todas las entrevistas, y lo que decide el ranking es la
+**longitud del documento**.
+
+| | Mediana de tokens preprocesados |
+|---|---|
+| Corpus indexado | 12 |
+| Ganadores del top-1 | **274** (percentil 99,97 del corpus) |
+
+El 84,7 % de los ganadores del top-1 está en el 1 % de unidades más largas del
+índice.
+
+El mecanismo: una entrevista aporta ~1.128 términos distintos sobre un
+vocabulario de 15.950, así que la consulta cubre casi cualquier cosa que un
+documento pueda decir. En `cos = Σ q_t·d_t / ‖d‖`, el numerador crece con la
+cantidad de términos que el documento comparte con la consulta, mientras `‖d‖`
+crece como la raíz de la suma de cuadrados: con una consulta prácticamente
+exhaustiva, el documento más largo gana de forma sistemática. Es el sesgo
+conocido de la similitud coseno ante consultas largas, el que motivó la
+*pivoted length normalization* de Singhal (1996) y el parámetro `b` de BM25.
+
+Dos precisiones para no repetir errores de lectura:
+
+- La normalización L2 **de la consulta** no interviene: es una constante por
+  consulta y no altera el orden dentro de ella. El sesgo lo introduce la
+  normalización del documento.
+- Que el 99,4 % de los top-1 sean testimonios no es un efecto temático: los
+  testimonios son las unidades más largas (mediana 23 tokens contra 11 de la
+  narrativa) y los relatos multipárrafo son las más largas de todas.
 
 **No es un error de implementación**, es el comportamiento esperado de la
-similitud coseno con esta relación de longitudes, y es exactamente el problema
-que la normalización por longitud de BM25 está diseñada para corregir. La
+similitud coseno ante una consulta que cubre casi todo el vocabulario, y es
+exactamente el problema que la normalización por longitud de BM25 está diseñada
+para corregir. La
 actividad 4 tiene así una hipótesis concreta que contrastar, y el diagnóstico
 —que el script recalcula en cada corrida bajo la clave `diagnostico`— da la
 métrica con la que compararlas: **si BM25 sirve, el número de unidades distintas
 en el top-1 debe subir**.
+
+### 6.5. Experimento: normalización de longitud
+
+Primera respuesta al colapso de 6.4, atacando el normalizador del documento.
+`modelo_ir.py` implementa tres normalizaciones y un barrido (`--barrido`) que
+las compara con la métrica del diagnóstico:
+
+| Modo | Factor por el que se divide cada documento |
+|---|---|
+| `l2` | `‖d‖` — la similitud coseno |
+| `pivotada` | `(1 − s)·pivote + s·‖d‖`, con `pivote = media(‖d‖)` — forma canónica de Singhal (1996) |
+| `potencia` | `pivote · (‖d‖/pivote)^α` — con α=1 se reduce a la coseno; α>1 penaliza la longitud **más** que ella |
+
+**La pivotada canónica va en la dirección equivocada para este corpus.** Fue
+diseñada para el caso habitual —consultas cortas, donde la coseno penaliza *de
+más* a los documentos largos— y por eso con `s < 1` aplana el normalizador y
+empeora el problema. Medido sobre 300 consultas de muestra:
+
+| Normalización | Top-1 distintos | Más repetido | Mediana de tokens del top-1 |
+|---|---|---|---|
+| pivotada s=0,2 | 16 | 99 | 380 |
+| pivotada s=0,5 | 29 | 88 | 270 |
+| pivotada s=0,8 | 46 | 82 | 270 |
+| **l2 (coseno)** | **62** | **78** | **257** |
+| potencia α=1,1 | 78 | 59 | 188 |
+| potencia α=1,2 | 109 | 61 | 73 |
+| **potencia α=1,3** | **133** | **67** | **58** |
+| potencia α=1,4 | 120 | 45 | 31 |
+| potencia α=1,5 | 92 | 63 | 8 |
+
+(mediana del corpus indexado: 11 tokens)
+
+El óptimo está en **α ≈ 1,3**. Pasado α=1,4 el sesgo se invierte y empiezan a
+ganar unidades de uno o dos tokens: una sola palabra rara basta para el match.
+
+**Filtro de unidades muy cortas: probado y descartado.** Se midió el mismo
+barrido exigiendo un mínimo de 3 y de 5 tokens por documento; el óptimo se
+mueve de 133 a 135 top-1 distintos. No justifica sacar 9.135 unidades del
+índice.
+
+**Corrida completa con α = 1,3** (`data/ranking_tfidf_potencia_a1.3.json`),
+contra la línea base coseno:
+
+| Señal | Coseno (α=1) | Potencia α=1,3 |
+|---|---|---|
+| Unidades distintas en el top-1 | 297 | **707** |
+| Consultas ganadas por una sola unidad | 657 | 563 |
+| Unidades distintas en todo el top-20 | 1.434 | **3.399** |
+| Mediana de tokens del top-1 | 274 | **58** |
+| Top-1 que son testimonios | 2.469 | 2.351 |
+| Similitud del top-1 (media) | 0,255 | 0,186 |
+
+El reparto por libro también se despeja: RESISTIR_NO_ES_AGUANTAR baja de 1.738
+entrevistas a 928 y HASTA_LA_GUERRA_TIENE_LIMITES sube de 39 a 463.
+
+**Conclusión.** La normalización corrige una parte real del sesgo —duplica con
+creces la diversidad del ranking y acerca la longitud del ganador a la del
+corpus— pero **no resuelve el colapso**: una sola unidad sigue ganando 563 de
+2.484 consultas. Era previsible: la normalización corrige cómo se penaliza al
+documento, no el hecho de que la consulta cubra 1.128 términos del vocabulario
+y por lo tanto se parezca un poco a todo. Eso solo lo arregla intervenir la
+consulta (podarla o segmentarla en pasajes).
+
+Cada configuración escribe su propio archivo: el ranking coseno es la línea
+base del informe y no se pisa.
 
 ---
 
@@ -452,9 +539,14 @@ en el top-1 debe subir**.
 
 Implementación manual de ambas, reutilizando el índice de `modelo_ir.py`.
 
-- **BM25** con `k1` y `b` explícitos. La hipótesis a contrastar está en 6.4:
-  la normalización por longitud debería romper el colapso del ranking. La
-  métrica de comparación ya está definida (unidades distintas en el top-1).
+- **BM25** con `k1` y `b` explícitos. La hipótesis a contrastar está en 6.4 y
+  6.5: la normalización por longitud corrige parte del sesgo pero no todo, así
+  que lo esperable es que BM25 quede cerca de la potencia α=1,3 y que la
+  mejora grande venga de intervenir la consulta. La métrica de comparación ya
+  está definida (unidades distintas en el top-1).
+- **Poda de la consulta:** usar los mejores 50–100 términos de la entrevista
+  por tf-idf en lugar de sus ~1.128 términos distintos. Ataca la causa que la
+  normalización no puede tocar, y es el andamiaje de Rocchio.
 - **Rocchio** necesita juicios de relevancia y **no hay etiquetas**. La salida
   honesta es *pseudo-relevance feedback*: tomar los k primeros del ranking como
   relevantes, reformular la consulta y volver a rankear, declarándolo como tal
@@ -518,3 +610,5 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-10 | Se corrigen cifras desactualizadas en `unidad-documental.md` (longitudes de unidad de libro) |
 | 2026-09-10 | Se fijan las decisiones del modelo de IR: sin notas al pie, sin ruido de formato, `min_df=2`, agregación por suma de las 10 mejores unidades |
 | 2026-09-10 | Modelo TF-IDF implementado y ejecutado; se detecta que el ranking colapsa (297 unidades distintas en el top-1 para 2.484 consultas) |
+| 2026-09-10 | Se corrige el diagnóstico de 6.4: ganan los documentos **largos** (mediana 274 tokens, percentil 99,97), no los cortos |
+| 2026-09-10 | Experimento de normalización: la pivotada canónica empeora el caso, la de potencia con α=1,3 duplica la diversidad del top-1 (297 → 707) sin resolver el colapso |

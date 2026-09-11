@@ -49,7 +49,16 @@ ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 RAW_PATH = DATA_DIR / "corpus_raw.json"
 PREPROCESSED_PATH = DATA_DIR / "corpus_preprocesado.json"
-SALIDA_PATH = DATA_DIR / "ranking_tfidf.json"
+SALIDA_PATH = DATA_DIR / "ranking_tfidf.json"  # normalización L2 (coseno)
+
+
+def ruta_de_salida(modo, slope, alfa):
+    """Un archivo por configuración: el ranking coseno es la línea base y no se
+    debe pisar con el de una variante."""
+    if modo == "l2":
+        return SALIDA_PATH
+    sufijo = f"s{slope:g}" if modo == "pivotada" else f"a{alfa:g}"
+    return DATA_DIR / f"ranking_tfidf_{modo}_{sufijo}.json"
 
 MIN_DF = 2
 TOP_UNIDADES = 20          # unidades que se guardan por entrevista
@@ -104,7 +113,7 @@ def construir_vocabulario(documentos, min_df):
 
 
 def matriz_tfidf(textos_tokenizados, indice, idf):
-    """Matriz dispersa (documentos x términos) con tf-idf normalizado en L2."""
+    """Matriz dispersa (documentos x términos) con pesos tf-idf SIN normalizar."""
     filas, columnas, valores = [], [], []
     for fila, tokens in enumerate(textos_tokenizados):
         cuentas = Counter(t for t in tokens if t in indice)
@@ -116,14 +125,46 @@ def matriz_tfidf(textos_tokenizados, indice, idf):
             columnas.append(columna)
             valores.append((1.0 + math.log(cuenta)) * idf[columna])
 
-    matriz = sparse.csr_matrix(
+    return sparse.csr_matrix(
         (valores, (filas, columnas)),
         shape=(len(textos_tokenizados), len(indice)),
         dtype=np.float64,
     )
+
+
+def normas_l2(matriz):
     normas = np.sqrt(matriz.multiply(matriz).sum(axis=1)).A.ravel()
     normas[normas == 0] = 1.0
-    return sparse.diags(1.0 / normas) @ matriz
+    return normas
+
+
+def normalizar(matriz, modo, slope, alfa):
+    """Divide cada fila por un factor de longitud.
+
+    - `l2`: la norma euclídea. Es la similitud coseno de siempre.
+    - `pivotada`: forma canónica de Singhal (1996),
+          factor = (1 - slope) * pivote + slope * ||d||,   pivote = media(||d||)
+      Interpola entre no normalizar (slope=0) y la coseno (slope=1). Corrige el
+      sesgo de la coseno CONTRA los documentos largos, que es el caso habitual
+      con consultas cortas.
+    - `potencia`: extiende la misma idea más allá de la coseno,
+          factor = pivote * (||d|| / pivote) ** alfa
+      con alfa=1 se reduce exactamente a la coseno y con alfa>1 penaliza la
+      longitud MÁS que ella. Es la dirección que necesita este corpus, donde la
+      consulta es casi exhaustiva y los documentos largos ganan por cobertura.
+    """
+    normas = normas_l2(matriz)
+    if modo == "l2":
+        factor = normas
+    elif modo == "pivotada":
+        factor = (1.0 - slope) * normas.mean() + slope * normas
+    elif modo == "potencia":
+        pivote = normas.mean()
+        factor = pivote * (normas / pivote) ** alfa
+    else:
+        raise ValueError(f"normalización desconocida: {modo}")
+    factor[factor <= 0] = 1.0
+    return sparse.diags(1.0 / factor) @ matriz
 
 
 def top_k_de_fila(similitudes_fila, k):
@@ -183,6 +224,9 @@ def diagnosticar(resultados):
         "consultas_cuyo_top1_es_testimonio": sum(
             1 for r in resultados if r["unidades"][0]["es_relato"]
         ),
+        "tokens_mediana_top1": float(
+            np.median([r["unidades"][0]["tokens"] for r in resultados])
+        ),
     }
 
 
@@ -202,6 +246,44 @@ def cargar_fragmentos(ids_necesarios):
     return fragmentos
 
 
+def barrer(documentos_crudos, consultas_m, documentos, consultas, args):
+    """Compara normalizaciones sobre una muestra de consultas.
+
+    La métrica es el diagnóstico de 6.4 de la bitácora: cuántos documentos
+    distintos ocupan el top-1. Si son muchos menos que las consultas, el modelo
+    no discrimina por tema.
+    """
+    generador = np.random.default_rng(20260910)
+    filas = np.sort(generador.choice(
+        consultas_m.shape[0], size=min(args.muestra, consultas_m.shape[0]), replace=False
+    ))
+    bloque_consultas = consultas_m[filas]
+    longitudes = np.array([len(d["tokens"]) for d in documentos])
+
+    configuraciones = [("l2", 1.0, 1.0)]
+    configuraciones += [("pivotada", s, 1.0) for s in (0.2, 0.5, 0.8)]
+    configuraciones += [("potencia", 1.0, a) for a in (1.25, 1.5, 1.75, 2.0, 2.5, 3.0)]
+
+    print(f"\n=== Barrido de normalización ({len(filas)} consultas de muestra) ===")
+    print(f"{'normalización':>22}  {'top-1 distintos':>15}  {'más repetido':>12}  "
+          f"{'mediana tokens top-1':>20}")
+    for modo, slope, alfa in configuraciones:
+        matriz = normalizar(documentos_crudos, modo, slope, alfa)
+        ganadores, tokens_ganadores = [], []
+        for inicio in range(0, bloque_consultas.shape[0], BLOQUE_CONSULTAS):
+            similitudes = (bloque_consultas[inicio : inicio + BLOQUE_CONSULTAS] @ matriz.T).toarray()
+            mejores = similitudes.argmax(axis=1)
+            ganadores.extend(mejores.tolist())
+            tokens_ganadores.extend(longitudes[mejores].tolist())
+        cuenta = Counter(ganadores)
+        etiqueta = modo if modo == "l2" else (
+            f"{modo} s={slope}" if modo == "pivotada" else f"{modo} α={alfa}"
+        )
+        print(f"{etiqueta:>22}  {len(cuenta):>15}  {cuenta.most_common(1)[0][1]:>12}  "
+              f"{np.median(tokens_ganadores):>20.0f}")
+    print("\nMediana de tokens del corpus indexado:", int(np.median(longitudes)))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--top", type=int, default=TOP_UNIDADES,
@@ -210,6 +292,16 @@ def main():
                         help="frecuencia de documento mínima de un término (%(default)s)")
     parser.add_argument("--sin-fragmentos", action="store_true",
                         help="no guardar el texto de evidencia (salida más liviana)")
+    parser.add_argument("--normalizacion", choices=("l2", "pivotada", "potencia"),
+                        default="l2", help="normalización de longitud (%(default)s)")
+    parser.add_argument("--slope", type=float, default=0.2,
+                        help="pendiente de la normalización pivotada (%(default)s)")
+    parser.add_argument("--alfa", type=float, default=1.0,
+                        help="exponente de la normalización de potencia (%(default)s)")
+    parser.add_argument("--barrido", action="store_true",
+                        help="compara normalizaciones sobre una muestra y no escribe el ranking")
+    parser.add_argument("--muestra", type=int, default=300,
+                        help="consultas usadas en el barrido (%(default)s)")
     args = parser.parse_args()
 
     documentos, consultas, descartados, modelo = cargar_documentos_y_consultas()
@@ -220,10 +312,20 @@ def main():
     print(f"Vocabulario: {len(indice)} términos con df >= {args.min_df} "
           f"(de {len(df)} distintos)")
 
-    documentos_m = matriz_tfidf([d["tokens"] for d in documentos], indice, idf)
-    consultas_m = matriz_tfidf([c["tokens"] for c in consultas], indice, idf)
-    print(f"Matriz documentos: {documentos_m.shape}, {documentos_m.nnz} no-ceros")
-    print(f"Matriz consultas:  {consultas_m.shape}, {consultas_m.nnz} no-ceros")
+    documentos_crudos = matriz_tfidf([d["tokens"] for d in documentos], indice, idf)
+    consultas_crudas = matriz_tfidf([c["tokens"] for c in consultas], indice, idf)
+    print(f"Matriz documentos: {documentos_crudos.shape}, {documentos_crudos.nnz} no-ceros")
+    print(f"Matriz consultas:  {consultas_crudas.shape}, {consultas_crudas.nnz} no-ceros")
+
+    # la normalización de la consulta es una constante por fila: no altera el
+    # orden dentro de una consulta, solo deja los puntajes en una escala legible
+    consultas_m = normalizar(consultas_crudas, "l2", 1.0, 1.0)
+
+    if args.barrido:
+        barrer(documentos_crudos, consultas_m, documentos, consultas, args)
+        return
+
+    documentos_m = normalizar(documentos_crudos, args.normalizacion, args.slope, args.alfa)
 
     libros_por_documento = np.array([d["metadatos"]["libro"] for d in documentos])
     libros = sorted(set(libros_por_documento.tolist()))
@@ -248,6 +350,7 @@ def main():
                         "capitulo": documentos[pos]["metadatos"]["capitulo"],
                         "titulo": documentos[pos]["metadatos"]["titulo"],
                         "es_relato": documentos[pos]["metadatos"]["es_relato"],
+                        "tokens": len(documentos[pos]["tokens"]),
                     }
                     for pos in map(int, top_k_de_fila(similitudes, args.top))
                 ],
@@ -271,6 +374,9 @@ def main():
         "modelo_lematizacion": modelo,
         "parametros": {
             "pesado": "tf=1+log(f), idf=log((1+N)/(1+df))+1, normalización L2, coseno",
+            "normalizacion": args.normalizacion,
+            "slope": args.slope if args.normalizacion == "pivotada" else None,
+            "alfa": args.alfa if args.normalizacion == "potencia" else None,
             "min_df": args.min_df,
             "top_unidades_por_consulta": args.top,
             "agregacion_por_libro": f"suma de las {TOP_POR_LIBRO_AGREGADO} mejores unidades",
@@ -287,11 +393,12 @@ def main():
         "diagnostico": diagnosticar(resultados),
         "resultados": resultados,
     }
+    salida_path = ruta_de_salida(args.normalizacion, args.slope, args.alfa)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    temporal = SALIDA_PATH.with_suffix(".json.tmp")
+    temporal = salida_path.with_suffix(".json.tmp")
     with temporal.open("w", encoding="utf-8") as archivo:
         json.dump(salida, archivo, ensure_ascii=False, indent=2)
-    temporal.replace(SALIDA_PATH)
+    temporal.replace(salida_path)
 
     diagnostico = salida["diagnostico"]
     puntaje = diagnostico["score_top1"]
@@ -309,7 +416,8 @@ def main():
     print("Libro ganador por entrevista:")
     for libro, cuenta in ganadores.most_common():
         print(f"  {cuenta:5d}  {libro}")
-    print(f"\nRanking: {SALIDA_PATH}")
+    print(f"Longitud mediana del top-1: {diagnostico['tokens_mediana_top1']:.0f} tokens")
+    print(f"\nRanking: {salida_path}")
 
 
 if __name__ == "__main__":
