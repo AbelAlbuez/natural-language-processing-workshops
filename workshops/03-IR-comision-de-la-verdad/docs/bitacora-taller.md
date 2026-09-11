@@ -803,3 +803,41 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-11 | Se incorpora `CUANDO_LOS_PAJAROS_NO_CANTABAN` (segmentado aparte por el equipo) y se re-corre toda la cadena: 56.495 unidades de libro, 58.981 documentos |
 | 2026-09-11 | Arreglos de integración: el nombre del libro sale del archivo y no del campo, y `segmentacion_libros.py` ya no borra el corpus de un libro sin PDF |
 | 2026-09-11 | El décimo tomo hunde la línea base (una unidad gana 2.334 de 2.484 entrevistas) y confirma el diagnóstico de 6.4; la configuración de pasajes sube a 1.801 unidades distintas en el top-1 |
+
+## 11. Auditoría de discrepancia de conteos
+
+La auditoría del 2026-09-11 comparó las cifras de la ejecución que dejó el
+Bloque 1 con los archivos locales actuales. La comparación exacta de los JSON
+no puede hacerse con `git diff`: `data/corpus_raw.json` y
+`data/corpus_preprocesado.json` no están rastreados en Git. Por tanto, las
+cifras siguientes corresponden a ejecuciones distintas y no a dos versiones
+recuperables byte a byte.
+
+| Ejecución documentada | Documentos totales | Libros | Entrevistas | Vacíos tras preprocesar |
+|---|---:|---:|---:|---:|
+| Cierre del Bloque 1 | 57.172 | 54.686 | 2.486 | 188 |
+| Regeneración posterior vigente | 58.981 | 56.495 | 2.486 | 379 |
+| Diferencia | +1.809 | +1.809 | 0 | +191 |
+
+La causa que sí queda demostrada es la incorporación posterior de
+`CUANDO_LOS_PAJAROS_NO_CANTABAN`, un décimo tomo que llegó ya segmentado y sin
+PDF. La ejecución vigente incorpora sus 1.809 unidades de libro y alcanza
+56.495 unidades de libro y 58.981 documentos totales. La diferencia de vacíos
+es 188 a 379: la regeneración posterior tiene 377 vacíos de libros y 2 de
+entrevistas. Los 188 de la ejecución anterior no pueden descomponerse con
+certeza desde Git porque los JSON previos no fueron versionados; la bitácora
+solo conserva sus cifras agregadas.
+
+También se revisó el historial de `segmentacion_entrevistas.py`. El commit
+`19efcff` creó la segmentación de entrevistas en pasajes y el commit `1e0f2e4`
+amplió el patrón de etiquetas y añadió un respaldo para no perder entrevistas
+con contenido. Ambos cambios afectan `data/corpus_pasajes.json` y la cobertura
+de pasajes; no cambian el número de registros de `corpus_raw.json` ni de
+`corpus_preprocesado.json`. No se encontró en el historial una razón adicional
+que explique la diferencia 188→379 y no se inventa una.
+
+La entrada local de entrevistas tiene 231.409.620 bytes y SHA-256
+`32bcc2cf100cf2873cf87d9897a308451a472d73a762a4293ed08adc7689afdf`. Por
+superar el límite de 100 MB de GitHub, no se agrega al repositorio. El equipo
+debe obtenerla por el canal de entrega del curso, verificar ese hash y dejarla
+en la ruta esperada antes de regenerar los corpus.

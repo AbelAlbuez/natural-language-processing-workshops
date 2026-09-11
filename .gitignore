@@ -9,3 +9,4 @@ venv/
 !/workshops/**/data/.gitkeep
 # corpus de entrevistas del Taller 3 (231 MB, dato de entrada no versionable)
 /workshops/**/entrevistas/
+/workshops/03-IR-comision-de-la-verdad/entrevistas_all_2023-03-21_14-24_05.json

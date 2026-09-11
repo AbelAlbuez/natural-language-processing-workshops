@@ -110,6 +110,18 @@ segmentados; el archivo de entrevistas que se deje ahí se reconoce como
 entrevistas, no como un libro más. Sin él, el preprocesador se detiene con un
 mensaje explícito. Para avanzar solo con los libros:
 
+El archivo esperado mide 231.409.620 bytes y su SHA-256 de referencia es
+`32bcc2cf100cf2873cf87d9897a308451a472d73a762a4293ed08adc7689afdf`. Debe
+obtenerse por el canal de entrega del curso; GitHub no admite este blob de más
+de 100 MB. Verifícalo antes de procesar con:
+
+```bash
+shasum -a 256 entrevistas_all_2023-03-21_14-24-05.json
+```
+
+Si el hash no coincide, no mezcles esa entrada con los JSON derivados: las
+cifras y los IDs podrían cambiar.
+
 ```bash
 .venv/bin/python preprocesar_corpus.py --sin-entrevistas
 ```
