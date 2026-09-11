@@ -63,6 +63,13 @@
       "unidades": 7419,
       "relatos": 817,
       "notas_al_pie": 1723
+    },
+    "CUANDO_LOS_PAJAROS_NO_CANTABAN": {
+      "estado": "ok",
+      "archivo": "CUANDO_LOS_PAJAROS_NO_CANTABAN.json",
+      "unidades": 3402,
+      "relatos": 2988,
+      "notas_al_pie": 0
     }
   }
 }

@@ -112,7 +112,13 @@ escalas muy distintas (≈4.100 tokens preprocesados contra ≈18). Esa asimetr�
 castiga a la similitud coseno y es justamente lo que corrige la normalización por
 longitud de BM25 — la comparación de la actividad 4 tiene ahí su interés.
 
-### 4.2. Segmentación de los libros (`segmentacion_libros.py`)
+### 4.2. Segmentación de los libros
+
+Los nueve tomos principales comparten diagramación y se segmentan con un mismo
+script (4.2.1). "Cuando los pájaros no cantaban" no la comparte —no marca los
+testimonios con `« »`— y necesitó una segunda variante (4.2.2).
+
+#### 4.2.1. Segmentación de los libros (`segmentacion_libros.py`)
 
 El PDF no trae marcado semántico: la estructura se infiere de la tipografía y la
 geometría de cada línea, con PyMuPDF. Cuatro etapas:
@@ -144,6 +150,46 @@ geometría de cada línea, con PyMuPDF. Cuatro etapas:
 
 Los umbrales están en el diccionario `CONFIG`. Fueron calibrados con la
 diagramación de estos tomos: **un libro diagramado distinto exige recalibrarlos**.
+
+#### 4.2.2. Segmentación de "Cuando los pájaros no cantaban" (`segmentación_cuando_los_pajaros_no_cantaban.py`)
+
+**Por qué un script aparte.** Este tomo no delimita los testimonios con `« »`
+como los otros nueve: la señal tipográfica que separa narrativa de testimonio en
+4.2.1 no existe aquí. Tampoco tiene notas al pie. Reutilizar el script de 4.2.1
+habría dejado `es_relato` en `false` para todo el libro, así que la regla de
+segmentación tuvo que rehacerse sobre la señal que sí está presente: la
+jerarquía título/subtítulo.
+
+**Regla de este formato:**
+
+- El texto que aparece bajo un **título**, antes de cualquier subtítulo, es
+  introducción → `es_relato = false`.
+- El texto que aparece bajo un **subtítulo** es el testimonio en sí →
+  `es_relato = true`.
+- Un título nuevo reinicia el subtítulo vigente: se vuelve a modo introducción
+  hasta el siguiente subtítulo.
+- `pie_de_pagina` queda siempre en `false` — el libro no tiene notas al pie. El
+  campo se conserva igual por consistencia con el resto del corpus.
+
+**Firma tipográfica** (distinta de 4.2.1: otra familia de fuente y otros cortes
+de tamaño, validados con `inspeccionar_fuentes.py` sobre este libro):
+
+| Categoría | Firma tipográfica |
+|---|---|
+| Cuerpo | AGaramondPro-Regular / AGaramondPro-Italic, 11,0 pt |
+| Letra capitular | AGaramondPro-Regular, > 11,5 pt, un solo carácter (se corrige) |
+| Subtítulo | FuturaBT-Bold, < 15 pt |
+| Título | FuturaBT-Bold, 15–24,9 pt |
+| Encabezado de capítulo | FuturaBT-Bold, 25–29,9 pt (se descarta: viene del índice) |
+| Encabezado de parte | FuturaBT-Bold, ≥ 30 pt (se descarta: viene del índice) |
+
+La línea "Introducción a El libro de..." usa AGaramondPro-Semibold, una fuente
+que no coincide con ninguna categoría, así que se descarta sin más — su
+contenido ya queda reflejado en el campo `capitulo` del índice.
+
+**Resultado:** 3.402 unidades, de las cuales 2.988 son testimonio (`es_relato`)
+y 0 notas al pie. Este corpus (`corpus/CUANDO_LOS_PAJAROS_NO_CANTABAN.json`)
+
 
 ### 4.3. Identificadores estables
 
@@ -225,7 +271,8 @@ Corpus de libros (`corpus/<LIBRO>.json`, manifiesto en `corpus/_manifiesto.json`
 | LA_COLOMBIA_FUERA_DE_COLOMBIA | 4.644 | 605 | 1.000 |
 | NO_ES_UN_MAL_MENOR | 3.897 | 464 | 936 |
 | CONVOCATORIA_A_LA_PAZ_GRANDE | 277 | 2 | 0 |
-| **Total** | **53.093** | **4.777** | **12.372** |
+| CUANDO_LOS_PAJAROS_NO_CANTABAN | 3402 | 2988 | 0 |
+| **Total** | **56.495** | **7.765** | **12.372** |
 
 Corpus unificado (entregable "dos archivos, raw y preprocesado"):
 
