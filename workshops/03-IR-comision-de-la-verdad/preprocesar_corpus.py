@@ -48,15 +48,19 @@ def cargar_libros():
         if not es_corpus_de_libro(registros):
             print(f"[aviso] {path.name} no tiene forma de corpus de libro: se omite")
             continue
+        # el nombre del libro es el del archivo, no el del campo: un corpus
+        # segmentado con otra herramienta puede traer ahí el nombre del PDF
+        # ("X.pdf") y eso rompería la convención de ids y el agrupamiento
+        nombre_libro = path.stem
         for posicion, registro in enumerate(registros):
             unidades.append({
                 # el id lo asigna la segmentación; se recalcula solo para
                 # corpus generados antes de que existiera el campo
-                "id": registro.get("id") or f"libro:{registro['libro']}:{posicion:06d}",
+                "id": registro.get("id") or f"libro:{nombre_libro}:{posicion:06d}",
                 "tipo": "libro",
                 "texto": registro.get("texto", ""),
                 "metadatos": {
-                    "libro": registro.get("libro"),
+                    "libro": nombre_libro,
                     "parte": registro.get("parte"),
                     "capitulo": registro.get("capitulo"),
                     "titulo": registro.get("titulo"),

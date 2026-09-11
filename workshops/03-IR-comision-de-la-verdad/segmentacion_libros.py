@@ -474,6 +474,16 @@ if __name__ == "__main__":
                 "relatos": relatos,
                 "notas_al_pie": pies,
             }
+        except FileNotFoundError as e:
+            # sin PDF no hay nada que regenerar, pero el corpus que ya exista
+            # NO se toca: puede venir segmentado con otra herramienta
+            print(f"  [omitido] {e}")
+            manifiesto["libros"][nombre] = {
+                "estado": "sin_pdf",
+                "archivo": f"{nombre}.json" if (DIR_CORPUS / f"{nombre}.json").exists() else None,
+            }
+            fallidos.append(nombre)
+            continue
         except Exception as e:  # un libro roto no debe detener el lote
             print(f"  [error] {e}")
             salida_fallida = DIR_CORPUS / f"{nombre}.json"
