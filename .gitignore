@@ -7,3 +7,5 @@ venv/
 .env
 /workshops/**/data/*
 !/workshops/**/data/.gitkeep
+# corpus de entrevistas del Taller 3 (231 MB, dato de entrada no versionable)
+/workshops/**/entrevistas/

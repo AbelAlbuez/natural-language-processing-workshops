@@ -1,0 +1,23 @@
+# Taller 3 — Recuperación de información sobre el Informe Final de la CEV
+#
+# Dependencias de los scripts de esta carpeta. Instalación recomendada en un
+# entorno propio del taller (docs/README-base-datos.md usa `.venv`):
+#
+#   python -m venv .venv
+#   .venv/bin/pip install -r requirements.txt
+#   .venv/bin/python -m spacy download es_core_news_md
+
+# segmentacion_libros.py — lectura de los PDF de los tomos CEV (módulo `fitz`)
+pymupdf>=1.24,<2
+
+# preprocesar_corpus.py — lematización y stopwords en español
+spacy>=3.7,<4
+
+# analisis_exploratorio.py — ajustes de Zipf, figuras y nubes de palabras
+# (numpy ya viene con spacy; se declara porque el script lo importa directo)
+numpy>=1.26
+matplotlib>=3.8
+wordcloud>=1.9
+# El modelo no se instala desde este archivo porque debe coincidir con la
+# versión de spaCy resuelta arriba:
+#   python -m spacy download es_core_news_md
