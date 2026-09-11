@@ -35,6 +35,7 @@ LIMITACIÓN CONOCIDA (no cubierta por esta versión)
 """
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 import fitz  # PyMuPDF
@@ -380,8 +381,10 @@ def procesar_libro(nombre):
     corpus = construir_corpus(str(pdf_path), nombre, str(indice_path) if indice_path else None)
 
     salida_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(salida_path, "w", encoding="utf-8") as f:
+    salida_temporal = salida_path.with_suffix(".json.tmp")
+    with open(salida_temporal, "w", encoding="utf-8") as f:
         json.dump(corpus, f, ensure_ascii=False, indent=2)
+    salida_temporal.replace(salida_path)
 
     n_relatos = sum(1 for u in corpus if u["es_relato"])
     n_pies = sum(1 for u in corpus if u["pie_de_pagina"])
@@ -395,13 +398,32 @@ def procesar_libro(nombre):
 if __name__ == "__main__":
     total_unidades = total_relatos = total_pies = 0
     fallidos = []
+    manifiesto = {
+        "generado_en": datetime.now(timezone.utc).isoformat(),
+        "libros": {},
+    }
 
     for i, nombre in enumerate(LIBROS, 1):
         print(f"[{i}/{len(LIBROS)}] {nombre}")
         try:
             unidades, relatos, pies = procesar_libro(nombre)
+            manifiesto["libros"][nombre] = {
+                "estado": "ok",
+                "archivo": f"{nombre}.json",
+                "unidades": unidades,
+                "relatos": relatos,
+                "notas_al_pie": pies,
+            }
         except Exception as e:  # un libro roto no debe detener el lote
             print(f"  [error] {e}")
+            salida_fallida = DIR_CORPUS / f"{nombre}.json"
+            if salida_fallida.exists():
+                salida_fallida.unlink()
+            manifiesto["libros"][nombre] = {
+                "estado": "fallido",
+                "archivo": None,
+                "error": f"{type(e).__name__}: {e}",
+            }
             fallidos.append(nombre)
             continue
         total_unidades += unidades
@@ -415,3 +437,10 @@ if __name__ == "__main__":
     print(f"Notas al pie (pie_de_pagina=True): {total_pies}")
     if fallidos:
         print("Fallidos: " + ", ".join(fallidos))
+
+    manifiesto_path = DIR_CORPUS / "_manifiesto.json"
+    manifiesto_temporal = manifiesto_path.with_suffix(".json.tmp")
+    with open(manifiesto_temporal, "w", encoding="utf-8") as f:
+        json.dump(manifiesto, f, ensure_ascii=False, indent=2)
+    manifiesto_temporal.replace(manifiesto_path)
+    print(f"Manifiesto: {manifiesto_path}")
