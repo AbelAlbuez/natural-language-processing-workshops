@@ -16,9 +16,12 @@ Desde esta carpeta del taller:
 - `figuras/zipf_*.png`: distribuciones rango-frecuencia en log-log.
 - `figuras/longitud_documentos.png`, `figuras/top_terminos.png`,
   `figuras/nube_*.png`: longitud de documento, ranking de términos y nubes.
-- `data/ranking_tfidf.json`: por entrevista, las 20 unidades de libro más
+- `data/corpus_pasajes.json`: las entrevistas partidas en 160.934 pasajes por
+  turnos de hablante, con su texto preprocesado.
+- `data/ranking_tfidf*.json`: por entrevista, las 20 unidades de libro más
   similares (con fragmento de evidencia) y el puntaje agregado de los nueve
-  libros.
+  libros. Un archivo por configuración; `ranking_tfidf_pasajes.json` es la
+  elegida y `ranking_tfidf.json` la línea base.
 - `docs/bitacora-taller.md`: bitácora ordenada de pasos, decisiones y cifras;
   es el borrador del informe final.
 - `docs/unidad-documental.md`: decisión y contrato de la unidad de recuperación.
@@ -28,6 +31,8 @@ Desde esta carpeta del taller:
   (actividad 3); escribe `data/ranking_tfidf.json`.
 - `vocabulario.py`: regla única de ruido de formato, compartida por el análisis
   y el índice.
+- `segmentacion_entrevistas.py`: parte las entrevistas en pasajes por turnos de
+  hablante, que son las consultas del modelo.
 
 ## Esquemas
 

@@ -15,7 +15,18 @@ DECISIONES DEL MODELO (registradas en docs/bitacora-taller.md)
   hablante, marcas de transcripción, dígitos y restos de URL. Su IDF ya sería
   casi cero por aparecer en todas las entrevistas, pero infla la longitud del
   documento, que es justo lo que BM25 normaliza en la actividad 4.
-- Corte de vocabulario `MIN_DF = 2`: un término que aparece en un solo
+- Corte de vocabulario `MIN_DF = 2
+# Un documento de un solo término no expresa un tema: con consultas cortas hace
+# coseno 1,0 contra cualquier pasaje que mencione esa palabra. Con la entrevista
+# completa como consulta el filtro era irrelevante (133 vs 135 unidades
+# distintas en el top-1); con pasajes elimina todos los matches de score > 0,9.
+MIN_TOKENS_DOCUMENTO = 2
+# Lo mismo del lado de la consulta: un pasaje que tras limpiar queda en cuatro
+# términos ("[INAD] Esta es mi [CORTE]") no expresa un tema y, como el puntaje
+# de la entrevista es el máximo sobre sus pasajes, uno así puede secuestrar el
+# top-1. Son 327 de 160.878 pasajes: quita los matches perfectos espurios, pero
+# su efecto sobre la diversidad del ranking está dentro del ruido.
+MIN_TOKENS_CONSULTA = 5`: un término que aparece en un solo
   documento no puede emparejar nada. El análisis exploratorio midió que el
   36 % del vocabulario de libros son hapax.
 
@@ -49,25 +60,41 @@ ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 RAW_PATH = DATA_DIR / "corpus_raw.json"
 PREPROCESSED_PATH = DATA_DIR / "corpus_preprocesado.json"
+PASAJES_PATH = DATA_DIR / "corpus_pasajes.json"
 SALIDA_PATH = DATA_DIR / "ranking_tfidf.json"  # normalización L2 (coseno)
 
 
-def ruta_de_salida(modo, slope, alfa):
-    """Un archivo por configuración: el ranking coseno es la línea base y no se
-    debe pisar con el de una variante."""
-    if modo == "l2":
+def ruta_de_salida(modo, slope, alfa, consultas):
+    """Un archivo por configuración: el ranking coseno sobre entrevistas
+    completas es la línea base y no se debe pisar con el de una variante."""
+    partes = []
+    if modo != "l2":
+        partes.append(f"{modo}_" + (f"s{slope:g}" if modo == "pivotada" else f"a{alfa:g}"))
+    if consultas != "entrevistas":
+        partes.append(consultas)
+    if not partes:
         return SALIDA_PATH
-    sufijo = f"s{slope:g}" if modo == "pivotada" else f"a{alfa:g}"
-    return DATA_DIR / f"ranking_tfidf_{modo}_{sufijo}.json"
+    return DATA_DIR / ("ranking_tfidf_" + "_".join(partes) + ".json")
 
 MIN_DF = 2
+# Un documento de un solo término no expresa un tema: con consultas cortas hace
+# coseno 1,0 contra cualquier pasaje que mencione esa palabra. Con la entrevista
+# completa como consulta el filtro era irrelevante (133 vs 135 unidades
+# distintas en el top-1); con pasajes elimina todos los matches de score > 0,9.
+MIN_TOKENS_DOCUMENTO = 2
+# Lo mismo del lado de la consulta: un pasaje que tras limpiar queda en cuatro
+# términos ("[INAD] Esta es mi [CORTE]") no expresa un tema y, como el puntaje
+# de la entrevista es el máximo sobre sus pasajes, uno así puede secuestrar el
+# top-1. Son 327 de 160.878 pasajes: quita los matches perfectos espurios, pero
+# su efecto sobre la diversidad del ranking está dentro del ruido.
+MIN_TOKENS_CONSULTA = 5
 TOP_UNIDADES = 20          # unidades que se guardan por entrevista
 TOP_POR_LIBRO_AGREGADO = 10  # cuántas unidades suma cada libro (decisión de agregación)
 LARGO_FRAGMENTO = 240      # caracteres del texto crudo que se guardan como evidencia
 BLOQUE_CONSULTAS = 128     # consultas por bloque: acota la matriz densa intermedia
 
 
-def cargar_documentos_y_consultas():
+def cargar_documentos_y_consultas(min_tokens=MIN_TOKENS_DOCUMENTO):
     """Documentos indexables (unidades de libro sin notas) y consultas."""
     with PREPROCESSED_PATH.open(encoding="utf-8") as archivo:
         corpus = json.load(archivo)
@@ -79,8 +106,8 @@ def cargar_documentos_y_consultas():
             if registro["metadatos"].get("pie_de_pagina"):
                 descartados["nota_al_pie"] += 1
                 continue
-            if not tokens:
-                descartados["sin_terminos"] += 1
+            if len(tokens) < min_tokens:
+                descartados["muy_corto" if tokens else "sin_terminos"] += 1
                 continue
             documentos.append({"id": registro["id"], "tokens": tokens,
                                "metadatos": registro["metadatos"]})
@@ -91,6 +118,81 @@ def cargar_documentos_y_consultas():
             consultas.append({"id": registro["id"], "tokens": tokens,
                               "metadatos": registro["metadatos"]})
     return documentos, consultas, descartados, corpus.get("modelo")
+
+
+def cargar_pasajes(min_tokens=MIN_TOKENS_CONSULTA):
+    """Pasajes de entrevista como consultas, agrupados por entrevista.
+
+    Los produce segmentacion_entrevistas.py. Vienen ordenados por entrevista,
+    así que cada grupo es un tramo contiguo de filas.
+    """
+    if not PASAJES_PATH.exists():
+        raise SystemExit(
+            f"no existe {PASAJES_PATH}.\n"
+            "  Generalo con: .venv/bin/python segmentacion_entrevistas.py"
+        )
+    with PASAJES_PATH.open(encoding="utf-8") as archivo:
+        corpus = json.load(archivo)
+
+    pasajes, vacios = [], 0
+    for registro in corpus["documentos"]:
+        tokens = [t for t in registro["texto_preprocesado"].split() if not es_ruido_de_formato(t)]
+        if len(tokens) < min_tokens:
+            vacios += 1
+            continue
+        pasajes.append({
+            "id": registro["id"],
+            "entrevista": registro["entrevista"],
+            "indice": registro["indice"],
+            "tokens": tokens,
+            "fragmento": registro["fragmento"],
+        })
+    return pasajes, vacios, corpus["parametros"]
+
+
+def agrupar_filas(consultas):
+    """[(id de la consulta lógica, primera fila, última fila + 1)].
+
+    Con entrevistas completas cada grupo es una fila; con pasajes, el grupo
+    reúne todos los pasajes de una entrevista.
+    """
+    grupos, inicio = [], 0
+    for fila in range(1, len(consultas) + 1):
+        fin_de_grupo = (
+            fila == len(consultas)
+            or consultas[fila].get("entrevista", consultas[fila]["id"])
+            != consultas[inicio].get("entrevista", consultas[inicio]["id"])
+        )
+        if fin_de_grupo:
+            grupos.append(
+                (consultas[inicio].get("entrevista", consultas[inicio]["id"]), inicio, fila)
+            )
+            inicio = fila
+    return grupos
+
+
+def mejor_por_documento(matriz_consultas, documentos_m, inicio, fin):
+    """Máximo por documento sobre las filas [inicio, fin) y qué fila lo logró.
+
+    Una entrevista se relaciona con una unidad si **algún** pasaje suyo se
+    parece a ella; promediar sobre todos los pasajes diluiría justamente la
+    coincidencia que se busca. Se acumula por trozos porque una entrevista
+    puede tener más de mil pasajes.
+    """
+    mejores = None
+    cual = None
+    for bloque_inicio in range(inicio, fin, BLOQUE_CONSULTAS):
+        bloque_fin = min(bloque_inicio + BLOQUE_CONSULTAS, fin)
+        similitudes = (matriz_consultas[bloque_inicio:bloque_fin] @ documentos_m.T).toarray()
+        maximos = similitudes.max(axis=0)
+        argumentos = similitudes.argmax(axis=0) + bloque_inicio
+        if mejores is None:
+            mejores, cual = maximos, argumentos
+        else:
+            reemplaza = maximos > mejores
+            mejores = np.where(reemplaza, maximos, mejores)
+            cual = np.where(reemplaza, argumentos, cual)
+    return mejores, cual
 
 
 def construir_vocabulario(documentos, min_df):
@@ -288,6 +390,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--top", type=int, default=TOP_UNIDADES,
                         help="unidades guardadas por entrevista (%(default)s)")
+    parser.add_argument("--min-tokens", type=int, default=MIN_TOKENS_DOCUMENTO,
+                        help="tokens mínimos de una unidad para indexarla (%(default)s)")
+    parser.add_argument("--min-tokens-consulta", type=int, default=MIN_TOKENS_CONSULTA,
+                        help="tokens mínimos de un pasaje para usarlo como consulta (%(default)s)")
     parser.add_argument("--min-df", type=int, default=MIN_DF,
                         help="frecuencia de documento mínima de un término (%(default)s)")
     parser.add_argument("--sin-fragmentos", action="store_true",
@@ -298,15 +404,24 @@ def main():
                         help="pendiente de la normalización pivotada (%(default)s)")
     parser.add_argument("--alfa", type=float, default=1.0,
                         help="exponente de la normalización de potencia (%(default)s)")
+    parser.add_argument("--consultas", choices=("entrevistas", "pasajes"),
+                        default="entrevistas",
+                        help="unidad de consulta (%(default)s); los pasajes los "
+                             "produce segmentacion_entrevistas.py")
     parser.add_argument("--barrido", action="store_true",
                         help="compara normalizaciones sobre una muestra y no escribe el ranking")
     parser.add_argument("--muestra", type=int, default=300,
                         help="consultas usadas en el barrido (%(default)s)")
     args = parser.parse_args()
 
-    documentos, consultas, descartados, modelo = cargar_documentos_y_consultas()
+    documentos, consultas, descartados, modelo = cargar_documentos_y_consultas(args.min_tokens)
+    parametros_pasajes = None
+    if args.consultas == "pasajes":
+        consultas, pasajes_cortos, parametros_pasajes = cargar_pasajes(args.min_tokens_consulta)
+        descartados["pasaje_corto_o_vacio"] = pasajes_cortos
     print(f"Documentos indexables: {len(documentos)}  (descartados: {dict(descartados)})")
-    print(f"Consultas: {len(consultas)}")
+    grupos = agrupar_filas(consultas)
+    print(f"Consultas: {len(consultas)} ({args.consultas}) en {len(grupos)} entrevistas")
 
     indice, idf, df = construir_vocabulario(documentos, args.min_df)
     print(f"Vocabulario: {len(indice)} términos con df >= {args.min_df} "
@@ -330,36 +445,44 @@ def main():
     libros_por_documento = np.array([d["metadatos"]["libro"] for d in documentos])
     libros = sorted(set(libros_por_documento.tolist()))
 
-    # un solo producto por bloque: de cada fila salen el top-k y la agregación
-    # por libro, que necesita la fila completa y no solo el top-k
+    # una fila combinada por entrevista: con entrevistas completas es su propia
+    # fila; con pasajes, el máximo por documento sobre todos sus pasajes
     resultados = []
-    for inicio in range(0, consultas_m.shape[0], BLOQUE_CONSULTAS):
-        bloque = (consultas_m[inicio : inicio + BLOQUE_CONSULTAS] @ documentos_m.T).toarray()
-        for desplazamiento in range(bloque.shape[0]):
-            fila = inicio + desplazamiento
-            similitudes = bloque[desplazamiento]
-            resultados.append({
-                "consulta": consultas[fila]["id"],
-                "pages": consultas[fila]["metadatos"].get("pages"),
-                "unidades": [
-                    {
-                        "id": documentos[pos]["id"],
-                        "score": float(similitudes[pos]),
-                        "libro": documentos[pos]["metadatos"]["libro"],
-                        "parte": documentos[pos]["metadatos"]["parte"],
-                        "capitulo": documentos[pos]["metadatos"]["capitulo"],
-                        "titulo": documentos[pos]["metadatos"]["titulo"],
-                        "es_relato": documentos[pos]["metadatos"]["es_relato"],
-                        "tokens": len(documentos[pos]["tokens"]),
-                    }
-                    for pos in map(int, top_k_de_fila(similitudes, args.top))
-                ],
-                "libros": agregar_por_libro(
-                    similitudes, libros_por_documento, libros, TOP_POR_LIBRO_AGREGADO,
-                ),
-            })
-        print(f"  consultas procesadas: {min(inicio + BLOQUE_CONSULTAS, len(consultas))}"
-              f"/{len(consultas)}", end="\r")
+    for numero, (consulta_id, inicio, fin) in enumerate(grupos, 1):
+        similitudes, fila_ganadora = mejor_por_documento(
+            consultas_m, documentos_m, inicio, fin
+        )
+        unidades = []
+        for pos in map(int, top_k_de_fila(similitudes, args.top)):
+            unidad = {
+                "id": documentos[pos]["id"],
+                "score": float(similitudes[pos]),
+                "libro": documentos[pos]["metadatos"]["libro"],
+                "parte": documentos[pos]["metadatos"]["parte"],
+                "capitulo": documentos[pos]["metadatos"]["capitulo"],
+                "titulo": documentos[pos]["metadatos"]["titulo"],
+                "es_relato": documentos[pos]["metadatos"]["es_relato"],
+                "tokens": len(documentos[pos]["tokens"]),
+            }
+            if args.consultas == "pasajes":
+                # de qué parte de la entrevista salió la coincidencia
+                pasaje = consultas[int(fila_ganadora[pos])]
+                unidad["pasaje"] = {
+                    "id": pasaje["id"],
+                    "indice": pasaje["indice"],
+                    "fragmento": pasaje["fragmento"],
+                }
+            unidades.append(unidad)
+        resultados.append({
+            "consulta": consulta_id,
+            "consultas_usadas": fin - inicio,
+            "unidades": unidades,
+            "libros": agregar_por_libro(
+                similitudes, libros_por_documento, libros, TOP_POR_LIBRO_AGREGADO,
+            ),
+        })
+        if numero % 50 == 0 or numero == len(grupos):
+            print(f"  entrevistas procesadas: {numero}/{len(grupos)}", end="\r")
     print()
 
     if not args.sin_fragmentos:
@@ -373,11 +496,21 @@ def main():
         "version": 1,
         "modelo_lematizacion": modelo,
         "parametros": {
+            "consultas": args.consultas,
+            "pasajes": parametros_pasajes,
+            "combinacion_de_pasajes": (
+                "máximo por documento entre los pasajes de la entrevista"
+                if args.consultas == "pasajes" else None
+            ),
             "pesado": "tf=1+log(f), idf=log((1+N)/(1+df))+1, normalización L2, coseno",
             "normalizacion": args.normalizacion,
             "slope": args.slope if args.normalizacion == "pivotada" else None,
             "alfa": args.alfa if args.normalizacion == "potencia" else None,
             "min_df": args.min_df,
+            "min_tokens_documento": args.min_tokens,
+            "min_tokens_consulta": (
+                args.min_tokens_consulta if args.consultas == "pasajes" else None
+            ),
             "top_unidades_por_consulta": args.top,
             "agregacion_por_libro": f"suma de las {TOP_POR_LIBRO_AGREGADO} mejores unidades",
             "documentos_excluidos": "notas al pie y unidades sin términos",
@@ -386,6 +519,7 @@ def main():
         "corpus": {
             "documentos_indexados": len(documentos),
             "consultas": len(consultas),
+            "entrevistas": len(grupos),
             "vocabulario": len(indice),
             "descartados": dict(descartados),
             "libros": libros,
@@ -393,7 +527,7 @@ def main():
         "diagnostico": diagnosticar(resultados),
         "resultados": resultados,
     }
-    salida_path = ruta_de_salida(args.normalizacion, args.slope, args.alfa)
+    salida_path = ruta_de_salida(args.normalizacion, args.slope, args.alfa, args.consultas)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     temporal = salida_path.with_suffix(".json.tmp")
     with temporal.open("w", encoding="utf-8") as archivo:

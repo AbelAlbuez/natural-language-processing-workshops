@@ -22,7 +22,7 @@ Estado de las actividades del enunciado
 |---|---|---|
 | 1 | Extracción y preparación del corpus | ✅ Completada |
 | 2 | Análisis exploratorio del corpus | 🟡 Cálculos y figuras listos; falta redacción |
-| 3 | Modelo de IR (TF-IDF) | 🟡 Implementado; el ranking colapsa (6.4) y la normalización lo mejora a medias (6.5) |
+| 3 | Modelo de IR (TF-IDF) | ✅ Completada; tres configuraciones comparadas, la de pasajes resuelve el colapso (6.6–6.8) |
 | 4 | Métricas de relevancia (Rocchio, BM25) | 🔴 Pendiente |
 | 5 | Comparación de corpus + heatmap | 🔴 Pendiente |
 | 6 | Informe final | 🔴 Pendiente |
@@ -578,6 +578,99 @@ consulta (podarla o segmentarla en pasajes).
 Cada configuración escribe su propio archivo: el ranking coseno es la línea
 base del informe y no se pisa.
 
+### 6.6. Segmentación de las entrevistas en pasajes (`segmentacion_entrevistas.py`)
+
+Ataca la causa que la normalización no puede tocar: el tamaño de la consulta.
+
+**La premisa anterior era falsa.** `unidad-documental.md` justificaba usar la
+entrevista completa diciendo que el JSON "no trae intervenciones, hablantes ni
+marcas de diálogo confiables". Las transcripciones **sí** marcan al hablante al
+inicio de línea y 2.457 de las 2.486 entrevistas lo hacen:
+
+| Hablante | Tokens | Turnos |
+|---|---|---|
+| Testigo (`TEST*`, `INF*`, `TES`) | 81,7 % | 44.059 |
+| Entrevistador (`ENT*`) | 15,6 % | 40.263 |
+| Otros | 2,7 % | 304 |
+
+Son las mismas marcas que el análisis exploratorio descartó como ruido léxico
+(5.4): como términos no valen nada, como estructura valen mucho.
+
+**Decisiones de la segmentación:**
+
+| Decisión | Elección | Por qué |
+|---|---|---|
+| Turnos del entrevistador | **Descartados** (`--incluir-entrevistador` los conserva) | Son preguntas del protocolo de la Comisión, casi iguales en todas las entrevistas: aportan justo el vocabulario compartido que causa el colapso |
+| Tamaño del pasaje | Turnos consecutivos agrupados hasta **~150 palabras** | Un turno suelto es demasiado corto (mediana 11 palabras, el 30 % tiene ≤5). Los turnos enormes se parten en trozos de ese tamaño y nunca se cruzan límites de turno |
+| Combinación de pasajes | **Máximo** por documento | Una entrevista se relaciona con una unidad si *algún* pasaje suyo se le parece; promediar sobre ~65 pasajes diluiría la coincidencia que se busca |
+
+**Resultado de la segmentación:** 160.934 pasajes, 64,9 por entrevista de
+media (máximo 1.026), mediana de 57 tokens preprocesados. La relación de
+longitud consulta/documento pasa de ~200× a ~4×.
+
+**Filtros simétricos añadidos.** Con consultas cortas aparecieron matches de
+coseno 1,000 entre unidades y pasajes de uno o dos términos:
+
+- `min_tokens` de documento = **2**. Medido: elimina los matches perfectos sin
+  costar diversidad (186 top-1 distintos con o sin filtro, en una muestra de
+  200). Con la entrevista completa como consulta este filtro era irrelevante,
+  por eso se había descartado en 6.5.
+- `min_tokens` de consulta = **5**. Quita 327 pasajes de 160.878 (`[INAD:
+  2:04:47] Esta es mi [CORTE]` y similares) que pueden secuestrar el top-1 de
+  su entrevista. Su efecto sobre la diversidad está dentro del ruido; se
+  justifica por los matches espurios, no por la métrica.
+
+### 6.7. Comparación de las tres configuraciones
+
+Todas con `min_df=2` y `min_tokens=2`, sobre los mismos 37.693 documentos:
+
+| Señal | Coseno, entrevista completa | Potencia α=1,3, entrevista completa | **Coseno, pasajes** |
+|---|---|---|---|
+| Unidades distintas en el top-1 | 299 | 707 | **1.672** de 2.477 |
+| Consultas ganadas por una sola unidad | 652 | 563 | **29** |
+| Unidades distintas en el top-20 | 1.449 | 3.399 | **8.121** |
+| Mediana de tokens del top-1 | 270 | 57 | **14** (corpus: 13) |
+| Similitud del top-1 (mediana) | 0,251 | 0,183 | 0,460 |
+| Top-1 que son testimonios | 2.469 | 2.351 | 1.429 |
+
+El sesgo de longitud desaparece: la unidad ganadora mide lo que mide una unidad
+típica del corpus. **Y la normalización de potencia deja de hacer falta**: era
+un parche para una consulta del tamaño equivocado.
+
+### 6.8. Validación cualitativa: el modelo recupera la fuente real de los testimonios
+
+Revisando los pares con puntaje alto aparece el resultado que el taller busca:
+**el libro cita literalmente la entrevista**. Ejemplo con puntaje 0,794:
+
+> **Pasaje de entrevista:** «Hay solamente 3 frentes, pero da la buena fortuna
+> que el ELN en Arauca ha encontrado una especie como de una gallina de los
+> huevos de oro, y es el emporio petrolero…»
+>
+> **Unidad de _Hasta la guerra tiene límites_:** «[En 1983] había solamente
+> tres frentes, pero da la buena fortuna que el ELN en Arauca encontró una
+> especie como de una gallina de los huevos de oro, y es el emporio
+> petrolero…»
+
+Otro, con 0,840, reproduce casi palabra por palabra un testimonio sobre
+sanciones internas de la guerrilla.
+
+Distribución del puntaje del top-1:
+
+| Umbral | Entrevistas |
+|---|---|
+| > 0,9 | 20 (0,8 %) |
+| > 0,8 | 128 (5,2 %) |
+| > 0,7 | 353 (14,3 %) |
+| > 0,6 | 674 (27,2 %) |
+| > 0,5 | 1.048 (42,3 %) |
+
+Por encima de ~0,7 la coincidencia suele ser una cita textual; entre 0,4 y 0,6
+es temática (un pasaje sobre violencia sexual contra niñas cae en un testimonio
+del tomo *Mi cuerpo es la verdad*). Sirve como validación del modelo sin
+necesidad de juicios de relevancia etiquetados: **el 14,3 % de las entrevistas
+tiene como mejor coincidencia un pasaje que el informe reproduce**, y eso se
+puede verificar leyendo los dos fragmentos que el ranking guarda.
+
 ---
 
 ## 7. Próximos pasos
@@ -586,14 +679,9 @@ base del informe y no se pisa.
 
 Implementación manual de ambas, reutilizando el índice de `modelo_ir.py`.
 
-- **BM25** con `k1` y `b` explícitos. La hipótesis a contrastar está en 6.4 y
-  6.5: la normalización por longitud corrige parte del sesgo pero no todo, así
-  que lo esperable es que BM25 quede cerca de la potencia α=1,3 y que la
-  mejora grande venga de intervenir la consulta. La métrica de comparación ya
-  está definida (unidades distintas en el top-1).
-- **Poda de la consulta:** usar los mejores 50–100 términos de la entrevista
-  por tf-idf en lugar de sus ~1.128 términos distintos. Ataca la causa que la
-  normalización no puede tocar, y es el andamiaje de Rocchio.
+- **BM25** con `k1` y `b` explícitos, **sobre pasajes**, que es la
+  configuración que funciona. La comparación con TF-IDF usa la misma métrica
+  de diagnóstico y ahora parte de una línea base sana.
 - **Rocchio** necesita juicios de relevancia y **no hay etiquetas**. La salida
   honesta es *pseudo-relevance feedback*: tomar los k primeros del ranking como
   relevantes, reformular la consulta y volver a rankear, declarándolo como tal
@@ -604,9 +692,8 @@ Implementación manual de ambas, reutilizando el índice de `modelo_ir.py`.
 ### 7.2. Actividades 5 y 6
 
 Cuadro y heatmap entrevista-libro a partir del puntaje agregado que ya calcula
-`modelo_ir.py`, e informe final. Ojo: con el ranking actual el heatmap mostraría
-sobre todo el sesgo descrito en 6.4, así que conviene construirlo después de
-tener BM25.
+`modelo_ir.py`. Con el ranking de pasajes el heatmap ya es informativo: el
+reparto por libro dejó de estar dominado por un solo tomo.
 
 ---
 
@@ -636,8 +723,12 @@ tener BM25.
 .venv/bin/python segmentacion_libros.py      # PDF  -> corpus/*.json
 .venv/bin/python preprocesar_corpus.py       # corpus + entrevistas -> data/
 .venv/bin/python analisis_exploratorio.py    # data/ -> estadísticas + figuras
-.venv/bin/python modelo_ir.py                # data/ -> ranking TF-IDF
+.venv/bin/python segmentacion_entrevistas.py # entrevistas -> pasajes
+.venv/bin/python modelo_ir.py --consultas pasajes   # -> ranking (configuración elegida)
 ```
+
+`modelo_ir.py` sin argumentos reproduce la línea base (entrevista completa como
+consulta), que es la que el informe usa para mostrar el problema.
 
 El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 
@@ -659,3 +750,5 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-10 | Modelo TF-IDF implementado y ejecutado; se detecta que el ranking colapsa (297 unidades distintas en el top-1 para 2.484 consultas) |
 | 2026-09-10 | Se corrige el diagnóstico de 6.4: ganan los documentos **largos** (mediana 274 tokens, percentil 99,97), no los cortos |
 | 2026-09-10 | Experimento de normalización: la pivotada canónica empeora el caso, la de potencia con α=1,3 duplica la diversidad del top-1 (297 → 707) sin resolver el colapso |
+| 2026-09-10 | Entrevistas segmentadas en 160.934 pasajes por turnos de hablante; la premisa de que no había turnos confiables era falsa |
+| 2026-09-10 | Ranking por pasajes: 1.672 unidades distintas en el top-1 (de 299), sesgo de longitud resuelto, y se verifica que el 14,3 % de las entrevistas empareja con una cita textual del informe |
