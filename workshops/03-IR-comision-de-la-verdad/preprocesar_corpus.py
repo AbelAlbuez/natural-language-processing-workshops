@@ -3,6 +3,7 @@
 import argparse
 import json
 import re
+from collections import Counter
 from pathlib import Path
 
 import spacy
@@ -14,6 +15,7 @@ INTERVIEWS_PATH = ROOT / "entrevistas_all_2023-03-21_14-24_05.json"
 DATA_DIR = ROOT / "data"
 RAW_PATH = DATA_DIR / "corpus_raw.json"
 PREPROCESSED_PATH = DATA_DIR / "corpus_preprocesado.json"
+STATS_PATH = DATA_DIR / "estadisticas_preprocesamiento.json"
 
 
 def cargar_libros():
@@ -92,10 +94,16 @@ def construir_diccionario_lemas(nlp, textos):
 
 def normalizar_texto(texto, lemas, stopwords):
     tokens = []
+    stopwords_removidas = []
+    tokens_originales = 0
     for palabra in re.findall(r"\b\w+\b", texto.lower(), flags=re.UNICODE):
-        if palabra not in stopwords and palabra in lemas:
+        if palabra.isalpha():
+            tokens_originales += 1
+        if palabra in stopwords:
+            stopwords_removidas.append(palabra)
+        elif palabra in lemas:
             tokens.append(lemas[palabra])
-    return " ".join(tokens)
+    return " ".join(tokens), tokens_originales, stopwords_removidas
 
 
 def escribir_json_atomico(path, contenido):
@@ -117,13 +125,32 @@ def construir_corpus(modelo):
 
     nlp = spacy.load(modelo, disable=["parser", "ner", "textcat"])
     preprocesados = []
+    stopwords_por_tipo = {
+        "libro": Counter(),
+        "entrevista": Counter(),
+    }
+    tokens_por_documento = {}
+    documentos_vacios = []
     textos = [documento["texto"] for documento in documentos]
     lemas, stopwords = construir_diccionario_lemas(nlp, textos)
     for documento in documentos:
+        texto_preprocesado, tokens_originales, removidas = normalizar_texto(
+            documento["texto"], lemas, stopwords
+        )
+        tokens_finales = len(texto_preprocesado.split())
+        tipo = documento["tipo"]
+        stopwords_por_tipo[tipo].update(removidas)
+        tokens_por_documento[documento["id"]] = {
+            "tokens_originales": tokens_originales,
+            "tokens_finales": tokens_finales,
+            "tipo": tipo,
+        }
+        if tokens_finales == 0:
+            documentos_vacios.append(documento["id"])
         preprocesados.append({
             "id": documento["id"],
-            "tipo": documento["tipo"],
-            "texto_preprocesado": normalizar_texto(documento["texto"], lemas, stopwords),
+            "tipo": tipo,
+            "texto_preprocesado": texto_preprocesado,
             "metadatos": documento["metadatos"],
         })
 
@@ -139,7 +166,40 @@ def construir_corpus(modelo):
         "documentos": preprocesados,
     }
     escribir_json_atomico(PREPROCESSED_PATH, preprocesado)
+    estadisticas = {
+        "version": 1,
+        "modelo": modelo,
+        "stopwords_top50_libros": [
+            list(item) for item in stopwords_por_tipo["libro"].most_common(50)
+        ],
+        "stopwords_top50_entrevistas": [
+            list(item) for item in stopwords_por_tipo["entrevista"].most_common(50)
+        ],
+        "tokens_por_documento": tokens_por_documento,
+        "documentos_vacios_tras_limpieza": documentos_vacios,
+    }
+    escribir_json_atomico(STATS_PATH, estadisticas)
+    imprimir_resumen(estadisticas)
     return len(documentos), len(preprocesados)
+
+
+def imprimir_resumen(estadisticas):
+    print("\n=== Resumen de preprocesamiento ===")
+    for tipo in ("libro", "entrevista"):
+        registros = [
+            datos for datos in estadisticas["tokens_por_documento"].values()
+            if datos["tipo"] == tipo
+        ]
+        originales = sum(datos["tokens_originales"] for datos in registros)
+        finales = sum(datos["tokens_finales"] for datos in registros)
+        reduccion = (1 - finales / originales) * 100 if originales else 0
+        top20 = estadisticas[f"stopwords_top50_{tipo}s"][:20]
+        print(f"{tipo}: reducción promedio ponderada = {reduccion:.2f}%")
+        print(f"{tipo}: top-20 stopwords removidas = {top20}")
+    print(
+        "Documentos vacíos tras la limpieza: "
+        f"{len(estadisticas['documentos_vacios_tras_limpieza'])}"
+    )
 
 
 def main():
