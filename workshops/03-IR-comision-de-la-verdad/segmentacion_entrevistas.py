@@ -58,8 +58,11 @@ ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 SALIDA_PATH = DATA_DIR / "corpus_pasajes.json"
 
-# Etiqueta de hablante al inicio de línea: TEST:, ENT:, ENT1:, INF2:, TES.
-PATRON_TURNO = re.compile(r"(?m)^[ \t]*([A-ZÁÉÍÓÚÑ]{2,6}\d{0,2})[ \t]*[:.](?=\s)")
+# Etiqueta de hablante al inicio de línea: TEST:, ENT:, ENT1:, INF2:, TES.,
+# y también "TEST 3:" con espacio antes del número, que existe en el corpus.
+PATRON_TURNO = re.compile(
+    r"(?m)^[ \t]*([A-ZÁÉÍÓÚÑ]{2,6})[ \t]*(\d{0,2})[ \t]*[:.](?=\s)"
+)
 PREFIJO_ENTREVISTADOR = "ENT"
 
 TOKENS_OBJETIVO = 150
@@ -75,7 +78,7 @@ def partir_en_turnos(texto):
         fin = marcas[posicion + 1].start() if posicion + 1 < len(marcas) else len(texto)
         contenido = texto[marca.end() : fin].strip()
         if contenido:
-            turnos.append((marca.group(1), contenido))
+            turnos.append((marca.group(1) + marca.group(2), contenido))
     return turnos
 
 
@@ -109,25 +112,35 @@ def agrupar_en_pasajes(turnos, tokens_objetivo, incluir_entrevistador):
 
 
 def construir_pasajes(entrevistas, tokens_objetivo, incluir_entrevistador):
-    registros, sin_turnos = [], []
+    """Pasajes de todas las entrevistas con texto.
+
+    Ninguna entrevista con contenido puede quedarse sin pasajes: si no se le
+    reconocen turnos del testigo —porque usa una etiqueta que el patrón no
+    cubre, o porque solo se detectaron turnos del entrevistador— se parte el
+    texto completo por tamaño. Es peor que segmentar por turnos, pero deja la
+    entrevista dentro del ranking en lugar de perderla en silencio.
+    """
+    registros, sin_turnos, por_respaldo = [], [], []
     for entrevista in entrevistas:
         texto = entrevista.get("text", "")
         turnos = partir_en_turnos(texto)
         if not turnos:
-            # sin etiquetas de hablante: la entrevista entera es un solo bloque
-            # y se parte por tamaño, para no perderla
             sin_turnos.append(entrevista["id_doc"])
             turnos = [("TEST", texto)]
-        for posicion, pasaje in enumerate(
-            agrupar_en_pasajes(turnos, tokens_objetivo, incluir_entrevistador)
-        ):
+
+        pasajes = agrupar_en_pasajes(turnos, tokens_objetivo, incluir_entrevistador)
+        if not pasajes and texto.strip():
+            por_respaldo.append(entrevista["id_doc"])
+            pasajes = agrupar_en_pasajes([("TEST", texto)], tokens_objetivo, True)
+
+        for posicion, pasaje in enumerate(pasajes):
             registros.append({
                 "id": f"pasaje:{entrevista['id_doc']}:{posicion:04d}",
                 "entrevista": f"entrevista:{entrevista['id_doc']}",
                 "indice": posicion,
                 "texto": pasaje,
             })
-    return registros, sin_turnos
+    return registros, sin_turnos, por_respaldo
 
 
 def main():
@@ -147,10 +160,11 @@ def main():
     with path.open(encoding="utf-8") as archivo:
         entrevistas = json.load(archivo)
 
-    registros, sin_turnos = construir_pasajes(
+    registros, sin_turnos, por_respaldo = construir_pasajes(
         entrevistas, args.tokens_objetivo, args.incluir_entrevistador
     )
-    print(f"Entrevistas: {len(entrevistas)}  (sin etiquetas de turno: {len(sin_turnos)})")
+    print(f"Entrevistas: {len(entrevistas)}  (sin etiquetas de turno: {len(sin_turnos)}, "
+          f"segmentadas por tamaño como respaldo: {len(por_respaldo)})")
     print(f"Pasajes: {len(registros)}")
 
     # mismas reglas de preprocesamiento que el resto del corpus
@@ -186,6 +200,8 @@ def main():
         "resumen": {
             "entrevistas": len(entrevistas),
             "entrevistas_sin_etiquetas_de_turno": len(sin_turnos),
+            "entrevistas_segmentadas_por_respaldo": len(por_respaldo),
+            "ids_segmentados_por_respaldo": por_respaldo,
             "pasajes": len(documentos),
             "pasajes_vacios_tras_preprocesar": vacios,
             "tokens_por_pasaje": {

@@ -604,8 +604,8 @@ Son las mismas marcas que el análisis exploratorio descartó como ruido léxico
 | Tamaño del pasaje | Turnos consecutivos agrupados hasta **~150 palabras** | Un turno suelto es demasiado corto (mediana 11 palabras, el 30 % tiene ≤5). Los turnos enormes se parten en trozos de ese tamaño y nunca se cruzan límites de turno |
 | Combinación de pasajes | **Máximo** por documento | Una entrevista se relaciona con una unidad si *algún* pasaje suyo se le parece; promediar sobre ~65 pasajes diluiría la coincidencia que se busca |
 
-**Resultado de la segmentación:** 160.934 pasajes, 64,9 por entrevista de
-media (máximo 1.026), mediana de 57 tokens preprocesados. La relación de
+**Resultado de la segmentación:** 161.636 pasajes, 65,1 por entrevista de
+media (máximo 838), mediana de 57 tokens preprocesados. La relación de
 longitud consulta/documento pasa de ~200× a ~4×.
 
 **Filtros simétricos añadidos.** Con consultas cortas aparecieron matches de
@@ -615,10 +615,20 @@ coseno 1,000 entre unidades y pasajes de uno o dos términos:
   costar diversidad (186 top-1 distintos con o sin filtro, en una muestra de
   200). Con la entrevista completa como consulta este filtro era irrelevante,
   por eso se había descartado en 6.5.
-- `min_tokens` de consulta = **5**. Quita 327 pasajes de 160.878 (`[INAD:
+- `min_tokens` de consulta = **5**. Quita ~380 pasajes de 161.636 (`[INAD:
   2:04:47] Esta es mi [CORTE]` y similares) que pueden secuestrar el top-1 de
   su entrevista. Su efecto sobre la diversidad está dentro del ruido; se
   justifica por los matches espurios, no por la métrica.
+
+**Cobertura: ninguna entrevista con texto se pierde.** La primera versión dejó
+9 entrevistas sin ranking. Dos están vacías en origen; las otras siete tenían
+texto y se perdían por variantes de etiqueta que el patrón no cubría
+(`TEST 3:` con espacio antes del número, `X:` de una sola letra) o porque solo
+se detectaban turnos del entrevistador, que se descartan. Ahora el patrón
+acepta el espacio antes del número y, si una entrevista con texto se queda sin
+pasajes, se parte el texto completo por tamaño como respaldo (2 entrevistas).
+Cobertura final: **2.484 de 2.486**, y las 2 restantes están vacías en el
+archivo original.
 
 ### 6.7. Comparación de las tres configuraciones
 
@@ -626,12 +636,12 @@ Todas con `min_df=2` y `min_tokens=2`, sobre los mismos 37.693 documentos:
 
 | Señal | Coseno, entrevista completa | Potencia α=1,3, entrevista completa | **Coseno, pasajes** |
 |---|---|---|---|
-| Unidades distintas en el top-1 | 299 | 707 | **1.672** de 2.477 |
-| Consultas ganadas por una sola unidad | 652 | 563 | **29** |
-| Unidades distintas en el top-20 | 1.449 | 3.399 | **8.121** |
+| Unidades distintas en el top-1 | 299 | 707 | **1.678** de 2.484 |
+| Consultas ganadas por una sola unidad | 652 | 563 | **30** |
+| Unidades distintas en el top-20 | 1.449 | 3.399 | **8.098** |
 | Mediana de tokens del top-1 | 270 | 57 | **14** (corpus: 13) |
-| Similitud del top-1 (mediana) | 0,251 | 0,183 | 0,460 |
-| Top-1 que son testimonios | 2.469 | 2.351 | 1.429 |
+| Similitud del top-1 (mediana) | 0,251 | 0,183 | 0,462 |
+| Top-1 que son testimonios | 2.469 | 2.351 | 1.438 |
 
 El sesgo de longitud desaparece: la unidad ganadora mide lo que mide una unidad
 típica del corpus. **Y la normalización de potencia deja de hacer falta**: era
@@ -658,11 +668,11 @@ Distribución del puntaje del top-1:
 
 | Umbral | Entrevistas |
 |---|---|
-| > 0,9 | 20 (0,8 %) |
+| > 0,9 | 22 (0,9 %) |
 | > 0,8 | 128 (5,2 %) |
-| > 0,7 | 353 (14,3 %) |
-| > 0,6 | 674 (27,2 %) |
-| > 0,5 | 1.048 (42,3 %) |
+| > 0,7 | 356 (14,3 %) |
+| > 0,6 | 683 (27,5 %) |
+| > 0,5 | 1.059 (42,6 %) |
 
 Por encima de ~0,7 la coincidencia suele ser una cita textual; entre 0,4 y 0,6
 es temática (un pasaje sobre violencia sexual contra niñas cae en un testimonio
@@ -752,3 +762,4 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-10 | Experimento de normalización: la pivotada canónica empeora el caso, la de potencia con α=1,3 duplica la diversidad del top-1 (297 → 707) sin resolver el colapso |
 | 2026-09-10 | Entrevistas segmentadas en 160.934 pasajes por turnos de hablante; la premisa de que no había turnos confiables era falsa |
 | 2026-09-10 | Ranking por pasajes: 1.672 unidades distintas en el top-1 (de 299), sesgo de longitud resuelto, y se verifica que el 14,3 % de las entrevistas empareja con una cita textual del informe |
+| 2026-09-10 | Se corrige la cobertura de la segmentación: 9 entrevistas quedaban fuera del ranking por variantes de etiqueta de hablante; quedan 2.484 de 2.486 (las 2 restantes están vacías en origen) |
