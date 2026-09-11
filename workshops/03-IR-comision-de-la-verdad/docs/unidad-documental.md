@@ -17,11 +17,11 @@ perder la evidencia de la unidad que produjo la coincidencia.
 
 ## Justificación cuantitativa
 
-Los nueve corpus de libros contienen **54.686 unidades**. Su longitud media es
-de aproximadamente **65 palabras** y la mediana es de **46 palabras**. El
-corpus de entrevistas contiene **2.486 registros**; 2.484 tienen texto y su
-longitud media es de aproximadamente **14.300 palabras**, con mediana de
-**11.731 palabras**.
+Los nueve corpus de libros contienen **53.093 unidades**. Su longitud media es
+de **37,8 palabras** y la mediana es de **17 palabras** (palabras separadas por
+espacio sobre el texto crudo de la unidad). El corpus de entrevistas contiene
+**2.486 registros**; 2.484 tienen texto y su longitud media es de **14.331
+palabras**, con mediana de **11.768 palabras**.
 
 Estas escalas son muy distintas. Tratar cada libro completo como documento
 mezclaría muchos temas y ocultaría coincidencias locales; tratar una entrevista
