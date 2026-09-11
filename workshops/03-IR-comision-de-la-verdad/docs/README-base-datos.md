@@ -16,11 +16,18 @@ Desde esta carpeta del taller:
 - `figuras/zipf_*.png`: distribuciones rango-frecuencia en log-log.
 - `figuras/longitud_documentos.png`, `figuras/top_terminos.png`,
   `figuras/nube_*.png`: longitud de documento, ranking de términos y nubes.
+- `data/ranking_tfidf.json`: por entrevista, las 20 unidades de libro más
+  similares (con fragmento de evidencia) y el puntaje agregado de los nueve
+  libros.
 - `docs/bitacora-taller.md`: bitácora ordenada de pasos, decisiones y cifras;
   es el borrador del informe final.
 - `docs/unidad-documental.md`: decisión y contrato de la unidad de recuperación.
 - `preprocesar_corpus.py`: pipeline común de exportación.
 - `analisis_exploratorio.py`: análisis exploratorio (actividad 2 del taller).
+- `modelo_ir.py`: índice TF-IDF y ranking entrevista → unidades de libro
+  (actividad 3); escribe `data/ranking_tfidf.json`.
+- `vocabulario.py`: regla única de ruido de formato, compartida por el análisis
+  y el índice.
 
 ## Esquemas
 

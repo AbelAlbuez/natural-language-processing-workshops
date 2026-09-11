@@ -52,6 +52,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from wordcloud import WordCloud
 
+from vocabulario import ABREVIATURAS_TRANSCRIPCION, RUIDO_WEB, es_ruido_de_formato
+
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 RAW_PATH = DATA_DIR / "corpus_raw.json"
@@ -72,29 +74,8 @@ TOP_TERMINOS_POR_DEFECTO = 30
 TOP_TERMINOS_EN_FIGURA = 15
 PALABRAS_EN_NUBE = 120
 
-# Convenciones de transcripción de las entrevistas. No son vocabulario del
-# dominio pero sobreviven al preprocesamiento y copan la cabeza del ranking:
-#   - etiquetas de hablante: "TEST:", "ENT:", "ENT1:", "TEST2:"...
-#   - marcas entre corchetes: [INTERRUP], [INAD], [CONT], [DUD] y sus erratas
-#   - los dígitos de los marcadores de anonimización
-#     ("ORGANIZACIÓN PÚBLICA 1 ----")
-# Se excluyen SOLO de las figuras de contenido (nubes y ranking); en el JSON el
-# top de términos se conserva completo para dejar constancia.
-#
-# Quedan adentro a propósito [RISAS], [LLANTO] y [CORTE]: "risas", "llanto" y
-# "corte" también son palabras corrientes del español y, sin los corchetes
-# —que el tokenizador ya eliminó—, no hay forma de distinguir la marca del
-# uso real sin descartar contenido legítimo.
-PATRON_ETIQUETA_HABLANTE = re.compile(r"^(?:ent|test)\d*$")
-ABREVIATURAS_TRANSCRIPCION = {
-    "interrup", "interrump", "interrupt", "interup", "interrrup",
-    "interrp", "interurp", "inerrup", "nterrup", "inad", "cont", "dud",
-}
-
-# Restos de las URL de las notas al pie de los libros: el tokenizador parte
-# "https://www.comisiondelaverdad.co/..." en piezas y "https" y "www" entran al
-# ranking como si fueran términos.
-RUIDO_WEB = {"http", "https", "www"}
+# Las convenciones de transcripción y el resto del ruido de formato están en
+# vocabulario.py, compartidas con el índice de recuperación.
 
 # Paleta categórica validada (checks de CVD y contraste en modo claro).
 COLOR_SERIE = {
@@ -286,16 +267,6 @@ def figura_crudo_vs_preprocesado(conteos, resumen, path):
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(path, dpi=160, facecolor=SUPERFICIE)
     plt.close(fig)
-
-
-def es_ruido_de_formato(palabra):
-    """Token que viene del formato de la fuente, no del contenido."""
-    return (
-        palabra.isdigit()
-        or palabra in ABREVIATURAS_TRANSCRIPCION
-        or palabra in RUIDO_WEB
-        or bool(PATRON_ETIQUETA_HABLANTE.match(palabra))
-    )
 
 
 def terminos_de_contenido(frecuencias, cuantos):

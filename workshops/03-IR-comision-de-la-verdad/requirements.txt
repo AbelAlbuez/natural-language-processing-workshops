@@ -18,6 +18,9 @@ spacy>=3.7,<4
 numpy>=1.26
 matplotlib>=3.8
 wordcloud>=1.9
+
+# modelo_ir.py — álgebra dispersa del índice TF-IDF (el pesado es propio)
+scipy>=1.11
 # El modelo no se instala desde este archivo porque debe coincidir con la
 # versión de spaCy resuelta arriba:
 #   python -m spacy download es_core_news_md

@@ -11,7 +11,7 @@ medidas sobre los archivos generados, no estimadas. Cuando algo está pendiente 
 es una decisión sin justificación empírica todavía, se dice explícitamente.
 
 **Cómo mantenerlo.** Cada vez que se complete un paso, agregar la subsección
-correspondiente y una línea en el [registro cronológico](#9-registro-cronológico)
+correspondiente y una línea en el [registro cronológico](#10-registro-cronológico)
 del final. Si una cifra cambia porque se re-generó un corpus, actualizarla aquí
 también: el valor viejo en el informe sería un error.
 
@@ -22,7 +22,7 @@ Estado de las actividades del enunciado
 |---|---|---|
 | 1 | Extracción y preparación del corpus | ✅ Completada |
 | 2 | Análisis exploratorio del corpus | 🟡 Cálculos y figuras listos; falta redacción |
-| 3 | Modelo de IR (TF-IDF) | 🔴 Pendiente |
+| 3 | Modelo de IR (TF-IDF) | 🟡 Implementado y ejecutado; el ranking colapsa (ver 6.4) |
 | 4 | Métricas de relevancia (Rocchio, BM25) | 🔴 Pendiente |
 | 5 | Comparación de corpus + heatmap | 🔴 Pendiente |
 | 6 | Informe final | 🔴 Pendiente |
@@ -362,42 +362,116 @@ siempre presente.
 
 ---
 
-## 6. Próximos pasos
+## 6. Actividad 3 — Modelo de recuperación TF-IDF (`modelo_ir.py`)
 
-### 6.1. Actividad 3 — Modelo de IR
+### 6.1. Decisiones tomadas
 
-Construir el índice TF-IDF y rankear: 2.486 consultas (entrevistas) contra 53.093
-documentos (unidades de libro).
+| Decisión | Elección | Por qué |
+|---|---|---|
+| Documentos indexados | Narrativa + testimonios, **sin notas al pie** | Las notas son referencias bibliográficas: coinciden por apellidos y topónimos, no por contenido narrativo, y con mediana de 9 tokens BM25 tiende a sobre-puntuarlas. Siguen en el corpus, solo no se indexan |
+| Ruido de formato | **Fuera del índice** | Es el 11 % de los tokens de entrevistas. El IDF casi lo anula, pero infla la longitud del documento, que es justo lo que BM25 normaliza en la actividad 4 |
+| Corte de vocabulario | `min_df = 2` | Un término en un solo documento no puede emparejar nada; el 36 % del vocabulario de libros son hapax (medido en 5.2) |
+| Agregación al nivel de libro | **Suma de las 10 mejores unidades** | El máximo deja que una coincidencia aislada defina el vínculo; el promedio castiga a los libros grandes (de 277 a 12.288 unidades) |
+| Implementación | Pesado propio, sin `sklearn` | La actividad 4 exige métricas manuales y debe reutilizar estas mismas estructuras. `scipy.sparse` se usa solo para el álgebra, no para el modelo |
 
-Decisiones a tomar y justificación disponible:
+La regla de ruido de formato se movió a `vocabulario.py`, compartida entre el
+análisis exploratorio y el índice: con dos copias, el corpus analizado y el
+recuperado podrían dejar de ser el mismo.
 
-1. **Corte de vocabulario.** Proponer `min_df = 2` apoyado en el 36 % de hapax
-   medido en 5.2.
-2. **Normalización de longitud.** La asimetría consulta/documento (≈4.100 contra
-   ≈18 tokens) está medida en 5.2 y es el eje de la comparación con BM25.
-3. **Implementación propia y no `sklearn`**, para que las funciones de la
-   actividad 4 se apoyen en las mismas estructuras.
-4. **No guardar la matriz completa:** 2.486 × 53.093 son 132 millones de celdas.
-   Guardar solo el top-N por consulta más el agregado por libro.
+### 6.2. Pesado
 
-### 6.2. Actividad 4 — Rocchio y BM25
+```text
+tf   = 1 + log(frecuencia del término en el documento)
+idf  = log((1 + N) / (1 + df)) + 1        (suavizado: ningún idf queda en 0)
+peso = tf * idf, normalizado en L2 por documento
+```
 
-Implementación manual de ambas, con funciones propias y explicación de su
-funcionamiento.
+Con los vectores normalizados en L2 la similitud coseno **es** el producto
+punto, así que el ranking completo es un producto de matrices dispersas. Se
+procesa por bloques de 128 consultas: la matriz de similitudes completa sería de
+2.484 × 40.006 celdas.
 
-**Problema a declarar:** Rocchio necesita juicios de relevancia y **no hay
-etiquetas**. La salida honesta es *pseudo-relevance feedback* (tomar los k
-primeros del ranking TF-IDF como relevantes, reformular la consulta y volver a
-rankear), declarándolo como tal y no como relevancia real.
+El vocabulario y el idf se calculan **solo sobre los documentos**: una consulta
+no puede alterar el peso de un término del índice.
 
-### 6.3. Actividades 5 y 6
+### 6.3. Resultados de la ejecución
 
-Cuadro y heatmap entrevista-libro a partir de los rankings, e informe final que
-integre todo. Este documento es el insumo.
+| Magnitud | Valor |
+|---|---|
+| Documentos indexados | 40.006 |
+| Descartados | 12.372 notas al pie, 715 unidades sin términos |
+| Consultas | 2.484 (2 entrevistas quedan vacías tras la limpieza) |
+| Vocabulario | 15.950 términos con df ≥ 2, de 27.134 distintos |
+| No-ceros | 686.727 en documentos, 2.507.081 en consultas |
+| Tiempo | ~16 s |
+
+Salida en `data/ranking_tfidf.json` (35 MB): por entrevista, las 20 mejores
+unidades con su puntaje, libro, parte, capítulo, título, `es_relato` y un
+fragmento del texto crudo como evidencia, más el puntaje agregado de los nueve
+libros.
+
+### 6.4. Diagnóstico: el ranking colapsa
+
+**Este es el hallazgo principal de la actividad 3 y hay que reportarlo como tal.**
+
+| Señal | Valor |
+|---|---|
+| Unidades distintas en el top-1 | **297** para 2.484 consultas |
+| Consultas ganadas por una sola unidad | **657** (26 % de todas) |
+| Unidades distintas en todo el top-20 guardado | 1.434 de 40.006 |
+| Similitud del top-1 | media 0,255 · mediana 0,252 · rango 0,176–0,498 |
+| Consultas cuyo top-1 es un testimonio | 2.469 de 2.484 |
+
+Libro ganador por entrevista: RESISTIR_NO_ES_AGUANTAR 1.738, MI_CUERPO_ES_LA_VERDAD 444,
+NO_ES_UN_MAL_MENOR 150, LA_COLOMBIA_FUERA_DE_COLOMBIA 108, HASTA_LA_GUERRA_TIENE_LIMITES 39,
+HALLAZGOS_Y_RECOMENDACIONES 3, NO_MATARAS 1, SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA 1,
+CONVOCATORIA_A_LA_PAZ_GRANDE 0.
+
+**Interpretación.** El modelo casi no discrimina por tema: le devuelve el mismo
+puñado de unidades a todas las entrevistas. La causa es la asimetría de longitud
+que ya estaba medida en 4.1 y 5.2 —consultas de ~4.100 tokens contra documentos
+de ~18—. Al normalizar en L2, una consulta larga reparte su peso entre miles de
+términos, así que ganan los documentos cortos cuyos pocos términos son todos
+frecuentes en cualquier entrevista: testimonios genéricos. Se ve en que el
+99,4 % de los top-1 son testimonios y en que la banda de puntajes es estrecha
+(0,18–0,50).
+
+**No es un error de implementación**, es el comportamiento esperado de la
+similitud coseno con esta relación de longitudes, y es exactamente el problema
+que la normalización por longitud de BM25 está diseñada para corregir. La
+actividad 4 tiene así una hipótesis concreta que contrastar, y el diagnóstico
+—que el script recalcula en cada corrida bajo la clave `diagnostico`— da la
+métrica con la que compararlas: **si BM25 sirve, el número de unidades distintas
+en el top-1 debe subir**.
 
 ---
 
-## 7. Limitaciones conocidas
+## 7. Próximos pasos
+
+### 7.1. Actividad 4 — Rocchio y BM25 (siguiente)
+
+Implementación manual de ambas, reutilizando el índice de `modelo_ir.py`.
+
+- **BM25** con `k1` y `b` explícitos. La hipótesis a contrastar está en 6.4:
+  la normalización por longitud debería romper el colapso del ranking. La
+  métrica de comparación ya está definida (unidades distintas en el top-1).
+- **Rocchio** necesita juicios de relevancia y **no hay etiquetas**. La salida
+  honesta es *pseudo-relevance feedback*: tomar los k primeros del ranking como
+  relevantes, reformular la consulta y volver a rankear, declarándolo como tal
+  y no como relevancia real.
+- Comparar los tres rankings sobre las mismas consultas y discutir las
+  diferencias, que es lo que pide el enunciado.
+
+### 7.2. Actividades 5 y 6
+
+Cuadro y heatmap entrevista-libro a partir del puntaje agregado que ya calcula
+`modelo_ir.py`, e informe final. Ojo: con el ranking actual el heatmap mostraría
+sobre todo el sesgo descrito en 6.4, así que conviene construirlo después de
+tener BM25.
+
+---
+
+## 8. Limitaciones conocidas
 
 - **Testimonios sin guillemets.** Algunos testimonios aparecen como bloque de
   cita indentado en 10 pt, sin `« »` (por ejemplo la carta de Daniela Narváez,
@@ -417,19 +491,20 @@ integre todo. Este documento es el insumo.
 
 ---
 
-## 8. Cómo reproducir todo
+## 9. Cómo reproducir todo
 
 ```bash
 .venv/bin/python segmentacion_libros.py      # PDF  -> corpus/*.json
 .venv/bin/python preprocesar_corpus.py       # corpus + entrevistas -> data/
 .venv/bin/python analisis_exploratorio.py    # data/ -> estadísticas + figuras
+.venv/bin/python modelo_ir.py                # data/ -> ranking TF-IDF
 ```
 
 El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 
 ---
 
-## 9. Registro cronológico
+## 10. Registro cronológico
 
 | Fecha | Hecho |
 |---|---|
@@ -441,3 +516,5 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-10 | Nubes de palabras y ranking de términos; se detecta el ruido de formato (11,0 % entrevistas / 6,8 % libros) |
 | 2026-09-10 | Correcciones de calidad: guiones de corte, guion suave, falsos cortes de párrafo y URLs; re-generada toda la cadena |
 | 2026-09-10 | Se corrigen cifras desactualizadas en `unidad-documental.md` (longitudes de unidad de libro) |
+| 2026-09-10 | Se fijan las decisiones del modelo de IR: sin notas al pie, sin ruido de formato, `min_df=2`, agregación por suma de las 10 mejores unidades |
+| 2026-09-10 | Modelo TF-IDF implementado y ejecutado; se detecta que el ranking colapsa (297 unidades distintas en el top-1 para 2.484 consultas) |
