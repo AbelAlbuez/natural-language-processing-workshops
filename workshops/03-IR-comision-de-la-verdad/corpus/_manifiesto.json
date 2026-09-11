@@ -1,16 +1,68 @@
 {
-  "generado_en": "2026-09-10",
-  "tipo": "inventario_de_corpus_existente",
-  "nota": "Generado sin re-segmentar los PDFs. Los archivos listados son salidas preexistentes auditadas; para obtener un manifiesto de una ejecución nueva se debe correr segmentacion_libros.py.",
+  "generado_en": "2026-09-11T03:24:19.255408+00:00",
   "libros": {
-    "CONVOCATORIA_A_LA_PAZ_GRANDE": {"estado": "existente_no_regenerado", "archivo": "CONVOCATORIA_A_LA_PAZ_GRANDE.json", "unidades": 296, "relatos": 2, "notas_al_pie": 0},
-    "HALLAZGOS_Y_RECOMENDACIONES": {"estado": "existente_no_regenerado", "archivo": "HALLAZGOS_Y_RECOMENDACIONES.json", "unidades": 7858, "relatos": 354, "notas_al_pie": 1281},
-    "HASTA_LA_GUERRA_TIENE_LIMITES": {"estado": "existente_no_regenerado", "archivo": "HASTA_LA_GUERRA_TIENE_LIMITES.json", "unidades": 12631, "relatos": 1125, "notas_al_pie": 3570},
-    "LA_COLOMBIA_FUERA_DE_COLOMBIA": {"estado": "existente_no_regenerado", "archivo": "LA_COLOMBIA_FUERA_DE_COLOMBIA.json", "unidades": 4682, "relatos": 608, "notas_al_pie": 1000},
-    "MI_CUERPO_ES_LA_VERDAD": {"estado": "existente_no_regenerado", "archivo": "MI_CUERPO_ES_LA_VERDAD.json", "unidades": 5603, "relatos": 560, "notas_al_pie": 1148},
-    "NO_ES_UN_MAL_MENOR": {"estado": "existente_no_regenerado", "archivo": "NO_ES_UN_MAL_MENOR.json", "unidades": 4063, "relatos": 470, "notas_al_pie": 936},
-    "NO_MATARAS": {"estado": "existente_no_regenerado", "archivo": "NO_MATARAS.json", "unidades": 7050, "relatos": 508, "notas_al_pie": 1644},
-    "RESISTIR_NO_ES_AGUANTAR": {"estado": "existente_no_regenerado", "archivo": "RESISTIR_NO_ES_AGUANTAR.json", "unidades": 7658, "relatos": 828, "notas_al_pie": 1723},
-    "SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA": {"estado": "existente_no_regenerado", "archivo": "SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA.json", "unidades": 4845, "relatos": 372, "notas_al_pie": 1070}
+    "SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA": {
+      "estado": "ok",
+      "archivo": "SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA.json",
+      "unidades": 4644,
+      "relatos": 370,
+      "notas_al_pie": 1070
+    },
+    "CONVOCATORIA_A_LA_PAZ_GRANDE": {
+      "estado": "ok",
+      "archivo": "CONVOCATORIA_A_LA_PAZ_GRANDE.json",
+      "unidades": 277,
+      "relatos": 2,
+      "notas_al_pie": 0
+    },
+    "HALLAZGOS_Y_RECOMENDACIONES": {
+      "estado": "ok",
+      "archivo": "HALLAZGOS_Y_RECOMENDACIONES.json",
+      "unidades": 7597,
+      "relatos": 353,
+      "notas_al_pie": 1281
+    },
+    "HASTA_LA_GUERRA_TIENE_LIMITES": {
+      "estado": "ok",
+      "archivo": "HASTA_LA_GUERRA_TIENE_LIMITES.json",
+      "unidades": 12288,
+      "relatos": 1102,
+      "notas_al_pie": 3570
+    },
+    "LA_COLOMBIA_FUERA_DE_COLOMBIA": {
+      "estado": "ok",
+      "archivo": "LA_COLOMBIA_FUERA_DE_COLOMBIA.json",
+      "unidades": 4644,
+      "relatos": 605,
+      "notas_al_pie": 1000
+    },
+    "MI_CUERPO_ES_LA_VERDAD": {
+      "estado": "ok",
+      "archivo": "MI_CUERPO_ES_LA_VERDAD.json",
+      "unidades": 5435,
+      "relatos": 558,
+      "notas_al_pie": 1148
+    },
+    "NO_ES_UN_MAL_MENOR": {
+      "estado": "ok",
+      "archivo": "NO_ES_UN_MAL_MENOR.json",
+      "unidades": 3897,
+      "relatos": 464,
+      "notas_al_pie": 936
+    },
+    "NO_MATARAS": {
+      "estado": "ok",
+      "archivo": "NO_MATARAS.json",
+      "unidades": 6892,
+      "relatos": 506,
+      "notas_al_pie": 1644
+    },
+    "RESISTIR_NO_ES_AGUANTAR": {
+      "estado": "ok",
+      "archivo": "RESISTIR_NO_ES_AGUANTAR.json",
+      "unidades": 7419,
+      "relatos": 817,
+      "notas_al_pie": 1723
+    }
   }
 }

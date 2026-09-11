@@ -85,9 +85,12 @@ etapas:
 2. **`agrupar_en_bloques`** — reconstruye los parrafos. Un parrafo nuevo se
    detecta por la sangria de primera linea, comparada contra el margen minimo de
    esa pagina, lo que permite que un parrafo continue a traves de un salto de
-   pagina. Incluye dos ajustes: las **letras capitulares** (la letra grande que
-   abre un parrafo) se reintegran a su palabra, y tras un titulo hay unas lineas
-   de gracia para que la capitular no dispare un corte falso.
+   pagina. Incluye tres ajustes: las **letras capitulares** (la letra grande que
+   abre un parrafo) se reintegran a su palabra, tras un titulo hay unas lineas
+   de gracia para que la capitular no dispare un corte falso, y las palabras
+   partidas por **guion de corte de linea** se reconstruyen (`unir_linea`), lo
+   que ademas descarta el corte de parrafo cuando la sangria era un falso
+   positivo a mitad de palabra.
 3. **`segmentar`** — separa narrativa de testimonio. Un bloque delimitado por
    `« ... »` se emite como unidad aparte y se marca `es_relato=true` si supera
    las 15 palabras. Los relatos que abarcan varios parrafos se acumulan: un `»`
@@ -104,7 +107,7 @@ libro con otra diagramacion, es lo primero que hay que revisar.
 ### Uso
 
 ```bash
-pip install pymupdf
+pip install -r requirements.txt   # solo necesita pymupdf para este script
 python segmentacion_libros.py
 ```
 
@@ -121,6 +124,8 @@ un resumen final. Si un libro falla, lo reporta y continua con los demas.
 - **Fuentes acopladas al diseño.** La clasificacion depende de nombres de fuente
   concretos (`AGaramondPro-Regular`, `Futura`). Un tomo diagramado distinto
   requiere ajustar `CONFIG`.
-- **Guiones de corte de linea.** El texto conserva los guiones de division
-  silabica del PDF (`significa- dos`); si el analisis posterior lo necesita, hay
-  que normalizarlo aparte.
+- **Guiones de corte de linea.** Resueltos: `unir_linea` reconstruye la palabra
+  partida (`significa-` + `dos` -> `significados`), incluye el guion suave
+  (U+00AD) e impide que una palabra cortada abra un parrafo nuevo. Quedan 13
+  casos sin unir de 8.780, todos guiones legitimos (rangos, codigos, nombres
+  compuestos).

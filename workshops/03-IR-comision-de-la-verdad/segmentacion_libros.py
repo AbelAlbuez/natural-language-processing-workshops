@@ -2,7 +2,12 @@
 Extractor de corpus CEV (v2).
 
 Segmenta el texto de un libro en unidades:
-    {libro, parte, capitulo, titulo, subtitulo, es_relato, pie_de_pagina, texto}
+    {id, libro, parte, capitulo, titulo, subtitulo, es_relato, pie_de_pagina, texto}
+
+El `id` es `libro:<nombre>:<posicion>` con la posición de la unidad dentro del
+libro en seis dígitos; es estable mientras no cambie la segmentación y permite
+rastrear una unidad desde el corpus preprocesado o desde los resultados de
+recuperación hasta este archivo.
 
 NOVEDADES DE ESTA VERSIÓN
 - Las notas al pie ya NO se descartan: se segmentan como unidades propias con
@@ -10,6 +15,8 @@ NOVEDADES DE ESTA VERSIÓN
 - Umbral de palabras para es_relato bajado de 30 a 15.
 - Corrige la letra capitular ("dropcap", ej. la "L" grande de "La mañana...")
   que antes se perdía por tener un tamaño de fuente mucho mayor al del cuerpo.
+- Reconstruye las palabras partidas por el guion de corte de línea del PDF
+  ("significa-" + "dos" -> "significados"), ver unir_linea().
 - título/subtítulo/capítulo/parte comparten la familia de fuente "Futura" pero
   en tamaños distintos: >=20pt es encabezado de PARTE o CAPÍTULO (se descarta,
   porque esos vienen del indice.json), >=15pt y <20pt es TÍTULO, y por debajo
@@ -172,6 +179,47 @@ def extraer_lineas(pdf_path):
     return lineas
 
 
+GUION_SUAVE = "\u00ad"  # soft hyphen: invisible, pero parte la palabra al tokenizar
+GUIONES_DE_CORTE = ("-", GUION_SUAVE)
+
+
+def limpiar_guiones_suaves(texto):
+    """Quita los guiones suaves que quedan dentro de una palabra.
+
+    No son visibles pero no son caracteres de palabra, así que sin esto
+    "huma\u00adnidades" se tokeniza como "huma" + "nidades"."""
+    return texto.replace(GUION_SUAVE, "") if texto else texto
+
+
+def unir_linea(acumulado, linea):
+    """Pega una línea nueva al bloque que se está armando.
+
+    El PDF parte palabras con guion al final de la línea ("significa-" +
+    "dos"). Si no se reconstruyen, el índice termina con fragmentos como
+    "significa" y "dos" en lugar de "significados" — y aparecen tokens
+    inexistentes ("huma" de "huma- nos") entre los términos frecuentes.
+
+    Solo se une cuando la línea siguiente arranca en minúscula: un guion
+    seguido de mayúscula o de dígito no es corte silábico. La contrapartida
+    conocida es que una palabra compuesta partida justo en su propio guion
+    ("político-" + "militar") pierde el guion; en una muestra de 25
+    ocurrencias reales del corpus, las 25 eran cortes silábicos.
+    """
+    acumulado, linea = acumulado.rstrip(), linea.lstrip()
+    if acumulado.endswith(GUIONES_DE_CORTE) and linea[:1].islower():
+        return acumulado[:-1] + linea
+    return acumulado + " " + linea
+
+
+def unir_partes(partes):
+    """unir_linea aplicada en cadena: un relato puede abarcar varios bloques y
+    el corte silábico también ocurre en la frontera entre ellos."""
+    texto = partes[0]
+    for parte in partes[1:]:
+        texto = unir_linea(texto, parte)
+    return texto
+
+
 def agrupar_en_bloques(lineas):
     if not lineas:
         return []
@@ -199,6 +247,17 @@ def agrupar_en_bloques(lineas):
             else:
                 es_nuevo = actual is None or actual["tipo"] != "cuerpo" or indentada
 
+            # una palabra partida por guion no puede empezar un párrafo nuevo:
+            # la sangría que disparó el corte es un falso positivo
+            if (
+                es_nuevo
+                and actual is not None
+                and actual["tipo"] == "cuerpo"
+                and actual["texto"].rstrip().endswith(GUIONES_DE_CORTE)
+                and l["texto"][:1].islower()
+            ):
+                es_nuevo = False
+
             if es_nuevo:
                 if actual:
                     bloques.append(actual)
@@ -206,7 +265,7 @@ def agrupar_en_bloques(lineas):
             elif len(actual["texto"]) == 1 and actual["texto"].isalpha():
                 actual["texto"] += l["texto"]  # letra capitular pegada a la palabra siguiente
             else:
-                actual["texto"] += " " + l["texto"]
+                actual["texto"] = unir_linea(actual["texto"], l["texto"])
 
         elif tipo in ("titulo", "subtitulo"):
             es_nuevo = actual is None or actual["tipo"] != tipo
@@ -215,7 +274,7 @@ def agrupar_en_bloques(lineas):
                     bloques.append(actual)
                 actual = {"tipo": tipo, "texto": l["texto"], "pagina_impresa": l["pagina_impresa"]}
             else:
-                actual["texto"] += " " + l["texto"]
+                actual["texto"] = unir_linea(actual["texto"], l["texto"])
             lineas_de_gracia = 4  # el párrafo que sigue a un título puede abrir con letra capitular
 
         elif tipo == "parte_capitulo":
@@ -228,7 +287,7 @@ def agrupar_en_bloques(lineas):
 
         elif tipo == "pie_continuacion":
             if actual and actual["tipo"] == "pie":
-                actual["texto"] += " " + l["texto"]
+                actual["texto"] = unir_linea(actual["texto"], l["texto"])
             # si no hay una nota abierta, este texto tamaño-nota sin marcador
             # es probablemente una leyenda de foto (misma fuente/tamaño) — se descarta
 
@@ -258,7 +317,7 @@ def segmentar(bloques):
 
     def cerrar_relato():
         nonlocal buffer_relato, estado
-        texto_relato = " ".join(buffer_relato).strip()
+        texto_relato = unir_partes(buffer_relato).strip()
         emitir(texto_relato, len(texto_relato.split()) > umbral, pagina_inicio_relato)
         buffer_relato = []
         estado = "narrativa"
@@ -348,20 +407,21 @@ def construir_corpus(pdf_path, libro, indice_path):
     tabla_indice = cargar_indice(indice_path) if indice_path else []
 
     corpus = []
-    for u in unidades:
+    for posicion, u in enumerate(unidades):
         parte, capitulo = (
             resolver_parte_capitulo(u["pagina_impresa"], tabla_indice)
             if tabla_indice else (None, None)
         )
         corpus.append({
+            "id": f"libro:{libro}:{posicion:06d}",
             "libro": libro,
             "parte": parte,
             "capitulo": capitulo,
-            "titulo": u["titulo"],
-            "subtitulo": u["subtitulo"],
+            "titulo": limpiar_guiones_suaves(u["titulo"]),
+            "subtitulo": limpiar_guiones_suaves(u["subtitulo"]),
             "es_relato": u["es_relato"],
             "pie_de_pagina": u["pie_de_pagina"],
-            "texto": u["texto"],
+            "texto": limpiar_guiones_suaves(u["texto"]),
         })
     return corpus
 
