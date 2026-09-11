@@ -247,7 +247,7 @@ Reglas aplicadas por igual a libros y entrevistas, como pide el enunciado:
 | Lematización | spaCy `es_core_news_md` |
 
 **Decisión de implementación:** la lematización se hace sobre el **vocabulario**
-(el conjunto de formas distintas), no documento por documento. Con 55.579
+(el conjunto de formas distintas), no documento por documento. Con 58.981
 documentos y 34,7 millones de tokens, lematizar cada documento sería
 innecesariamente costoso; el resultado es el mismo porque el lema se asigna por
 forma, sin contexto. Costo actual: ~2 minutos para toda la cadena.
@@ -278,18 +278,18 @@ Corpus unificado (entregable "dos archivos, raw y preprocesado"):
 
 | Archivo | Contenido |
 |---|---|
-| `data/corpus_raw.json` | 55.579 documentos (53.093 unidades de libro + 2.486 entrevistas), texto sin tocar |
-| `data/corpus_preprocesado.json` | los mismos 55.579 ids, con `texto_preprocesado` |
+| `data/corpus_raw.json` | 58.981 documentos (56.495 unidades de libro + 2.486 entrevistas), texto sin tocar |
+| `data/corpus_preprocesado.json` | los mismos 58.981 ids, con `texto_preprocesado` |
 | `data/estadisticas_preprocesamiento.json` | tokens por documento, stopwords removidas, documentos vacíos |
 
 Reducción de tokens por el preprocesamiento:
 
 | Corpus | Tokens originales | Tokens finales | Reducción |
 |---|---|---|---|
-| Libros | 1.960.812 | 981.473 | 49,95 % |
+| Libros | 2.214.055 | 1.078.082 | 51,31 % |
 | Entrevistas | 34.715.069 | 12.626.056 | 63,63 % |
 
-**366 documentos** quedan con `texto_preprocesado` vacío (364 de libros, 2 de
+**379 documentos** quedan con `texto_preprocesado` vacío (377 de libros, 2 de
 entrevistas). De ellos, 256 son notas al pie cuyo texto era únicamente una URL.
 Los dos archivos tienen exactamente el mismo conjunto de ids.
 
@@ -324,8 +324,8 @@ donde la ley de potencias se sostiene, y se ve en el R².
 
 | Corpus | Versión | Tokens | Vocabulario | TTR | Hapax | α (banda 10–1000) | R² | α (rango completo) | R² |
 |---|---|---|---|---|---|---|---|---|---|
-| Libros | crudo | 1.960.812 | 45.925 | 0,0234 | 36,7 % | **0,95** | 0,996 | 1,49 | 0,976 |
-| Libros | preprocesado | 981.473 | 32.055 | 0,0327 | 36,1 % | 0,76 | 0,991 | 1,56 | 0,968 |
+| Libros | crudo | 2.214.055 | 51.091 | 0,0231 | 37,8 % | **0,96** | 0,997 | 1,50 | 0,977 |
+| Libros | preprocesado | 1.078.082 | 35.475 | 0,0329 | 37,5 % | 0,77 | 0,990 | 1,57 | 0,969 |
 | Entrevistas | crudo | 34.715.069 | 148.026 | 0,0043 | 35,5 % | **1,21** | 0,997 | 1,78 | 0,984 |
 | Entrevistas | preprocesado | 12.626.056 | 103.416 | 0,0082 | 40,4 % | 0,93 | 0,993 | 1,76 | 0,981 |
 
@@ -333,8 +333,8 @@ Longitud de documento (tokens):
 
 | Corpus | Versión | Media | Mediana | p90 | Máx |
 |---|---|---|---|---|---|
-| Libros | crudo | 36,9 | 16 | 99 | 1.676 |
-| Libros | preprocesado | 18,5 | 11 | 45 | 1.703 |
+| Libros | crudo | 39,2 | 17 | 104 | 4.890 |
+| Libros | preprocesado | 19,1 | 11 | 46 | 1.788 |
 | Entrevistas | crudo | 13.964 | 11.524 | 23.730 | 149.409 |
 | Entrevistas | preprocesado | 5.079 | 4.134 | 8.725 | 55.116 |
 
@@ -342,12 +342,12 @@ Solapamiento léxico (texto preprocesado):
 
 | Medida | Valor |
 |---|---|
-| Vocabulario de libros | 32.055 |
+| Vocabulario de libros | 35.475 |
 | Vocabulario de entrevistas | 103.416 |
-| Compartido | 22.975 |
-| Jaccard | 0,204 |
-| Solo en libros | 9.080 |
-| Solo en entrevistas | 80.441 |
+| Compartido | 25.506 |
+| Jaccard | 0,225 |
+| Solo en libros | 9.969 |
+| Solo en entrevistas | 77.910 |
 
 ### 5.3. Lecturas para el informe
 
@@ -358,12 +358,12 @@ Solapamiento léxico (texto preprocesado):
 3. **El preprocesamiento aplana la curva** (α baja a 0,76 y 0,93) porque eliminar
    stopwords elimina justamente la cabeza de la distribución. Es un argumento
    para no leer el α del corpus preprocesado como si fuera el del lenguaje.
-4. **La cola es enorme:** 36 % del vocabulario de libros y 40 % del de entrevistas
+4. **La cola es enorme:** 37,5 % del vocabulario de libros y 40 % del de entrevistas
    son hapax. Ese es el argumento empírico para poner un `min_df` al construir el
    índice TF-IDF: un tercio del vocabulario no puede aportar a ninguna similitud.
 5. **Los libros usan un vocabulario casi contenido en el de las entrevistas:**
-   22.975 de sus 32.055 tipos (72 %) aparecen también en las entrevistas, mientras
-   que 80.441 tipos son exclusivos de las entrevistas. Jaccard 0,204. Es lo
+   25.506 de sus 35.475 tipos (72 %) aparecen también en las entrevistas, mientras
+   que 77.910 tipos son exclusivos de las entrevistas. Jaccard 0,225. Es lo
    esperable entre texto editorial y habla transcrita, y es buena noticia para la
    recuperación: el vocabulario de los documentos está casi todo cubierto por el
    de las consultas.
@@ -376,7 +376,7 @@ fuentes, no por vocabulario del dominio:
 | Corpus | Peso en los tokens preprocesados | Qué es |
 |---|---|---|
 | Entrevistas | **11,03 %** (1.393.178 tokens, 2.880 tipos) | Etiquetas de hablante `TEST` (344.807) y `ENT` (301.083), variantes `ENT1`/`TEST2`, marcas `[INTERRUP]` (35.728), `[INAD]`, `[CONT]`, `[DUD]`, y dígitos de los marcadores de anonimización (`ORGANIZACIÓN PÚBLICA 1 ----`) |
-| Libros | **6,82 %** (66.938 tokens, 3.442 tipos) | Años (`2020`, `2019`, `2021`) y tokens numéricos |
+| Libros | **6,39 %** (68.882 tokens, 3.506 tipos) | Años (`2020`, `2019`, `2021`) y tokens numéricos |
 
 **Decisión:** este ruido se excluye **solo de las figuras de contenido** (nubes y
 ranking de términos). El JSON conserva el ranking completo y el detalle de lo
@@ -417,7 +417,7 @@ siempre presente.
 |---|---|---|
 | Documentos indexados | Narrativa + testimonios, **sin notas al pie** | Las notas son referencias bibliográficas: coinciden por apellidos y topónimos, no por contenido narrativo, y con mediana de 9 tokens BM25 tiende a sobre-puntuarlas. Siguen en el corpus, solo no se indexan |
 | Ruido de formato | **Fuera del índice** | Es el 11 % de los tokens de entrevistas. El IDF casi lo anula, pero infla la longitud del documento, que es justo lo que BM25 normaliza en la actividad 4 |
-| Corte de vocabulario | `min_df = 2` | Un término en un solo documento no puede emparejar nada; el 36 % del vocabulario de libros son hapax (medido en 5.2) |
+| Corte de vocabulario | `min_df = 2` | Un término en un solo documento no puede emparejar nada; el 37,5 % del vocabulario de libros son hapax (medido en 5.2) |
 | Agregación al nivel de libro | **Suma de las 10 mejores unidades** | El máximo deja que una coincidencia aislada defina el vínculo; el promedio castiga a los libros grandes (de 277 a 12.288 unidades) |
 | Implementación | Pesado propio, sin `sklearn` | La actividad 4 exige métricas manuales y debe reutilizar estas mismas estructuras. `scipy.sparse` se usa solo para el álgebra, no para el modelo |
 
@@ -436,7 +436,7 @@ peso = tf * idf, normalizado en L2 por documento
 Con los vectores normalizados en L2 la similitud coseno **es** el producto
 punto, así que el ranking completo es un producto de matrices dispersas. Se
 procesa por bloques de 128 consultas: la matriz de similitudes completa sería de
-2.484 × 40.006 celdas.
+2.484 × 41.034 celdas.
 
 El vocabulario y el idf se calculan **solo sobre los documentos**: una consulta
 no puede alterar el peso de un término del índice.
@@ -445,11 +445,10 @@ no puede alterar el peso de un término del índice.
 
 | Magnitud | Valor |
 |---|---|
-| Documentos indexados | 40.006 |
-| Descartados | 12.372 notas al pie, 715 unidades sin términos |
+| Documentos indexados | 41.034 |
+| Descartados | 12.372 notas al pie, 2.355 unidades de menos de 2 tokens, 734 sin términos |
 | Consultas | 2.484 (2 entrevistas quedan vacías tras la limpieza) |
-| Vocabulario | 15.950 términos con df ≥ 2, de 27.134 distintos |
-| No-ceros | 686.727 en documentos, 2.507.081 en consultas |
+| Vocabulario | 17.497 términos con df ≥ 2, de 30.486 distintos |
 | Tiempo | ~16 s |
 
 Salida en `data/ranking_tfidf.json` (35 MB): por entrevista, las 20 mejores
@@ -463,16 +462,20 @@ libros.
 
 | Señal | Valor |
 |---|---|
-| Unidades distintas en el top-1 | **297** para 2.484 consultas |
-| Consultas ganadas por una sola unidad | **657** (26 % de todas) |
-| Unidades distintas en todo el top-20 guardado | 1.434 de 40.006 |
-| Similitud del top-1 | media 0,255 · mediana 0,252 · rango 0,176–0,498 |
-| Consultas cuyo top-1 es un testimonio | 2.469 de 2.484 |
+| Unidades distintas en el top-1 | **117** para 2.484 consultas |
+| Consultas ganadas por una sola unidad | **2.334** (94 % de todas) |
+| Unidades distintas en todo el top-20 guardado | 2.145 de 41.034 |
+| Similitud del top-1 | media 0,319 · mediana 0,323 · rango 0,196–0,491 |
+| Consultas cuyo top-1 es un testimonio | 2.478 de 2.484 |
 
-Libro ganador por entrevista: RESISTIR_NO_ES_AGUANTAR 1.738, MI_CUERPO_ES_LA_VERDAD 444,
-NO_ES_UN_MAL_MENOR 150, LA_COLOMBIA_FUERA_DE_COLOMBIA 108, HASTA_LA_GUERRA_TIENE_LIMITES 39,
-HALLAZGOS_Y_RECOMENDACIONES 3, NO_MATARAS 1, SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA 1,
-CONVOCATORIA_A_LA_PAZ_GRANDE 0.
+**El décimo tomo hizo el colapso todavía más nítido.** Con nueve libros, la
+unidad más repetida ganaba 657 consultas (26 %) y había 297 unidades distintas
+en el top-1. Al entrar `CUANDO_LOS_PAJAROS_NO_CANTABAN` —que trae unidades
+mucho más largas, hasta 1.788 tokens preprocesados— **una sola unidad suya pasó
+a ganar 2.334 de las 2.484 entrevistas**: el testimonio
+`libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000764`, que es la unidad más larga del
+índice. Un solo documento nuevo bastó para tumbar el ranking entero, lo que
+dice mejor que cualquier tabla lo frágil que es esta configuración.
 
 **Interpretación.** El modelo casi no discrimina por tema: le devuelve el mismo
 puñado de unidades a todas las entrevistas, y lo que decide el ranking es la
@@ -480,14 +483,13 @@ puñado de unidades a todas las entrevistas, y lo que decide el ranking es la
 
 | | Mediana de tokens preprocesados |
 |---|---|
-| Corpus indexado | 12 |
-| Ganadores del top-1 | **274** (percentil 99,97 del corpus) |
+| Corpus indexado | 13 |
+| Ganadores del top-1 | **1.788** (la unidad más larga del índice) |
 
-El 84,7 % de los ganadores del top-1 está en el 1 % de unidades más largas del
-índice.
+El 96,6 % de los ganadores del top-1 está en el 1 % de unidades más largas.
 
 El mecanismo: una entrevista aporta ~1.128 términos distintos sobre un
-vocabulario de 15.950, así que la consulta cubre casi cualquier cosa que un
+vocabulario de 17.497, así que la consulta cubre casi cualquier cosa que un
 documento pueda decir. En `cos = Σ q_t·d_t / ‖d‖`, el numerador crece con la
 cantidad de términos que el documento comparte con la consulta, mientras `‖d‖`
 crece como la raíz de la suma de cuadrados: con una consulta prácticamente
@@ -500,7 +502,7 @@ Dos precisiones para no repetir errores de lectura:
 - La normalización L2 **de la consulta** no interviene: es una constante por
   consulta y no altera el orden dentro de ella. El sesgo lo introduce la
   normalización del documento.
-- Que el 99,4 % de los top-1 sean testimonios no es un efecto temático: los
+- Que el 99,8 % de los top-1 sean testimonios no es un efecto temático: los
   testimonios son las unidades más largas (mediana 23 tokens contra 11 de la
   narrativa) y los relatos multipárrafo son las más largas de todas.
 
@@ -532,44 +534,43 @@ empeora el problema. Medido sobre 300 consultas de muestra:
 
 | Normalización | Top-1 distintos | Más repetido | Mediana de tokens del top-1 |
 |---|---|---|---|
-| pivotada s=0,2 | 16 | 99 | 380 |
-| pivotada s=0,5 | 29 | 88 | 270 |
-| pivotada s=0,8 | 46 | 82 | 270 |
-| **l2 (coseno)** | **62** | **78** | **257** |
-| potencia α=1,1 | 78 | 59 | 188 |
-| potencia α=1,2 | 109 | 61 | 73 |
-| **potencia α=1,3** | **133** | **67** | **58** |
-| potencia α=1,4 | 120 | 45 | 31 |
-| potencia α=1,5 | 92 | 63 | 8 |
+| pivotada s=0,2 | 2 | 299 | 1.769 |
+| pivotada s=0,5 | 4 | 297 | 1.769 |
+| pivotada s=0,8 | 9 | 292 | 1.769 |
+| **l2 (coseno)** | **18** | **281** | **1.769** |
+| potencia α=1,25 | 123 | 100 | 77 |
+| potencia α=1,5 | 118 | 62 | 8 |
+| potencia α=1,75 | 74 | 54 | 2 |
+| potencia α=2,0 | 41 | 115 | 2 |
 
-(mediana del corpus indexado: 11 tokens)
+(sobre 300 consultas de muestra; mediana del corpus indexado: 12 tokens)
 
-El óptimo está en **α ≈ 1,3**. Pasado α=1,4 el sesgo se invierte y empiezan a
-ganar unidades de uno o dos tokens: una sola palabra rara basta para el match.
+El óptimo está entre **α ≈ 1,25 y 1,3**. Pasado α=1,5 el sesgo se invierte y
+empiezan a ganar unidades de uno o dos tokens: una sola palabra rara basta para
+el match. (El barrido original, con nueve libros, daba el óptimo en α=1,3 con
+133 top-1 distintos; el décimo tomo hunde la línea base pero no mueve el
+óptimo.)
 
-**Filtro de unidades muy cortas: probado y descartado.** Se midió el mismo
-barrido exigiendo un mínimo de 3 y de 5 tokens por documento; el óptimo se
-mueve de 133 a 135 top-1 distintos. No justifica sacar 9.135 unidades del
-índice.
+**Filtro de unidades muy cortas: probado y descartado en esta configuración.**
+Se midió el mismo barrido exigiendo un mínimo de 3 y de 5 tokens por documento;
+el óptimo se movía de 133 a 135 top-1 distintos. Con la entrevista completa
+como consulta no compensa; con pasajes sí, y por eso reaparece en 6.6.
 
 **Corrida completa con α = 1,3** (`data/ranking_tfidf_potencia_a1.3.json`),
 contra la línea base coseno:
 
 | Señal | Coseno (α=1) | Potencia α=1,3 |
 |---|---|---|
-| Unidades distintas en el top-1 | 297 | **707** |
-| Consultas ganadas por una sola unidad | 657 | 563 |
-| Unidades distintas en todo el top-20 | 1.434 | **3.399** |
-| Mediana de tokens del top-1 | 274 | **58** |
-| Top-1 que son testimonios | 2.469 | 2.351 |
-| Similitud del top-1 (media) | 0,255 | 0,186 |
-
-El reparto por libro también se despeja: RESISTIR_NO_ES_AGUANTAR baja de 1.738
-entrevistas a 928 y HASTA_LA_GUERRA_TIENE_LIMITES sube de 39 a 463.
+| Unidades distintas en el top-1 | 117 | **849** |
+| Consultas ganadas por una sola unidad | 2.334 | 389 |
+| Unidades distintas en todo el top-20 | 2.145 | **4.577** |
+| Mediana de tokens del top-1 | 1.788 | **68** |
+| Top-1 que son testimonios | 2.478 | 2.352 |
+| Similitud del top-1 (media) | 0,319 | 0,189 |
 
 **Conclusión.** La normalización corrige una parte real del sesgo —duplica con
 creces la diversidad del ranking y acerca la longitud del ganador a la del
-corpus— pero **no resuelve el colapso**: una sola unidad sigue ganando 563 de
+corpus— pero **no resuelve el colapso**: una sola unidad sigue ganando 389 de
 2.484 consultas. Era previsible: la normalización corrige cómo se penaliza al
 documento, no el hecho de que la consulta cubra 1.128 términos del vocabulario
 y por lo tanto se parezca un poco a todo. Eso solo lo arregla intervenir la
@@ -632,16 +633,17 @@ archivo original.
 
 ### 6.7. Comparación de las tres configuraciones
 
-Todas con `min_df=2` y `min_tokens=2`, sobre los mismos 37.693 documentos:
+Todas con `min_df=2` y `min_tokens=2`, sobre los mismos 41.034 documentos y
+las mismas 2.484 entrevistas:
 
 | Señal | Coseno, entrevista completa | Potencia α=1,3, entrevista completa | **Coseno, pasajes** |
 |---|---|---|---|
-| Unidades distintas en el top-1 | 299 | 707 | **1.678** de 2.484 |
-| Consultas ganadas por una sola unidad | 652 | 563 | **30** |
-| Unidades distintas en el top-20 | 1.449 | 3.399 | **8.098** |
-| Mediana de tokens del top-1 | 270 | 57 | **14** (corpus: 13) |
-| Similitud del top-1 (mediana) | 0,251 | 0,183 | 0,462 |
-| Top-1 que son testimonios | 2.469 | 2.351 | 1.438 |
+| Unidades distintas en el top-1 | 117 | 849 | **1.801** de 2.484 |
+| Consultas ganadas por una sola unidad | 2.334 | 389 | **18** |
+| Unidades distintas en el top-20 | 2.145 | 4.577 | **9.950** |
+| Mediana de tokens del top-1 | 1.788 | 68 | **17** (corpus: 13) |
+| Similitud del top-1 (mediana) | 0,323 | 0,183 | 0,481 |
+| Top-1 que son testimonios | 2.478 | 2.352 | 1.603 |
 
 El sesgo de longitud desaparece: la unidad ganadora mide lo que mide una unidad
 típica del corpus. **Y la normalización de potencia deja de hacer falta**: era
@@ -650,7 +652,7 @@ un parche para una consulta del tamaño equivocado.
 ### 6.8. Validación cualitativa: el modelo recupera la fuente real de los testimonios
 
 Revisando los pares con puntaje alto aparece el resultado que el taller busca:
-**el libro cita literalmente la entrevista**. Ejemplo con puntaje 0,794:
+**el libro cita literalmente la entrevista**. Ejemplo con puntaje 0,795:
 
 > **Pasaje de entrevista:** «Hay solamente 3 frentes, pero da la buena fortuna
 > que el ELN en Arauca ha encontrado una especie como de una gallina de los
@@ -668,18 +670,53 @@ Distribución del puntaje del top-1:
 
 | Umbral | Entrevistas |
 |---|---|
-| > 0,9 | 22 (0,9 %) |
-| > 0,8 | 128 (5,2 %) |
-| > 0,7 | 356 (14,3 %) |
-| > 0,6 | 683 (27,5 %) |
-| > 0,5 | 1.059 (42,6 %) |
+| > 0,9 | 27 (1,1 %) |
+| > 0,8 | 163 (6,6 %) |
+| > 0,7 | 449 (18,1 %) |
+| > 0,6 | 801 (32,2 %) |
+| > 0,5 | 1.173 (47,2 %) |
 
 Por encima de ~0,7 la coincidencia suele ser una cita textual; entre 0,4 y 0,6
 es temática (un pasaje sobre violencia sexual contra niñas cae en un testimonio
 del tomo *Mi cuerpo es la verdad*). Sirve como validación del modelo sin
-necesidad de juicios de relevancia etiquetados: **el 14,3 % de las entrevistas
+necesidad de juicios de relevancia etiquetados: **el 18,1 % de las entrevistas
 tiene como mejor coincidencia un pasaje que el informe reproduce**, y eso se
 puede verificar leyendo los dos fragmentos que el ranking guarda.
+
+Reparto del libro ganador por entrevista, ya sin un tomo dominante:
+CUANDO_LOS_PAJAROS_NO_CANTABAN 778, HASTA_LA_GUERRA_TIENE_LIMITES 710,
+LA_COLOMBIA_FUERA_DE_COLOMBIA 214, NO_MATARAS 161, RESISTIR_NO_ES_AGUANTAR 155,
+HALLAZGOS_Y_RECOMENDACIONES 154, MI_CUERPO_ES_LA_VERDAD 133,
+NO_ES_UN_MAL_MENOR 105, SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA 74,
+CONVOCATORIA_A_LA_PAZ_GRANDE 0. Que el tomo de testimonios encabece es
+coherente con su contenido, no un artefacto de longitud.
+
+### 6.9. Qué hubo que arreglar para integrar el décimo tomo
+
+El corpus de `CUANDO_LOS_PAJAROS_NO_CANTABAN` llegó ya segmentado (4.2.2) y
+sin su PDF, con dos particularidades que rompían la cadena:
+
+- **El campo `libro` trae el nombre del PDF** (`CUANDO_LOS_PAJAROS_NO_CANTABAN.pdf`)
+  y no hay campo `id`. Con la regla anterior, los ids habrían quedado como
+  `libro:CUANDO_LOS_PAJAROS_NO_CANTABAN.pdf:000764` y el agrupamiento por libro
+  habría mostrado un `.pdf` colgando. Ahora `preprocesar_corpus.py` toma el
+  nombre **del archivo** (`path.stem`), que es la convención con la que el
+  proyecto deriva todas las rutas, y no del campo.
+- **`segmentacion_libros.py` borraba el corpus de un libro cuyo PDF faltara.**
+  El manejo de errores eliminaba `corpus/<nombre>.json` ante cualquier
+  excepción, incluida la de PDF ausente. Agregar este tomo a `LIBROS` y volver
+  a correr habría **destruido el archivo**, que no se puede regenerar porque su
+  PDF no está en el repositorio. Ahora un PDF ausente se registra como
+  `sin_pdf` en el manifiesto y deja el corpus intacto.
+
+Este tomo **no se agregó a `LIBROS`**: sin PDF no hay nada que regenerar.
+
+Una consecuencia para el informe: **`es_relato` ya no es homogéneo**. En nueve
+tomos marca testimonios delimitados por `« »` (9 % de las unidades) y en este,
+unidades bajo subtítulo de testimonio (88 %). Todo conteo que use ese campo
+tiene que decirlo; por eso el número de "top-1 que son testimonios" bajó de
+2.478 a 1.603 al pasar a pasajes sin que eso signifique que se recuperen menos
+testimonios reales.
 
 ---
 
@@ -763,3 +800,6 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-10 | Entrevistas segmentadas en 160.934 pasajes por turnos de hablante; la premisa de que no había turnos confiables era falsa |
 | 2026-09-10 | Ranking por pasajes: 1.672 unidades distintas en el top-1 (de 299), sesgo de longitud resuelto, y se verifica que el 14,3 % de las entrevistas empareja con una cita textual del informe |
 | 2026-09-10 | Se corrige la cobertura de la segmentación: 9 entrevistas quedaban fuera del ranking por variantes de etiqueta de hablante; quedan 2.484 de 2.486 (las 2 restantes están vacías en origen) |
+| 2026-09-11 | Se incorpora `CUANDO_LOS_PAJAROS_NO_CANTABAN` (segmentado aparte por el equipo) y se re-corre toda la cadena: 56.495 unidades de libro, 58.981 documentos |
+| 2026-09-11 | Arreglos de integración: el nombre del libro sale del archivo y no del campo, y `segmentacion_libros.py` ya no borra el corpus de un libro sin PDF |
+| 2026-09-11 | El décimo tomo hunde la línea base (una unidad gana 2.334 de 2.484 entrevistas) y confirma el diagnóstico de 6.4; la configuración de pasajes sube a 1.801 unidades distintas en el top-1 |

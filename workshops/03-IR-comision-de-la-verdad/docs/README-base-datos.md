@@ -4,7 +4,7 @@
 
 Desde esta carpeta del taller:
 
-- `corpus/*.json`: unidades segmentadas de los nueve libros CEV.
+- `corpus/*.json`: unidades segmentadas de los diez libros CEV.
 - `corpus/_manifiesto.json`: estado de la última segmentación, con éxitos,
   errores y conteos por libro.
 - `entrevistas_all_2023-03-21_14-24_05.json`: corpus de entrevistas original.
@@ -16,12 +16,17 @@ Desde esta carpeta del taller:
 - `figuras/zipf_*.png`: distribuciones rango-frecuencia en log-log.
 - `figuras/longitud_documentos.png`, `figuras/top_terminos.png`,
   `figuras/nube_*.png`: longitud de documento, ranking de términos y nubes.
-- `data/corpus_pasajes.json`: las entrevistas partidas en 160.934 pasajes por
+- `data/corpus_pasajes.json`: las entrevistas partidas en 161.636 pasajes por
   turnos de hablante, con su texto preprocesado.
 - `data/ranking_tfidf*.json`: por entrevista, las 20 unidades de libro más
   similares (con fragmento de evidencia) y el puntaje agregado de los nueve
   libros. Un archivo por configuración; `ranking_tfidf_pasajes.json` es la
   elegida y `ranking_tfidf.json` la línea base.
+
+`CUANDO_LOS_PAJAROS_NO_CANTABAN` llegó ya segmentado y sin PDF: no se regenera
+con `segmentacion_libros.py` y no está en su lista `LIBROS`. Su campo `libro`
+trae la extensión `.pdf` y no tiene `id`; el preprocesador toma el nombre del
+archivo, así que los ids salen igual que los del resto.
 - `docs/bitacora-taller.md`: bitácora ordenada de pasos, decisiones y cifras;
   es el borrador del informe final.
 - `docs/unidad-documental.md`: decisión y contrato de la unidad de recuperación.
@@ -71,9 +76,9 @@ En el archivo preprocesado, cada entrada conserva `id`, `tipo`, `metadatos` y
 `texto_preprocesado`. Por tanto, el vínculo con el raw no depende del orden de
 las listas.
 
-La ejecución validada produjo **55.579 documentos**: 53.093 unidades de libro y
+La ejecución validada produjo **58.981 documentos**: 56.495 unidades de libro y
 2.486 entrevistas. Los dos archivos tienen exactamente el mismo conjunto de
-IDs. Hay **366 entradas** cuyo `texto_preprocesado` queda vacío (364 de libros y
+IDs. Hay **379 entradas** cuyo `texto_preprocesado` queda vacío (377 de libros y
 2 de entrevistas): unidades formadas solo por stopwords, marcadores o contenido
 editorial sin términos, y 256 notas al pie cuyo texto era únicamente una URL
 (el preprocesamiento las elimina, el corpus raw las conserva). Se conservan en ambos archivos
@@ -100,7 +105,7 @@ o reemplaza atómicamente los dos archivos de `data/`.
 `entrevistas_all_2023-03-21_14-24_05.json` es un dato de entrada del taller y
 **no está versionado**: hay que copiarlo a la carpeta del taller o a `corpus/`
 —el preprocesador busca en ambas— o indicar su ubicación con
-`--entrevistas RUTA`. `corpus/` contiene únicamente los nueve libros
+`--entrevistas RUTA`. `corpus/` contiene únicamente los diez libros
 segmentados; el archivo de entrevistas que se deje ahí se reconoce como
 entrevistas, no como un libro más. Sin él, el preprocesador se detiene con un
 mensaje explícito. Para avanzar solo con los libros:
@@ -141,7 +146,7 @@ Las figuras de contenido (nubes y ranking de términos) excluyen el **ruido de
 formato**: etiquetas de hablante de las transcripciones (`TEST`, `ENT`, `ENT1`),
 marcas entre corchetes (`[INTERRUP]`, `[INAD]`, `[CONT]`, `[DUD]`), restos de
 URL de las notas al pie y tokens numéricos. Pesan 11,0 % de los tokens
-preprocesados de las entrevistas y 6,8 % de los de los libros. La
+preprocesados de las entrevistas y 6,4 % de los de los libros. La
 exclusión es solo para graficar: el JSON conserva el ranking completo y el
 detalle de lo excluido en `ruido_de_formato`.
 

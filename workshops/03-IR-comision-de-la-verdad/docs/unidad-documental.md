@@ -27,8 +27,8 @@ perder la evidencia de la unidad que produjo la coincidencia.
 
 ## Justificación cuantitativa
 
-Los nueve corpus de libros contienen **53.093 unidades**. Su longitud media es
-de **37,8 palabras** y la mediana es de **17 palabras** (palabras separadas por
+Los diez corpus de libros contienen **56.495 unidades**. Su longitud media es
+de **40,0 palabras** y la mediana es de **18 palabras** (palabras separadas por
 espacio sobre el texto crudo de la unidad). El corpus de entrevistas contiene
 **2.486 registros**; 2.484 tienen texto y su longitud media es de **14.331
 palabras**, con mediana de **11.768 palabras**.
@@ -37,14 +37,15 @@ Estas escalas son muy distintas, y esa diferencia resultó ser decisiva. Tratar
 cada libro completo como documento mezclaría muchos temas y ocultaría
 coincidencias locales, así que se conserva el detalle segmentado de los libros.
 Pero usar la entrevista completa como consulta —200 veces más larga que una
-unidad— hace que la consulta cubra 1.128 de los 15.950 términos del vocabulario
+unidad— hace que la consulta cubra 1.128 de los 17.497 términos del vocabulario
 y se parezca un poco a todo: el ranking colapsa y devuelve casi las mismas
-unidades a todas las entrevistas.
+unidades a todas las entrevistas. Con diez tomos el efecto es extremo: una sola
+unidad —la más larga del índice— gana 2.334 de las 2.484 entrevistas.
 
-Por eso la consulta es el **pasaje**: 160.934 pasajes con mediana de 57 tokens
+Por eso la consulta es el **pasaje**: 161.636 pasajes con mediana de 57 tokens
 preprocesados, frente a unidades de mediana 13. La relación de longitudes pasa
-de ~200× a ~4×, y las unidades distintas en el top-1 pasan de 299 a 1.672 sobre
-2.477 entrevistas.
+de ~200× a ~4×, y las unidades distintas en el top-1 pasan de 117 a 1.801 sobre
+2.484 entrevistas.
 
 Los métodos de IR posteriores deben reportar cómo agregan las unidades
 ganadoras al nivel de libro.
@@ -59,6 +60,11 @@ ganadoras al nivel de libro.
   los pasajes de menos de 5: todas siguen en el corpus, solo no se indexan.
 - El archivo de entrevistas solo contiene `id_doc`, `pages` y `text`; no hay
   fecha ni persona explícitas.
+- El campo `es_relato` **no es homogéneo**: en nueve tomos marca testimonios
+  delimitados por `« »` y en `CUANDO_LOS_PAJAROS_NO_CANTABAN`, unidades bajo
+  subtítulo de testimonio. Ver 4.2.2 y 6.9 de [bitacora-taller.md](bitacora-taller.md).
+- El nombre del libro de una unidad es el **nombre de su archivo** en `corpus/`,
+  no el campo `libro` del registro, que puede venir con extensión.
 - El preprocesamiento es el mismo para ambos tipos: minúsculas, eliminación de
   puntuación, eliminación de stopwords españolas y lematización con
   `es_core_news_md`.
