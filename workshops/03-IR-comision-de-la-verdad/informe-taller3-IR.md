@@ -1,5 +1,6 @@
 # Taller 3 — Recuperación de Información sobre la Comisión de la Verdad
 
+**Autores:** Abel Albuez Sanchez · Kelly Joane Leon Torres · Juan Camilo Torres Peña · Jesús David Romero Melo
 **Fecha de cierre:** 2026-09-11  
 **Corpus:** 56.495 unidades de libro y 2.486 entrevistas.  
 **Entrada de entrevistas:** archivo local verificado con SHA-256 `32bcc2cf100cf2873cf87d9897a308451a472d73a762a4293ed08adc7689afdf`.

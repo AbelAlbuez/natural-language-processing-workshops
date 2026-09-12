@@ -1,5 +1,7 @@
 # Taller 3 — Recuperacion de informacion sobre el Informe Final de la CEV
 
+**Autores:** Abel Albuez Sanchez · Kelly Joane Leon Torres · Juan Camilo Torres Peña · Jesús David Romero Melo
+
 Este taller trabaja sobre los tomos del Informe Final de la Comision para el
 Esclarecimiento de la Verdad (CEV). El punto de partida es construir un corpus
 estructurado a partir de los PDF publicados, para poder indexarlo y consultarlo
