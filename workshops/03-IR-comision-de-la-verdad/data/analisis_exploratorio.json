@@ -1,0 +1,763 @@
+{
+  "version": 1,
+  "modelo": "es_core_news_md",
+  "entrevistas_incluidas": true,
+  "banda_ajuste_zipf": [
+    10,
+    1000
+  ],
+  "corpus": {
+    "libro": {
+      "crudo": {
+        "documentos": 56495,
+        "tokens": 2214055,
+        "vocabulario": 51091,
+        "ttr": 0.023075759183940777,
+        "hapax": 19297,
+        "hapax_pct": 37.76986161946331,
+        "longitud_documento": {
+          "media": 39.190282325869546,
+          "mediana": 17.0,
+          "p90": 103.59999999999854,
+          "min": 0,
+          "max": 4890,
+          "vacios": 469
+        },
+        "top_terminos": [
+          [
+            "de",
+            161109
+          ],
+          [
+            "la",
+            100575
+          ],
+          [
+            "y",
+            77280
+          ],
+          [
+            "en",
+            60952
+          ],
+          [
+            "el",
+            59577
+          ],
+          [
+            "que",
+            54634
+          ],
+          [
+            "a",
+            48080
+          ],
+          [
+            "los",
+            38739
+          ],
+          [
+            "las",
+            37084
+          ],
+          [
+            "del",
+            28543
+          ],
+          [
+            "se",
+            24552
+          ],
+          [
+            "por",
+            23933
+          ],
+          [
+            "no",
+            20327
+          ],
+          [
+            "para",
+            19212
+          ],
+          [
+            "con",
+            18442
+          ],
+          [
+            "un",
+            18093
+          ],
+          [
+            "una",
+            15425
+          ],
+          [
+            "como",
+            13212
+          ],
+          [
+            "lo",
+            11584
+          ],
+          [
+            "al",
+            10026
+          ],
+          [
+            "su",
+            9863
+          ],
+          [
+            "me",
+            9266
+          ],
+          [
+            "o",
+            9109
+          ],
+          [
+            "es",
+            7986
+          ],
+          [
+            "comisión",
+            7517
+          ],
+          [
+            "fue",
+            6369
+          ],
+          [
+            "sus",
+            6275
+          ],
+          [
+            "verdad",
+            6119
+          ],
+          [
+            "entrevista",
+            5631
+          ],
+          [
+            "yo",
+            5580
+          ]
+        ],
+        "zipf_completo": {
+          "rango_min": 1,
+          "rango_max": 51091,
+          "puntos": 51091,
+          "exponente": 1.492507510383568,
+          "intercepto": 6.940574208435118,
+          "r2": 0.9770552604340847
+        },
+        "zipf_banda_central": {
+          "rango_min": 10,
+          "rango_max": 1000,
+          "puntos": 991,
+          "exponente": 0.9626720900068921,
+          "intercepto": 5.265627346896062,
+          "r2": 0.9965878962350642
+        }
+      },
+      "preprocesado": {
+        "documentos": 56495,
+        "tokens": 1078082,
+        "vocabulario": 35475,
+        "ttr": 0.03290566023734744,
+        "hapax": 13319,
+        "hapax_pct": 37.544749823819586,
+        "longitud_documento": {
+          "media": 19.08278608726436,
+          "mediana": 11.0,
+          "p90": 46.0,
+          "min": 0,
+          "max": 1788,
+          "vacios": 377
+        },
+        "top_terminos": [
+          [
+            "comisión",
+            7556
+          ],
+          [
+            "víctima",
+            7342
+          ],
+          [
+            "él",
+            7208
+          ],
+          [
+            "armado",
+            7120
+          ],
+          [
+            "ver",
+            5821
+          ],
+          [
+            "entrevistar",
+            5663
+          ],
+          [
+            "mujer",
+            5624
+          ],
+          [
+            "colombia",
+            5239
+          ],
+          [
+            "grupo",
+            5056
+          ],
+          [
+            "persona",
+            5012
+          ],
+          [
+            "derecho",
+            4958
+          ],
+          [
+            "violencia",
+            4726
+          ],
+          [
+            "conflicto",
+            4560
+          ],
+          [
+            "año",
+            4474
+          ],
+          [
+            "caso",
+            4087
+          ],
+          [
+            "farc",
+            4014
+          ],
+          [
+            "yo",
+            3874
+          ],
+          [
+            "nacional",
+            3817
+          ],
+          [
+            "paz",
+            3779
+          ],
+          [
+            "pueblo",
+            3578
+          ],
+          [
+            "paramilitar",
+            3570
+          ],
+          [
+            "informe",
+            3536
+          ],
+          [
+            "vida",
+            3527
+          ],
+          [
+            "territorio",
+            3519
+          ],
+          [
+            "comunidad",
+            3374
+          ],
+          [
+            "social",
+            3314
+          ],
+          [
+            "ep",
+            3274
+          ],
+          [
+            "militar",
+            3173
+          ],
+          [
+            "país",
+            3100
+          ],
+          [
+            "guerra",
+            3031
+          ]
+        ],
+        "zipf_completo": {
+          "rango_min": 1,
+          "rango_max": 35475,
+          "puntos": 35475,
+          "exponente": 1.5512067569358168,
+          "intercepto": 6.969104417068387,
+          "r2": 0.9694692386513665
+        },
+        "zipf_banda_central": {
+          "rango_min": 10,
+          "rango_max": 1000,
+          "puntos": 991,
+          "exponente": 0.7658186551117915,
+          "intercepto": 4.66037347841975,
+          "r2": 0.990287872158434
+        }
+      }
+    },
+    "entrevista": {
+      "crudo": {
+        "documentos": 2486,
+        "tokens": 34715069,
+        "vocabulario": 148026,
+        "ttr": 0.004264027244191853,
+        "hapax": 52555,
+        "hapax_pct": 35.50389796387121,
+        "longitud_documento": {
+          "media": 13964.227272727272,
+          "mediana": 11524.0,
+          "p90": 23729.5,
+          "min": 0,
+          "max": 149409,
+          "vacios": 2
+        },
+        "top_terminos": [
+          [
+            "que",
+            1516036
+          ],
+          [
+            "de",
+            1331955
+          ],
+          [
+            "y",
+            1127301
+          ],
+          [
+            "la",
+            995853
+          ],
+          [
+            "a",
+            878178
+          ],
+          [
+            "en",
+            755234
+          ],
+          [
+            "el",
+            720397
+          ],
+          [
+            "no",
+            716581
+          ],
+          [
+            "yo",
+            448596
+          ],
+          [
+            "se",
+            431486
+          ],
+          [
+            "los",
+            399407
+          ],
+          [
+            "me",
+            370065
+          ],
+          [
+            "lo",
+            351817
+          ],
+          [
+            "es",
+            349826
+          ],
+          [
+            "test",
+            344731
+          ],
+          [
+            "un",
+            328606
+          ],
+          [
+            "por",
+            318560
+          ],
+          [
+            "ent",
+            301075
+          ],
+          [
+            "con",
+            296762
+          ],
+          [
+            "eso",
+            289382
+          ],
+          [
+            "como",
+            285603
+          ],
+          [
+            "una",
+            270533
+          ],
+          [
+            "porque",
+            269425
+          ],
+          [
+            "las",
+            256660
+          ],
+          [
+            "entonces",
+            256270
+          ],
+          [
+            "pero",
+            240656
+          ],
+          [
+            "ya",
+            227209
+          ],
+          [
+            "le",
+            216368
+          ],
+          [
+            "era",
+            214583
+          ],
+          [
+            "para",
+            212849
+          ]
+        ],
+        "zipf_completo": {
+          "rango_min": 1,
+          "rango_max": 148026,
+          "puntos": 148026,
+          "exponente": 1.776751388851695,
+          "intercepto": 9.075425397233893,
+          "r2": 0.9839675089211555
+        },
+        "zipf_banda_central": {
+          "rango_min": 10,
+          "rango_max": 1000,
+          "puntos": 991,
+          "exponente": 1.206448839182516,
+          "intercepto": 7.0559407967056496,
+          "r2": 0.9974746010193463
+        }
+      },
+      "preprocesado": {
+        "documentos": 2486,
+        "tokens": 12626056,
+        "vocabulario": 103416,
+        "ttr": 0.008190681238860338,
+        "hapax": 41829,
+        "hapax_pct": 40.44731956370388,
+        "longitud_documento": {
+          "media": 5078.864038616251,
+          "mediana": 4133.5,
+          "p90": 8725.0,
+          "min": 0,
+          "max": 55116,
+          "vacios": 2
+        },
+        "top_terminos": [
+          [
+            "test",
+            344807
+          ],
+          [
+            "ent",
+            301083
+          ],
+          [
+            "decir",
+            207223
+          ],
+          [
+            "él",
+            125870
+          ],
+          [
+            "allá",
+            106081
+          ],
+          [
+            "gente",
+            95486
+          ],
+          [
+            "llegar",
+            90825
+          ],
+          [
+            "pasar",
+            84264
+          ],
+          [
+            "año",
+            83874
+          ],
+          [
+            "cosa",
+            78966
+          ],
+          [
+            "tener",
+            78557
+          ],
+          [
+            "ir",
+            77986
+          ],
+          [
+            "venir",
+            75609
+          ],
+          [
+            "ver",
+            67885
+          ],
+          [
+            "trabajar",
+            66580
+          ],
+          [
+            "salir",
+            63794
+          ],
+          [
+            "1",
+            60730
+          ],
+          [
+            "persona",
+            60201
+          ],
+          [
+            "hacer",
+            58959
+          ],
+          [
+            "querer",
+            58806
+          ],
+          [
+            "vivir",
+            57488
+          ],
+          [
+            "pa",
+            57351
+          ],
+          [
+            "2",
+            55058
+          ],
+          [
+            "organización",
+            54655
+          ],
+          [
+            "acá",
+            54008
+          ],
+          [
+            "matar",
+            51491
+          ],
+          [
+            "momento",
+            49035
+          ],
+          [
+            "hablar",
+            48315
+          ],
+          [
+            "empezar",
+            48108
+          ],
+          [
+            "llamar",
+            47261
+          ]
+        ],
+        "zipf_completo": {
+          "rango_min": 1,
+          "rango_max": 103416,
+          "puntos": 103416,
+          "exponente": 1.7638890702447148,
+          "intercepto": 8.678034812750923,
+          "r2": 0.9812354636993469
+        },
+        "zipf_banda_central": {
+          "rango_min": 10,
+          "rango_max": 1000,
+          "puntos": 991,
+          "exponente": 0.9344357367697135,
+          "intercepto": 6.109766549987125,
+          "r2": 0.9930436856475071
+        }
+      }
+    }
+  },
+  "comparacion_vocabulario_preprocesado": {
+    "vocabulario_libros": 35475,
+    "vocabulario_entrevistas": 103416,
+    "vocabulario_compartido": 25506,
+    "jaccard": 0.22495039026326233,
+    "solo_en_libros": 9969,
+    "solo_en_entrevistas": 77910
+  },
+  "ruido_de_formato": {
+    "regla": "etiquetas de hablante (ent/test con dígito opcional), abreviaturas de transcripción, restos de URL y tokens numéricos; excluidos solo de las figuras de contenido",
+    "abreviaturas": [
+      "cont",
+      "dud",
+      "http",
+      "https",
+      "inad",
+      "inerrup",
+      "interrp",
+      "interrrup",
+      "interrump",
+      "interrup",
+      "interrupt",
+      "interup",
+      "interurp",
+      "nterrup",
+      "www"
+    ],
+    "por_corpus": {
+      "libro": {
+        "tipos_excluidos": 3506,
+        "tokens_excluidos": 68882,
+        "pct_tokens": 6.389309904070377,
+        "top": [
+          [
+            "2020",
+            1745
+          ],
+          [
+            "2019",
+            1551
+          ],
+          [
+            "2021",
+            1250
+          ],
+          [
+            "1",
+            1223
+          ],
+          [
+            "2022",
+            1004
+          ],
+          [
+            "2",
+            949
+          ],
+          [
+            "19",
+            807
+          ],
+          [
+            "2002",
+            787
+          ],
+          [
+            "3",
+            781
+          ],
+          [
+            "2016",
+            680
+          ]
+        ]
+      },
+      "entrevista": {
+        "tipos_excluidos": 2880,
+        "tokens_excluidos": 1393178,
+        "pct_tokens": 11.034150331663348,
+        "top": [
+          [
+            "test",
+            344807
+          ],
+          [
+            "ent",
+            301083
+          ],
+          [
+            "1",
+            60730
+          ],
+          [
+            "2",
+            55058
+          ],
+          [
+            "interrup",
+            35728
+          ],
+          [
+            "3",
+            33288
+          ],
+          [
+            "inad",
+            23621
+          ],
+          [
+            "ent1",
+            23217
+          ],
+          [
+            "4",
+            20011
+          ],
+          [
+            "dud",
+            17657
+          ]
+        ]
+      }
+    }
+  },
+  "figuras": [
+    "figuras/zipf_preprocesado.png",
+    "figuras/zipf_crudo_vs_preprocesado.png",
+    "figuras/longitud_documentos.png",
+    "figuras/top_terminos.png",
+    "figuras/nube_libros.png",
+    "figuras/nube_entrevistas.png"
+  ]
+}
