@@ -10,3 +10,12 @@ venv/
 # corpus de entrevistas del Taller 3 (231 MB, dato de entrada no versionable)
 /workshops/**/entrevistas/
 /workshops/03-IR-comision-de-la-verdad/entrevistas_all_2023-03-21_14-24_05.json
+workshops/03-IR-comision-de-la-verdad/corpus/_manifiesto.json
+workshops/03-IR-comision-de-la-verdad/corpus/entrevistas_all_2023-03-21_14-24_05.json
+workshops/03-IR-comision-de-la-verdad/data/analisis_exploratorio.json
+workshops/03-IR-comision-de-la-verdad/figuras/longitud_documentos.png
+workshops/03-IR-comision-de-la-verdad/figuras/nube_entrevistas.png
+workshops/03-IR-comision-de-la-verdad/figuras/nube_libros.png
+workshops/03-IR-comision-de-la-verdad/figuras/top_terminos.png
+workshops/03-IR-comision-de-la-verdad/figuras/zipf_crudo_vs_preprocesado.png
+workshops/03-IR-comision-de-la-verdad/figuras/zipf_preprocesado.png
