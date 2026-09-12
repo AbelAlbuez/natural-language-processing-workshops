@@ -15,17 +15,39 @@ correspondiente y una línea en el [registro cronológico](#10-registro-cronoló
 del final. Si una cifra cambia porque se re-generó un corpus, actualizarla aquí
 también: el valor viejo en el informe sería un error.
 
+## Resumen de estado final
+
+Esta tabla resume el estado vigente al 2026-09-11. Las secciones históricas
+conservan experimentos y cifras intermedias; las salidas oficiales actuales son
+las de las secciones finales y los JSON de `data/`.
+
+| Actividad | Estado actual | Salida principal |
+|---|---|---|
+| 1. Extracción y preparación | ✅ Lista con limitaciones | `data/corpus_raw.json`, `data/corpus_preprocesado.json`, `data/estadisticas_preprocesamiento.json` |
+| 2. Análisis exploratorio | ✅ Lista | `data/analisis_exploratorio.json` y seis figuras |
+| 3. TF-IDF | ✅ Lista | `data/ranking_tfidf.json`, pasajes, L2×L2, `k=20` |
+| 4. Rocchio y BM25 | ✅ Listas con pseudo-relevancia | `data/ranking_rocchio.json`, `data/ranking_bm25.json`, comparación de 10 consultas |
+| 5. Comparación y heatmap | ✅ Lista | `data/cuadro_vinculos.json`, `figuras/heatmap_vinculos_tfidf.png` |
+| 6. Informe final | ✅ Listo | `informe-taller3-IR.md` |
+
+**Limitaciones visibles:** no hay juicios humanos de relevancia, por lo que
+Rocchio usa pseudo-relevance feedback y las métricas se comparan sin afirmar
+precisión o recall. Además, el salto histórico de 188 a 379 documentos vacíos
+no puede reconstruirse por completo porque los JSON de la ejecución anterior
+no están versionados; sí está confirmado que 1.809 unidades provienen del
+décimo tomo.
+
 Estado de las actividades del enunciado
 ([Taller recuperacion.pdf](../Taller%20recuperacion.pdf)):
 
 | # | Actividad | Estado |
 |---|---|---|
 | 1 | Extracción y preparación del corpus | ✅ Completada |
-| 2 | Análisis exploratorio del corpus | 🟡 Cálculos y figuras listos; falta redacción |
+| 2 | Análisis exploratorio del corpus | ✅ Completada; resultados y figuras persistidos |
 | 3 | Modelo de IR (TF-IDF) | ✅ Completada; tres configuraciones comparadas, la de pasajes resuelve el colapso (6.6–6.8) |
-| 4 | Métricas de relevancia (Rocchio, BM25) | 🔴 Pendiente |
-| 5 | Comparación de corpus + heatmap | 🔴 Pendiente |
-| 6 | Informe final | 🔴 Pendiente |
+| 4 | Métricas de relevancia (Rocchio, BM25) | ✅ Completada con pseudo-relevancia documentada |
+| 5 | Comparación de corpus + heatmap | ✅ Completada |
+| 6 | Informe final | ✅ Completada |
 
 ---
 
@@ -98,8 +120,10 @@ cómo la van a hacer". La decisión, detallada en
 
 - **Documento recuperable = cada unidad segmentada de los libros.** Puede ser un
   párrafo narrativo, un testimonio delimitado o una nota al pie.
-- **Consulta = cada entrevista completa.** No se parte por turnos porque el JSON
-  no trae intervenciones, hablantes ni marcas de tiempo aprovechables.
+- **Decisión inicial: consulta = cada entrevista completa.** Esta decisión fue
+  reemplazada después de verificar que las transcripciones sí traían marcas de
+  hablante; la configuración oficial final usa pasajes, como se documenta en
+  6.6 y 12.
 
 **Justificación cuantitativa:** una unidad de libro tiene 37,8 palabras de media
 (mediana 17) y una entrevista, 14.331 (mediana 11.768). Tratar un libro completo
@@ -386,10 +410,9 @@ excluido en `ruido_de_formato`, para que la exclusión sea auditable.
 Los corchetes ya los borró el tokenizador y "risas", "llanto" y "corte" también
 son palabras corrientes del español: filtrarlas descartaría contenido legítimo.
 
-**Pendiente de decidir para la actividad 3:** si estos marcadores deben salir
-también del índice. El IDF los penaliza solo parcialmente —aparecen en casi todas
-las entrevistas, así que su IDF tiende a cero— pero sí afectan a BM25 por la vía
-de la longitud del documento.
+**Decisión final:** estos marcadores se excluyen también del índice mediante
+`vocabulario.py`; el filtro se aplica a TF-IDF, Rocchio y BM25. La medición del
+ruido se conserva para que la exclusión siga siendo auditable.
 
 ### 5.5. Figuras generadas
 
@@ -441,7 +464,7 @@ procesa por bloques de 128 consultas: la matriz de similitudes completa sería d
 El vocabulario y el idf se calculan **solo sobre los documentos**: una consulta
 no puede alterar el peso de un término del índice.
 
-### 6.3. Resultados de la ejecución
+### 6.3. Resultados de la ejecución histórica de línea base
 
 | Magnitud | Valor |
 |---|---|
@@ -451,10 +474,10 @@ no puede alterar el peso de un término del índice.
 | Vocabulario | 17.497 términos con df ≥ 2, de 30.486 distintos |
 | Tiempo | ~16 s |
 
-Salida en `data/ranking_tfidf.json` (35 MB): por entrevista, las 20 mejores
-unidades con su puntaje, libro, parte, capítulo, título, `es_relato` y un
-fragmento del texto crudo como evidencia, más el puntaje agregado de los nueve
-libros.
+Esta salida corresponde a una ejecución histórica de línea base antes de la
+integración del décimo tomo; no debe confundirse con el artefacto oficial
+actual. El ranking vigente está en `data/ranking_tfidf.json`, usa diez libros
+y sus parámetros y cifras se resumen en la sección 12.
 
 ### 6.4. Diagnóstico: el ranking colapsa
 
@@ -633,8 +656,9 @@ archivo original.
 
 ### 6.7. Comparación de las tres configuraciones
 
-Todas con `min_df=2` y `min_tokens=2`, sobre los mismos 41.034 documentos y
-las mismas 2.484 entrevistas:
+La comparación histórica usó `min_df=2` y `min_tokens=2`; la configuración
+oficial vigente de pasajes añade `min_tokens_consulta=5`, sobre los mismos
+41.034 documentos y 2.484 entrevistas:
 
 | Señal | Coseno, entrevista completa | Potencia α=1,3, entrevista completa | **Coseno, pasajes** |
 |---|---|---|---|
@@ -720,9 +744,9 @@ testimonios reales.
 
 ---
 
-## 7. Próximos pasos
+## 7. Próximos pasos históricos
 
-### 7.1. Actividad 4 — Rocchio y BM25 (siguiente)
+### 7.1. Actividad 4 — Rocchio y BM25 (resuelto posteriormente)
 
 Implementación manual de ambas, reutilizando el índice de `modelo_ir.py`.
 
@@ -736,7 +760,7 @@ Implementación manual de ambas, reutilizando el índice de `modelo_ir.py`.
 - Comparar los tres rankings sobre las mismas consultas y discutir las
   diferencias, que es lo que pide el enunciado.
 
-### 7.2. Actividades 5 y 6
+### 7.2. Actividades 5 y 6 (resueltas posteriormente)
 
 Cuadro y heatmap entrevista-libro a partir del puntaje agregado que ya calcula
 `modelo_ir.py`. Con el ranking de pasajes el heatmap ya es informativo: el
@@ -804,7 +828,7 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-11 | Arreglos de integración: el nombre del libro sale del archivo y no del campo, y `segmentacion_libros.py` ya no borra el corpus de un libro sin PDF |
 | 2026-09-11 | El décimo tomo hunde la línea base (una unidad gana 2.334 de 2.484 entrevistas) y confirma el diagnóstico de 6.4; la configuración de pasajes sube a 1.801 unidades distintas en el top-1 |
 
-## 12. Cierre de artefactos de los puntos 2 y 3
+## Cierre de artefactos de los puntos 2 y 3
 
 El 2026-09-11 se regeneró la cadena completa con la entrada de entrevistas
 local verificada y el décimo tomo presente en `corpus/`:
@@ -845,7 +869,7 @@ modelo spaCy `es_core_news_md` documentados en esta guía. El salto histórico d
 porque los JSON de la ejecución anterior no están versionados; sí queda
 confirmado que los 1.809 documentos adicionales provienen del décimo tomo.
 
-## 11. Auditoría de discrepancia de conteos
+## Auditoría de discrepancia de conteos
 
 La auditoría del 2026-09-11 comparó las cifras de la ejecución que dejó el
 Bloque 1 con los archivos locales actuales. La comparación exacta de los JSON
@@ -883,7 +907,7 @@ superar el límite de 100 MB de GitHub, no se agrega al repositorio. El equipo
 debe obtenerla por el canal de entrega del curso, verificar ese hash y dejarla
 en la ruta esperada antes de regenerar los corpus.
 
-## 13. Criterio de pseudo-relevancia para Rocchio
+## Criterio de pseudo-relevancia para Rocchio
 
 Como no existen juicios humanos de relevancia, Rocchio se evaluará como
 *pseudo-relevance feedback*. Para cada pasaje de entrevista, las cinco primeras
@@ -900,7 +924,7 @@ documentos realmente relevantes; por eso los resultados se reportarán como
 retroalimentación de pseudo-relevancia y no como evaluación contra verdad de
 referencia.
 
-## 14. Tarea 2 — Rocchio y BM25 manuales
+## Tarea 2 — Rocchio y BM25 manuales
 
 El 2026-09-11 se implementaron ambas métricas en
 `modelos_relevancia.py`, sin `sklearn` ni `rank_bm25`. Se conservaron los
@@ -931,7 +955,7 @@ juicios humanos. Las diferencias son consistentes con que Rocchio refuerza el
 centroide de los primeros resultados TF-IDF, mientras BM25 usa su propio IDF y
 normalización por longitud.
 
-## 15. Tarea 3 — cuadro y heatmap de vínculos
+## Tarea 3 — cuadro y heatmap de vínculos
 
 Para el entregable de comparación se escogió el **ranking TF-IDF oficial** como
 fuente, no Rocchio ni BM25. Es la línea base validada del punto 3, usa L2×L2,

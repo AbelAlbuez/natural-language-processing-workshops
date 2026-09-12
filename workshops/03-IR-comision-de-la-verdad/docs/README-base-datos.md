@@ -23,6 +23,15 @@ Desde esta carpeta del taller:
   agregado por libro. Usa TF-IDF con normalización L2 en consultas y
   documentos, equivalente a similitud coseno. No se conserva una variante sin
   normalizar.
+- `data/ranking_rocchio.json`: ranking manual de Rocchio con pseudo-relevancia.
+- `data/ranking_bm25.json`: ranking manual de Okapi BM25 desde conteos crudos.
+- `data/comparacion_metricas.json`, `data/comparacion_metricas.md`: comparación
+  de TF-IDF, Rocchio y BM25 en diez consultas.
+- `data/cuadro_vinculos.json`: top-3 de libros por entrevista y puntajes
+  agregados de las diez mejores unidades.
+- `data/estadisticas_preprocesamiento.json`: tokens por documento y vacíos.
+- `figuras/heatmap_vinculos_tfidf.png`: heatmap entrevista-libro agregado a
+  nivel de libro.
 
 `CUANDO_LOS_PAJAROS_NO_CANTABAN` llegó ya segmentado y sin PDF: no se regenera
 con `segmentacion_libros.py` y no está en su lista `LIBROS`. Su campo `libro`
@@ -111,12 +120,12 @@ ejecución del preprocesador no modifica los JSON originales de `corpus/`; crea
 o reemplaza atómicamente los dos archivos de `data/`.
 
 `entrevistas_all_2023-03-21_14-24_05.json` es un dato de entrada del taller y
-**no está versionado**: hay que copiarlo a la carpeta del taller o a `corpus/`
-—el preprocesador busca en ambas— o indicar su ubicación con
-`--entrevistas RUTA`. `corpus/` contiene únicamente los diez libros
-segmentados; el archivo de entrevistas que se deje ahí se reconoce como
-entrevistas, no como un libro más. Sin él, el preprocesador se detiene con un
-mensaje explícito. Para avanzar solo con los libros:
+**no está versionado**: el archivo verificado se ubica en la raíz de esta
+carpeta del taller; el preprocesador también busca en `entrevistas/` y
+`corpus/`, o puede recibir una ruta con `--entrevistas RUTA`. `corpus/` contiene
+únicamente los diez libros segmentados; el archivo de entrevistas que se deje
+allí se reconoce como entrevistas, no como un libro más. Sin él, el preprocesador
+se detiene con un mensaje explícito.
 
 El archivo esperado mide 231.409.620 bytes y su SHA-256 de referencia es
 `32bcc2cf100cf2873cf87d9897a308451a472d73a762a4293ed08adc7689afdf`. Debe
@@ -177,7 +186,7 @@ En resumen: cada unidad segmentada de libro es recuperable y cada entrevista
 completa funciona como consulta. El equipo debe agregar los resultados al nivel
 de libro cuando necesite construir el cuadro entrevista-libro.
 
-## Artefactos reproducibles de los puntos 2 y 3
+## Orden de regeneración
 
 El 2026-09-11 se regeneró la cadena completa con la entrada de entrevistas
 verificada y el décimo tomo presente en `corpus/`:
@@ -187,9 +196,11 @@ verificada y el décimo tomo presente en `corpus/`:
 .venv/bin/python analisis_exploratorio.py
 .venv/bin/python segmentacion_entrevistas.py
 .venv/bin/python modelo_ir.py --consultas pasajes
+.venv/bin/python modelos_relevancia.py
+.venv/bin/python comparacion_corpus.py
 ```
 
-La primera orden es necesaria para que `data/` incorpore las 3.402 unidades de
+`preprocesar_corpus.py` debe ejecutarse primero para que `data/` incorpore las 3.402 unidades de
 `CUANDO_LOS_PAJAROS_NO_CANTABAN`. La ejecución actual contiene 58.981
 documentos, 56.495 unidades de libro, 2.486 entrevistas y 379 documentos
 vacíos tras el preprocesamiento.
@@ -207,6 +218,11 @@ Artefactos generados el 2026-09-11 (hora local):
 | `data/analisis_exploratorio.json` | 14.114 bytes | Estadísticas de libros y entrevistas |
 | `data/corpus_pasajes.json` | 146.013.275 bytes | 161.636 pasajes de 2.486 entrevistas |
 | `data/ranking_tfidf.json` | 48.653.428 bytes | 2.484 entrevistas con top-20 |
+| `data/ranking_rocchio.json` | 49.156.934 bytes | Ranking manual con pseudo-relevancia |
+| `data/ranking_bm25.json` | 54.921.015 bytes | Ranking manual con conteos crudos |
+| `data/comparacion_metricas.json`, `.md` | 13.718 / 5.371 bytes | Comparación de diez consultas |
+| `data/cuadro_vinculos.json` | 2.551.245 bytes | Cuadro top-3 entrevista-libro |
+| `figuras/heatmap_vinculos_tfidf.png` | 182.577 bytes | Heatmap agregado por libro |
 
 Los tres archivos son JSON válidos y se regeneran con los comandos anteriores,
 sin pasos manuales ocultos aparte de disponer del archivo de entrevistas y del
