@@ -930,3 +930,24 @@ TF-IDF; BM25 compartió entre 0 y 1. Esto no mide precisión o recall: no hay
 juicios humanos. Las diferencias son consistentes con que Rocchio refuerza el
 centroide de los primeros resultados TF-IDF, mientras BM25 usa su propio IDF y
 normalización por longitud.
+
+## 15. Tarea 3 — cuadro y heatmap de vínculos
+
+Para el entregable de comparación se escogió el **ranking TF-IDF oficial** como
+fuente, no Rocchio ni BM25. Es la línea base validada del punto 3, usa L2×L2,
+conserva la trazabilidad de los IDs y no depende de pseudo-relevancia. En
+ausencia de juicios humanos, esta elección evita presentar una métrica
+experimental como verdad de referencia.
+
+`comparacion_corpus.py` genera `data/cuadro_vinculos.json` con los top-3 libros
+por entrevista y todos los puntajes agregados. La agregación es la suma de las
+10 mejores unidades de cada libro, tal como define el ranking oficial. El
+heatmap `figuras/heatmap_vinculos_tfidf.png` usa esos mismos puntajes y divide
+cada fila por su máximo únicamente para hacer comparables visualmente las
+entrevistas; no modifica ningún score del ranking.
+
+El cuadro contiene 2.484 entrevistas y 10 libros. Los ganadores principales son
+`CUANDO_LOS_PAJAROS_NO_CANTABAN` (778), `HASTA_LA_GUERRA_TIENE_LIMITES` (710),
+`LA_COLOMBIA_FUERA_DE_COLOMBIA` (214), `NO_MATARAS` (161) y
+`RESISTIR_NO_ES_AGUANTAR` (155). `CONVOCATORIA_A_LA_PAZ_GRANDE` no gana una
+entrevista, pero permanece en la matriz completa.
