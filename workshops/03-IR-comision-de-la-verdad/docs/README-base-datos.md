@@ -18,10 +18,11 @@ Desde esta carpeta del taller:
   `figuras/nube_*.png`: longitud de documento, ranking de términos y nubes.
 - `data/corpus_pasajes.json`: las entrevistas partidas en 161.636 pasajes por
   turnos de hablante, con su texto preprocesado.
-- `data/ranking_tfidf*.json`: por entrevista, las 20 unidades de libro más
-  similares (con fragmento de evidencia) y el puntaje agregado de los nueve
-  libros. Un archivo por configuración; `ranking_tfidf_pasajes.json` es la
-  elegida y `ranking_tfidf.json` la línea base.
+- `data/ranking_tfidf.json`: ranking oficial por pasajes, con las 20 unidades
+  de libro más similares por entrevista, fragmento de evidencia y puntaje
+  agregado por libro. Usa TF-IDF con normalización L2 en consultas y
+  documentos, equivalente a similitud coseno. No se conserva una variante sin
+  normalizar.
 
 `CUANDO_LOS_PAJAROS_NO_CANTABAN` llegó ya segmentado y sin PDF: no se regenera
 con `segmentacion_libros.py` y no está en su lista `LIBROS`. Su campo `libro`
@@ -168,3 +169,41 @@ La decisión detallada está en [unidad-documental.md](unidad-documental.md).
 En resumen: cada unidad segmentada de libro es recuperable y cada entrevista
 completa funciona como consulta. El equipo debe agregar los resultados al nivel
 de libro cuando necesite construir el cuadro entrevista-libro.
+
+## Artefactos reproducibles de los puntos 2 y 3
+
+El 2026-09-11 se regeneró la cadena completa con la entrada de entrevistas
+verificada y el décimo tomo presente en `corpus/`:
+
+```bash
+.venv/bin/python preprocesar_corpus.py
+.venv/bin/python analisis_exploratorio.py
+.venv/bin/python segmentacion_entrevistas.py
+.venv/bin/python modelo_ir.py --consultas pasajes
+```
+
+La primera orden es necesaria para que `data/` incorpore las 3.402 unidades de
+`CUANDO_LOS_PAJAROS_NO_CANTABAN`. La ejecución actual contiene 58.981
+documentos, 56.495 unidades de libro, 2.486 entrevistas y 379 documentos
+vacíos tras el preprocesamiento.
+
+El ranking oficial usa L2 en consultas y documentos, equivalente a similitud
+coseno, y conserva `k=20` unidades por entrevista en `data/ranking_tfidf.json`.
+No se conserva una variante sin normalizar: en una prueba de cinco entrevistas
+quitando la normalización cambiaron 4 de 5 puestos en una y 5 de 5 puestos en
+las otras cuatro, con dominancia de unidades largas.
+
+Artefactos generados el 2026-09-11 (hora local):
+
+| Archivo | Tamaño | Contenido |
+|---|---:|---|
+| `data/analisis_exploratorio.json` | 14.114 bytes | Estadísticas de libros y entrevistas |
+| `data/corpus_pasajes.json` | 146.013.275 bytes | 161.636 pasajes de 2.486 entrevistas |
+| `data/ranking_tfidf.json` | 48.653.428 bytes | 2.484 entrevistas con top-20 |
+
+Los tres archivos son JSON válidos y se regeneran con los comandos anteriores,
+sin pasos manuales ocultos aparte de disponer del archivo de entrevistas y del
+modelo spaCy `es_core_news_md`. El salto histórico de 188 a 379 documentos
+vacíos sigue sin poder descomponerse completamente porque los JSON anteriores
+no están versionados; sí queda confirmado que los 1.809 documentos adicionales
+provienen del décimo tomo.

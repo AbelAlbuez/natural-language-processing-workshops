@@ -804,6 +804,47 @@ El detalle de cada paso está en [README-base-datos.md](README-base-datos.md).
 | 2026-09-11 | Arreglos de integración: el nombre del libro sale del archivo y no del campo, y `segmentacion_libros.py` ya no borra el corpus de un libro sin PDF |
 | 2026-09-11 | El décimo tomo hunde la línea base (una unidad gana 2.334 de 2.484 entrevistas) y confirma el diagnóstico de 6.4; la configuración de pasajes sube a 1.801 unidades distintas en el top-1 |
 
+## 12. Cierre de artefactos de los puntos 2 y 3
+
+El 2026-09-11 se regeneró la cadena completa con la entrada de entrevistas
+local verificada y el décimo tomo presente en `corpus/`:
+
+```bash
+.venv/bin/python preprocesar_corpus.py
+.venv/bin/python analisis_exploratorio.py
+.venv/bin/python segmentacion_entrevistas.py
+.venv/bin/python modelo_ir.py --consultas pasajes
+```
+
+La primera orden es necesaria para que `data/` incorpore las 3.402 unidades de
+`CUANDO_LOS_PAJAROS_NO_CANTABAN`; los JSON derivados anteriores todavía tenían
+57.172 documentos. La ejecución actual tiene 58.981 documentos, 56.495
+unidades de libro, 2.486 entrevistas y 379 documentos vacíos tras el
+preprocesamiento.
+
+El ranking oficial usa **L2×L2**: se normalizan las consultas y los documentos
+antes del producto punto, equivalente a similitud coseno. En la comprobación
+previa con cinco entrevistas, quitar la normalización cambió 4 de 5 puestos en
+una entrevista y los 5 de 5 puestos en las otras cuatro; las unidades largas
+dominaban sin una justificación temática. Por eso no se guarda una alternativa
+sin normalizar. El ranking conserva `k=20` unidades por entrevista y se guarda
+en la única ruta oficial `data/ranking_tfidf.json`.
+
+Artefactos generados el 2026-09-11 (zona horaria local):
+
+| Archivo | Tamaño | Contenido |
+|---|---:|---|
+| `data/analisis_exploratorio.json` | 14.114 bytes | Estadísticas para libros y entrevistas |
+| `data/corpus_pasajes.json` | 146.013.275 bytes | 161.636 pasajes de 2.486 entrevistas |
+| `data/ranking_tfidf.json` | 48.653.428 bytes | 2.484 entrevistas con top-20 y agregación por libro |
+
+Los tres archivos son JSON válidos y se regeneran con los comandos anteriores,
+sin pasos manuales ocultos aparte de disponer del archivo de entrevistas y del
+modelo spaCy `es_core_news_md` documentados en esta guía. El salto histórico de
+188 a 379 documentos vacíos sigue sin poder descomponerse completamente,
+porque los JSON de la ejecución anterior no están versionados; sí queda
+confirmado que los 1.809 documentos adicionales provienen del décimo tomo.
+
 ## 11. Auditoría de discrepancia de conteos
 
 La auditoría del 2026-09-11 comparó las cifras de la ejecución que dejó el
