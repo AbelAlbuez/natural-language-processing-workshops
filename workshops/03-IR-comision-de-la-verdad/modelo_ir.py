@@ -65,8 +65,9 @@ SALIDA_PATH = DATA_DIR / "ranking_tfidf.json"  # normalización L2 (coseno)
 
 
 def ruta_de_salida(modo, slope, alfa, consultas):
-    """Un archivo por configuración: el ranking coseno sobre entrevistas
-    completas es la línea base y no se debe pisar con el de una variante."""
+    """El ranking oficial por pasajes se guarda en la ruta reproducible única."""
+    if consultas == "pasajes" and modo == "l2":
+        return SALIDA_PATH
     partes = []
     if modo != "l2":
         partes.append(f"{modo}_" + (f"s{slope:g}" if modo == "pivotada" else f"a{alfa:g}"))
