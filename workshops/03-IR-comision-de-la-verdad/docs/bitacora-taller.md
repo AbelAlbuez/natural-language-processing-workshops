@@ -899,3 +899,34 @@ documental y evita imponer una noción temática no observada, pero puede inclui
 documentos realmente relevantes; por eso los resultados se reportarán como
 retroalimentación de pseudo-relevancia y no como evaluación contra verdad de
 referencia.
+
+## 14. Tarea 2 — Rocchio y BM25 manuales
+
+El 2026-09-11 se implementaron ambas métricas en
+`modelos_relevancia.py`, sin `sklearn` ni `rank_bm25`. Se conservaron los
+41.034 documentos indexables, se excluyeron explícitamente las notas al pie,
+los documentos con menos de dos términos y los pasajes de consulta con menos
+de cinco términos. Los 379 documentos vacíos del corpus no entran al índice.
+
+Rocchio usa `alpha=1.0`, `beta=0.75`, `gamma=0.15`, top-5 pseudo-relevantes,
+cinco pseudo-no-relevantes y semilla `20260911`. Su fórmula implementada es
+`q' = alpha*q + beta*mean(R) - gamma*mean(N)`. BM25 usa conteos crudos de
+términos, no vectores L2, con `k1=1.2`, `b=0.75` y
+`idf = log(1 + (N-df+0.5)/(df+0.5))`; la frecuencia se normaliza por la
+longitud del documento y la longitud media del índice.
+
+Salidas reproducibles:
+
+- `data/ranking_rocchio.json`: 2.484 entrevistas, top-20, 1.761 unidades
+  distintas en top-1.
+- `data/ranking_bm25.json`: 2.484 entrevistas, top-20, 1.705 unidades
+  distintas en top-1.
+- `data/comparacion_metricas.json` y `data/comparacion_metricas.md`: diez
+  entrevistas seleccionadas con semilla `20260911`, comparando los top-3 de
+  TF-IDF, Rocchio y BM25.
+
+En los diez ejemplos, Rocchio compartió entre 1 y 3 unidades del top-3 con
+TF-IDF; BM25 compartió entre 0 y 1. Esto no mide precisión o recall: no hay
+juicios humanos. Las diferencias son consistentes con que Rocchio refuerza el
+centroide de los primeros resultados TF-IDF, mientras BM25 usa su propio IDF y
+normalización por longitud.

@@ -1,0 +1,476 @@
+{
+  "semilla": 20260911,
+  "criterio": "Diez entrevistas seleccionadas de forma reproducible; comparación de los tres top-3.",
+  "ejemplos": [
+    {
+      "consulta": "entrevista:5eb4e80eda6da3b502da518b.pdf",
+      "indice_resultado": 75,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:NO_MATARAS:001640",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:000185",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000234"
+          ],
+          "scores_top3": [
+            0.35269992771313047,
+            0.3469518751337421,
+            0.3093033844377475
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:NO_MATARAS:001640",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:000185",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000234"
+          ],
+          "scores_top3": [
+            0.5026999277131304,
+            0.4917832882626806,
+            0.4577163675668087
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:NO_MATARAS:001640",
+            "libro:NO_MATARAS:003913",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:002334"
+          ],
+          "scores_top3": [
+            97.03912385232285,
+            73.46285577729516,
+            64.39095637868157
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 3,
+      "interseccion_top3_tfidf_bm25": 1
+    },
+    {
+      "consulta": "entrevista:5eb4e923da6da3b502dac2cd.pdf",
+      "indice_resultado": 355,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:RESISTIR_NO_ES_AGUANTAR:007277",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:000537",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:001295"
+          ],
+          "scores_top3": [
+            0.4386492990452562,
+            0.371483082993077,
+            0.3432669860760132
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:RESISTIR_NO_ES_AGUANTAR:007277",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:000537",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:001295"
+          ],
+          "scores_top3": [
+            0.5886492990452562,
+            0.521483082993077,
+            0.5169692692104397
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:RESISTIR_NO_ES_AGUANTAR:003495",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:003833",
+            "libro:NO_ES_UN_MAL_MENOR:003842"
+          ],
+          "scores_top3": [
+            101.46497855233588,
+            94.49703516464693,
+            89.66892606956291
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 3,
+      "interseccion_top3_tfidf_bm25": 0
+    },
+    {
+      "consulta": "entrevista:5eb4e954da6da3b502dad081.pdf",
+      "indice_resultado": 383,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:002444",
+            "libro:MI_CUERPO_ES_LA_VERDAD:001521",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:004402"
+          ],
+          "scores_top3": [
+            0.37293743285931763,
+            0.3356110696850869,
+            0.33331620984653343
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:MI_CUERPO_ES_LA_VERDAD:001521",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000766",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:004402"
+          ],
+          "scores_top3": [
+            0.5669530570887471,
+            0.5511717000527693,
+            0.5492584117537594
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:007517",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:000881",
+            "libro:LA_COLOMBIA_FUERA_DE_COLOMBIA:002834"
+          ],
+          "scores_top3": [
+            79.26350957681844,
+            76.1164884365226,
+            74.5747657662872
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 2,
+      "interseccion_top3_tfidf_bm25": 0
+    },
+    {
+      "consulta": "entrevista:5ec583082158107829232ba7.pdf",
+      "indice_resultado": 841,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:003328",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:003732",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:003552"
+          ],
+          "scores_top3": [
+            0.3582944333249067,
+            0.31881994545715264,
+            0.31881994545715264
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:003328",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:003552",
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:003732"
+          ],
+          "scores_top3": [
+            0.6372961033431426,
+            0.6188199454571527,
+            0.6188199454571527
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:005414",
+            "libro:NO_MATARAS:001661",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:003328"
+          ],
+          "scores_top3": [
+            77.98732950783452,
+            69.67338245400418,
+            67.94478927654676
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 3,
+      "interseccion_top3_tfidf_bm25": 1
+    },
+    {
+      "consulta": "entrevista:5ee8ff04f1cdbf68d0ed71cb.pdf",
+      "indice_resultado": 1053,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001103",
+            "libro:SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA:000043",
+            "libro:LA_COLOMBIA_FUERA_DE_COLOMBIA:003145"
+          ],
+          "scores_top3": [
+            0.4354958342326591,
+            0.3491390462044493,
+            0.3462278469125884
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001103",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:002734",
+            "libro:SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA:000043"
+          ],
+          "scores_top3": [
+            0.6095417270490952,
+            0.5172613424856841,
+            0.5046966928609575
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001103",
+            "libro:RESISTIR_NO_ES_AGUANTAR:003745",
+            "libro:NO_MATARAS:003856"
+          ],
+          "scores_top3": [
+            111.72052665125868,
+            99.73689738891606,
+            98.57300072244976
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 2,
+      "interseccion_top3_tfidf_bm25": 1
+    },
+    {
+      "consulta": "entrevista:5f1f0aa53a620227c4c6e224.pdf",
+      "indice_resultado": 1394,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:003347",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:001337",
+            "libro:LA_COLOMBIA_FUERA_DE_COLOMBIA:002906"
+          ],
+          "scores_top3": [
+            0.39888901325376036,
+            0.37954804742770676,
+            0.32722869739649674
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:003347",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:001337",
+            "libro:LA_COLOMBIA_FUERA_DE_COLOMBIA:002906"
+          ],
+          "scores_top3": [
+            0.5456469796552995,
+            0.5295480474277068,
+            0.49116564310135163
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000163",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:004305",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000457"
+          ],
+          "scores_top3": [
+            116.69678663774744,
+            102.64261937912248,
+            100.21012328231885
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 3,
+      "interseccion_top3_tfidf_bm25": 0
+    },
+    {
+      "consulta": "entrevista:5f5512fe06158f011e1e3136.pdf",
+      "indice_resultado": 1642,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA:004075",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000669",
+            "libro:LA_COLOMBIA_FUERA_DE_COLOMBIA:001565"
+          ],
+          "scores_top3": [
+            0.4663205397395098,
+            0.4552523055762853,
+            0.37621722463314317
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA:004075",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000669",
+            "libro:LA_COLOMBIA_FUERA_DE_COLOMBIA:001565"
+          ],
+          "scores_top3": [
+            0.614810320169153,
+            0.6040435175518458,
+            0.5217913719284677
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:005745",
+            "libro:HASTA_LA_GUERRA_TIENE_LIMITES:004153",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:001213"
+          ],
+          "scores_top3": [
+            106.67044947764246,
+            89.68603070356346,
+            84.55962106761666
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 3,
+      "interseccion_top3_tfidf_bm25": 0
+    },
+    {
+      "consulta": "entrevista:5f76dba506158f011e37aebf.pdf",
+      "indice_resultado": 1807,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001546",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:002417",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:002394"
+          ],
+          "scores_top3": [
+            0.6259764743182459,
+            0.463138232298921,
+            0.34099946855408464
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001546",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:002417",
+            "libro:MI_CUERPO_ES_LA_VERDAD:000318"
+          ],
+          "scores_top3": [
+            0.7872119384496167,
+            0.6854013762540256,
+            0.5470125993971164
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001546",
+            "libro:MI_CUERPO_ES_LA_VERDAD:000054",
+            "libro:SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA:002309"
+          ],
+          "scores_top3": [
+            129.37711247723843,
+            82.10211321743309,
+            79.08815829146175
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 2,
+      "interseccion_top3_tfidf_bm25": 1
+    },
+    {
+      "consulta": "entrevista:5f76dba506158f011e37aec3.pdf",
+      "indice_resultado": 1808,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001546",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:002417",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:002394"
+          ],
+          "scores_top3": [
+            0.6259764743182459,
+            0.463138232298921,
+            0.34099946855408464
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001546",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:002417",
+            "libro:MI_CUERPO_ES_LA_VERDAD:000318"
+          ],
+          "scores_top3": [
+            0.7862510783117557,
+            0.6854013762540256,
+            0.5470125993971164
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:NO_ES_UN_MAL_MENOR:001546",
+            "libro:MI_CUERPO_ES_LA_VERDAD:000054",
+            "libro:SUFRIR_LA_GUERRA_Y_REHACER_LA_VIDA:002309"
+          ],
+          "scores_top3": [
+            129.37711247723843,
+            82.10211321743309,
+            79.08815829146175
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 2,
+      "interseccion_top3_tfidf_bm25": 1
+    },
+    {
+      "consulta": "entrevista:5fee47279e8b013f2691b8db.pdf",
+      "indice_resultado": 2005,
+      "rankings": [
+        {
+          "metrica": "tfidf",
+          "top3": [
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000207",
+            "libro:NO_MATARAS:005461",
+            "libro:NO_MATARAS:003926"
+          ],
+          "scores_top3": [
+            0.4647205188179575,
+            0.4387404262834843,
+            0.37995266748195017
+          ]
+        },
+        {
+          "metrica": "rocchio",
+          "top3": [
+            "libro:CONVOCATORIA_A_LA_PAZ_GRANDE:000251",
+            "libro:NO_MATARAS:000031",
+            "libro:CUANDO_LOS_PAJAROS_NO_CANTABAN:000207"
+          ],
+          "scores_top3": [
+            0.6752938015672709,
+            0.6752938015672709,
+            0.6147205188179575
+          ]
+        },
+        {
+          "metrica": "bm25",
+          "top3": [
+            "libro:HALLAZGOS_Y_RECOMENDACIONES:002111",
+            "libro:MI_CUERPO_ES_LA_VERDAD:003342",
+            "libro:LA_COLOMBIA_FUERA_DE_COLOMBIA:001317"
+          ],
+          "scores_top3": [
+            73.44137863750497,
+            71.19656737005567,
+            69.18698207597738
+          ]
+        }
+      ],
+      "interseccion_top3_tfidf_rocchio": 1,
+      "interseccion_top3_tfidf_bm25": 0
+    }
+  ]
+}
