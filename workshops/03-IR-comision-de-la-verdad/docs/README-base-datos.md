@@ -35,6 +35,13 @@ archivo, así que los ids salen igual que los del resto.
 - `analisis_exploratorio.py`: análisis exploratorio (actividad 2 del taller).
 - `modelo_ir.py`: índice TF-IDF y ranking entrevista → unidades de libro
   (actividad 3); escribe `data/ranking_tfidf.json`.
+- `modelos_relevancia.py`: implementaciones manuales de Rocchio y Okapi BM25;
+  escribe `data/ranking_rocchio.json`, `data/ranking_bm25.json` y la
+  comparación de diez consultas.
+- `comparacion_corpus.py`: cuadro entrevista-libro y heatmap agregado;
+  escribe `data/cuadro_vinculos.json` y
+  `figuras/heatmap_vinculos_tfidf.png`.
+- `informe-taller3-IR.md`: informe final integrador de las seis actividades.
 - `vocabulario.py`: regla única de ruido de formato, compartida por el análisis
   y el índice.
 - `segmentacion_entrevistas.py`: parte las entrevistas en pasajes por turnos de

@@ -239,3 +239,31 @@ versionados; solo está demostrada la adición de 1.809 unidades del décimo tom
 Además, la comparación del punto 2 sigue siendo principalmente léxica y no una
 evaluación temática con juicios humanos. Ninguno de esos pendientes impide
 iniciar la implementación manual de Rocchio y BM25 sobre el ranking fijado.
+
+## Cierre del taller
+
+**Fecha:** 2026-09-11
+
+| Actividad | Estado | Evidencia final |
+|---|---|---|
+| 1. Extracción y preparación del corpus | ✅ Cumple con reservas documentadas | `corpus/*.json`, `data/corpus_raw.json`, `data/corpus_preprocesado.json` y `data/estadisticas_preprocesamiento.json`. La reserva es que la entrada de entrevistas se obtiene localmente y el salto histórico de 188 a 379 vacíos no puede reconstruirse por completo desde Git. |
+| 2. Análisis exploratorio | ✅ Cumple | `analisis_exploratorio.py`, `data/analisis_exploratorio.json` y seis figuras en `figuras/`, con estadísticas para libros y entrevistas. |
+| 3. Modelo TF-IDF | ✅ Cumple | `modelo_ir.py` y `data/ranking_tfidf.json`, con pasajes, L2×L2, `k=20`, IDs trazables y 41.034 documentos indexables. |
+| 4. Rocchio y Okapi BM25 | ✅ Cumple con reserva metodológica | `modelos_relevancia.py`, `data/ranking_rocchio.json`, `data/ranking_bm25.json` y `data/comparacion_metricas.*`. Las implementaciones son manuales, pero no hay juicios humanos y Rocchio usa pseudo-relevancia. |
+| 5. Comparación de corpus y heatmap | ✅ Cumple | `comparacion_corpus.py`, `data/cuadro_vinculos.json` y `figuras/heatmap_vinculos_tfidf.png`, agregados al nivel de libro para 2.484 entrevistas y 10 libros. |
+| 6. Informe final | ✅ Cumple con limitaciones explícitas | `informe-taller3-IR.md` integra preparación, exploración, TF-IDF, Rocchio, BM25, cuadro, heatmap, limitaciones y conclusiones. |
+
+### Checklist de entregables
+
+1. **Corpus extraído y preprocesado:** listo en `corpus/`, `data/corpus_raw.json` y `data/corpus_preprocesado.json`.
+2. **Informe de análisis exploratorio:** listo en `data/analisis_exploratorio.json` y las figuras de `figuras/`.
+3. **Código y reporte del modelo IR:** listos en `modelo_ir.py`, `data/ranking_tfidf.json` e `informe-taller3-IR.md`.
+4. **Funciones manuales de Rocchio y BM25:** listas en `modelos_relevancia.py`, con salidas separadas y comparación en `data/comparacion_metricas.json` y `data/comparacion_metricas.md`.
+5. **Cuadro y gráfico de entrevistas vinculadas a libros:** listos en `data/cuadro_vinculos.json` y `figuras/heatmap_vinculos_tfidf.png`.
+6. **Informe final integrador:** listo en `informe-taller3-IR.md`.
+
+Antes de entregar solo quedan pendientes metodológicos, ya declarados en el
+informe: anotar relevancia humana para medir precisión/recall, calibrar los
+parámetros de Rocchio y BM25 con esa evaluación y explicar históricamente con
+mayor detalle el salto de 188 a 379 documentos vacíos. No queda pendiente
+técnico bloqueante para entregar la cadena reproducible actual.
