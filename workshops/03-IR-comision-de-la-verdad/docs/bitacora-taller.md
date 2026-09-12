@@ -882,3 +882,20 @@ La entrada local de entrevistas tiene 231.409.620 bytes y SHA-256
 superar el límite de 100 MB de GitHub, no se agrega al repositorio. El equipo
 debe obtenerla por el canal de entrega del curso, verificar ese hash y dejarla
 en la ruta esperada antes de regenerar los corpus.
+
+## 13. Criterio de pseudo-relevancia para Rocchio
+
+Como no existen juicios humanos de relevancia, Rocchio se evaluará como
+*pseudo-relevance feedback*. Para cada pasaje de entrevista, las cinco primeras
+unidades del ranking TF-IDF oficial (`k=20`) serán los documentos
+pseudo-relevantes. Se seleccionarán cinco pseudo-no-relevantes mediante una
+muestra aleatoria reproducible del universo de documentos indexables, excluyendo
+las 20 unidades ya recuperadas por esa consulta, con una semilla fija que se
+guardará en los parámetros del experimento.
+
+El top-5 concentra la evidencia más fuerte disponible sin hacer depender la
+reformulación de todo el top-20. La muestra negativa mantiene el mismo universo
+documental y evita imponer una noción temática no observada, pero puede incluir
+documentos realmente relevantes; por eso los resultados se reportarán como
+retroalimentación de pseudo-relevancia y no como evaluación contra verdad de
+referencia.
