@@ -1,0 +1,394 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage{hyperref}
+
+\geometry{top=1.9cm,bottom=2cm,left=1.7cm,right=1.7cm,columnsep=0.65cm}
+\hypersetup{colorlinks=true, urlcolor=blue, citecolor=black, linkcolor=black}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+  {-2.5ex \@plus -1ex \@minus -.2ex}%
+  {1.3ex \@plus .2ex}%
+  {\normalfont\large\bfseries\centering}}
+\makeatother
+% Parámetros de flotantes: permite agrupar tablas anchas en la parte superior de las páginas
+\setcounter{dbltopnumber}{3}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.8}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.8}
+% Rótulo "Tabla" en lugar de "Cuadro" (babel en español usa "Cuadro" por defecto)
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+
+\title{\textbf{Predicción del rango de edad a partir de tweets en español:\\
+estado del arte y selección de variables sin modelos preentrenados}}
+\author{Abel Albuez Sanchez, Kelly Joane Leon Torres,\\
+Juan Camilo Torres Peña, Jesús David Romero Melo\\
+\small\textit{Maestría en Ingeniería de Sistemas y Computación, Pontificia Universidad Javeriana, Bogotá D.C., Colombia}\\
+\small Procesamiento de Lenguaje Natural, 2026}
+\date{}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+\textit{Este trabajo revisa el estado del arte del perfilamiento de autor aplicado a la predicción
+del rango de edad a partir de un único tweet en español, en el marco de la competencia TweetAge,
+donde no se permiten modelos preentrenados. Se sintetizan los fundamentos sociolingüísticos de la
+variación por edad, los resultados de las evaluaciones PAN y los estudios sobre Twitter, y se
+contrastan con un análisis descriptivo de 169.336 tweets etiquetados. La evidencia favorece un
+clasificador lineal sobre TF-IDF de palabras y caracteres, complementado con variables de estilo y
+de legibilidad, que alcanza un F1 macro de 0,708 en validación con tres grupos de edad. Se cierra
+con la lista de variables propuestas y las librerías de Python que las implementan.}
+\end{abstract}
+
+\noindent\textbf{Index Terms---} author profiling, age prediction, stylometry, readability,
+Spanish NLP, Twitter.
+
+\section{INTRODUCCIÓN}\label{sec:1}
+
+El perfilamiento de autor (\textit{author profiling}) busca inferir atributos demográficos o psicológicos de quien escribe, como edad, género o personalidad, a partir exclusivamente de su texto (Argamon et al., 2009; Rangel et al., 2013). A diferencia de la atribución de autoría, no existe un conjunto cerrado de autores candidatos: el objetivo es describir al autor, no identificarlo. En redes sociales digitales este problema ha recibido atención creciente porque los usuarios revelan, a través de su forma de escribir, información sobre su grupo social y generacional (Nguyen et al., 2016; Schwartz et al., 2013).
+
+La competencia TweetAge plantea una variante exigente del problema: predecir el rango de edad del autor a partir de \textbf{un único tweet}. El conjunto de entrenamiento contiene 169.336 tweets en español etiquetados en seis rangos (13-17, 18-24, 25-34, 35-49, 50-64 y 65-xx) y el conjunto de prueba 112.892 tweets. La predicción se entrega en tres etiquetas (18-24, 35-49 y 65-xx) y se evalúa con F1 macro. Por reglas del curso no se permiten modelos preentrenados ni la librería \textit{transformers}, lo que orienta la solución hacia representaciones dispersas y clasificadores clásicos, precisamente la familia de métodos que dominó las evaluaciones internacionales de perfilamiento antes de la adopción masiva de modelos de lenguaje.
+
+Este informe revisa: (a) los fundamentos sociolingüísticos que justifican la predicción de edad a partir del texto; (b) los resultados de las evaluaciones compartidas PAN; (c) los estudios específicos de edad en redes sociales, con énfasis en español; (d) las representaciones y clasificadores eficaces sin preentrenamiento; y (e) la evaluación. Además, contrasta las recomendaciones de un documento técnico de referencia aportado al equipo con la evidencia del corpus. Cierra con la evidencia obtenida en el análisis descriptivo del corpus y con la propuesta de variables, indicando la librería de Python donde se implementa cada una.
+
+
+\section{LA EDAD COMO VARIABLE SOCIOLINGÜÍSTICA}\label{sec:2}
+
+El paradigma cuantitativo de Labov estableció que la variación lingüística no es aleatoria, sino que se correlaciona sistemáticamente con variables del hablante como edad, género, clase social y red social (Milroy \& Milroy, 1993). Eckert (1997) matiza que la edad no es solo cronológica: cada etapa vital supone posiciones sociales distintas. Los adolescentes tienden a liderar la innovación lingüística y a usar formas no estándar como marca de identidad de grupo, mientras que los adultos insertos en el mercado laboral se acercan más a la norma. En términos del material del curso, esto corresponde al \textbf{cronolecto} (joven, adulto, mayor), que se superpone con el sociolecto, el dialecto y el registro de cada situación comunicativa.
+
+Desde la psicolingüística, Pennebaker y Stone (2003) documentaron que con la edad disminuyen las referencias a uno mismo (primera persona singular), aumentan las palabras largas y cognitivamente complejas y cambia la expresión emocional. Schler et al. (2006), con un corpus de blogs, mostraron que las diferencias por edad aparecen tanto en palabras de contenido (los jóvenes escriben sobre colegio, amigos y ocio; los mayores sobre trabajo, familia y política) como en palabras de estilo: pronombres, artículos y preposiciones. Argamon et al. (2009) sistematizaron estos hallazgos y mostraron que las palabras funcionales, que suelen eliminarse como \textit{stopwords}, son de las variables más informativas para perfilar al autor.
+
+La revisión de sociolingüística computacional de Nguyen et al. (2016) advierte que la edad es en parte una construcción social, que la relación entre edad y lenguaje no es lineal y que los modelos tienden a confundir grupos adyacentes. Esto tiene una consecuencia práctica directa: los rangos extremos son más fáciles de separar que los intermedios, patrón que efectivamente se observa en el corpus TweetAge (sección~\ref{sec:8}).
+
+
+\section{PERFILAMIENTO DE AUTOR EN LAS EVALUACIONES PAN}\label{sec:3}
+
+La iniciativa PAN, organizada anualmente dentro de CLEF, ha sido el principal escenario de comparación de métodos de perfilamiento. Entre 2013 y 2016 incluyó la predicción de edad y género en inglés y español con corpus de blogs, reseñas y Twitter, usando rangos muy similares a los de TweetAge: 18-24, 25-34, 35-49, 50-64 y 65 o más (Rangel et al., 2013, 2015, 2016). Los informes de resultados coinciden en tres observaciones: la edad es consistentemente más difícil que el género, los errores se concentran entre rangos contiguos y las diferencias entre los mejores sistemas son pequeñas.
+
+Entre las aproximaciones ganadoras destacan las representaciones de segundo orden de López-Monroy et al. (2015), que describen cada documento por su similitud con perfiles y subperfiles de cada clase y resultan eficaces con textos cortos. El sistema GronUP (Busger op Vollenbroek et al., 2016) combinó n-gramas con variables estilísticas en un SVM lineal. Posteriormente, Basile et al. (2017, 2018) mostraron que un sistema minimalista, un SVM lineal sobre TF-IDF de n-gramas de palabras (1-2) y de caracteres (3-5), superaba a sistemas con numerosas variables diseñadas a mano. Este resultado es especialmente relevante para TweetAge, porque indica que una buena representación dispersa bien regularizada es un punto de partida difícil de superar.
+
+En 2019, la tarea de perfilamiento de celebridades pidió predecir, entre otros atributos, el año de nacimiento a partir de los tweets de cada perfil (Wiegmann et al., 2019). Los primeros lugares usaron TF-IDF con regresión logística, SVM o bosques aleatorios (Martinc et al., 2019; Petrik \& Chuda, 2019; Radivchev et al., 2019). Moreno-Sandoval et al. (2021), que obtuvieron el segundo lugar, propusieron 18 variables sociolingüísticas agrupadas en cinco dimensiones (léxica, sintáctica, simbólica, de participación e información complementaria). Estas variables mejoraron hasta 0,14 el F1 promedio de clasificadores clásicos, pero redujeron el desempeño de las redes neuronales profundas. El año de nacimiento fue el atributo más difícil (F1 = 0,37 con agrupación por décadas), lo que confirma el techo esperable en tareas de edad.
+
+
+\section{PREDICCIÓN DE EDAD EN REDES SOCIALES}\label{sec:4}
+
+Rao et al. (2010) fueron de los primeros en predecir atributos latentes en Twitter. Combinaron n-gramas con variables sociolingüísticas como emoticones, repetición de caracteres, expresiones de risa y abreviaturas, y observaron que estas señales de informalidad distinguen a los usuarios más jóvenes. Peersman et al. (2011) trabajaron con mensajes muy cortos de una red social belga y mostraron que la edad puede predecirse con n-gramas de palabras y caracteres y un SVM, aunque el desempeño mejora cuando se dispone de más texto por usuario.
+
+Nguyen et al. (2013) analizaron tweets en neerlandés y encontraron que los usuarios jóvenes usan más pronombres personales, alargamientos de letras y expresiones de risa, mientras que los mayores usan palabras más largas, más artículos y preposiciones y más enlaces. También observaron que distinguir entre usuarios mayores de unos 30 años es más difícil que entre jóvenes. Schwartz et al. (2013) aplicaron un enfoque de vocabulario abierto a mensajes de Facebook de 75.000 voluntarios y hallaron patrones de edad claros en palabras y temas. Sap et al. (2014) derivaron léxicos ponderados para predecir edad y género en inglés.
+
+Otros trabajos incorporan metadatos. Sloan et al. (2015) estimaron edad y ocupación a partir de la información de perfil de usuarios del Reino Unido, y Morgan-Lopez et al. (2017) combinaron lenguaje y metadatos para clasificar grupos de edad que incluyen adolescentes. Para el español, el antecedente más directo es Moreno-Sandoval et al. (2018), quienes clasificaron la edad de usuarios colombianos de Twitter con clasificadores lineales, del mismo grupo de investigación que orienta el curso. Complementariamente, Moreno-Sandoval et al. (2022) compararon lexicones, aprendizaje de máquina clásico y aprendizaje profundo para análisis de sentimientos en español con el corpus TASS 2019, y encontraron que el preprocesamiento mínimo («en bruto») daba los mejores resultados.
+
+Según un documento técnico de referencia aportado al equipo (\textit{Estado del arte y marco de diseño}, s. f.), Moreno-Sandoval et al. (2018) construyeron un conjunto \textit{Gold Standard} de 1.541 usuarios validados manualmente, a partir de seguidores de cuentas de universidades y celebridades colombianas. Para aislar cuentas de personas naturales aplicaron una bolsa de palabras sobre los campos de nombre con una lista de 8.701 nombres propios, y etiquetaron la edad con un léxico de 45 a 50 términos asociados a «cumpleaños» e hitos vitales en la descripción del perfil. Los clasificadores lineales (SVM, regresión logística y SGD) alcanzaron una exactitud de 66 \% a 69 \%, que subió a 72,96 \% con una capa adicional de recuperación de información; SGDClassifier fue el mejor estimador. \textbf{Estas cifras deben verificarse en el artículo original}, porque el mismo documento reporta 114.953 y 967.660 usuarios vinculados a universidades y celebridades, mientras que Moreno-Sandoval et al. (2021, Tabla~\ref{tab:1}) describen ese corpus con 50.819 y 734.037 cuentas. En cualquier caso, esos resultados corresponden a la clasificación de usuarios con múltiples tweets, no de tweets aislados.
+
+\begin{table*}[!t]
+\centering\scriptsize
+\caption{Estudios de referencia para la predicción de edad a partir de texto}\label{tab:1}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{\dimexpr 0.180\textwidth-2\tabcolsep\relax}p{\dimexpr 0.201\textwidth-2\tabcolsep\relax}p{\dimexpr 0.222\textwidth-2\tabcolsep\relax}p{\dimexpr 0.138\textwidth-2\tabcolsep\relax}p{\dimexpr 0.250\textwidth-2\tabcolsep\relax}}
+\hline
+\raggedright\textbf{Estudio} & \raggedright\textbf{Datos} & \raggedright\textbf{Representación} & \raggedright\textbf{Modelo} & \raggedright\textbf{Aporte para TweetAge} \tabularnewline \hline
+\raggedright Schler et al. (2006) & \raggedright Blogs en inglés & \raggedright Palabras de estilo y de contenido & \raggedright Multi-class real Winnow & \raggedright La edad se refleja en estilo y en temas \tabularnewline
+\raggedright Rao et al. (2010) & \raggedright Twitter, inglés & \raggedright n-gramas + rasgos sociolingüísticos & \raggedright SVM & \raggedright Risas, alargamientos y emoticones marcan juventud \tabularnewline
+\raggedright Peersman et al. (2011) & \raggedright Chat de red social & \raggedright n-gramas de palabras y caracteres & \raggedright SVM & \raggedright La edad es predecible en textos muy cortos \tabularnewline
+\raggedright Nguyen et al. (2013) & \raggedright Twitter, neerlandés & \raggedright Unigramas + estilo & \raggedright Regresión logística y lineal & \raggedright Grupos contiguos se confunden; mayores más difíciles \tabularnewline
+\raggedright López-Monroy et al. (2015) & \raggedright PAN, inglés y español & \raggedright Representaciones de segundo orden & \raggedright SVM / LibLINEAR & \raggedright Ganador PAN; útil en textos cortos \tabularnewline
+\raggedright Basile et al. (2018) & \raggedright PAN, varios idiomas & \raggedright TF-IDF palabras 1-2 y caracteres 3-5 & \raggedright SVM lineal & \raggedright Sistema simple supera a los complejos \tabularnewline
+\raggedright Moreno-Sandoval et al. (2018) & \raggedright Twitter, español colombiano & \raggedright Bolsa de palabras & \raggedright Clasificadores lineales & \raggedright Antecedente directo en español \tabularnewline
+\raggedright Moreno-Sandoval et al. (2021) & \raggedright PAN 2019, celebridades & \raggedright TF-IDF + 18 variables sociolingüísticas & \raggedright Regresión logística, NB, DNN & \raggedright Variables de estilo ayudan a modelos clásicos \tabularnewline
+\hline
+\end{tabular}
+\par\smallskip\raggedright\scriptsize Nota. Elaboración propia a partir de las fuentes citadas. Los detalles de datos y modelos de los estudios sin \textdagger{} deben verificarse en la fuente original.
+\end{table*}
+
+
+\section{REPRESENTACIÓN DE TEXTOS CORTOS Y RUIDOSOS}\label{sec:5}
+
+
+\subsection{Bolsa de palabras ponderada}\label{sec:5.1}
+
+La ponderación TF-IDF (Salton \& Buckley, 1988) sigue siendo la representación de referencia para clasificación de texto con modelos lineales. Dos ajustes son habituales en perfilamiento: el término de frecuencia sublineal (1 + log tf), que evita que las palabras repetidas dominen, y la inclusión de bigramas, que capturan expresiones como «buenos días» o «te amo». En TweetAge es clave conservar los nombres de usuario y los hashtags como tokens, porque indican a qué comunidades pertenece el autor.
+
+
+\subsection{N-gramas de caracteres}\label{sec:5.2}
+
+Los n-gramas de caracteres son la representación más robusta para estilo: capturan morfología, abreviaturas («xq», «tb»), alargamientos, risas y errores ortográficos sin necesidad de diccionarios, y toleran la variación de escritura propia de las redes sociales (Kešelj et al., 2003; Stamatatos, 2009). Su eficacia en perfilamiento quedó confirmada en PAN, donde aparecen en casi todos los sistemas mejor clasificados (Basile et al., 2018; Martinc et al., 2019).
+
+
+\subsection{Preprocesamiento: el ruido como señal}\label{sec:5.3}
+
+Eisenstein (2013) discute si el lenguaje no estándar de internet debe normalizarse o modelarse tal como aparece, y argumenta que la normalización destruye información social. Para la predicción de edad este argumento es decisivo: mayúsculas, alargamientos, signos repetidos, abreviaturas y palabras funcionales son precisamente las marcas generacionales. El material del curso sigue la misma lógica al presentar el «error» lingüístico como característica de NLP, y Moreno-Sandoval et al. (2022) obtuvieron sus mejores resultados con el preprocesamiento mínimo. Por ello se recomienda no eliminar \textit{stopwords}, no reducir alargamientos y no pasar todo a minúsculas antes de extraer las variables de estilo.
+
+
+\subsection{Variables estilométricas}\label{sec:5.4}
+
+Las variables de estilo propuestas en la literatura incluyen palabras funcionales, n-gramas sintácticos, categorías de la lingüística sistémico-funcional (conectores de extensión, elaboración y realce), morfología, medidas de complejidad (longitud media de palabra, diversidad léxica) e idiosincrasias (Argamon et al., 2009; Stamatatos, 2009). Moreno-Sandoval et al. (2021) y Puertas et al. (2021) las organizan en cinco grupos aplicables a Twitter: léxico, sintáctico (pronombres personales), simbólico (emojis y hashtags), de participación (menciones y retweets) e información complementaria (URL). Estas variables tienen además un valor explicativo: permiten interpretar el modelo con pruebas estadísticas, como el modelo logit multinomial con prueba de Wald de Moreno-Sandoval et al. (2021).
+
+
+\subsection{Legibilidad y n-gramas de categorías gramaticales}\label{sec:5.5}
+
+Las fórmulas de legibilidad adaptadas al español ofrecen variables densas que miden la complejidad del texto con independencia del tema (\textit{Estado del arte y marco de diseño}, s. f.). El índice de lecturabilidad de Fernández Huerta (1959), L = 206,84 $-$ 0,60$\cdot$P $-$ 1,02$\cdot$F, adapta la fórmula de Flesch a partir de las sílabas (P) y las frases (F) por cada 100 palabras. El índice de perspicuidad de Szigriszt Pazos (1993), IPSZ = 206,835 $-$ 62,3$\cdot$(sílabas/palabras) $-$ (palabras/frases), fue validado posteriormente con la escala INFLESZ, que define rangos interpretativos de dificultad (Barrio-Cantalejo et al., 2008). Ambos índices son consistentes con la observación de Pennebaker y Stone (2003) de que las personas mayores usan palabras más largas y complejas.
+
+Su aplicación a TweetAge exige dos adaptaciones: la división silábica se aproxima contando grupos vocálicos, porque el corpus no tiene tildes, y se excluyen URL, menciones y hashtags antes del cálculo. En tweets de menos de tres palabras el índice es inestable, por lo que se imputa la mediana y se agrega un indicador. Como muestra la sección~\ref{sec:8}, el índice de Szigriszt-Pazos tiene uno de los mayores tamaños de efecto del corpus.
+
+Las secuencias de etiquetas gramaticales (n-gramas de POS) permiten distinguir un estilo informativo y nominal, con más sustantivos, artículos y preposiciones, de un estilo participativo con más verbos, pronombres e interjecciones (\textit{Estado del arte y marco de diseño}, s. f.; Argamon et al., 2009). Sin embargo, el etiquetado gramatical del español requiere un modelo estadístico entrenado previamente, como los modelos de spaCy (Honnibal et al., 2020), y el etiquetador \textit{pos\_tag} de NLTK solo cubre el inglés. Dado que las reglas de la competencia prohíben los modelos preentrenados, esta variable queda condicionada a la aprobación del profesor. Una alternativa compatible con las reglas son los conteos de palabras funcionales por categoría, que aproximan la misma información sin etiquetador.
+
+
+\subsection{Enfoques no priorizados}\label{sec:5.6}
+
+Los enfoques basados en lexicones de sentimiento tuvieron desempeños modestos en español (Chiruzzo et al., 2020; Moreno-Sandoval et al., 2022) y la polaridad no guarda una relación fuerte con la edad, por lo que no se priorizan. Los embeddings preentrenados y los modelos tipo BERT quedan excluidos por las reglas de la competencia. Entrenar embeddings propios desde cero es posible, pero la evidencia de Moreno-Sandoval et al. (2021) sugiere que las redes neuronales no aprovechan bien las variables adicionales en este tipo de tarea.
+
+
+\section{CLASIFICADORES}\label{sec:6}
+
+Las máquinas de soporte vectorial lineales son el clasificador de referencia para texto de alta dimensión y dispersión, porque toleran cientos de miles de variables correlacionadas con buena generalización (Joachims, 1998). La implementación \textit{LinearSVC} de scikit-learn se apoya en LIBLINEAR (Fan et al., 2008) y entrena en segundos sobre corpus del tamaño de TweetAge. La regresión logística multinomial ofrece un desempeño similar y produce probabilidades, útiles para ensambles; para matrices grandes conviene entrenarla por descenso de gradiente estocástico. El Naive Bayes multinomial es rápido pero asume independencia entre palabras. Su variante \textit{Complement Naive Bayes} corrige sesgos del modelo estándar y es más estable en texto (Rennie et al., 2003). Todas estas implementaciones están disponibles en scikit-learn (Pedregosa et al., 2011).
+
+Como las clases de edad son ordinales, puede aprovecharse esa estructura descomponiendo el problema en clasificadores binarios acumulativos (Frank \& Hall, 2001) o agregando como variable la salida de una regresión sobre la edad codificada. Esto es relevante porque la mayoría de los errores ocurre entre grupos contiguos.
+
+El documento técnico de referencia (\textit{Estado del arte y marco de diseño}, s. f.) agrega tres alternativas. La primera es el clasificador lineal entrenado por descenso de gradiente estocástico (SGDClassifier), reportado como el mejor estimador en Moreno-Sandoval et al. (2018), que admite pérdida logística o de bisagra y escala bien a matrices grandes. La segunda es la representación de baja dimensionalidad LDSE (Rangel et al., 2016), que resume cada documento con estadísticos de la probabilidad de sus palabras en cada clase y sirvió como línea base en varias ediciones de PAN; combinada con una red \textit{feed-forward} es una opción de bajo costo. La tercera son las redes convolucionales unidimensionales entrenadas desde cero, que según el mismo documento tienen mayor riesgo de sobreajuste sin embeddings preentrenados, en línea con lo observado por Moreno-Sandoval et al. (2021). Finalmente, un ensamble por votación suave que promedie las probabilidades de varios clasificadores lineales es una forma simple de ganar estabilidad.
+
+
+\section{EVALUACIÓN}\label{sec:7}
+
+La métrica de la competencia, F1 macro, promedia el F1 de cada clase con igual peso, de modo que una clase mal predicha penaliza tanto como una bien predicha beneficia (Sokolova \& Lapalme, 2009). Esto obliga a vigilar el desempeño del grupo intermedio, que es el más difícil. Aunque el corpus está balanceado, en caso de desbalance se recomienda ponderar clases o aplicar sobremuestreo dentro de cada partición de validación (Chawla et al., 2002; Lema\^{\i}tre et al., 2017). La selección de hiperparámetros debe hacerse con validación estratificada de 5 o 10 particiones sobre el entrenamiento (\textit{Estado del arte y marco de diseño}, s. f.), nunca con el conjunto de prueba. El documento técnico advierte que los corpus de redes sociales suelen concentrarse en 18-24 años y recomienda class\_weight=\textquotedbl{}balanced\textquotedbl{} o sobremuestreo; en TweetAge esto no es necesario porque las clases están balanceadas (16 \% a 17 \% cada una), pero debe revisarse si cambia el mapeo de etiquetas.
+
+Para el análisis descriptivo por grupo se recomienda la prueba de Kruskal-Wallis (Kruskal \& Wallis, 1952), adecuada para distribuciones asimétricas con muchos ceros, acompañada del tamaño de efecto épsilon cuadrado (Tomczak \& Tomczak, 2014), porque con más de 150.000 observaciones prácticamente cualquier diferencia resulta significativa. El vocabulario distintivo de cada grupo se identifica mejor con log-odds con prior de Dirichlet informativo (Monroe et al., 2008) que con frecuencias crudas.
+
+
+\section{EVIDENCIA DEL CORPUS TWEETAGE}\label{sec:8}
+
+El análisis descriptivo realizado sobre el conjunto de entrenamiento confirma los patrones de la literatura y aporta hallazgos propios. Los datos se entregan separados por punto y coma, con marca BOM, sin tildes, eñes ni emojis (normalizados a ASCII) y truncados a 140 caracteres. Se identificaron 104 textos vacíos, 51 casos del artefacto de Excel «\#¿NOMBRE?», 2.199 entidades HTML sin decodificar y 195 textos repetidos con etiquetas distintas. Train y test presentan distribuciones prácticamente idénticas, lo que indica una partición aleatoria.
+
+\begin{table*}[!t]
+\centering\footnotesize
+\caption{Variables de estilo con mayor tamaño de efecto (tres grupos, modo agrupado)}\label{tab:2}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{\dimexpr 0.271\textwidth-2\tabcolsep\relax}p{\dimexpr 0.180\textwidth-2\tabcolsep\relax}p{\dimexpr 0.180\textwidth-2\tabcolsep\relax}p{\dimexpr 0.180\textwidth-2\tabcolsep\relax}p{\dimexpr 0.180\textwidth-2\tabcolsep\relax}}
+\hline
+\raggedright\textbf{Variable (media por tweet)} & \raggedright\textbf{13-24 («18-24»)} & \raggedright\textbf{25-49 («35-49»)} & \raggedright\textbf{50+ («65-xx»)} & \raggedright\textbf{$\varepsilon^2$ Kruskal-Wallis} \tabularnewline \hline
+\raggedright Longitud en caracteres & \raggedright 73,0 & \raggedright 90,4 & \raggedright 107,6 & \raggedright 0,117 \tabularnewline
+\raggedright Proporción truncada a 140 & \raggedright 0,118 & \raggedright 0,234 & \raggedright 0,411 & \raggedright 0,077 \tabularnewline
+\raggedright Número de palabras & \raggedright 11,0 & \raggedright 13,1 & \raggedright 15,0 & \raggedright 0,057 \tabularnewline
+\raggedright Menciones & \raggedright 0,71 & \raggedright 0,94 & \raggedright 1,31 & \raggedright 0,044 \tabularnewline
+\raggedright 3\textordfeminine{} persona sing. y artículos (el, la, lo, su) & \raggedright 0,48 & \raggedright 0,70 & \raggedright 0,92 & \raggedright 0,037 \tabularnewline
+\raggedright 1\textordfeminine{} persona singular (yo, me, mi) & \raggedright 0,27 & \raggedright 0,16 & \raggedright 0,09 & \raggedright 0,027 \tabularnewline
+\raggedright Longitud media de palabra & \raggedright 4,88 & \raggedright 4,95 & \raggedright 5,11 & \raggedright 0,022 \tabularnewline
+\raggedright URL & \raggedright 0,33 & \raggedright 0,45 & \raggedright 0,53 & \raggedright 0,020 \tabularnewline
+\hline
+\end{tabular}
+\par\smallskip\raggedright\scriptsize Nota. Elaboración propia con los 169.336 tweets de entrenamiento. $\varepsilon^2$ $\approx$ 0,01 efecto pequeño, $\approx$ 0,06 mediano, $\geq$ 0,14 grande.
+\end{table*}
+
+Los resultados replican lo descrito por Pennebaker y Stone (2003) y Nguyen et al. (2013): con la edad disminuye el uso del «yo» y aumentan la longitud de los mensajes y de las palabras. Las risas escritas, los alargamientos y los emoticones se concentran en los menores de 25 años. El vocabulario distintivo separa tres perfiles: jóvenes (pronombres de primera y segunda persona, «amo», cultura de fans en inglés), adultos (publicaciones automáticas de aplicaciones, noticias) y mayores (artículos y preposiciones, política colombiana y venezolana).
+
+El hallazgo más importante es que las cuentas retuiteadas o mencionadas con frecuencia pertenecen casi exclusivamente a un grupo (pureza mediana de 0,90 con tres grupos). Al reemplazar los nombres de usuario por un token genérico, el F1 macro con seis clases cayó de 0,554 a 0,444. Esto indica que el modelo aprovecha las comunidades a las que pertenece el autor, además de su forma de escribir.
+
+\begin{table}[!t]
+\centering\footnotesize
+\caption{Desempeño en validación (holdout estratificado 80/20, tres grupos)}\label{tab:3}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{\dimexpr 0.493\columnwidth-2\tabcolsep\relax}p{\dimexpr 0.249\columnwidth-2\tabcolsep\relax}p{\dimexpr 0.249\columnwidth-2\tabcolsep\relax}}
+\hline
+\raggedright\textbf{Modelo} & \raggedright\textbf{F1 macro} & \raggedright\textbf{Observación} \tabularnewline \hline
+\raggedright LinearSVC (C = 0,3) + TF-IDF + variables de estilo & \raggedright 0,708 & \raggedright Mejor configuración \tabularnewline
+\raggedright LinearSVC (C = 0,3) + TF-IDF & \raggedright 0,704 & \raggedright Aporte del estilo: +0,004 \tabularnewline
+\raggedright Regresión logística por SGD ($\alpha$ = 5$\times$$10^{-6}$) & \raggedright 0,702 & \raggedright Produce probabilidades \tabularnewline
+\raggedright Complement Naive Bayes ($\alpha$ = 0,3) & \raggedright 0,678 & \raggedright Más rápido \tabularnewline
+\hline
+\end{tabular}
+\par\smallskip\raggedright\scriptsize Nota. TF-IDF de palabras 1-2 (con @usuarios y \#hashtags) y de caracteres 2-5. F1 por clase del mejor modelo: 0,74 (18-24), 0,62 (35-49) y 0,76 (65-xx).
+\end{table}
+
+Para evaluar las recomendaciones del documento técnico se calcularon los índices de legibilidad por tweet y la proporción de tweets con alargamientos por grupo, variable que ese documento propone eliminar.
+
+\begin{table*}[!t]
+\centering\footnotesize
+\caption{Índices de legibilidad por grupo (tweets con al menos tres palabras, 87 \% del corpus)}\label{tab:4}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{\dimexpr 0.334\textwidth-2\tabcolsep\relax}p{\dimexpr 0.164\textwidth-2\tabcolsep\relax}p{\dimexpr 0.164\textwidth-2\tabcolsep\relax}p{\dimexpr 0.164\textwidth-2\tabcolsep\relax}p{\dimexpr 0.164\textwidth-2\tabcolsep\relax}}
+\hline
+\raggedright\textbf{Índice (mediana)} & \raggedright\textbf{18-24} & \raggedright\textbf{35-49} & \raggedright\textbf{65-xx} & \raggedright\textbf{$\varepsilon^2$ Kruskal-Wallis} \tabularnewline \hline
+\raggedright Perspicuidad de Szigriszt-Pazos & \raggedright 86,6 & \raggedright 78,5 & \raggedright 71,6 & \raggedright 0,075 \tabularnewline
+\raggedright Sílabas por palabra & \raggedright 1,8 & \raggedright 1,9 & \raggedright 2,0 & \raggedright 0,058 \tabularnewline
+\raggedright Lecturabilidad de Fernández Huerta & \raggedright 88,8 & \raggedright 82,6 & \raggedright 78,4 & \raggedright 0,029 \tabularnewline
+\raggedright Tweets con alargamiento (proporción) & \raggedright 0,064 & \raggedright 0,040 & \raggedright 0,019 & \raggedright 0,009 \tabularnewline
+\hline
+\end{tabular}
+\par\smallskip\raggedright\scriptsize Nota. Elaboración propia. Sílabas aproximadas por grupos vocálicos. Correlación de Spearman entre Fernández Huerta y longitud media de palabra: $\rho$ = $-$0,59.
+\end{table*}
+
+El efecto de estas variables sobre el F1 macro no pudo medirse en el entorno de análisis por limitaciones de memoria; se evaluará en el notebook de la competencia comparando, con la misma partición estratificada, el modelo de referencia (TF-IDF + estilo), el modelo con índices de legibilidad y el modelo con alargamientos reducidos a dos caracteres. Dado su tamaño de efecto, se espera un aporte pequeño pero positivo de la perspicuidad de Szigriszt-Pazos, similar al de las demás variables de estilo (+0,004 en la Tabla~\ref{tab:3}).
+
+
+\section{CONTRASTE CON EL DOCUMENTO TÉCNICO DE REFERENCIA}\label{sec:9}
+
+El documento técnico de referencia (\textit{Estado del arte y marco de diseño}, s. f.) coincide con esta revisión en lo central: sin modelos preentrenados, el estado del arte operativo son los clasificadores lineales regularizados sobre TF-IDF de palabras y caracteres, complementados con variables de estilo. Sin embargo, no incluye lista de referencias y varias de sus recomendaciones están pensadas para corpus distintos. La Tabla~\ref{tab:5} contrasta cada recomendación con la evidencia de TweetAge.
+
+\begin{table*}[!t]
+\centering\scriptsize
+\caption{Recomendaciones del documento técnico frente a la evidencia del corpus TweetAge}\label{tab:5}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{\dimexpr 0.264\textwidth-2\tabcolsep\relax}p{\dimexpr 0.391\textwidth-2\tabcolsep\relax}p{\dimexpr 0.334\textwidth-2\tabcolsep\relax}}
+\hline
+\raggedright\textbf{Recomendación} & \raggedright\textbf{Evidencia en TweetAge} & \raggedright\textbf{Decisión} \tabularnewline \hline
+\raggedright TF-IDF de palabras 1-2 y caracteres 3-5 delimitados por palabra & \raggedright Base del mejor modelo (F1 = 0,708) & \raggedright Adoptar (con caracteres 2-5) \tabularnewline
+\raggedright Índices de Fernández Huerta y Szigriszt-Pazos & \raggedright $\varepsilon^2$ de 0,029 y 0,075 (Tabla~\ref{tab:4}); efecto en F1 por validar en el notebook & \raggedright Adoptar como variables densas \tabularnewline
+\raggedright Normalizar menciones y URL (\_USER\_, \_URL\_) & \raggedright Reemplazar @usuarios bajó el F1 de 0,554 a 0,444 (seis clases) & \raggedright Rechazar para menciones; opcional para URL \tabularnewline
+\raggedright Reducir alargamientos a dos caracteres & \raggedright Los alargamientos disminuyen con la edad (Tabla~\ref{tab:4}) & \raggedright Rechazar; conservar como variable \tabularnewline
+\raggedright Conteo de emojis & \raggedright El corpus no contiene emojis (normalizado a ASCII) & \raggedright No aplica; usar emoticones de texto \tabularnewline
+\raggedright N-gramas de POS (spaCy / NLTK) & \raggedright Requiere un modelo preentrenado para español & \raggedright Condicionado a aprobación del profesor \tabularnewline
+\raggedright class\_weight o sobremuestreo & \raggedright Clases balanceadas & \raggedright No necesario \tabularnewline
+\raggedright Validación estratificada k = 5 o 10 y F1 macro & \raggedright Coincide con la métrica oficial & \raggedright Adoptar \tabularnewline
+\raggedright SGDClassifier, regresión logística y votación suave & \raggedright SGD logístico: F1 = 0,702 (Tabla~\ref{tab:3}) & \raggedright Adoptar en el ensamble \tabularnewline
+\raggedright Exactitudes de 63 \% a 74 \% por modelo & \raggedright Sin fuente; corresponden a clasificación por usuario & \raggedright No citar como evidencia \tabularnewline
+\hline
+\end{tabular}
+\par\smallskip\raggedright\scriptsize Nota. Elaboración propia.
+\end{table*}
+
+
+\section{BRECHAS Y DECISIONES DE DISEÑO}\label{sec:10}
+
+Cuatro aspectos distinguen a TweetAge de la literatura revisada y condicionan las decisiones del modelo:
+
+\begin{itemize}\setlength{\itemsep}{2pt}
+\item \textbf{Unidad de análisis.} La mayoría de los estudios clasifica usuarios agregando decenas o cientos de mensajes; aquí se clasifica cada tweet de forma aislada. Las medidas de dispersión por perfil (asimetría y curtosis) de Moreno-Sandoval et al. (2021) no son aplicables y los valores de F1 no son directamente comparables con los publicados.
+\item \textbf{Identidad de comunidades.} La fuerte señal de los @usuarios sugiere que tweets del mismo autor aparecen en train y test. Es legítimo aprovecharla dentro de la competencia, pero debe reconocerse que limita la generalización a usuarios nuevos.
+\item \textbf{Grupo intermedio.} El grupo de 25 a 49 años concentra los errores, en línea con Nguyen et al. (2013). Las mejoras deben evaluarse sobre todo por su efecto en esta clase.
+\item \textbf{Mapeo a tres etiquetas.} La correspondencia entre los seis rangos de entrenamiento y las tres etiquetas de la submission debe confirmarse con los organizadores, porque un mapeo incorrecto afecta directamente el F1 macro.
+\end{itemize}
+
+\section{VARIABLES PROPUESTAS Y LIBRERÍAS}\label{sec:11}
+
+La Tabla~\ref{tab:6} resume las variables que se recomienda incluir, organizadas según las cinco dimensiones de Moreno-Sandoval et al. (2021) más los bloques de representación textual y de legibilidad. La Tabla~\ref{tab:7} indica los componentes del flujo de trabajo. Todas las librerías están permitidas por las reglas de la competencia o pertenecen a la biblioteca estándar de Python.
+
+\begin{table*}[!t]
+\centering\scriptsize
+\caption{Variables propuestas, forma de cálculo y librería}\label{tab:6}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{\dimexpr 0.159\textwidth-2\tabcolsep\relax}p{\dimexpr 0.190\textwidth-2\tabcolsep\relax}p{\dimexpr 0.227\textwidth-2\tabcolsep\relax}p{\dimexpr 0.222\textwidth-2\tabcolsep\relax}p{\dimexpr 0.191\textwidth-2\tabcolsep\relax}}
+\hline
+\raggedright\textbf{Grupo} & \raggedright\textbf{Variable} & \raggedright\textbf{Cálculo} & \raggedright\textbf{Librería / función} & \raggedright\textbf{Sustento} \tabularnewline \hline
+\raggedright Texto & \raggedright TF-IDF de palabras 1-2 & \raggedright Tokens con @usuarios y \#hashtags; tf sublineal; min\_df = 2 & \raggedright scikit-learn: TfidfVectorizer & \raggedright Basile et al. (2018); sección~\ref{sec:8} \tabularnewline
+\raggedright Texto & \raggedright TF-IDF de caracteres 2-5 & \raggedright analyzer = \textquotedbl{}char\_wb\textquotedbl{}; sin pasar a minúsculas; min\_df = 5 & \raggedright scikit-learn: TfidfVectorizer & \raggedright Stamatatos (2009); Martinc et al. (2019) \tabularnewline
+\raggedright Texto & \raggedright Tokenización para tweets (opcional) & \raggedright Conserva menciones, hashtags y emoticones; reduce\_len = False & \raggedright NLTK: TweetTokenizer & \raggedright Bird et al. (2009) \tabularnewline
+\raggedright Léxico & \raggedright Longitud (caracteres) & \raggedright len(texto) & \raggedright pandas: Series.str.len & \raggedright $\varepsilon^2$ = 0,117 \tabularnewline
+\raggedright Léxico & \raggedright Número de palabras & \raggedright Conteo de tokens separados por espacio & \raggedright pandas: str.split().str.len & \raggedright $\varepsilon^2$ = 0,057 \tabularnewline
+\raggedright Léxico & \raggedright Longitud media de palabra & \raggedright Media de letras por palabra & \raggedright re + numpy: mean & \raggedright Pennebaker \& Stone (2003) \tabularnewline
+\raggedright Léxico & \raggedright Indicador de truncado & \raggedright len $\geq$ 135 & \raggedright pandas & \raggedright $\varepsilon^2$ = 0,077 \tabularnewline
+\raggedright Léxico & \raggedright Diversidad léxica & \raggedright Tipos / tokens del tweet & \raggedright pandas + Python set & \raggedright Moreno-Sandoval et al. (2021), V3 \tabularnewline
+\raggedright Sintáctico & \raggedright Pronombres 1\textordfeminine{} sing., 2\textordfeminine{} sing. (tú, vos, usted), 1\textordfeminine{} pl., 3\textordfeminine{} sing., 3\textordfeminine{} pl. & \raggedright Conteo con expresiones regulares por lista & \raggedright re / pandas: str.count & \raggedright Moreno-Sandoval et al. (2021), V14-V18 \tabularnewline
+\raggedright Sintáctico & \raggedright Palabras funcionales y conectores (SFL) & \raggedright Proporción por categoría: extensión, elaboración, causal & \raggedright NLTK: stopwords(\textquotedbl{}spanish\textquotedbl{}) + listas propias & \raggedright Argamon et al. (2009); material del curso \tabularnewline
+\raggedright Simbólico & \raggedright Hashtags & \raggedright Conteo de \#palabra & \raggedright pandas: str.count & \raggedright Moreno-Sandoval et al. (2021), V10 \tabularnewline
+\raggedright Simbólico & \raggedright Emoticones de texto & \raggedright :) :D \textless{}3 \textasciicircum{}\textasciicircum{} tras html.unescape & \raggedright html (estándar) + re & \raggedright Rao et al. (2010) \tabularnewline
+\raggedright Simbólico & \raggedright Risas escritas & \raggedright jaja, jeje, jsjs, xd & \raggedright re & \raggedright Rao et al. (2010); sección~\ref{sec:8} \tabularnewline
+\raggedright Simbólico & \raggedright Alargamientos & \raggedright Letra repetida 3 o más veces & \raggedright re & \raggedright Nguyen et al. (2013) \tabularnewline
+\raggedright Simbólico & \raggedright Proporción de mayúsculas; signos repetidos & \raggedright Mayúsculas / letras; !! o ?? & \raggedright Python str + re & \raggedright Material del curso \tabularnewline
+\raggedright Participación & \raggedright Retweet & \raggedright Texto inicia con «RT @» & \raggedright pandas: str.startswith & \raggedright Moreno-Sandoval et al. (2021), V13 \tabularnewline
+\raggedright Participación & \raggedright Respuesta & \raggedright Texto inicia con @usuario & \raggedright pandas: str.match & \raggedright Sección~\ref{sec:8} \tabularnewline
+\raggedright Participación & \raggedright Menciones & \raggedright Conteo de @usuario & \raggedright pandas: str.count & \raggedright V11; $\varepsilon^2$ = 0,044 \tabularnewline
+\raggedright Complementaria & \raggedright URL y tweet solo URL & \raggedright Conteo de http(s):// & \raggedright pandas / re & \raggedright V12; $\varepsilon^2$ = 0,020 \tabularnewline
+\raggedright Otras & \raggedright Dígitos, abreviaturas, idioma inglés & \raggedright Conteos por expresión regular y lista & \raggedright re / pandas & \raggedright Material del curso \tabularnewline
+\raggedright Legibilidad & \raggedright Perspicuidad de Szigriszt-Pazos & \raggedright 206,835 $-$ 62,3$\cdot$(sílabas/palabras) $-$ (palabras/frases) & \raggedright re + numpy (o NLTK: SyllableTokenizer) & \raggedright Szigriszt Pazos (1993); $\varepsilon^2$ = 0,075 \tabularnewline
+\raggedright Legibilidad & \raggedright Lecturabilidad de Fernández Huerta & \raggedright 206,84 $-$ 0,60$\cdot$P $-$ 1,02$\cdot$F (por 100 palabras) & \raggedright re + numpy & \raggedright Fernández Huerta (1959); $\varepsilon^2$ = 0,029 \tabularnewline
+\raggedright Legibilidad & \raggedright Sílabas por palabra e indicador de pocas palabras & \raggedright Grupos vocálicos / palabras; \textless{} 3 palabras & \raggedright re + numpy & \raggedright $\varepsilon^2$ = 0,058 \tabularnewline
+\raggedright Condicionada & \raggedright N-gramas de POS (2-3) & \raggedright Secuencias de etiquetas gramaticales & \raggedright spaCy (modelo es\_core\_news; preentrenado) & \raggedright Documento técnico; requiere aprobación \tabularnewline
+\hline
+\end{tabular}
+\par\smallskip\raggedright\scriptsize Nota. Los conteos se transforman con log1p (numpy) y se escalan con MaxAbsScaler; los índices de legibilidad, que pueden ser negativos, se escalan con StandardScaler. Sin tildes ni emojis en el corpus, se descartan las variables de tildes omitidas y conteo de emojis.
+\end{table*}
+
+\begin{table*}[!t]
+\centering\scriptsize
+\caption{Componentes del flujo de trabajo y librería}\label{tab:7}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{p{\dimexpr 0.254\textwidth-2\tabcolsep\relax}p{\dimexpr 0.398\textwidth-2\tabcolsep\relax}p{\dimexpr 0.338\textwidth-2\tabcolsep\relax}}
+\hline
+\raggedright\textbf{Etapa} & \raggedright\textbf{Componente} & \raggedright\textbf{Librería / función} \tabularnewline \hline
+\raggedright Lectura & \raggedright CSV con separador «;» y BOM & \raggedright pandas: read\_csv(sep=\textquotedbl{};\textquotedbl{}, encoding=\textquotedbl{}utf-8-sig\textquotedbl{}) \tabularnewline
+\raggedright Limpieza & \raggedright Decodificar entidades HTML; excluir vacíos y «\#¿NOMBRE?» & \raggedright html.unescape (estándar); pandas \tabularnewline
+\raggedright Escalado & \raggedright log1p y escalado de variables de estilo & \raggedright numpy: log1p; scikit-learn: MaxAbsScaler \tabularnewline
+\raggedright Unión de bloques & \raggedright Concatenar matrices dispersas & \raggedright scipy.sparse: hstack (o scikit-learn: FeatureUnion) \tabularnewline
+\raggedright Modelo principal & \raggedright SVM lineal, C $\in$ \{0,1; 0,3; 0,6\} & \raggedright scikit-learn: LinearSVC \tabularnewline
+\raggedright Modelos alternos & \raggedright Regresión logística por SGD; Complement NB & \raggedright scikit-learn: SGDClassifier(loss=\textquotedbl{}log\_loss\textquotedbl{}), ComplementNB \tabularnewline
+\raggedright Validación & \raggedright Holdout o k-fold estratificado & \raggedright scikit-learn: train\_test\_split, StratifiedKFold \tabularnewline
+\raggedright Métrica & \raggedright F1 macro y matriz de confusión & \raggedright scikit-learn: f1\_score(average=\textquotedbl{}macro\textquotedbl{}), confusion\_matrix \tabularnewline
+\raggedright Descriptivo & \raggedright Kruskal-Wallis y vocabulario distintivo & \raggedright scipy.stats: kruskal; scikit-learn: CountVectorizer \tabularnewline
+\raggedright Escalado de legibilidad & \raggedright Índices con valores negativos & \raggedright scikit-learn: StandardScaler \tabularnewline
+\raggedright Ensamble & \raggedright Votación suave de clasificadores con probabilidades & \raggedright scikit-learn: VotingClassifier(voting=\textquotedbl{}soft\textquotedbl{}), CalibratedClassifierCV \tabularnewline
+\raggedright Desbalance (si aplica) & \raggedright Ponderación de clases o sobremuestreo & \raggedright scikit-learn: class\_weight=\textquotedbl{}balanced\textquotedbl{}; imbalanced-learn: RandomOverSampler \tabularnewline
+\raggedright Alternativa neuronal & \raggedright LDSE + red feed-forward; 1D-CNN desde cero & \raggedright numpy + scikit-learn: MLPClassifier; TensorFlow o PyTorch \tabularnewline
+\hline
+\end{tabular}
+\end{table*}
+
+
+\section*{REFERENCIAS}
+\begin{list}{}{\setlength{\leftmargin}{1.5em}\setlength{\itemindent}{-1.5em}\setlength{\itemsep}{2pt}\setlength{\parsep}{0pt}}\small
+\item Argamon, S., Koppel, M., Pennebaker, J. W., \& Schler, J. (2009). Automatically profiling the author of an anonymous text. \textit{Communications of the ACM, 52}(2), 119–123.
+\item Barrio-Cantalejo, I. M., Simón-Lorda, P., Melguizo, M., Escalona, I., Marijuán, M. I., \& Hernando, P. (2008). Validación de la Escala INFLESZ para evaluar la legibilidad de los textos dirigidos a pacientes. \textit{Anales del Sistema Sanitario de Navarra, 31}(2), 135–152.
+\item Basile, A., Dwyer, G., Medvedeva, M., Rawee, J., Haagsma, H., \& Nissim, M. (2017). N-GrAM: New Groningen author-profiling model. En \textit{Working Notes of CLEF 2017}. CEUR-WS.org.
+\item Basile, A., Dwyer, G., Medvedeva, M., Rawee, J., Haagsma, H., \& Nissim, M. (2018). Simply the best: Minimalist system trumps complex models in author profiling. En \textit{Experimental IR Meets Multilinguality, Multimodality, and Interaction (CLEF 2018)} (pp. 143–156). Springer.
+\item Bird, S., Klein, E., \& Loper, E. (2009). \textit{Natural language processing with Python}. O’Reilly Media. \textdagger{}
+\item Busger op Vollenbroek, M., Carlotto, T., Kreutz, T., Medvedeva, M., Pool, C., Bjerva, J., Haagsma, H., \& Nissim, M. (2016). GronUP: Groningen user profiling. En \textit{Working Notes of CLEF 2016}. CEUR-WS.org.
+\item Chawla, N. V., Bowyer, K. W., Hall, L. O., \& Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. \textit{Journal of Artificial Intelligence Research, 16}, 321–357.
+\item Chiruzzo, L., Etcheverry, M., \& Rosá, A. (2020). Sentiment analysis in Spanish tweets: Some experiments with focus on neutral tweets. \textit{Procesamiento del Lenguaje Natural, 64}, 109–116. \textdagger{}
+\item Eckert, P. (1997). Age as a sociolinguistic variable. En F. Coulmas (Ed.), \textit{The handbook of sociolinguistics} (pp. 151–167). Blackwell.
+\item Eisenstein, J. (2013). What to do about bad language on the internet. En \textit{Proceedings of NAACL-HLT 2013} (pp. 359–369). Association for Computational Linguistics.
+\item \textit{Estado del arte y marco de diseño para la clasificación de edad en textos en español: Sistemas de perfilación de autores (author profiling) sin modelos preentrenados}. (s. f.). [Documento técnico no publicado]. \textdaggerdbl{}
+\item Fan, R.-E., Chang, K.-W., Hsieh, C.-J., Wang, X.-R., \& Lin, C.-J. (2008). LIBLINEAR: A library for large linear classification. \textit{Journal of Machine Learning Research, 9}, 1871–1874.
+\item Fernández Huerta, J. (1959). Medidas sencillas de lecturabilidad. \textit{Consigna, 214}, 29–32.
+\item Frank, E., \& Hall, M. (2001). A simple approach to ordinal classification. En \textit{Machine Learning: ECML 2001} (pp. 145–156). Springer.
+\item Honnibal, M., Montani, I., Van Landeghem, S., \& Boyd, A. (2020). \textit{spaCy: Industrial-strength natural language processing in Python} [Software]. Zenodo. \url{https://doi.org/10.5281/zenodo.1212303}
+\item Joachims, T. (1998). Text categorization with support vector machines: Learning with many relevant features. En \textit{Machine Learning: ECML-98} (pp. 137–142). Springer.
+\item Kešelj, V., Peng, F., Cercone, N., \& Thomas, C. (2003). N-gram-based author profiles for authorship attribution. En \textit{Proceedings of PACLING’03} (pp. 255–264).
+\item Kruskal, W. H., \& Wallis, W. A. (1952). Use of ranks in one-criterion variance analysis. \textit{Journal of the American Statistical Association, 47}(260), 583–621.
+\item Lema\^{\i}tre, G., Nogueira, F., \& Aridas, C. K. (2017). Imbalanced-learn: A Python toolbox to tackle the curse of imbalanced datasets in machine learning. \textit{Journal of Machine Learning Research, 18}(17), 1–5. \textdagger{}
+\item López-Monroy, A. P., Montes-y-Gómez, M., Escalante, H. J., Villaseñor-Pineda, L., \& Stamatatos, E. (2015). Discriminative subprofile-specific representations for author profiling in social media. \textit{Knowledge-Based Systems, 89}, 134–147.
+\item Martinc, M., Škrlj, B., \& Pollak, S. (2019). Who is hot and who is not? Profiling celebs on Twitter. En L. Cappellato, N. Ferro, D. Losada \& H. Müller (Eds.), \textit{CLEF 2019 Labs and Workshops, Notebook Papers} (Vol. 2380). CEUR-WS.org. \textdagger{}
+\item Milroy, J., \& Milroy, L. (1993). Mechanisms of change in urban dialects: The role of class, social network and gender. \textit{International Journal of Applied Linguistics, 3}(1), 57–77. \url{https://doi.org/10.1111/j.1473-4192.1993.tb00043.x} \textdagger{}
+\item Monroe, B. L., Colaresi, M. P., \& Quinn, K. M. (2008). Fightin’ words: Lexical feature selection and evaluation for identifying the content of political conflict. \textit{Political Analysis, 16}(4), 372–403.
+\item Moreno-Sandoval, L. G., Mendoza-Molina, J. F., Puertas-Del Castillo, E. A., Duque-Marín, A., Pomares-Quimbaya, A., \& Alvarado-Valencia, J. A. (2018). Age classification from Spanish tweets: The variable age analyzed by using linear classifiers. En \textit{Proceedings of the 20th International Conference on Enterprise Information Systems (ICEIS 2018)} (pp. 275–281). \url{https://doi.org/10.5220/0006811102750281} \textdagger{}
+\item Moreno-Sandoval, L. G., Pomares-Quimbaya, A., \& Alvarado-Valencia, J. A. (2021). Celebrity profiling through linguistic analysis of digital social networks. \textit{Computational Social Networks, 8}, Artículo 16. \url{https://doi.org/10.1186/s40649-021-00097-w} \textdagger{}
+\item Moreno-Sandoval, L. G., Pomares-Quimbaya, A., Cruz-Gutiérrez, C. E., García-Pachón, J. F., \& Vanegas-Ramírez, D. F. (2022). Comparación de métodos de análisis de sentimientos en comunidades de habla hispana. En \textit{Encuentro Internacional de Educación en Ingeniería ACOFI 2022}. Asociación Colombiana de Facultades de Ingeniería. \textdagger{}
+\item Morgan-Lopez, A. A., Kim, A. E., Chew, R. F., \& Ruddle, P. (2017). Predicting age groups of Twitter users based on language and metadata features. \textit{PLoS ONE, 12}(8), Artículo e0183537.
+\item Nguyen, D., Doğruöz, A. S., Rosé, C. P., \& de Jong, F. (2016). Computational sociolinguistics: A survey. \textit{Computational Linguistics, 42}(3), 537–593. \url{https://doi.org/10.1162/COLI_a_00258} \textdagger{}
+\item Nguyen, D., Gravel, R., Trieschnigg, D., \& Meder, T. (2013). “How old do you think I am?”: A study of language and age in Twitter. En \textit{Proceedings of the Seventh International AAAI Conference on Weblogs and Social Media} (pp. 439–448). AAAI Press.
+\item Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., \& Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. \textit{Journal of Machine Learning Research, 12}, 2825–2830. \textdagger{}
+\item Peersman, C., Daelemans, W., \& Van Vaerenbergh, L. (2011). Predicting age and gender in online social networks. En \textit{Proceedings of the 3rd International Workshop on Search and Mining User-Generated Contents} (pp. 37–44). ACM. \url{https://doi.org/10.1145/2065023.2065035} \textdagger{}
+\item Pennebaker, J. W., \& Stone, L. D. (2003). Words of wisdom: Language use over the life span. \textit{Journal of Personality and Social Psychology, 85}(2), 291–301.
+\item Petrik, J., \& Chuda, D. (2019). Twitter feeds profiling with TF-IDF. En L. Cappellato, N. Ferro, D. Losada \& H. Müller (Eds.), \textit{CLEF 2019 Labs and Workshops, Notebook Papers} (Vol. 2380). CEUR-WS.org. \textdagger{}
+\item Puertas, E., Moreno-Sandoval, L. G., Redondo, J., Alvarado-Valencia, J. A., \& Pomares-Quimbaya, A. (2021). Detection of sociolinguistic features in digital social networks for the detection of communities. \textit{Cognitive Computation, 13}(2), 518–537. \textdagger{}
+\item Radivchev, V., Nikolov, A., \& Lambova, A. (2019). Celebrity profiling using TF-IDF, logistic regression, and SVM. En L. Cappellato, N. Ferro, D. E. Losada \& H. Müller (Eds.), \textit{CLEF 2019 Labs and Workshops, Notebook Papers} (Vol. 2380). CEUR-WS.org. \textdagger{}
+\item Rangel, F., Franco-Salvador, M., \& Rosso, P. (2016). A low dimensionality representation for language variety identification. En \textit{Computational Linguistics and Intelligent Text Processing (CICLing 2016)} (pp. 156–169). Springer.
+\item Rangel, F., Rosso, P., Koppel, M., Stamatatos, E., \& Inches, G. (2013). Overview of the author profiling task at PAN 2013. En \textit{Working Notes of CLEF 2013}. CEUR-WS.org.
+\item Rangel, F., Rosso, P., Potthast, M., Stein, B., \& Daelemans, W. (2015). Overview of the 3rd author profiling task at PAN 2015. En \textit{Working Notes of CLEF 2015}. CEUR-WS.org.
+\item Rangel, F., Rosso, P., Verhoeven, B., Daelemans, W., Potthast, M., \& Stein, B. (2016). Overview of the 4th author profiling task at PAN 2016: Cross-genre evaluations. En \textit{Working Notes of CLEF 2016}. CEUR-WS.org.
+\item Rao, D., Yarowsky, D., Shreevats, A., \& Gupta, M. (2010). Classifying latent user attributes in Twitter. En \textit{Proceedings of the 2nd International Workshop on Search and Mining User-Generated Contents} (pp. 37–44). ACM.
+\item Rennie, J. D. M., Shih, L., Teevan, J., \& Karger, D. R. (2003). Tackling the poor assumptions of naive Bayes text classifiers. En \textit{Proceedings of the 20th International Conference on Machine Learning} (pp. 616–623).
+\item Salton, G., \& Buckley, C. (1988). Term-weighting approaches in automatic text retrieval. \textit{Information Processing \& Management, 24}(5), 513–523.
+\item Sap, M., Park, G., Eichstaedt, J., Kern, M., Stillwell, D., Kosinski, M., Ungar, L., \& Schwartz, H. A. (2014). Developing age and gender predictive lexica over social media. En \textit{Proceedings of EMNLP 2014} (pp. 1146–1151). Association for Computational Linguistics.
+\item Schler, J., Koppel, M., Argamon, S., \& Pennebaker, J. W. (2006). Effects of age and gender on blogging. En \textit{AAAI Spring Symposium: Computational Approaches to Analyzing Weblogs} (pp. 199–205). AAAI Press.
+\item Schwartz, H. A., Eichstaedt, J. C., Kern, M. L., Dziurzynski, L., Ramones, S. M., Agrawal, M., Shah, A., Kosinski, M., Stillwell, D., Seligman, M. E. P., \& Ungar, L. H. (2013). Personality, gender, and age in the language of social media: The open-vocabulary approach. \textit{PLoS ONE, 8}(9), Artículo e73791. \url{https://doi.org/10.1371/journal.pone.0073791} \textdagger{}
+\item Sloan, L., Morgan, J., Burnap, P., \& Williams, M. (2015). Who tweets? Deriving the demographic characteristics of age, occupation and social class from Twitter user meta-data. \textit{PLoS ONE, 10}(3), Artículo e0115545. \url{https://doi.org/10.1371/journal.pone.0115545} \textdagger{}
+\item Sokolova, M., \& Lapalme, G. (2009). A systematic analysis of performance measures for classification tasks. \textit{Information Processing \& Management, 45}(4), 427–437.
+\item Stamatatos, E. (2009). A survey of modern authorship attribution methods. \textit{Journal of the American Society for Information Science and Technology, 60}(3), 538–556.
+\item Szigriszt Pazos, F. (1993). \textit{Sistemas predictivos de legibilidad del mensaje escrito: Fórmula de perspicuidad} [Tesis doctoral, Universidad Complutense de Madrid].
+\item Tomczak, M., \& Tomczak, E. (2014). The need to report effect size estimates revisited: An overview of some recommended measures of effect size. \textit{Trends in Sport Sciences, 21}(1), 19–25.
+\item Wiegmann, M., Stein, B., \& Potthast, M. (2019). Overview of the celebrity profiling task at PAN 2019. En L. Cappellato, N. Ferro, D. Losada \& H. Müller (Eds.), \textit{CLEF 2019 Labs and Workshops, Notebook Papers} (Vol. 2380). CEUR-WS.org. \textdagger{}
+\end{list}
+
+{\footnotesize \textdagger{} Referencia contrastada con las lecturas o el material del curso. \textdaggerdbl{} Fuente secundaria sin autoría aportada al equipo; sus datos deben contrastarse con las fuentes primarias. Las demás deben verificarse antes de la entrega. Las citas se presentan en formato APA 7.}
+
+
+\end{document}
