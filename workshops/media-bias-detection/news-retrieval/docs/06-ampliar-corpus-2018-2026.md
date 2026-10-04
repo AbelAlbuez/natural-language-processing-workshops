@@ -77,8 +77,9 @@ news-corpus retry-failed
 news-corpus status
 ```
 
-Es una petición por medio y mes. Si se corta, se repite el mismo comando: los
-bloques ya completados se saltan.
+Es una petición por medio y mes (~485 en total). Debería tomar minutos, no
+horas, aunque guardar cientos de miles de URLs en la base añade tiempo. Si se
+corta, se repite el mismo comando: los bloques ya completados se saltan.
 
 ### 4. Títulos y temas (sin descargas)
 
@@ -105,7 +106,7 @@ Se puede ir medio por medio (`-s el_tiempo`) o tema por tema (`--topic seguridad
 ### 6. Revisar y exportar
 
 ```powershell
-news-corpus profile
+news-corpus profile    # cuántos artículos tienen cuerpo útil, por medio y año
 news-corpus export -o exports/corpus_2018_2026.parquet --from 2018-08-01 --to 2026-08-31
 ```
 
