@@ -68,16 +68,45 @@ pytest -q
 
 ## Recolectar
 
-```bash
-# Ver el plan sin ejecutar nada
-news-corpus collect -s el_tiempo --from 2013-01 --to 2013-03 --dry-run
+El rango del corpus lo decide **sólo** `--from/--to`: no hay fechas en el
+código. El volcado de `dumps/` trae únicamente unos meses de 2013 (tres
+medios) porque fue la primera recolección de prueba; para tener otro período
+hay que recolectarlo.
 
-# Recolectar de verdad (bloques mensuales, reanudable e idempotente)
-news-corpus collect -s el_tiempo -s noticias_caracol -s blu_radio \
-  --from 2013-01 --to 2013-03
+```bash
+# Ver el plan sin ejecutar nada (≈485 bloques: 5 medios × 97 meses)
+news-corpus collect --from 2018-08 --to 2026-08 --dry-run
+
+# Recolectar de verdad (bloques mensuales, reanudable e idempotente).
+# Sin -s toma los 5 medios con sitemap mensual. Mejor por tramos:
+news-corpus collect --from 2018-08 --to 2020-12
+news-corpus collect --from 2021-01 --to 2023-12
+news-corpus collect --from 2024-01 --to 2026-08
 
 news-corpus retry-failed          # reintenta los bloques en FAILED
 ```
+
+2018-08 → 2026-08 cubre exactamente los gobiernos `duque` y `petro`, y queda
+entero dentro del archivo denso de los cinco medios (El Tiempo lo es desde
+2016-03).
+
+### Extraer sólo lo que se va a analizar
+
+Desde 2016 cada medio publica miles de notas al mes. El discovery es barato
+(un sitemap por mes), pero `extract` abre cada página a 1 req/s: extraer el
+período completo tomaría semanas. Lo práctico es etiquetar primero con el
+título del slug y extraer sólo la tajada de interés:
+
+```bash
+news-corpus enrich
+news-corpus tag
+# --all es necesario: desde 2016 casi todas las URLs traen slug y ya tienen
+# título derivado, así que el extract por defecto las saltaría.
+news-corpus extract --all --from 2018-08 --to 2026-08 --topic politica -n 5000
+```
+
+`--topic` acepta un tema raíz (incluye sus subtemas) o una hoja, y se puede
+repetir. Cada corrida es reanudable: lo ya extraído no se vuelve a pedir.
 
 ## Analizar
 

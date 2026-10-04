@@ -7,6 +7,11 @@ peticiones a los medios a menos de 1 req/s: horas de reloj, y carga sobre unos
 sitios que nos están dando su archivo gratis. Por eso el corpus viaja como un
 volcado de la base que se restaura en minutos.
 
+> **Ojo con el período.** El volcado actual cubre **sólo unos meses de 2013**
+> (El Tiempo, Noticias Caracol y Blu Radio). Si necesitas otros años, por
+> ejemplo 2018-2026 para comparar Duque y Petro, hay que recolectarlos: ver
+> "Recolectar" y "Extraer sólo lo que se va a analizar" en el `README.md`.
+
 ```text
 clonar → docker compose up → restaurar el dump → comprobar → analizar
 ```

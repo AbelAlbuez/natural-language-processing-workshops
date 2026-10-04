@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import calendar
 from datetime import date
 
 import typer
@@ -26,7 +27,8 @@ def _parse_month(value: str, *, last_day: bool = False) -> date:
     """Acepta `2013-05` o `2013-05-20`."""
     parts = value.split("-")
     if len(parts) == 2:
-        return date(int(parts[0]), int(parts[1]), 28 if last_day else 1)
+        year, month = int(parts[0]), int(parts[1])
+        return date(year, month, calendar.monthrange(year, month)[1] if last_day else 1)
     return date.fromisoformat(value)
 
 

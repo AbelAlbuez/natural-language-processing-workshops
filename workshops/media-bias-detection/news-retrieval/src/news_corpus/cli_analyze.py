@@ -97,20 +97,33 @@ def extract(
         False, "--all", help="También los que ya tienen título derivado del slug."
     ),
     retry: bool = typer.Option(False, "--retry", help="Reintentar los que fallaron por red."),
+    desde: str = typer.Option(None, "--from", "-f", help="Mes o día inicial, p. ej. 2018-08"),
+    hasta: str = typer.Option(None, "--to", "-t", help="Mes o día final, p. ej. 2026-08"),
+    topic: list[str] = typer.Option(
+        None, "--topic", help="ID de tema (incluye sus subtemas). Repetible. Requiere `tag`."
+    ),
 ) -> None:
     """Lee la página del artículo para obtener titular, fecha y cuerpo reales."""
+    from news_corpus.cli_collect import _parse_month
     from news_corpus.pipeline.extraction import extract_pending
 
     catalog = load_catalog(get_settings().config_dir)
-    with session_scope() as session:
-        stats = extract_pending(
-            session,
-            catalog,
-            limit=limit,
-            source_id=source,
-            only_missing_title=not all_articles,
-            retry_failed=retry,
-        )
+    try:
+        with session_scope() as session:
+            stats = extract_pending(
+                session,
+                catalog,
+                limit=limit,
+                source_id=source,
+                only_missing_title=not all_articles,
+                retry_failed=retry,
+                date_from=_parse_month(desde) if desde else None,
+                date_to=_parse_month(hasta, last_day=True) if hasta else None,
+                topic_ids=topic or None,
+            )
+    except KeyError as exc:
+        console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from exc
 
     if stats["intentados"] == 0:
         console.print("[green]Nada pendiente de extraer con esos filtros.[/]")

@@ -21,7 +21,7 @@ import json
 import re
 import urllib.robotparser
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from urllib.parse import urlsplit
 
 from sqlalchemy import select
@@ -29,7 +29,13 @@ from sqlalchemy.orm import Session
 
 from news_corpus.config.catalog import Catalog
 from news_corpus.config.settings import get_settings
-from news_corpus.db.models import Article, DatePrecision, ExtractionStatus, TitleSource
+from news_corpus.db.models import (
+    Article,
+    ArticleTopic,
+    DatePrecision,
+    ExtractionStatus,
+    TitleSource,
+)
 from news_corpus.utils.http import FetchError, HttpFetcher, NotFound
 from news_corpus.utils.logging import get_logger
 
@@ -239,6 +245,28 @@ class RobotsCache:
 # ── ejecución ────────────────────────────────────────────────────────────────
 
 
+def expand_topics(catalog: Catalog, topic_ids: list[str]) -> set[str]:
+    """Un tema raíz incluye a todos sus descendientes.
+
+    `tag` etiqueta con los temas hoja (`congreso`, `elecciones`…), no con la
+    raíz: pedir `--topic politica` sin expandir no encontraría nada.
+    """
+    known = {t.id for t in catalog.topics}
+    unknown = [t for t in topic_ids if t not in known]
+    if unknown:
+        raise KeyError(f"Temas desconocidos: {', '.join(unknown)}")
+
+    selected = set(topic_ids)
+    frontier = list(topic_ids)
+    while frontier:
+        parent = frontier.pop()
+        for t in catalog.topics:
+            if t.parent_id == parent and t.id not in selected:
+                selected.add(t.id)
+                frontier.append(t.id)
+    return selected
+
+
 def extract_pending(
     session: Session,
     catalog: Catalog,
@@ -247,6 +275,9 @@ def extract_pending(
     source_id: str | None = None,
     only_missing_title: bool = True,
     retry_failed: bool = False,
+    date_from: date | None = None,
+    date_to: date | None = None,
+    topic_ids: list[str] | None = None,
     commit_every: int = 25,
 ) -> dict[str, int]:
     """Extrae en tandas cortas, confirmando cada `commit_every` artículos.
@@ -274,6 +305,22 @@ def extract_pending(
             stmt = stmt.where(Article.title.is_(None))
     if source_id:
         stmt = stmt.where(Article.source_id == source_id)
+    # Desde 2016 hay miles de URLs por medio y mes: extraerlas todas a 1 req/s
+    # tomaría semanas. Estos filtros permiten extraer sólo la tajada que se va
+    # a analizar (p. ej. política durante Duque y Petro).
+    if date_from:
+        stmt = stmt.where(Article.published_date >= date_from)
+    if date_to:
+        stmt = stmt.where(Article.published_date <= date_to)
+    if topic_ids:
+        stmt = stmt.where(
+            select(ArticleTopic.article_id)
+            .where(
+                ArticleTopic.article_id == Article.id,
+                ArticleTopic.topic_id.in_(expand_topics(catalog, topic_ids)),
+            )
+            .exists()
+        )
     stmt = stmt.order_by(Article.published_date, Article.id).limit(limit)
 
     stats = {

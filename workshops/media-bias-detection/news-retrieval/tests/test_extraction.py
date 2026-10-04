@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
-from news_corpus.pipeline.extraction import is_boilerplate_title, parse_article
+import pytest
+
+from news_corpus.cli_collect import _parse_month
+from news_corpus.config.catalog import load_catalog
+from news_corpus.config.settings import REPO_ROOT
+from news_corpus.pipeline.extraction import expand_topics, is_boilerplate_title, parse_article
 
 # Forma real de una página de archivo de El Tiempo: og:title y <title> no
 # coinciden — <title> trae la versión corta de la pestaña.
@@ -164,3 +169,40 @@ def test_retry_no_se_filtra_por_titulo_ausente():
     fuente = inspect.getsource(extraction.extract_pending)
     tras_retry = fuente.split("if retry_failed:", 1)[1].split("else:", 1)[0]
     assert "only_missing_title" not in tras_retry
+
+
+# ── filtros de `extract` ─────────────────────────────────────────────────────
+
+@pytest.fixture(scope="module")
+def catalog():
+    return load_catalog(REPO_ROOT / "config")
+
+
+def test_tema_raiz_incluye_sus_subtemas(catalog):
+    """`tag` etiqueta con hojas: pedir la raíz debe traer congreso, elecciones…"""
+    temas = expand_topics(catalog, ["politica"])
+    assert {"politica", "gobierno", "elecciones", "congreso", "oposicion"} <= temas
+    assert "conflicto_armado" not in temas
+
+
+def test_tema_hoja_no_arrastra_a_sus_hermanos(catalog):
+    assert expand_topics(catalog, ["congreso"]) == {"congreso"}
+
+
+def test_tema_desconocido_falla_en_vez_de_no_extraer_nada(catalog):
+    with pytest.raises(KeyError):
+        expand_topics(catalog, ["no_existe"])
+
+
+@pytest.mark.parametrize(
+    ("valor", "esperado"),
+    [("2026-08", "2026-08-31"), ("2024-02", "2024-02-29"), ("2018-11", "2018-11-30")],
+)
+def test_fin_de_mes_es_el_ultimo_dia_real(valor, esperado):
+    """Antes devolvía el día 28 y `--to` perdía los últimos días del mes."""
+    assert _parse_month(valor, last_day=True).isoformat() == esperado
+
+
+def test_inicio_de_mes_y_fecha_completa():
+    assert _parse_month("2018-08").isoformat() == "2018-08-01"
+    assert _parse_month("2018-08-07").isoformat() == "2018-08-07"
