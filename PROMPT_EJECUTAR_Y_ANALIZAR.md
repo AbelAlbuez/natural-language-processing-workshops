@@ -1,164 +1,96 @@
-# PROMPT PARA EJECUTAR Y ANALIZAR BENCHMARKS
+# PROMPT: Ejecutar Scripts y Analizar Resultados
 
-## COPIA ESTE PROMPT A TU TERMINAL O COPILOT:
+## Parte 1: Ejecutar MediaStack (RECOMENDADO)
 
-```
-He pagado $24 por MediaStack y necesito ejecutar benchmarks para generar corpus de 1K y 17K eventos.
-
-TAREAS:
-
-1. EJECUTAR TEST 1K:
-   ```bash
-   cd /Users/abelalbuez/Documents/Maestria/Cuarto\ Semestre/PLN/natural-language-processing-workshops/workshops/media-bias-detection/
-   time python3 generar_corpus.py --max-eventos 1000 2>&1 | tee bench_1k.log
-   ```
-   - Registra TODA la salida en bench_1k.log
-   - El script imprimirá: tiempo, tamaño, eventos, velocidad, proyección a 17K
-
-2. EJECUTAR TEST 17K:
-   ```bash
-   time python3 generar_corpus.py --max-eventos 17000 2>&1 | tee bench_17k.log
-   ```
-   - Registra TODA la salida en bench_17k.log
-   - El script imprimirá: tiempo, tamaño, eventos, velocidad real
-
-3. HACER COMMITS:
-   ```bash
-   git add generar_corpus.py corpus_eventos_reales.json
-   git commit -m "test(corpus): 1K events scaling benchmark"
-   git push
-   
-   git add corpus_eventos_reales.json
-   git commit -m "test(corpus): 17K events final scaling test"
-   git push
-   ```
-
-4. ANALIZAR RESULTADOS:
-   
-   Después de ambas ejecuciones, crea un archivo BENCHMARK_RESULTS.md con:
-
-   ```markdown
-   # Benchmark Results: MediaStack Corpus Generation
-
-   ## Test 1K Events
-   - **Tiempo ejecutado:** [del log]
-   - **Eventos generados:** [del log]
-   - **Artículos:** [del log]
-   - **Tamaño archivo:** [del log]
-   - **Velocidad:** [del log]
-   - **Proyección a 17K (estimada):** [del log]
-
-   ## Test 17K Events
-   - **Tiempo ejecutado:** [del log]
-   - **Eventos generados:** [del log]
-   - **Artículos:** [del log]
-   - **Tamaño archivo:** [del log]
-   - **Velocidad:** [del log]
-
-   ## Análisis de Escalabilidad
-
-   ### Tiempo
-   - Test 1K: X minutos
-   - Test 17K: Y minutos
-   - Ratio: Y/X = [escalabilidad de tiempo]
-   - Esperado: ~17x si es lineal
-   - Observado: [análisis]
-
-   ### Tamaño
-   - Test 1K: A MB
-   - Test 17K: B MB
-   - Ratio: B/A = [escalabilidad de tamaño]
-   - Esperado: ~17x
-   - Observado: [análisis]
-
-   ### Velocidad (eventos/segundo)
-   - Test 1K: V1 eventos/seg
-   - Test 17K: V17 eventos/seg
-   - Cambio: [aumento/disminución]
-   - Análisis: [mejor/peor con más eventos]
-
-   ## Conclusiones
-
-   1. **¿Es lineal?** El tiempo es proporcional a eventos (V1 ≈ V17)
-   2. **¿Eficiencia?** Mejora con más datos o se degrada
-   3. **¿Viable?** Para FASE 4, ¿cuántos eventos necesitamos?
-   4. **Cuota:** Peticiones usadas de tu cuota de $24
-   ```
-
-5. HACER COMMIT FINAL:
-   ```bash
-   git add BENCHMARK_RESULTS.md bench_1k.log bench_17k.log
-   git commit -m "docs: corpus scaling benchmarks and analysis
-
-   - 1K events: X minutos, A MB
-   - 17K events: Y minutos, B MB
-   - Scaling analysis and efficiency metrics"
-   git push
-   ```
-
-IMPORTANTE:
-- No hagas git add del corpus_eventos_reales.json dos veces (ya está en primero commit)
-- Los logs (bench_1k.log, bench_17k.log) sí van en el último commit
-- El análisis en BENCHMARK_RESULTS.md es lo más importante
-```
-
----
-
-## PASOS ORDENADOS:
-
-### 1️⃣ Ejecuta en terminal (copia y pega):
 ```bash
+# 1. Configura el API key
+export MEDIASTACK_API_KEY="5f855a76f3e987cdbc21d5fb1a84ba0e"
+
+# 2. Ve a la carpeta
 cd /Users/abelalbuez/Documents/Maestria/Cuarto\ Semestre/PLN/natural-language-processing-workshops/workshops/media-bias-detection/
-echo "=== TEST 1K ===" 
-time python3 generar_corpus.py --max-eventos 1000 2>&1 | tee bench_1k.log
-echo && echo "=== TEST 17K ===" 
-time python3 generar_corpus.py --max-eventos 17000 2>&1 | tee bench_17k.log
+
+# 3. Ejecuta con 1000 eventos
+echo "=== TEST 1000 EVENTOS ==="
+time python3 generar_corpus.py 1000 2>&1 | tee bench_mediastack_1k.log
+
+# 4. Revisa resultados
+echo ""
+echo "=== RESULTADOS 1K ==="
+tail -15 bench_mediastack_1k.log
+echo ""
+echo "Corpus creado:"
+ls -lh corpus_eventos_reales.json
+echo ""
+echo "Primeros 2 eventos:"
+head -50 corpus_eventos_reales.json
 ```
 
-### 2️⃣ Copia el output de AMBOS TESTS (lo que aparece en terminal)
+## Parte 2: OPCIONAL - Ejecutar NewsAPI (para comparar)
 
-### 3️⃣ Abre Claude o Copilot y pega este prompt:
-```
-Analiza estos resultados de benchmarks y crea un archivo BENCHMARK_RESULTS.md
-
-TEST 1K OUTPUT:
-[pega aquí el output de bench_1k.log]
-
-TEST 17K OUTPUT:
-[pega aquí el output de bench_17k.log]
-
-Crea BENCHMARK_RESULTS.md con:
-- Métricas extraídas (tiempo, eventos, tamaño, velocidad)
-- Análisis de escalabilidad (¿es lineal?, ¿eficiencia?)
-- Conclusiones (¿viable para FASE 4?)
-```
-
-### 4️⃣ Haz los 3 commits:
 ```bash
-# Commit 1: Test 1K
-git add generar_corpus.py corpus_eventos_reales.json
-git commit -m "test(corpus): 1K events scaling benchmark"
-git push
+# 1. Configura API key NewsAPI
+export NEWSAPI_KEY="d8e82adf19434eb0a1b3a57925071b8c"
 
-# Commit 2: Test 17K
-git add corpus_eventos_reales.json
-git commit -m "test(corpus): 17K events final scaling test"
-git push
+# 2. Ejecuta
+echo "=== TEST NewsAPI ==="
+time python3 generar_corpus_newsapi.py 1000 2>&1 | tee bench_newsapi_1k.log
 
-# Commit 3: Análisis
-git add BENCHMARK_RESULTS.md bench_1k.log bench_17k.log
-git commit -m "docs: corpus scaling analysis and metrics"
-git push
+# 3. Revisa
+echo ""
+echo "=== RESULTADOS NewsAPI ==="
+tail -15 bench_newsapi_1k.log
+```
+
+## Parte 3: Análisis Manual
+
+Copia los outputs aquí y responde:
+
+### De MediaStack:
+1. **Eventos encontrados:** [X de 1000]
+2. **Tiempo total:** [X minutos]
+3. **Tamaño archivo:** [X MB]
+4. **Medios encontrados:** (Copia la lista)
+5. **Velocidad:** [X eventos/segundo]
+
+### De NewsAPI (si lo ejecutaste):
+1. **Eventos encontrados:** [X]
+2. **Tiempo:** [X minutos]
+3. **Medios:** [Cuáles aparecen?]
+
+---
+
+## Parte 4: Comparativa
+
+Después de ejecutar ambos, responde:
+
+```
+MEDIASTACK vs NewsAPI:
+
+1. Velocidad
+   - MediaStack: X eventos/min
+   - NewsAPI: Y eventos/min
+   - Ganador: ___
+
+2. Cobertura de outlets
+   - MediaStack encontró: ___
+   - NewsAPI encontró: ___
+   - Ganador: ___
+
+3. Cobertura de OUTLETS OBJETIVO
+   - El Tiempo: (MediaStack: SI/NO | NewsAPI: SI/NO)
+   - Caracol: (MediaStack: SI/NO | NewsAPI: SI/NO)
+   - Blu Radio: (MediaStack: SI/NO | NewsAPI: SI/NO)
+
+4. Conclusión
+   - ¿Cuál es mejor para FASE 4? ___
+   - ¿Por qué? ___
 ```
 
 ---
 
-## RESULTADO ESPERADO:
+## Espera que termine
 
-Un documento `BENCHMARK_RESULTS.md` con:
-- ✅ Métricas de ambos tests
-- ✅ Análisis de escalabilidad
-- ✅ Conclusiones para FASE 4
-- ✅ 3 commits en el repo
+MediaStack: ~8-10 minutos
+NewsAPI: ~2-3 minutos
 
-Esto te da data real para saber si MediaStack puede sustentar 17K eventos o si necesitas otra estrategia.
+Luego copia los outputs acá para análisis. 🎯
