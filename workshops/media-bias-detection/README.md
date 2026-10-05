@@ -17,6 +17,8 @@ aplicarlo a 20 años de cobertura y comparar entre gobiernos.
 
 Para empezar con el corpus sin recolectar nada, ver
 [`news-retrieval/docs/03-guia-del-equipo.md`](news-retrieval/docs/03-guia-del-equipo.md).
+Para ampliar el corpus a 6+ medios (Entrega 2), ver
+[`news-retrieval/docs/06-ampliacion-corpus.md`](news-retrieval/docs/06-ampliacion-corpus.md).
 Resúmenes de traspaso: [técnico](news-retrieval/docs/04-resumen-tecnico.md) ·
 [no técnico](news-retrieval/docs/05-resumen-del-proyecto.md).
 
