@@ -1,0 +1,997 @@
+$ time python3 generar_corpus.py --max-eventos 17000 --todos-los-medios --sin-cache --max-peticiones 2000
+======================================================================
+GENERADOR DE CORPUS DE EVENTOS REALES — MediaStack
+======================================================================
+✓ Estructura de referencia (corpus_ejemplo.json): evento_id, medio, titulo, fecha, url, texto
+✓ Medios objetivo: El Tiempo, Noticias Caracol, Blu Radio, Caracol Radio, El Colombiano, W Radio, La Opinión, La Nación, El Diario, El Nuevo Día
+✓ Eventos solicitados: 17000  |  Tope de peticiones nuevas: 2000
+🕐 Inicio: 2026-10-04 22:18:08
+
+🔎 Ronda 1 (página 1 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 1... ✅ 100 artículos, 87 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 1... ✅ 100 artículos, 38 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 1... ✅ 100 artículos, 91 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 1... ✅ 100 artículos, 54 de medios objetivo
+   [5/10] acuerdo de paz 'acuerdo paz' (país=co) pág 1... ✅ 1 artículos, 1 de medios objetivo
+   [6/10] acuerdo de paz 'acuerdo paz' (fuentes) pág 1... ✅ 1 artículos, 0 de medios objetivo
+   [7/10] reforma pensional 'reforma pensional' (país=co) pág 1... ✅ 100 artículos, 84 de medios objetivo
+   [8/10] reforma pensional 'reforma pensional' (fuentes) pág 1... ✅ 59 artículos, 30 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 1... ✅ 100 artículos, 74 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 1... ✅ 100 artículos, 32 de medios objetivo
+   Acumulado: 491 artículos de medios objetivo | 10 peticiones nuevas
+   Eventos (2+ medios) hasta ahora: 10 / 17000
+
+🔎 Ronda 2 (página 2 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 2... ✅ 100 artículos, 50 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 2... ✅ 100 artículos, 69 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 2... ✅ 100 artículos, 46 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 2... ✅ 100 artículos, 55 de medios objetivo
+   [7/10] reforma pensional 'reforma pensional' (país=co) pág 2... ✅ 95 artículos, 52 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 2... ✅ 100 artículos, 65 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 2... ✅ 100 artículos, 16 de medios objetivo
+   Acumulado: 844 artículos de medios objetivo | 17 peticiones nuevas
+   Eventos (2+ medios) hasta ahora: 19 / 17000
+
+🔎 Ronda 3 (página 3 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 3... ✅ 100 artículos, 32 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 3... ✅ 100 artículos, 99 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 3... ✅ 100 artículos, 2 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 3... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 3... ✅ 100 artículos, 57 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 3... ✅ 100 artículos, 18 de medios objetivo
+   Acumulado: 1055 artículos de medios objetivo | 23 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 28 / 17000
+
+🔎 Ronda 4 (página 4 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 4... ✅ 100 artículos, 0 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 4... ✅ 100 artículos, 97 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 4... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 4... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 4... ✅ 100 artículos, 69 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 4... ✅ 100 artículos, 22 de medios objetivo
+   Acumulado: 1246 artículos de medios objetivo | 29 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 34 / 17000
+
+🔎 Ronda 5 (página 5 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 5... ✅ 100 artículos, 0 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 5... ✅ 100 artículos, 69 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 5... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 5... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 5... ✅ 100 artículos, 59 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 5... ✅ 100 artículos, 23 de medios objetivo
+   Acumulado: 1400 artículos de medios objetivo | 35 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 36 / 17000
+
+🔎 Ronda 6 (página 6 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 6... ✅ 100 artículos, 0 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 6... ✅ 100 artículos, 1 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 6... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 6... ✅ 100 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 6... ✅ 100 artículos, 79 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 6... ✅ 100 artículos, 23 de medios objetivo
+   Acumulado: 1505 artículos de medios objetivo | 41 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 39 / 17000
+
+🔎 Ronda 7 (página 7 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 7... ✅ 100 artículos, 0 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 7... ✅ 100 artículos, 3 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 7... ✅ 100 artículos, 1 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 7... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 7... ✅ 100 artículos, 75 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 7... ✅ 100 artículos, 18 de medios objetivo
+   Acumulado: 1605 artículos de medios objetivo | 47 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 44 / 17000
+
+🔎 Ronda 8 (página 8 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 8... ✅ 100 artículos, 0 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 8... ✅ 100 artículos, 3 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 8... ✅ 100 artículos, 1 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 8... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 8... ✅ 100 artículos, 55 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 8... ✅ 100 artículos, 22 de medios objetivo
+   Acumulado: 1689 artículos de medios objetivo | 53 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 45 / 17000
+
+🔎 Ronda 9 (página 9 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 9... ✅ 100 artículos, 1 de medios objetivo
+   [2/10] reforma tributaria 2023 'reforma tributaria' (fuentes) pág 9... ✅ 54 artículos, 0 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 9... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 9... ✅ 100 artículos, 4 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 9... ✅ 100 artículos, 61 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 9... ✅ 100 artículos, 34 de medios objetivo
+   Acumulado: 1789 artículos de medios objetivo | 59 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 48 / 17000
+
+🔎 Ronda 10 (página 10 de cada consulta)
+   [1/10] reforma tributaria 2023 'reforma tributaria' (país=co) pág 10... ✅ 67 artículos, 0 de medios objetivo
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 10... ✅ 100 artículos, 1 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 10... ✅ 100 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 10... ✅ 100 artículos, 57 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 10... ✅ 100 artículos, 42 de medios objetivo
+   Acumulado: 1891 artículos de medios objetivo | 64 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 54 / 17000
+
+🔎 Ronda 11 (página 11 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 11... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 11... ✅ 100 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 11... ✅ 100 artículos, 54 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 11... ✅ 100 artículos, 60 de medios objetivo
+   Acumulado: 2007 artículos de medios objetivo | 68 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 57 / 17000
+
+🔎 Ronda 12 (página 12 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 12... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 12... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 12... ✅ 100 artículos, 55 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 12... ✅ 100 artículos, 52 de medios objetivo
+   Acumulado: 2117 artículos de medios objetivo | 72 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 60 / 17000
+
+🔎 Ronda 13 (página 13 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 13... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 13... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 13... ✅ 100 artículos, 37 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 13... ✅ 100 artículos, 23 de medios objetivo
+   Acumulado: 2180 artículos de medios objetivo | 76 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 62 / 17000
+
+🔎 Ronda 14 (página 14 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 14... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 14... ✅ 100 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 14... ✅ 100 artículos, 25 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 14... ✅ 100 artículos, 34 de medios objetivo
+   Acumulado: 2241 artículos de medios objetivo | 80 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 64 / 17000
+
+🔎 Ronda 15 (página 15 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 15... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 15... ✅ 100 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 15... ✅ 100 artículos, 40 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 15... ✅ 100 artículos, 37 de medios objetivo
+   Acumulado: 2320 artículos de medios objetivo | 84 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 69 / 17000
+
+🔎 Ronda 16 (página 16 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 16... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 16... ✅ 100 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 16... ✅ 100 artículos, 45 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 16... ✅ 100 artículos, 71 de medios objetivo
+   Acumulado: 2438 artículos de medios objetivo | 88 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 76 / 17000
+
+🔎 Ronda 17 (página 17 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 17... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 17... ✅ 100 artículos, 3 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 17... ✅ 100 artículos, 59 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 17... ✅ 100 artículos, 88 de medios objetivo
+   Acumulado: 2588 artículos de medios objetivo | 92 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 85 / 17000
+
+🔎 Ronda 18 (página 18 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 18... ✅ 100 artículos, 0 de medios objetivo
+   [4/10] acuerdo de paz 'acuerdo de paz' (fuentes) pág 18... ✅ 85 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 18... ✅ 100 artículos, 66 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 18... ✅ 100 artículos, 41 de medios objetivo
+   Acumulado: 2697 artículos de medios objetivo | 96 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 88 / 17000
+
+🔎 Ronda 19 (página 19 de cada consulta)
+   [3/10] acuerdo de paz 'acuerdo de paz' (país=co) pág 19... ✅ 99 artículos, 2 de medios objetivo
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 19... ✅ 100 artículos, 59 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 19... ✅ 100 artículos, 14 de medios objetivo
+   Acumulado: 2772 artículos de medios objetivo | 99 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 96 / 17000
+
+🔎 Ronda 20 (página 20 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 20... ✅ 100 artículos, 27 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 20... ✅ 100 artículos, 33 de medios objetivo
+   Acumulado: 2832 artículos de medios objetivo | 101 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 100 / 17000
+
+🔎 Ronda 21 (página 21 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 21... ✅ 100 artículos, 26 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 21... ✅ 100 artículos, 55 de medios objetivo
+   Acumulado: 2913 artículos de medios objetivo | 103 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 103 / 17000
+
+🔎 Ronda 22 (página 22 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 22... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 22... ✅ 100 artículos, 28 de medios objetivo
+   Acumulado: 2946 artículos de medios objetivo | 105 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 103 / 17000
+
+🔎 Ronda 23 (página 23 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 23... ✅ 100 artículos, 69 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 23... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3015 artículos de medios objetivo | 107 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 104 / 17000
+
+🔎 Ronda 24 (página 24 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 24... ✅ 100 artículos, 80 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 24... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3095 artículos de medios objetivo | 109 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 25 (página 25 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 25... ✅ 100 artículos, 1 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 25... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3096 artículos de medios objetivo | 111 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 26 (página 26 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 26... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 26... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3099 artículos de medios objetivo | 113 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 27 (página 27 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 27... ✅ 100 artículos, 0 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 27... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3099 artículos de medios objetivo | 115 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 28 (página 28 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 28... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 28... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3102 artículos de medios objetivo | 117 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 29 (página 29 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 29... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 29... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3105 artículos de medios objetivo | 119 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 30 (página 30 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 30... ✅ 100 artículos, 8 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 30... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3113 artículos de medios objetivo | 121 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 31 (página 31 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 31... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 31... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3115 artículos de medios objetivo | 123 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 32 (página 32 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 32... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 32... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3118 artículos de medios objetivo | 125 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 33 (página 33 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 33... ✅ 100 artículos, 4 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 33... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3122 artículos de medios objetivo | 127 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 34 (página 34 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 34... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 34... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3124 artículos de medios objetivo | 129 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 35 (página 35 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 35... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 35... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3129 artículos de medios objetivo | 131 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 36 (página 36 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 36... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 36... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3134 artículos de medios objetivo | 133 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 105 / 17000
+
+🔎 Ronda 37 (página 37 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 37... ✅ 100 artículos, 7 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 37... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3141 artículos de medios objetivo | 135 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 38 (página 38 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 38... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 38... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3144 artículos de medios objetivo | 137 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 39 (página 39 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 39... ✅ 100 artículos, 4 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 39... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3148 artículos de medios objetivo | 139 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 40 (página 40 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 40... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 40... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3153 artículos de medios objetivo | 141 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 41 (página 41 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 41... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 41... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3156 artículos de medios objetivo | 143 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 42 (página 42 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 42... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 42... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3158 artículos de medios objetivo | 145 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 43 (página 43 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 43... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 43... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3161 artículos de medios objetivo | 147 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 44 (página 44 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 44... ✅ 100 artículos, 4 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 44... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3165 artículos de medios objetivo | 149 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 45 (página 45 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 45... ✅ 100 artículos, 8 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 45... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3173 artículos de medios objetivo | 151 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 46 (página 46 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 46... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 46... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3175 artículos de medios objetivo | 153 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 106 / 17000
+
+🔎 Ronda 47 (página 47 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 47... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 47... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3180 artículos de medios objetivo | 155 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 107 / 17000
+
+🔎 Ronda 48 (página 48 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 48... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 48... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3183 artículos de medios objetivo | 157 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 107 / 17000
+
+🔎 Ronda 49 (página 49 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 49... ✅ 100 artículos, 0 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 49... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3183 artículos de medios objetivo | 159 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 107 / 17000
+
+🔎 Ronda 50 (página 50 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 50... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 50... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3185 artículos de medios objetivo | 161 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 107 / 17000
+
+🔎 Ronda 51 (página 51 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 51... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 51... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3191 artículos de medios objetivo | 163 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 107 / 17000
+
+🔎 Ronda 52 (página 52 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 52... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 52... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3193 artículos de medios objetivo | 165 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 107 / 17000
+
+🔎 Ronda 53 (página 53 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 53... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 53... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3196 artículos de medios objetivo | 167 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 107 / 17000
+
+🔎 Ronda 54 (página 54 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 54... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 54... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3199 artículos de medios objetivo | 169 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 108 / 17000
+
+🔎 Ronda 55 (página 55 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 55... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 55... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3201 artículos de medios objetivo | 171 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 108 / 17000
+
+🔎 Ronda 56 (página 56 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 56... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 56... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3204 artículos de medios objetivo | 173 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 108 / 17000
+
+🔎 Ronda 57 (página 57 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 57... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 57... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3206 artículos de medios objetivo | 175 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 108 / 17000
+
+🔎 Ronda 58 (página 58 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 58... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 58... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3212 artículos de medios objetivo | 177 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 108 / 17000
+
+🔎 Ronda 59 (página 59 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 59... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 59... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3215 artículos de medios objetivo | 179 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 108 / 17000
+
+🔎 Ronda 60 (página 60 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 60... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 60... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3218 artículos de medios objetivo | 181 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 110 / 17000
+
+🔎 Ronda 61 (página 61 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 61... ✅ 100 artículos, 7 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 61... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3225 artículos de medios objetivo | 183 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 109 / 17000
+
+🔎 Ronda 62 (página 62 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 62... ✅ 100 artículos, 0 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 62... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3225 artículos de medios objetivo | 185 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 109 / 17000
+
+🔎 Ronda 63 (página 63 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 63... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 63... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3231 artículos de medios objetivo | 187 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 110 / 17000
+
+🔎 Ronda 64 (página 64 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 64... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 64... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3233 artículos de medios objetivo | 189 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 111 / 17000
+
+🔎 Ronda 65 (página 65 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 65... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 65... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3235 artículos de medios objetivo | 191 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 111 / 17000
+
+🔎 Ronda 66 (página 66 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 66... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 66... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3241 artículos de medios objetivo | 193 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 112 / 17000
+
+🔎 Ronda 67 (página 67 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 67... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 67... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3244 artículos de medios objetivo | 195 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 112 / 17000
+
+🔎 Ronda 68 (página 68 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 68... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 68... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3249 artículos de medios objetivo | 197 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 113 / 17000
+
+🔎 Ronda 69 (página 69 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 69... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 69... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3255 artículos de medios objetivo | 199 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 114 / 17000
+
+🔎 Ronda 70 (página 70 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 70... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 70... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3258 artículos de medios objetivo | 201 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 115 / 17000
+
+🔎 Ronda 71 (página 71 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 71... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 71... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3264 artículos de medios objetivo | 203 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 115 / 17000
+
+🔎 Ronda 72 (página 72 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 72... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 72... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3267 artículos de medios objetivo | 205 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 115 / 17000
+
+🔎 Ronda 73 (página 73 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 73... ✅ 100 artículos, 1 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 73... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3268 artículos de medios objetivo | 207 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 115 / 17000
+
+🔎 Ronda 74 (página 74 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 74... ✅ 100 artículos, 7 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 74... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3275 artículos de medios objetivo | 209 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 115 / 17000
+
+🔎 Ronda 75 (página 75 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 75... ✅ 100 artículos, 4 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 75... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3279 artículos de medios objetivo | 211 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 115 / 17000
+
+🔎 Ronda 76 (página 76 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 76... ✅ 100 artículos, 1 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 76... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3280 artículos de medios objetivo | 213 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 115 / 17000
+
+🔎 Ronda 77 (página 77 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 77... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 77... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3286 artículos de medios objetivo | 215 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 116 / 17000
+
+🔎 Ronda 78 (página 78 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 78... ✅ 100 artículos, 1 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 78... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3287 artículos de medios objetivo | 217 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 116 / 17000
+
+🔎 Ronda 79 (página 79 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 79... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 79... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3289 artículos de medios objetivo | 219 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 118 / 17000
+
+🔎 Ronda 80 (página 80 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 80... ✅ 100 artículos, 1 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 80... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3290 artículos de medios objetivo | 221 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 118 / 17000
+
+🔎 Ronda 81 (página 81 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 81... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 81... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3295 artículos de medios objetivo | 223 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 118 / 17000
+
+🔎 Ronda 82 (página 82 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 82... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 82... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3300 artículos de medios objetivo | 225 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 118 / 17000
+
+🔎 Ronda 83 (página 83 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 83... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 83... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3302 artículos de medios objetivo | 227 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 119 / 17000
+
+🔎 Ronda 84 (página 84 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 84... ✅ 100 artículos, 5 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 84... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3307 artículos de medios objetivo | 229 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 119 / 17000
+
+🔎 Ronda 85 (página 85 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 85... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 85... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3310 artículos de medios objetivo | 231 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 119 / 17000
+
+🔎 Ronda 86 (página 86 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 86... ✅ 100 artículos, 1 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 86... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3311 artículos de medios objetivo | 233 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 119 / 17000
+
+🔎 Ronda 87 (página 87 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 87... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 87... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3313 artículos de medios objetivo | 235 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 119 / 17000
+
+🔎 Ronda 88 (página 88 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 88... ✅ 100 artículos, 4 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 88... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3317 artículos de medios objetivo | 237 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 119 / 17000
+
+🔎 Ronda 89 (página 89 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 89... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 89... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3319 artículos de medios objetivo | 239 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 119 / 17000
+
+🔎 Ronda 90 (página 90 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 90... ✅ 100 artículos, 4 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 90... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3323 artículos de medios objetivo | 241 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 91 (página 91 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 91... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 91... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3325 artículos de medios objetivo | 243 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 92 (página 92 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 92... ✅ 100 artículos, 1 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 92... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3326 artículos de medios objetivo | 245 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 93 (página 93 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 93... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 93... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3329 artículos de medios objetivo | 247 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 94 (página 94 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 94... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 94... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3331 artículos de medios objetivo | 249 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 95 (página 95 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 95... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 95... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3334 artículos de medios objetivo | 251 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 96 (página 96 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 96... ✅ 100 artículos, 6 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 96... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3340 artículos de medios objetivo | 253 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 97 (página 97 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 97... ✅ 100 artículos, 2 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 97... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3342 artículos de medios objetivo | 255 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 98 (página 98 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 98... ✅ 100 artículos, 3 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 98... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3345 artículos de medios objetivo | 257 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 99 (página 99 de cada consulta)
+   [9/10] elecciones locales 2024 'elecciones' (país=co) pág 99... ✅ 41 artículos, 4 de medios objetivo
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 99... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3349 artículos de medios objetivo | 259 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+🔎 Ronda 100 (página 100 de cada consulta)
+   [10/10] elecciones locales 2024 'elecciones' (fuentes) pág 100... ✅ 100 artículos, 0 de medios objetivo
+   Acumulado: 3349 artículos de medios objetivo | 260 peticiones nuevas
+   [Agrupando] 1000 artículos procesados...
+   [Agrupando] 2000 artículos procesados...
+   [Agrupando] 3000 artículos procesados...
+   Eventos (2+ medios) hasta ahora: 120 / 17000
+
+⏹  Búsqueda terminada: MediaStack no tiene más resultados para estas palabras clave
+
+----------------------------------------------------------------------
+Resultados recibidos de la API: 25602  |  Peticiones nuevas gastadas: 260
+Artículos de los medios objetivo: 3349
+   ⚠ El Tiempo             0 artículos
+   ⚠ Noticias Caracol      0 artículos
+   ⚠ Blu Radio             0 artículos
+   ✓ Caracol Radio        31 artículos
+   ✓ El Colombiano      1550 artículos
+   ✓ W Radio             747 artículos
+   ✓ La Opinión          436 artículos
+   ✓ La Nación           364 artículos
+   ✓ El Diario           204 artículos
+   ⚠ El Nuevo Día         17 artículos
+🕐 Fin: 2026-10-04 22:25:42
+
+======================================================================
+ESTADÍSTICAS FINALES
+======================================================================
+Eventos encontrados (2+ medios): 120
+Artículos en el corpus:          256
+
+Artículos por medio en el corpus:
+   El Colombiano        89
+   La Nación            53
+   La Opinión           37
+   El Diario            34
+   W Radio              33
+   Caracol Radio         9
+   El Nuevo Día          1
+
+Eventos por tema:
+   elecciones locales 2024     85
+   reforma tributaria 2023     22
+   reforma pensional            9
+   acuerdo de paz               4
+
+Eventos por número de medios:
+   4 medios: 1 eventos
+   3 medios: 14 eventos
+   2 medios: 105 eventos
+
+✓ Corpus guardado en: /Users/abelalbuez/Documents/Maestria/Cuarto Semestre/PLN/natural-language-processing-workshops/workshops/media-bias-detection/corpus_eventos_reales.json
+
+======================================================================
+RESULTADO FINAL:
+======================================================================
+⏱️  Tiempo: 453.5 segundos (7.6 minutos)
+📁 Tamaño archivo: 0.19 MB
+📊 Eventos: 120 (solicitados: 17000)
+📰 Artículos: 256
+📈 Velocidad: 0.26 eventos/segundo
+🌐 Peticiones nuevas a MediaStack: 260
+⚠  Se generaron menos eventos de los solicitados: MediaStack no tiene más resultados para estas palabras clave.
+
+PROYECCIÓN A 17,000 EVENTOS:
+⏱️  Tiempo estimado: 1070.8 minutos
+📁 Tamaño estimado: 26.8 MB
+   (extrapolación lineal desde 120 eventos; no considera la cuota de MediaStack
+    ni si la API tiene suficientes artículos; si se usó cache, el tiempo real será mayor)
+python3 -W ignore generar_corpus.py --max-eventos 17000 --todos-los-medios     23.32s user 0.84s system 5% cpu 7:33.66 total
