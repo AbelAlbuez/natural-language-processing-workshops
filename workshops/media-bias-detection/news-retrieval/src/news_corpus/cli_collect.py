@@ -16,8 +16,8 @@ from news_corpus.db.models import ChunkStatus, CollectionChunk
 from news_corpus.db.session import session_scope
 from news_corpus.pipeline.collector import collect_chunk
 from news_corpus.pipeline.planner import plan, resolve_sources
+from news_corpus.providers import ProviderPool
 from news_corpus.providers.base import Period
-from news_corpus.providers.sitemap import SitemapProvider
 
 console = Console()
 
@@ -32,7 +32,7 @@ def _parse_month(value: str, *, last_day: bool = False) -> date:
 
 def collect(
     source: list[str] = typer.Option(
-        None, "--source", "-s", help="ID del medio. Repetible. Por defecto: todos con sitemap."
+        None, "--source", "-s", help="ID del medio. Repetible. Por defecto: todos."
     ),
     desde: str = typer.Option(..., "--from", "-f", help="Mes inicial, p. ej. 2013-01"),
     hasta: str = typer.Option(..., "--to", "-t", help="Mes final, p. ej. 2013-03"),
@@ -83,7 +83,8 @@ def collect(
             console.print(f"[dim]… y {len(chunks) - 40} más[/]")
         raise typer.Exit(0)
 
-    provider = SitemapProvider()
+    # El piso de la ventana evita que Arc pagine más atrás de lo necesario.
+    pool = ProviderPool(stop_before=_parse_month(desde))
     totals = {"nuevos": 0, "duplicados": 0, "rechazados": 0, "fallidos": 0, "vacios": 0}
 
     try:
@@ -103,7 +104,7 @@ def collect(
                 with session_scope() as session:
                     outcome = collect_chunk(
                         session,
-                        provider=provider,
+                        provider=pool.for_strategy(planned.source.discovery.strategy),
                         catalog=catalog,
                         source=planned.source,
                         period=planned.period,
@@ -119,7 +120,7 @@ def collect(
                         totals["vacios"] += 1
                 progress.advance(task)
     finally:
-        provider.close()
+        pool.close()
 
     console.print(
         f"\n[green]✓[/] artículos nuevos [bold]{totals['nuevos']}[/] · "
@@ -158,14 +159,16 @@ def retry_failed(
         raise typer.Exit(0)
 
     console.print(f"Reintentando [bold]{len(objetivos)}[/] bloques…")
-    provider = SitemapProvider()
+    pool = ProviderPool(stop_before=min(p.start for _, p in objetivos))
     recuperados = 0
     try:
         for source_id, period in objetivos:
             with session_scope() as session:
                 outcome = collect_chunk(
                     session,
-                    provider=provider,
+                    provider=pool.for_strategy(
+                        catalog.source(source_id).discovery.strategy
+                    ),
                     catalog=catalog,
                     source=catalog.source(source_id),
                     period=period,
@@ -173,6 +176,60 @@ def retry_failed(
             if outcome.status == ChunkStatus.COMPLETED:
                 recuperados += 1
     finally:
-        provider.close()
+        pool.close()
 
     console.print(f"[green]✓[/] recuperados {recuperados}/{len(objetivos)}")
+
+
+def probe(
+    source: list[str] = typer.Option(
+        None, "--source", "-s", help="ID del medio. Repetible. Por defecto: Arc e índices."
+    ),
+    desde: str = typer.Option(
+        "2022-08", "--from", "-f", help="Mes más antiguo que interesa (detiene la paginación)."
+    ),
+) -> None:
+    """Mide hasta qué fecha llega el feed de los medios sin sitemap mensual.
+
+    No escribe en la base. Sirve para decidir, con datos, si un medio Arc o un
+    índice de sitemap cubre la ventana comparable antes de recolectarlo.
+    """
+    from news_corpus.providers import ArcFeedProvider, SitemapIndexProvider
+
+    settings = get_settings()
+    catalog = load_catalog(settings.config_dir)
+    floor = _parse_month(desde)
+    ids = source or [
+        s.id
+        for s in catalog.active_sources()
+        if s.discovery.strategy in {"arc_paginated", "sitemap_index"}
+    ]
+
+    table = Table(title=f"Alcance de los feeds (piso {desde})")
+    columnas = ("medio", "estrategia", "peticiones", "URLs",
+                "más reciente", "más antigua", "¿cubre el piso?")
+    for col in columnas:
+        table.add_column(col)
+
+    for sid in ids:
+        src = catalog.source(sid)
+        cls = {"arc_paginated": ArcFeedProvider, "sitemap_index": SitemapIndexProvider}.get(
+            src.discovery.strategy
+        )
+        if cls is None:
+            table.add_row(sid, src.discovery.strategy, "-", "-", "-", "-", "usa sitemap mensual")
+            continue
+        provider = cls(stop_before=floor)
+        try:
+            snap = provider.snapshot(src, stop_before=floor)
+            fechas = [i.published_at for i in snap.items if i.published_at]
+            newest = max(fechas).date().isoformat() if fechas else "-"
+            oldest = snap.oldest.isoformat() if snap.oldest else "-"
+            ok = "sí" if snap.oldest and snap.oldest <= floor else "[yellow]no[/]"
+            table.add_row(sid, src.discovery.strategy, str(len(snap.requests)),
+                          str(len(snap.items)), newest, oldest, ok)
+        except Exception as exc:  # noqa: BLE001 — se reporta, no se aborta
+            table.add_row(sid, src.discovery.strategy, "-", "-", "-", "-", f"[red]{exc}[/]")
+        finally:
+            provider.close()
+    console.print(table)
