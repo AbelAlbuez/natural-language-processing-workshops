@@ -1,0 +1,7 @@
+source_id,budget,repetitions,ttr_mean,q025,q975,status
+blu_radio,10000,100,0.4685660000000001,0.4617,0.47641500000000003,"equal-token rarefaction, not publisher CI"
+cambio,10000,0,,,,insufficient tokens; excluded
+el_tiempo,10000,100,0.4762239999999999,0.4698,0.48354,"equal-token rarefaction, not publisher CI"
+la_republica,10000,100,0.447338,0.4402475,0.45531,"equal-token rarefaction, not publisher CI"
+noticias_caracol,10000,100,0.4800649999999999,0.4731375,0.48857249999999997,"equal-token rarefaction, not publisher CI"
+noticias_rcn,10000,100,0.452619,0.4442975,0.4605575,"equal-token rarefaction, not publisher CI"

@@ -1,0 +1,448 @@
+{
+  "origin": "news-corpus-unificado/news_corpus",
+  "original_total": 1733421,
+  "duque_before": {
+    "articles": 708768,
+    "titles": 98,
+    "missing": 708670,
+    "slug": 98
+  },
+  "before_by_medium": [
+    {
+      "source_id": "blu_radio",
+      "articles": 166593,
+      "titles": 0,
+      "missing": 166593
+    },
+    {
+      "source_id": "cambio",
+      "articles": 98,
+      "titles": 98,
+      "missing": 0
+    },
+    {
+      "source_id": "el_tiempo",
+      "articles": 263145,
+      "titles": 0,
+      "missing": 263145
+    },
+    {
+      "source_id": "la_republica",
+      "articles": 91801,
+      "titles": 0,
+      "missing": 91801
+    },
+    {
+      "source_id": "noticias_caracol",
+      "articles": 109384,
+      "titles": 0,
+      "missing": 109384
+    },
+    {
+      "source_id": "noticias_rcn",
+      "articles": 77747,
+      "titles": 0,
+      "missing": 77747
+    }
+  ],
+  "cambio_global": {
+    "articles": 44575,
+    "first_date": "2022-08-01",
+    "last_date": "2026-07-31",
+    "before_august2022": 0
+  },
+  "cambio_chunks": [
+    {
+      "provider": "sitemap_index",
+      "period_start": "2022-08-01",
+      "status": "completed",
+      "n_found": 512,
+      "n_new": 512,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2022-09-01",
+      "status": "completed",
+      "n_found": 684,
+      "n_new": 684,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2022-10-01",
+      "status": "completed",
+      "n_found": 801,
+      "n_new": 801,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2022-11-01",
+      "status": "completed",
+      "n_found": 751,
+      "n_new": 751,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2022-12-01",
+      "status": "completed",
+      "n_found": 718,
+      "n_new": 718,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-01-01",
+      "status": "completed",
+      "n_found": 746,
+      "n_new": 746,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-02-01",
+      "status": "completed",
+      "n_found": 762,
+      "n_new": 762,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-03-01",
+      "status": "completed",
+      "n_found": 828,
+      "n_new": 828,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-04-01",
+      "status": "completed",
+      "n_found": 743,
+      "n_new": 742,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-05-01",
+      "status": "completed",
+      "n_found": 949,
+      "n_new": 949,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-06-01",
+      "status": "completed",
+      "n_found": 896,
+      "n_new": 896,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-07-01",
+      "status": "completed",
+      "n_found": 1004,
+      "n_new": 1004,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-08-01",
+      "status": "completed",
+      "n_found": 1312,
+      "n_new": 1312,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-09-01",
+      "status": "completed",
+      "n_found": 1497,
+      "n_new": 1497,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-10-01",
+      "status": "completed",
+      "n_found": 1527,
+      "n_new": 1527,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-11-01",
+      "status": "completed",
+      "n_found": 1221,
+      "n_new": 1221,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2023-12-01",
+      "status": "completed",
+      "n_found": 1004,
+      "n_new": 1004,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-01-01",
+      "status": "completed",
+      "n_found": 1120,
+      "n_new": 1120,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-02-01",
+      "status": "completed",
+      "n_found": 1102,
+      "n_new": 1102,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-03-01",
+      "status": "completed",
+      "n_found": 1067,
+      "n_new": 1067,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-04-01",
+      "status": "completed",
+      "n_found": 1153,
+      "n_new": 1153,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-05-01",
+      "status": "completed",
+      "n_found": 1013,
+      "n_new": 1013,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-06-01",
+      "status": "completed",
+      "n_found": 988,
+      "n_new": 988,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-07-01",
+      "status": "completed",
+      "n_found": 1154,
+      "n_new": 1154,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-08-01",
+      "status": "completed",
+      "n_found": 1006,
+      "n_new": 1006,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-09-01",
+      "status": "completed",
+      "n_found": 1151,
+      "n_new": 1151,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-10-01",
+      "status": "completed",
+      "n_found": 1092,
+      "n_new": 1092,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-11-01",
+      "status": "completed",
+      "n_found": 1038,
+      "n_new": 1038,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2024-12-01",
+      "status": "completed",
+      "n_found": 976,
+      "n_new": 976,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-01-01",
+      "status": "completed",
+      "n_found": 865,
+      "n_new": 865,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-02-01",
+      "status": "completed",
+      "n_found": 932,
+      "n_new": 932,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-03-01",
+      "status": "completed",
+      "n_found": 960,
+      "n_new": 960,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-04-01",
+      "status": "completed",
+      "n_found": 970,
+      "n_new": 970,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-05-01",
+      "status": "completed",
+      "n_found": 1041,
+      "n_new": 1041,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-06-01",
+      "status": "completed",
+      "n_found": 871,
+      "n_new": 871,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-07-01",
+      "status": "completed",
+      "n_found": 1014,
+      "n_new": 1014,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-08-01",
+      "status": "completed",
+      "n_found": 847,
+      "n_new": 847,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-09-01",
+      "status": "completed",
+      "n_found": 863,
+      "n_new": 860,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-10-01",
+      "status": "completed",
+      "n_found": 858,
+      "n_new": 858,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-11-01",
+      "status": "completed",
+      "n_found": 690,
+      "n_new": 689,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2025-12-01",
+      "status": "completed",
+      "n_found": 682,
+      "n_new": 682,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2026-01-01",
+      "status": "completed",
+      "n_found": 678,
+      "n_new": 678,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2026-02-01",
+      "status": "completed",
+      "n_found": 659,
+      "n_new": 659,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2026-03-01",
+      "status": "completed",
+      "n_found": 688,
+      "n_new": 688,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2026-04-01",
+      "status": "completed",
+      "n_found": 396,
+      "n_new": 396,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2026-05-01",
+      "status": "completed",
+      "n_found": 1055,
+      "n_new": 1030,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2026-06-01",
+      "status": "completed",
+      "n_found": 841,
+      "n_new": 841,
+      "attempts": 1
+    },
+    {
+      "provider": "sitemap_index",
+      "period_start": "2026-07-01",
+      "status": "completed",
+      "n_found": 880,
+      "n_new": 880,
+      "attempts": 1
+    }
+  ],
+  "cambio_provenance": [
+    {
+      "coverage": "completa",
+      "date_source": "sitemap:lastmod",
+      "observations": 44600,
+      "first_date": "2022-08-01T11:18:25+00:00"
+    }
+  ]
+}

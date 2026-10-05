@@ -1,0 +1,7 @@
+gensim>=4.4.0
+scikit-learn>=1.5
+scipy>=1.13
+pyLDAvis>=3.4.1
+seaborn>=0.13
+python-pptx>=1.0
+nbformat>=5.10
