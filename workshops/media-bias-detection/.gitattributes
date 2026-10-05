@@ -2,3 +2,4 @@
 *.sh text eol=lf
 *.py text eol=lf
 *.dump binary
+news-retrieval/dumps/kelly/news_corpus.dump filter=lfs diff=lfs merge=lfs -text
