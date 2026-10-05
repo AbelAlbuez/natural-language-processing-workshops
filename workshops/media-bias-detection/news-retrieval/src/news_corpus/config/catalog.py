@@ -39,6 +39,8 @@ class DiscoveryConfig(BaseModel):
     archive_from: date | None = None
     reliable_from: date | None = None
     max_offset: int | None = None
+    # Feeds Arc: cuántas URLs trae cada página. `from` avanza de a `page_size`.
+    page_size: int = 100
     fallback: list[str] = Field(default_factory=list)
     notes: str | None = None
 

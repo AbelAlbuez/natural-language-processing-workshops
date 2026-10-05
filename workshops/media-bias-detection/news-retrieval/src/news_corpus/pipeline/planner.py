@@ -69,7 +69,9 @@ def plan(
 
 
 def resolve_sources(catalog: Catalog, requested: list[str] | None) -> list[str]:
-    """`None` o vacío significa todos los medios activos con sitemap propio."""
+    """`None` o vacío significa todos los medios activos con un proveedor implementado."""
+    from news_corpus.providers import COLLECTABLE_STRATEGIES
+
     if requested:
         for sid in requested:
             catalog.source(sid)  # lanza KeyError si no existe
@@ -77,5 +79,5 @@ def resolve_sources(catalog: Catalog, requested: list[str] | None) -> list[str]:
     return [
         s.id
         for s in catalog.active_sources()
-        if s.discovery.strategy in {"monthly_sitemap", "monthly_sitemap_gz"}
+        if s.discovery.strategy in COLLECTABLE_STRATEGIES
     ]

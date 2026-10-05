@@ -106,7 +106,11 @@ sources:
     discovery:
       strategy: arc_paginated
       url_template: "https://www.semana.com/arc/outboundfeeds/sitemap/?outputType=xml&from={offset}"
-      max_offset: 300
+      # La exploración de Fase 1 habló de "~300 páginas". `from` es un offset
+      # de URLs (avanza de a page_size), así que 300 páginas ≈ offset 30.000.
+      # El valor real lo mide `news-corpus probe -s semana`.
+      page_size: 100
+      max_offset: 30000
       archive_from: null
       reliable_from: null
       fallback: [common_crawl, gdelt, wayback]

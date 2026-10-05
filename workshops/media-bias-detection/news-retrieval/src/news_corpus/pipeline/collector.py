@@ -25,6 +25,7 @@ from news_corpus.db.models import (
     DatePrecision,
     DiscoveryRecord,
     RejectionReason,
+    TitleSource,
 )
 from news_corpus.providers.base import BaseProvider, DiscoveredItem, Period
 from news_corpus.utils.logging import get_logger
@@ -252,6 +253,7 @@ def _persist(
                 source_id=source.id,
                 government_id=government.id if government else None,
                 title=item.title,
+                title_source=TitleSource.SITEMAP if item.title else None,
                 published_at=published_at,
                 published_date=published_date,
                 date_precision=precision,
@@ -267,6 +269,7 @@ def _persist(
             out.n_duplicates += 1
             if article.title is None and item.title:
                 article.title = item.title
+                article.title_source = TitleSource.SITEMAP
 
         record.article_id = article.id
 

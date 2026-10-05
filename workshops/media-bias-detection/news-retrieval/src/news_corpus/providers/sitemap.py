@@ -74,6 +74,76 @@ def looks_like_article(url: str) -> bool:
     return len(path.strip("/")) > 0
 
 
+def parse_sitemap_root(xml: str, *, url: str) -> ElementTree.Element:
+    """Parsea y valida que la respuesta sea de verdad un sitemap."""
+    try:
+        root = ElementTree.fromstring(xml)
+    except ElementTree.ParseError as exc:
+        # XML roto no es un mes vacío: hay que reintentarlo.
+        raise FetchError(f"{url}: XML inválido ({exc})") from exc
+    # Una página de error suele ser XML/HTML bien formado: parsear sin error no
+    # basta. Si no se comprueba, cero URLs se confundiría con un mes vacío.
+    tag = root.tag.split("}")[-1]
+    if tag not in {"urlset", "sitemapindex"}:
+        raise FetchError(f"{url}: la respuesta no es un sitemap (elemento raíz <{tag}>)")
+    return root
+
+
+def parse_urlset(
+    root: ElementTree.Element,
+    *,
+    source: SourceConfig,
+    period: Period | None,
+    url: str,
+) -> list[DiscoveredItem]:
+    """Convierte un <urlset> en items. Compartido por todos los proveedores de sitemap.
+
+    Fecha: si el sitemap declara `news:publication_date` se usa esa (es fecha de
+    publicación). Si no, `lastmod` (es fecha de modificación). `date_source`
+    deja constancia de cuál se usó.
+    """
+    items: list[DiscoveredItem] = []
+    for node in root.findall("sm:url", _NS):
+        loc = node.findtext("sm:loc", namespaces=_NS)
+        if not loc or not loc.strip():
+            continue
+        loc = loc.strip()
+        if not looks_like_article(loc):
+            continue
+
+        pub_raw = node.findtext("news:news/news:publication_date", namespaces=_NS)
+        lastmod_raw = node.findtext("sm:lastmod", namespaces=_NS)
+        published_at = _parse_lastmod(pub_raw)
+        date_source = "sitemap:news_publication_date"
+        raw_date = pub_raw
+        if published_at is None:
+            published_at = _parse_lastmod(lastmod_raw)
+            date_source = "sitemap:lastmod"
+            raw_date = lastmod_raw
+
+        # Los sitemaps actuales traen news:title; los históricos no.
+        title = node.findtext("news:news/news:title", namespaces=_NS)
+
+        items.append(
+            DiscoveredItem(
+                url=loc,
+                title=title.strip() if title and title.strip() else None,
+                published_at=published_at,
+                published_at_raw=raw_date,
+                raw={
+                    "sitemap_url": url,
+                    "source_id": source.id,
+                    "period": period.label if period else None,
+                    "date_source": date_source,
+                    "date_in_period": (
+                        period.contains(published_at) if (period and published_at) else None
+                    ),
+                },
+            )
+        )
+    return items
+
+
 class SitemapProvider(BaseProvider):
     name = "sitemap"
 
@@ -117,55 +187,5 @@ class SitemapProvider(BaseProvider):
     def _parse(
         self, xml: str, *, source: SourceConfig, period: Period, url: str
     ) -> list[DiscoveredItem]:
-        try:
-            root = ElementTree.fromstring(xml)
-        except ElementTree.ParseError as exc:
-            # XML roto no es un mes vacío: hay que reintentarlo.
-            raise FetchError(f"{url}: XML inválido ({exc})") from exc
-
-        # Una página de error del servidor suele ser XML/HTML bien formado, así
-        # que parsear sin error no basta: hay que comprobar que esto sea de
-        # verdad un sitemap. Si no, cero URLs se confundiría con un mes vacío y
-        # el bloque quedaría completado sin datos.
-        tag = root.tag.split("}")[-1]
-        if tag not in {"urlset", "sitemapindex"}:
-            raise FetchError(
-                f"{url}: la respuesta no es un sitemap (elemento raíz <{tag}>)"
-            )
-
-        items: list[DiscoveredItem] = []
-        for node in root.findall("sm:url", _NS):
-            loc = node.findtext("sm:loc", namespaces=_NS)
-            if not loc or not loc.strip():
-                continue
-            loc = loc.strip()
-
-            if not looks_like_article(loc):
-                continue
-
-            lastmod_raw = node.findtext("sm:lastmod", namespaces=_NS)
-            published_at = _parse_lastmod(lastmod_raw)
-
-            # Los sitemaps actuales traen news:title; los históricos no.
-            title = node.findtext("news:news/news:title", namespaces=_NS)
-
-            items.append(
-                DiscoveredItem(
-                    url=loc,
-                    title=title.strip() if title else None,
-                    published_at=published_at,
-                    published_at_raw=lastmod_raw,
-                    raw={
-                        "sitemap_url": url,
-                        "source_id": source.id,
-                        "period": period.label,
-                        # Trazabilidad de la fecha: es lastmod, no una fecha de
-                        # publicación declarada por el medio.
-                        "date_source": "sitemap:lastmod",
-                        "date_in_period": (
-                            period.contains(published_at) if published_at else None
-                        ),
-                    },
-                )
-            )
-        return items
+        root = parse_sitemap_root(xml, url=url)
+        return parse_urlset(root, source=source, period=period, url=url)
