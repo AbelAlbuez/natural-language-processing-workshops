@@ -17,6 +17,8 @@ aplicarlo a 20 años de cobertura y comparar entre gobiernos.
 
 Para empezar con el corpus sin recolectar nada, ver
 [`news-retrieval/docs/03-guia-del-equipo.md`](news-retrieval/docs/03-guia-del-equipo.md).
+Para ampliar el corpus a 6+ medios (Entrega 2), ver
+[`news-retrieval/docs/06-ampliacion-corpus.md`](news-retrieval/docs/06-ampliacion-corpus.md).
 Resúmenes de traspaso: [técnico](news-retrieval/docs/04-resumen-tecnico.md) ·
 [no técnico](news-retrieval/docs/05-resumen-del-proyecto.md).
 
@@ -52,10 +54,9 @@ Orquestador
 
 ## Archivos
 
-- `agentes.py` — los 4 agentes de análisis/síntesis, cada uno con system
-  prompt que exige JSON estricto: `verificar_mismo_evento`,
-  `analizar_lexico_framing`, `analizar_actores_citas`,
-  `analizar_estilo_enfasis`, `sintetizar_reporte`.
+- `agentes.py` — agentes de análisis y síntesis: verificación, análisis
+  léxico/framing, actores/citas y síntesis con LLM; estilo/énfasis se calcula
+  localmente con métricas cuantitativas de `textstat`.
 - `busqueda.py` — interfaz `AgenteBusqueda` y `buscar_noticias_actuales(tema, n)`,
   implementación real con la herramienta `web_search_20250305` de la API de
   Anthropic.
@@ -84,11 +85,9 @@ resultado siempre pasa por el verificador antes de analizarse.
 
 ## Decisiones de diseño (no reabrir sin justificación)
 
-- El agente de estilo/énfasis (`analizar_estilo_enfasis`) hoy pide una
-  estimación **cualitativa** al modelo. Es una simplificación temporal: la
-  versión correcta debe reemplazarla por métricas cuantitativas reales
-  (`textstat`, `textdescriptives`) reutilizadas del Taller 1, no preguntarle
-  al LLM.
+- El agente de estilo/énfasis (`analizar_estilo_enfasis`) calcula legibilidad
+  con `textstat` en español (Flesch y Gunning Fog), además de longitud y
+  promedios de oraciones; no solicita una estimación al LLM.
 - Sin framework de orquestación (LangGraph/CrewAI): con 4-5 agentes
   secuenciales no se justifica la complejidad adicional.
 - El verificador puede descartar medios explícitamente
@@ -97,8 +96,6 @@ resultado siempre pasa por el verificador antes de analizarse.
 
 ## Pendientes
 
-- Reemplazar la estimación cualitativa de estilo/énfasis por métricas
-  cuantitativas (textstat/textdescriptives).
 - Probar `buscar_noticias_actuales` con varios temas reales y evaluar la
   consistencia del JSON devuelto por el modelo.
 - Evaluar si conviene subir `N_MEDIOS_BUSQUEDA` (hoy 2) a 3-4 para tener más

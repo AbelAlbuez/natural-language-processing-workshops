@@ -1,1 +1,2 @@
 anthropic>=0.40.0
+textstat>=0.7.3

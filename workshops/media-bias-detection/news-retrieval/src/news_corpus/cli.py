@@ -26,10 +26,11 @@ from news_corpus.cli_analyze import (  # noqa: E402
     profile,
     tag,
 )
-from news_corpus.cli_collect import collect, retry_failed  # noqa: E402
+from news_corpus.cli_collect import collect, probe, retry_failed  # noqa: E402
 
 app.command("collect")(collect)
 app.command("retry-failed")(retry_failed)
+app.command("probe")(probe)
 app.command("enrich")(enrich)
 app.command("tag")(tag)
 app.command("export")(export)

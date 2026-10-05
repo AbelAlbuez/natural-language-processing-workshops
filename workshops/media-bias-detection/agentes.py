@@ -160,46 +160,46 @@ def analizar_actores_citas(articulo: dict[str, Any]) -> dict[str, Any]:
 
 
 # ---------------------------------------------------------------------------
-# 4. Agente estilo / énfasis (extensión propia, ligada a Taller 1)
+# 4. Métricas de estilo / énfasis
 # ---------------------------------------------------------------------------
-
-# NOTA (simplificación temporal, decisión ya tomada): este agente hoy pide una
-# estimación CUALITATIVA al modelo. La versión correcta debe reemplazar esta
-# llamada por métricas cuantitativas reales (textstat, textdescriptives) sobre
-# el texto del artículo, reutilizando el pipeline del Taller 1, en vez de
-# preguntarle al LLM. No cambiar esto sin justificación explícita.
-
-_SYSTEM_ESTILO = """\
-Eres un analista de estilo y énfasis temático en cobertura noticiosa. \
-Recibes un único artículo. Estima, de forma cualitativa, qué tan extenso/ \
-detallado es el tratamiento de cada subtema del evento (énfasis temático) \
-y describe rasgos de estilo relevantes (longitud relativa, uso de \
-titulares alarmistas, presencia de contexto/antecedentes).
-
-Esta es una estimación cualitativa temporal: NO calcules métricas exactas, \
-solo describe patrones observables en el texto.
-
-Responde ÚNICAMENTE con un objeto JSON válido, sin texto adicional, sin \
-markdown, con este esquema exacto:
-{
-  "medio": "nombre_medio",
-  "enfasis_tematico": [
-    {"subtema": "...", "grado_enfasis": "alto|medio|bajo", "evidencia": "..."}
-  ],
-  "estimacion_cualitativa": {
-    "extension_relativa": "alta|media|baja",
-    "titular_alarmista": true|false,
-    "incluye_contexto_antecedentes": true|false
-  },
-  "nota": "simplificación temporal: pendiente reemplazar por métricas cuantitativas (textstat/textdescriptives) del Taller 1"
-}
-"""
 
 
 def analizar_estilo_enfasis(articulo: dict[str, Any]) -> dict[str, Any]:
-    """Estimación cualitativa temporal de estilo/énfasis (ver nota arriba)."""
-    contenido = json.dumps(articulo, ensure_ascii=False, indent=2)
-    return _llamar_agente(_SYSTEM_ESTILO, contenido)
+    """Calcula métricas cuantitativas de estilo y legibilidad en español."""
+    import textstat
+
+    texto = articulo.get("texto", "")
+    palabras = texto.split()
+    if len(palabras) < 5:
+        return {
+            "medio": articulo.get("medio", "desconocido"),
+            "error": "Texto muy corto o ausente",
+            "palabras_totales": len(palabras),
+        }
+
+    textstat.set_lang("es")
+    num_oraciones = max(textstat.sentence_count(texto), 1)
+    flesch = textstat.flesch_reading_ease(texto)
+    gunning = textstat.gunning_fog(texto)
+
+    return {
+        "medio": articulo.get("medio", "desconocido"),
+        "metricas": {
+            "flesch_reading_ease": round(flesch, 2),
+            "gunning_fog": round(gunning, 2),
+            "palabras_totales": len(palabras),
+            "oraciones_totales": num_oraciones,
+            "promedio_palabras_por_oracion": round(len(palabras) / num_oraciones, 2),
+            "longitud_texto_caracteres": len(texto),
+        },
+        "interpretacion_legibilidad": (
+            "alta (accesible)"
+            if flesch > 60
+            else "media (requiere atención)"
+            if flesch > 40
+            else "baja (complejo)"
+        ),
+    }
 
 
 # ---------------------------------------------------------------------------
