@@ -19,3 +19,6 @@ workshops/03-IR-comision-de-la-verdad/figuras/nube_libros.png
 workshops/03-IR-comision-de-la-verdad/figuras/top_terminos.png
 workshops/03-IR-comision-de-la-verdad/figuras/zipf_crudo_vs_preprocesado.png
 workshops/03-IR-comision-de-la-verdad/figuras/zipf_preprocesado.png
+
+# caché de respuestas de MediaStack (generar_corpus.py)
+workshops/media-bias-detection/.cache_mediastack/
