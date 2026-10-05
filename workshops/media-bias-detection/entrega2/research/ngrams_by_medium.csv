@@ -1,0 +1,121 @@
+source_id,size,ngram,count,count_per_1000_titles
+blu_radio,2,programa completo,8822,53.171484365582586
+blu_radio,2,blu programa,3191,19.232623737312856
+blu_radio,2,completo cortes,2825,17.026688203669327
+blu_radio,2,voz populi,2207,13.301911810795824
+blu_radio,2,mananas blu,1648,9.932737047662673
+blu_radio,2,blog deportivo,1070,6.449046505460594
+blu_radio,2,populi programa,954,5.749897538513465
+blu_radio,2,deportivo programa,931,5.611273174377396
+blu_radio,2,claudia lopez,903,5.442513078907399
+blu_radio,2,nube programa,874,5.267725837170617
+blu_radio,3,blu programa completo,3191,19.232623737312856
+blu_radio,3,programa completo cortes,2825,17.026688203669327
+blu_radio,3,voz populi programa,954,5.749897538513465
+blu_radio,3,populi programa completo,954,5.749897538513465
+blu_radio,3,deportivo programa completo,931,5.611273174377396
+blu_radio,3,blog deportivo programa,919,5.538947419175969
+blu_radio,3,nube programa completo,874,5.267725837170617
+blu_radio,3,mananas blu camila,849,5.117047180500976
+blu_radio,3,blu camila zuluaga,848,5.1110200342341905
+blu_radio,3,camila zuluaga programa,839,5.05677571783312
+cambio,2,gustavo petro,7,71.42857142857143
+cambio,2,canal dique,5,51.02040816326531
+cambio,2,nancy pelosi,3,30.612244897959183
+cambio,2,licitacion canal,3,30.612244897959183
+cambio,2,nuevo presidente,2,20.408163265306122
+cambio,2,ingreso solidario,2,20.408163265306122
+cambio,2,recibe gustavo,2,20.408163265306122
+cambio,2,ivan duque,2,20.408163265306122
+cambio,2,plan pistola,2,20.408163265306122
+cambio,2,cano cristales,2,20.408163265306122
+cambio,3,licitacion canal dique,3,30.612244897959183
+cambio,3,recibe gustavo petro,2,20.408163265306122
+cambio,3,siete frases mindefensa,1,10.204081632653061
+cambio,3,frases mindefensa petro,1,10.204081632653061
+cambio,3,mindefensa petro cambiarian,1,10.204081632653061
+cambio,3,petro cambiarian ejercito,1,10.204081632653061
+cambio,3,cambiarian ejercito siempre,1,10.204081632653061
+cambio,3,general rendira honores,1,10.204081632653061
+cambio,3,rendira honores nuevo,1,10.204081632653061
+cambio,3,honores nuevo presidente,1,10.204081632653061
+el_tiempo,2,caricatura matador,1853,7.046484743390831
+el_tiempo,2,seleccion colombia,1742,6.624380152718201
+el_tiempo,2,editorial tiempo,1596,6.069179519941589
+el_tiempo,2,james rodriguez,1411,5.365671868820541
+el_tiempo,2,copa america,1379,5.2439840588969
+el_tiempo,2,ivan duque,1294,4.920750813787229
+el_tiempo,2,real madrid,1294,4.920750813787229
+el_tiempo,2,liga betplay,1284,4.882723373186091
+el_tiempo,2,liga aguila,1210,4.601320312737672
+el_tiempo,2,santa marta,1196,4.548081895896079
+el_tiempo,3,fecha liga aguila,595,2.262632715767698
+el_tiempo,3,presidente ivan duque,298,1.133217729913906
+el_tiempo,3,maria isabel rueda,270,1.02674089623072
+el_tiempo,3,resultado goles partido,258,0.9811079675093548
+el_tiempo,3,miguel angel lopez,229,0.8708283897660551
+el_tiempo,3,german vargas lleras,216,0.821392716984576
+el_tiempo,3,vivo minuto minuto,202,0.7681543001429831
+el_tiempo,3,juan esteban constain,199,0.7567460679626419
+el_tiempo,3,juegos olimpicos tokio,196,0.7453378357823005
+el_tiempo,3,ricardo silva romero,193,0.7339296036019591
+la_republica,2,dolar petroleo,662,7.215809380552194
+la_republica,2,america latina,600,6.5400085020110525
+la_republica,2,reino unido,555,6.049507864360224
+la_republica,2,vacunas covid,497,5.417307042499155
+la_republica,2,primer trimestre,455,4.959506447358382
+la_republica,2,precio dolar,422,4.5998059797477735
+la_republica,2,precios dolar,404,4.403605724687442
+la_republica,2,casos covid,398,4.338205639667332
+la_republica,2,donald trump,369,4.022105228736797
+la_republica,2,union europea,364,3.9676051578867053
+la_republica,3,precios dolar petroleo,395,4.305505597157277
+la_republica,3,precio dolar petroleo,228,2.4852032307642
+la_republica,3,millones vacunas covid,219,2.3871031032340344
+la_republica,3,informo aplicado millones,206,2.2454029190237947
+la_republica,3,aplicado millones vacunas,206,2.2454029190237947
+la_republica,3,minsalud informo aplicado,205,2.2345029048537763
+la_republica,3,dolar petroleo brent,178,1.940202522263279
+la_republica,3,ministerio salud reporto,163,1.7767023097130026
+la_republica,3,casos nuevos covid,156,1.7004022105228738
+la_republica,3,presidente ivan duque,147,1.602302082992708
+noticias_caracol,2,video noticias,1057,9.689691524957603
+noticias_caracol,2,pico placa,724,6.637026172250997
+noticias_caracol,2,claudia lopez,642,5.8853187881010225
+noticias_caracol,2,casos coronavirus,622,5.701975523674199
+noticias_caracol,2,valle cauca,566,5.188614383279094
+noticias_caracol,2,coronavirus colombia,520,4.766924875097401
+noticias_caracol,2,ivan duque,459,4.207727918595591
+noticias_caracol,2,video entretenimiento,454,4.161892102488885
+noticias_caracol,2,video titulares,450,4.12522344960352
+noticias_caracol,2,nino anos,444,4.070220470275474
+noticias_caracol,3,casos coronavirus colombia,355,3.2543429435761104
+noticias_caracol,3,pico placa bogota,218,1.998441582252372
+noticias_caracol,3,reviva capitulo informantes,201,1.8425998074895724
+noticias_caracol,3,video noticias lll,195,1.7875968281615253
+noticias_caracol,3,pico placa medellin,189,1.7325938488334784
+noticias_caracol,3,pico placa taxis,144,1.3200715038731266
+noticias_caracol,3,video noticias julio,142,1.3017371774304443
+noticias_caracol,3,video noticias agosto,140,1.2834028509877617
+noticias_caracol,3,video noticias junio,139,1.2742356877664207
+noticias_caracol,3,video noticias septiembre,139,1.2742356877664207
+noticias_rcn,2,pico placa,914,11.756685489368818
+noticias_rcn,2,emision martes,634,8.155075054988874
+noticias_rcn,2,emision miercoles,623,8.013583216495375
+noticias_rcn,2,emision jueves,619,7.9621316388613765
+noticias_rcn,2,emision viernes,615,7.910680061227377
+noticias_rcn,2,emision lunes,590,7.589107701014882
+noticias_rcn,2,luis diaz,529,6.804471142096395
+noticias_rcn,2,seleccion colombia,508,6.534350359517899
+noticias_rcn,2,ciudades colombia,424,5.453867229203915
+noticias_rcn,2,principales ciudades,414,5.3252382851189175
+noticias_rcn,3,principales ciudades colombia,395,5.0808432913574215
+noticias_rcn,3,semaforo laura acuna,298,3.8331425337329406
+noticias_rcn,3,pico placa jueves,119,1.5306844346114763
+noticias_rcn,3,pico placa martes,118,1.5178215402029764
+noticias_rcn,3,pico placa viernes,116,1.492095751385977
+noticias_rcn,3,pico placa miercoles,114,1.4663699625689772
+noticias_rcn,3,bogota cali medellin,106,1.3634668073009788
+noticias_rcn,3,pico placa lunes,95,1.221974968807481
+noticias_rcn,3,consulte pico placa,83,1.0676202359054834
+noticias_rcn,3,pico placa bogota,80,1.029031552679984

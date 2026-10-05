@@ -1,0 +1,91 @@
+section,metric,source_id,tema,topic_id,value,unit,n,low,high,method,status,source_file
+integrity,articles,all,,,708768.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,missing_title,all,,,1215.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_coverage_pct,all,,,99.82857578220235,percent,,,,descriptivo,calculado,input Parquet
+integrity,duplicated_normalized_title_rows,all,,,32368.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_slug,blu_radio,,,165916.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_missing,blu_radio,,,677.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_slug,cambio,,,98.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_slug,el_tiempo,,,262968.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_missing,el_tiempo,,,177.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_slug,la_republica,,,91743.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_missing,la_republica,,,58.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_slug,noticias_caracol,,,109085.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_missing,noticias_caracol,,,299.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_slug,noticias_rcn,,,77743.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,title_source_missing,noticias_rcn,,,4.0,documents,,,,descriptivo,calculado,input Parquet
+integrity,titles_before_enrich,all,,,98.0,documents,,,,descriptivo,calculado,db_evidence.json
+integrity,titles_gained,all,,,707455.0,documents,,,,descriptivo,calculado,DB original + Parquet
+zipf,pearson_r,blu_radio,,,-0.9814579359905493,,,,,rank-frequency descriptive,calculado,input tokens
+zipf,slope,blu_radio,,,-1.0618933706451381,,,,,ranks 10-10000; not power-law test,calculado,input tokens
+diversity,equal_token_ttr,blu_radio,,,0.4685660000000001,,10000.0,0.4617,0.47641500000000003,100 subsamples without replacement; not inferential CI,calculado,input tokens
+zipf,pearson_r,cambio,,,-0.8372669530131444,,,,,rank-frequency descriptive,calculado,input tokens
+zipf,slope,cambio,,,-0.38165123965547254,,,,,ranks 10-10000; not power-law test,calculado,input tokens
+zipf,pearson_r,el_tiempo,,,-0.982835006242239,,,,,rank-frequency descriptive,calculado,input tokens
+zipf,slope,el_tiempo,,,-1.0685628540898644,,,,,ranks 10-10000; not power-law test,calculado,input tokens
+diversity,equal_token_ttr,el_tiempo,,,0.4762239999999999,,10000.0,0.4698,0.48354,100 subsamples without replacement; not inferential CI,calculado,input tokens
+zipf,pearson_r,la_republica,,,-0.9823620510554122,,,,,rank-frequency descriptive,calculado,input tokens
+zipf,slope,la_republica,,,-1.1148691440287088,,,,,ranks 10-10000; not power-law test,calculado,input tokens
+diversity,equal_token_ttr,la_republica,,,0.447338,,10000.0,0.4402475,0.45531,100 subsamples without replacement; not inferential CI,calculado,input tokens
+zipf,pearson_r,noticias_caracol,,,-0.9797792111311268,,,,,rank-frequency descriptive,calculado,input tokens
+zipf,slope,noticias_caracol,,,-1.0272810514608017,,,,,ranks 10-10000; not power-law test,calculado,input tokens
+diversity,equal_token_ttr,noticias_caracol,,,0.4800649999999999,,10000.0,0.4731375,0.48857249999999997,100 subsamples without replacement; not inferential CI,calculado,input tokens
+zipf,pearson_r,noticias_rcn,,,-0.9802528830248539,,,,,rank-frequency descriptive,calculado,input tokens
+zipf,slope,noticias_rcn,,,-1.0847023274996486,,,,,ranks 10-10000; not power-law test,calculado,input tokens
+diversity,equal_token_ttr,noticias_rcn,,,0.452619,,10000.0,0.4442975,0.4605575,100 subsamples without replacement; not inferential CI,calculado,input tokens
+diversity,paired_month_msttr_difference,la_republica vs el_tiempo,,,0.018148016836558315,,48.0,0.015246773041165184,0.02107364419447374,circular month blocks length3; 1000 resamples; exploratory,calculado,diversity_monthly.csv
+events,keyword_rate_pct,blu_radio,Reforma tributaria,,0.415270377781528,percent,165916.0,0.3854542160026081,0.4473825602811075,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,cambio,Reforma tributaria,,0.0,percent,98.0,3.469446951953614e-16,3.7719990121680604,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,el_tiempo,Reforma tributaria,,0.4057527912141401,percent,262968.0,0.3821700912444957,0.43078442394661587,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,la_republica,Reforma tributaria,,1.0780114014148219,percent,91743.0,1.0132077468230691,1.1469118031346437,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,noticias_caracol,Reforma tributaria,,0.31626713113626986,percent,109085.0,0.28465139921327776,0.3513819929669923,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,noticias_rcn,Reforma tributaria,,0.36530620120139434,percent,77743.0,0.3252804982778351,0.41023678845795475,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,cambio_fisher_p,cambio,Reforma tributaria,,1.0,,98.0,,,exploratory exact 2x2; not representative sampling,calculado,input counts
+events,paired_month_difference_pp,la_republica vs noticias_caracol,Reforma tributaria,,0.7241453656096557,percentage_points,49.0,0.6175192829535491,0.8236174814796953,circular month blocks length3; 1000 resamples; exploratory,calculado,input monthly rates
+events,keyword_rate_pct,blu_radio,Conflicto armado,,1.9696713999855349,percent,165916.0,1.903912685742849,2.037654158415331,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,cambio,Conflicto armado,,0.0,percent,98.0,3.469446951953614e-16,3.7719990121680604,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,el_tiempo,Conflicto armado,,1.328678774603754,percent,262968.0,1.2856218049142862,1.3731577130880475,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,la_republica,Conflicto armado,,0.10028013036416947,percent,91743.0,0.0817825744085586,0.12295630906025727,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,noticias_caracol,Conflicto armado,,1.664756840995554,percent,109085.0,1.590514297374928,1.7424035429828935,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,noticias_rcn,Conflicto armado,,1.9718817128230195,percent,77743.0,1.8764971872795542,2.072012361428817,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,cambio_fisher_p,cambio,Conflicto armado,,0.40949456214295243,,98.0,,,exploratory exact 2x2; not representative sampling,calculado,input counts
+events,paired_month_difference_pp,noticias_rcn vs la_republica,Conflicto armado,,2.0658782161791627,percentage_points,48.0,1.7213115407053674,2.4735215993812485,circular month blocks length3; 1000 resamples; exploratory,calculado,input monthly rates
+events,keyword_rate_pct,blu_radio,Corrupcion,,0.6738349526266303,percent,165916.0,0.6355956612860998,0.7143582918561444,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,cambio,Corrupcion,,0.0,percent,98.0,3.469446951953614e-16,3.7719990121680604,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,el_tiempo,Corrupcion,,0.44149858537920966,percent,262968.0,0.41687273340566794,0.46757232577565994,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,la_republica,Corrupcion,,0.3466204506065858,percent,91743.0,0.3106127236659439,0.386786171649573,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,noticias_caracol,Corrupcion,,0.5115277077508366,percent,109085.0,0.4709015573946062,0.5556392361873078,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,keyword_rate_pct,noticias_rcn,Corrupcion,,0.5273786707484919,percent,77743.0,0.47885250124850776,0.5807937086326348,title denominator; Wilson conditional binomial,calculado,input + keyword rules
+events,cambio_fisher_p,cambio,Corrupcion,,1.0,,98.0,,,exploratory exact 2x2; not representative sampling,calculado,input counts
+events,paired_month_difference_pp,blu_radio vs la_republica,Corrupcion,,0.34763234467900483,percentage_points,49.0,0.21825741094101409,0.49775333524647536,circular month blocks length3; 1000 resamples; exploratory,calculado,input monthly rates
+events,chi_square_p_holm,all,Reforma tributaria,,9.479755296970486e-176,,707455.0,,,5 media x yes/no; Holm3; archival dependence caveat,calculado,event_tests.csv
+events,cramers_v,all,Reforma tributaria,,0.03403357022922349,,707455.0,,,descriptivo,calculado,event_tests.csv
+events,chi_square_p_holm,all,Conflicto armado,,0.0,,707455.0,,,5 media x yes/no; Holm3; archival dependence caveat,calculado,event_tests.csv
+events,cramers_v,all,Conflicto armado,,0.04905386376863725,,707455.0,,,descriptivo,calculado,event_tests.csv
+events,chi_square_p_holm,all,Corrupcion,,4.858050911585203e-34,,707455.0,,,5 media x yes/no; Holm3; archival dependence caveat,calculado,event_tests.csv
+events,cramers_v,all,Corrupcion,,0.015143183826974984,,707455.0,,,descriptivo,calculado,event_tests.csv
+lda,js_distance,blu_radio vs cambio,,,0.29270963196794997,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,blu_radio vs el_tiempo,,,0.07123287221865997,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,blu_radio vs la_republica,,,0.0773322517122528,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,blu_radio vs noticias_caracol,,,0.092004762391023,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,blu_radio vs noticias_rcn,,,0.018462010538605737,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,cambio vs el_tiempo,,,0.31758391869136526,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,cambio vs la_republica,,,0.28618600701410607,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,cambio vs noticias_caracol,,,0.3110820053903522,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,cambio vs noticias_rcn,,,0.28934816818135656,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,el_tiempo vs la_republica,,,0.07890880665300114,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,el_tiempo vs noticias_caracol,,,0.08843923737491043,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,el_tiempo vs noticias_rcn,,,0.06924375234396933,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,la_republica vs noticias_caracol,,,0.13180706349984322,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,la_republica vs noticias_rcn,,,0.07134225303546182,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance,noticias_caracol vs noticias_rcn,,,0.08155279411105304,"distance [0,1]",,,,"JS distance base2, assigned documents",calculado,topic_distances.csv
+lda,js_distance_main_centroid,blu_radio,,,0.03929418918703085,,166593.0,,,weighted five-media assigned-document centroid,calculado,topic_proportions_assigned.csv
+lda,js_distance_main_centroid,cambio,,,0.3003049538920004,,98.0,,,weighted five-media assigned-document centroid,calculado,topic_proportions_assigned.csv
+lda,js_distance_main_centroid,el_tiempo,,,0.03686419275343877,,263145.0,,,weighted five-media assigned-document centroid,calculado,topic_proportions_assigned.csv
+lda,js_distance_main_centroid,la_republica,,,0.06714255497646768,,91801.0,,,weighted five-media assigned-document centroid,calculado,topic_proportions_assigned.csv
+lda,js_distance_main_centroid,noticias_caracol,,,0.07426562865354001,,109384.0,,,weighted five-media assigned-document centroid,calculado,topic_proportions_assigned.csv
+lda,js_distance_main_centroid,noticias_rcn,,,0.03295657885919126,,77747.0,,,weighted five-media assigned-document centroid,calculado,topic_proportions_assigned.csv
+lda,coherence_gap_next,all,,5,0.02049930477291778,,,,,one seed; no uncertainty interval,calculado,lda_optimization.csv
+lda,excluded_no_bow,all,,,2685.0,documents,,,,descriptivo,calculado,document_topics.parquet + dictionary
+lda,assigned_low_confidence,all,,,26282.0,documents,706083.0,,,descriptivo,calculado,document_topics.parquet
+lda,confidence_vocab_spearman,all,,,0.003032188803029338,,706083.0,,,descriptive association; no causal inference,calculado,input tokens + assignments

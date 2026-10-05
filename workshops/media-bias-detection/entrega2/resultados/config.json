@@ -1,0 +1,13 @@
+{
+  "input_sha256": "d3fbac63bcd8de1219745dbcb28d7c39429b30dd7f229728214ab8434997e1f3",
+  "topics": [
+    3,
+    5,
+    7,
+    10,
+    15
+  ],
+  "passes": 10,
+  "no_below": 10,
+  "core_sha256": "ed75afedd83d38d7d6de977bdcf3b2fef63437ad8513385efbf283da1cd73aee"
+}

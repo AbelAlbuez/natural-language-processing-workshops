@@ -1,0 +1,86 @@
+{
+  "audit": {
+    "cambio_articles": 98,
+    "cambio_start": "2022-08-01",
+    "cambio_end": "2022-08-06",
+    "cambio_global": {
+      "articles": 44575,
+      "first_date": "2022-08-01",
+      "last_date": "2026-07-31",
+      "before_august2022": 0
+    },
+    "normalized_duplicate_rows": 32368,
+    "before": {
+      "articles": 708768,
+      "titles": 98,
+      "missing": 708670,
+      "slug": 98
+    },
+    "month_precision": 38621,
+    "non_duque_assignment": 185
+  },
+  "event_tests": [
+    {
+      "tema": "Reforma tributaria",
+      "chi2": 819.4337382767329,
+      "p": 4.739877648485243e-176,
+      "dof": 4,
+      "cramers_v": 0.03403357022922349,
+      "n": 707455,
+      "expected_min": 370.7725325285707,
+      "expected_below5": 0,
+      "asymptotic_cells_ok": true,
+      "p_holm": 9.479755296970486e-176
+    },
+    {
+      "tema": "Conflicto armado",
+      "chi2": 1702.3359144023773,
+      "p": 0.0,
+      "dof": 4,
+      "cramers_v": 0.04905386376863725,
+      "n": 707455,
+      "expected_min": 1121.2187757525214,
+      "expected_below5": 0,
+      "asymptotic_cells_ok": true,
+      "p_holm": 0.0
+    },
+    {
+      "tema": "Corrupcion",
+      "chi2": 162.23076239468259,
+      "p": 4.858050911585203e-34,
+      "dof": 4,
+      "cramers_v": 0.015143183826974984,
+      "n": 707455,
+      "expected_min": 391.76173042808375,
+      "expected_below5": 0,
+      "asymptotic_cells_ok": true,
+      "p_holm": 4.858050911585203e-34
+    }
+  ],
+  "lda": {
+    "best_k": 5,
+    "coherence_gap_next": 0.02049930477291778,
+    "runner_up_k": 7,
+    "no_assignment": 2685,
+    "assigned_low_confidence": 26282,
+    "assigned_mean_confidence": 0.49256796689096893,
+    "confidence_vocab_spearman": 0.003032188803029338,
+    "confidence_length_spearman": -0.14061289225259682,
+    "topic_test": {
+      "chi2": 9887.187251140444,
+      "p": 0.0,
+      "dof": 16,
+      "cramers_v": 0.059170754784494295,
+      "n": 705990,
+      "expected_min": 10528.15211830196,
+      "expected_below5": 0,
+      "asymptotic_cells_ok": true
+    },
+    "seed_stability": "not measured: one seed per K"
+  },
+  "checks": 46,
+  "all_checks_passed": true,
+  "token_budget": 10000,
+  "repetitions": 100,
+  "input_sha256": "d3fbac63bcd8de1219745dbcb28d7c39429b30dd7f229728214ab8434997e1f3"
+}

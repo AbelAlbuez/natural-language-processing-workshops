@@ -1,0 +1,60 @@
+{
+  "articulos": 708768,
+  "medios": 6,
+  "con_titulo": 707553,
+  "sin_titulo": 1215,
+  "tokens_vacios": 1232,
+  "titulo_source": {
+    "slug": 707553,
+    "ausente": 1215
+  },
+  "date_precision": {
+    "day": 670147,
+    "month": 38621
+  },
+  "con_cuerpo": 0,
+  "desde": "2018-08-07",
+  "hasta": "2022-08-06",
+  "textometry": {
+    "tokens": 4737325,
+    "vocabulario": 98418,
+    "ttr_agregado": 0.020775015435926393,
+    "yule_k_agregado": 6.124632308976093,
+    "zipf_pearson_r": -0.9821143549970252,
+    "zipf_p": 0.0,
+    "zipf_slope": -1.0349534223796855,
+    "zipf_r2": 0.9689812329618066,
+    "zipf_rangos_ajustados": 9991
+  },
+  "temas": {
+    "Conflicto armado": 10203,
+    "Corrupcion": 3565,
+    "Reforma tributaria": 3374
+  },
+  "lda": {
+    "best_k": 5,
+    "coherence_cv": 0.3595459998673916,
+    "vocabulario_lda": 10000,
+    "documentos_lda": 706083,
+    "sin_vocabulario_lda": 2685,
+    "topics_grid": [
+      3,
+      5,
+      7,
+      10,
+      15
+    ],
+    "passes": 10,
+    "iterations": 50,
+    "seed": 42
+  },
+  "versions": {
+    "gensim": "4.4.0",
+    "scipy": "1.18.1",
+    "numpy": "2.5.3",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1",
+    "pyLDAvis": "3.4.1",
+    "nltk": "3.10.3"
+  }
+}

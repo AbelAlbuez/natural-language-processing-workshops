@@ -1,0 +1,47 @@
+check,passed,detail
+input_rows,True,708768
+input_checksum,True,SHA-256 coincide
+unique_ids,True,article_id unico
+date_range,True,Intervalo semiabierto Duque
+six_sources,True,Cinco medios principales y Cambio
+titles,True,707553
+missing_not_derivable,True,Todos siguen rechazados por el parser de Kelly
+before_after_same_rows,True,Original y export tienen mismo corte y numero de filas
+global_frequencies,True,Reconteo exacto de tokens
+global_vocabulary,True,Vocabulario coincide
+event_Reforma tributaria_blu_radio,True,Keywords recontadas desde input
+event_Reforma tributaria_cambio,True,Keywords recontadas desde input
+event_Reforma tributaria_el_tiempo,True,Keywords recontadas desde input
+event_Reforma tributaria_la_republica,True,Keywords recontadas desde input
+event_Reforma tributaria_noticias_caracol,True,Keywords recontadas desde input
+event_Reforma tributaria_noticias_rcn,True,Keywords recontadas desde input
+event_Conflicto armado_blu_radio,True,Keywords recontadas desde input
+event_Conflicto armado_cambio,True,Keywords recontadas desde input
+event_Conflicto armado_el_tiempo,True,Keywords recontadas desde input
+event_Conflicto armado_la_republica,True,Keywords recontadas desde input
+event_Conflicto armado_noticias_caracol,True,Keywords recontadas desde input
+event_Conflicto armado_noticias_rcn,True,Keywords recontadas desde input
+event_Corrupcion_blu_radio,True,Keywords recontadas desde input
+event_Corrupcion_cambio,True,Keywords recontadas desde input
+event_Corrupcion_el_tiempo,True,Keywords recontadas desde input
+event_Corrupcion_la_republica,True,Keywords recontadas desde input
+event_Corrupcion_noticias_caracol,True,Keywords recontadas desde input
+event_Corrupcion_noticias_rcn,True,Keywords recontadas desde input
+best_k,True,Argmax coincide
+topic_terms_0,True,Terminos del modelo iguales al CSV
+topic_weights_0,True,Pesos del modelo iguales al CSV
+topic_terms_1,True,Terminos del modelo iguales al CSV
+topic_weights_1,True,Pesos del modelo iguales al CSV
+topic_terms_2,True,Terminos del modelo iguales al CSV
+topic_weights_2,True,Pesos del modelo iguales al CSV
+topic_terms_3,True,Terminos del modelo iguales al CSV
+topic_weights_3,True,Pesos del modelo iguales al CSV
+topic_terms_4,True,Terminos del modelo iguales al CSV
+topic_weights_4,True,Pesos del modelo iguales al CSV
+assignment_ids,True,Todos los IDs coinciden
+assignment_source,True,Medios alineados por ID
+assignment_date,True,Fechas alineadas por ID
+excluded_empty_bow,True,Topico -1 exactamente sin vocabulario util
+confidence_range,True,Probabilidades validas
+topic_counts,True,Conteos recalculados por IDs
+topic_proportions,True,"Proporciones exactas, incluido -1"

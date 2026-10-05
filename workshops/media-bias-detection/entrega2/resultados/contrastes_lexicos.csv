@@ -1,0 +1,151 @@
+tema,source_id,palabra,frecuencia,log_odds_descriptivo
+Reforma tributaria,blu_radio,paola,10,3.1907894814103663
+Reforma tributaria,blu_radio,ochoa,10,2.6799080197974696
+Reforma tributaria,blu_radio,bucaramanga,24,2.3058135403644204
+Reforma tributaria,blu_radio,opinion,10,2.0920096698470694
+Reforma tributaria,blu_radio,antioquia,7,1.7549559251652749
+Reforma tributaria,blu_radio,democratico,10,1.7241731921985286
+Reforma tributaria,blu_radio,minhacienda,32,1.7089078392723032
+Reforma tributaria,blu_radio,marchas,6,1.611661320624945
+Reforma tributaria,blu_radio,centro,10,1.581016495117269
+Reforma tributaria,blu_radio,andi,6,1.4109347779607244
+Reforma tributaria,el_tiempo,columna,31,3.9890658375281403
+Reforma tributaria,el_tiempo,valle,14,3.210595767959843
+Reforma tributaria,el_tiempo,entrevista,9,2.7869663583869215
+Reforma tributaria,el_tiempo,vivo,9,2.7869663583869215
+Reforma tributaria,el_tiempo,habla,17,2.551693424589219
+Reforma tributaria,el_tiempo,automotor,12,2.550980777571687
+Reforma tributaria,el_tiempo,alivios,12,2.214448270940813
+Reforma tributaria,el_tiempo,barranquilla,22,2.041400199343327
+Reforma tributaria,el_tiempo,carros,9,1.93954796161265
+Reforma tributaria,el_tiempo,cali,22,1.7047470872845052
+Reforma tributaria,la_republica,bruto,13,4.154100996374917
+Reforma tributaria,la_republica,pib,13,4.154100996374917
+Reforma tributaria,la_republica,censo,13,4.154100996374917
+Reforma tributaria,la_republica,mexico,16,3.2565346664307695
+Reforma tributaria,la_republica,chile,21,3.0110686138367297
+Reforma tributaria,la_republica,crecio,15,2.6829812582091153
+Reforma tributaria,la_republica,corporativo,13,2.5445396080956213
+Reforma tributaria,la_republica,llego,22,2.46876664702471
+Reforma tributaria,la_republica,meta,15,2.3464472779474788
+Reforma tributaria,la_republica,digitales,18,2.272438937000685
+Reforma tributaria,noticias_caracol,video,26,4.936152243582727
+Reforma tributaria,noticias_caracol,mil,6,1.913402304842955
+Reforma tributaria,noticias_caracol,clase,5,1.8891157005743766
+Reforma tributaria,noticias_caracol,dicen,8,1.7547916183309704
+Reforma tributaria,noticias_caracol,elecciones,4,1.6880628881797968
+Reforma tributaria,noticias_caracol,ciudadanos,4,1.6880628881797968
+Reforma tributaria,noticias_caracol,denuncian,4,1.6880628881797968
+Reforma tributaria,noticias_caracol,defiende,4,1.6880628881797968
+Reforma tributaria,noticias_caracol,celular,4,1.6880628881797968
+Reforma tributaria,noticias_caracol,asegura,6,1.6769157200935592
+Reforma tributaria,noticias_rcn,fecha,6,2.3982736933700437
+Reforma tributaria,noticias_rcn,ojo,10,2.2257203809860444
+Reforma tributaria,noticias_rcn,paso,10,2.077205757298806
+Reforma tributaria,noticias_rcn,discusion,4,2.029508601057276
+Reforma tributaria,noticias_rcn,alimentos,5,1.9623407390187326
+Reforma tributaria,noticias_rcn,republica,4,1.8863604626757686
+Reforma tributaria,noticias_rcn,aprobo,6,1.827492338827163
+Reforma tributaria,noticias_rcn,bolsillo,7,1.8106764805187572
+Reforma tributaria,noticias_rcn,valorizacion,4,1.7611500227440313
+Reforma tributaria,noticias_rcn,distrito,5,1.7509370446845205
+Conflicto armado,blu_radio,linero,17,4.224062494443644
+Conflicto armado,blu_radio,ospina,37,3.888373546667685
+Conflicto armado,blu_radio,ricardo,35,2.986145860208347
+Conflicto armado,blu_radio,bucaramanga,23,2.5731312212861877
+Conflicto armado,blu_radio,panfleto,13,2.3549115169255455
+Conflicto armado,blu_radio,opinion,44,2.3250581433800743
+Conflicto armado,blu_radio,comerciantes,9,2.0033529584799927
+Conflicto armado,blu_radio,relaciones,8,1.8920871595011794
+Conflicto armado,blu_radio,pedido,8,1.8920871595011794
+Conflicto armado,blu_radio,anori,9,1.666860135137214
+Conflicto armado,el_tiempo,caricatura,35,5.100349119065964
+Conflicto armado,el_tiempo,matador,13,4.132514871380198
+Conflicto armado,el_tiempo,guerreros,11,3.9720821575848753
+Conflicto armado,el_tiempo,editorial,25,3.670412395674491
+Conflicto armado,el_tiempo,entrevista,16,3.2346888824793867
+Conflicto armado,el_tiempo,balance,18,2.8383441870281167
+Conflicto armado,el_tiempo,foro,10,2.782433555406681
+Conflicto armado,el_tiempo,latina,9,2.6823050700587503
+Conflicto armado,el_tiempo,tiempo,15,2.661278355906938
+Conflicto armado,el_tiempo,america,10,2.271588424774273
+Conflicto armado,la_republica,trump,4,3.6817060625760174
+Conflicto armado,la_republica,combatir,4,3.1707568989820025
+Conflicto armado,la_republica,rechazo,5,2.8100454986662244
+Conflicto armado,la_republica,defensa,3,2.7926041571209517
+Conflicto armado,la_republica,actos,6,2.638436863781303
+Conflicto armado,la_republica,mexico,3,2.6134872830118985
+Conflicto armado,la_republica,presidente,6,2.137986376178782
+Conflicto armado,la_republica,pidio,3,2.108966012575828
+Conflicto armado,la_republica,unidos,3,1.864081847735993
+Conflicto armado,la_republica,politica,3,1.8486831933874752
+Conflicto armado,noticias_caracol,pidieron,8,2.6219616355802513
+Conflicto armado,noticias_caracol,video,206,2.3526011675380536
+Conflicto armado,noticias_caracol,crudo,7,2.160240583070867
+Conflicto armado,noticias_caracol,nego,9,2.1454353649291518
+Conflicto armado,noticias_caracol,mataron,14,2.057759266550514
+Conflicto armado,noticias_caracol,magnicidio,22,1.9097874103116323
+Conflicto armado,noticias_caracol,disturbios,12,1.784021691974524
+Conflicto armado,noticias_caracol,vandalos,6,1.7657396426464373
+Conflicto armado,noticias_caracol,muerta,7,1.7082215129800096
+Conflicto armado,noticias_caracol,cesa,7,1.7082215129800096
+Conflicto armado,noticias_rcn,detienen,9,2.465696348461753
+Conflicto armado,noticias_rcn,molano,7,2.0284418281118253
+Conflicto armado,noticias_rcn,vinculos,7,1.7182547952756266
+Conflicto armado,noticias_rcn,prontuario,6,1.718181362211972
+Conflicto armado,noticias_rcn,lugar,5,1.718107936897571
+Conflicto armado,noticias_rcn,disputa,5,1.718107936897571
+Conflicto armado,noticias_rcn,revelan,14,1.6520616148647136
+Conflicto armado,noticias_rcn,exigen,6,1.575064466176281
+Conflicto armado,noticias_rcn,panorama,6,1.575064466176281
+Conflicto armado,noticias_rcn,excomandante,12,1.5701699636241253
+Corrupcion,blu_radio,ospina,17,3.1763532169758486
+Corrupcion,blu_radio,opinion,21,2.8718009153696693
+Corrupcion,blu_radio,ricardo,14,2.140526784557516
+Corrupcion,blu_radio,bucaramanga,17,2.07756578673452
+Corrupcion,blu_radio,contratacion,12,1.7404943171135931
+Corrupcion,blu_radio,santander,20,1.4886431315482938
+Corrupcion,blu_radio,luz,7,1.4804426314267074
+Corrupcion,blu_radio,aguilar,28,1.4674506734958221
+Corrupcion,blu_radio,ano,9,1.4656981038947885
+Corrupcion,blu_radio,solo,11,1.4562638218483839
+Corrupcion,el_tiempo,columna,32,3.1134758206617814
+Corrupcion,el_tiempo,carceles,15,2.7073200761701015
+Corrupcion,el_tiempo,miguel,7,1.643782593529484
+Corrupcion,el_tiempo,francisco,9,1.6290695218059144
+Corrupcion,el_tiempo,bolivar,8,1.5177098384381171
+Corrupcion,el_tiempo,habla,14,1.4163860858306512
+Corrupcion,el_tiempo,segunda,8,1.316983639840025
+Corrupcion,el_tiempo,cartagena,18,1.2746603399908816
+Corrupcion,el_tiempo,coronavirus,12,1.267697822377995
+Corrupcion,el_tiempo,alejandro,6,1.249177809223056
+Corrupcion,la_republica,pemex,9,4.191851503056832
+Corrupcion,la_republica,bancos,6,2.7122740722183956
+Corrupcion,la_republica,mayor,6,2.5115603660035486
+Corrupcion,la_republica,reparacion,5,2.17696075357373
+Corrupcion,la_republica,pago,7,2.108394073444659
+Corrupcion,la_republica,unidos,12,2.069096118443926
+Corrupcion,la_republica,sector,5,2.033816895480194
+Corrupcion,la_republica,banco,5,2.033816895480194
+Corrupcion,la_republica,pagara,4,1.975841828610574
+Corrupcion,la_republica,bancario,6,1.9648445981230642
+Corrupcion,noticias_caracol,video,37,1.9492259062128454
+Corrupcion,noticias_caracol,transito,16,1.8370545912093688
+Corrupcion,noticias_caracol,cuarta,10,1.7695665849008506
+Corrupcion,noticias_caracol,detenidos,7,1.5576279648785736
+Corrupcion,noticias_caracol,ser,16,1.4447272713237833
+Corrupcion,noticias_caracol,detalles,6,1.4143015403662016
+Corrupcion,noticias_caracol,senalados,5,1.3901702888302605
+Corrupcion,noticias_caracol,agente,7,1.3211441410735087
+Corrupcion,noticias_caracol,brigada,10,1.3067054203660682
+Corrupcion,noticias_caracol,quedo,6,1.2890908756709898
+Corrupcion,noticias_rcn,delito,7,2.020464503595117
+Corrupcion,noticias_rcn,ministro,5,1.852784521594784
+Corrupcion,noticias_rcn,choco,5,1.5844316204247244
+Corrupcion,noticias_rcn,nacional,8,1.4864061136270603
+Corrupcion,noticias_rcn,paises,5,1.4731615250619585
+Corrupcion,noticias_rcn,audios,9,1.46866652895062
+Corrupcion,noticias_rcn,procesos,6,1.4494065671733178
+Corrupcion,noticias_rcn,detienen,4,1.3834259165842306
+Corrupcion,noticias_rcn,debera,4,1.3834259165842306
+Corrupcion,noticias_rcn,castano,7,1.3609076252641437
