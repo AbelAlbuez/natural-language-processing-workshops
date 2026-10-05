@@ -1,0 +1,98 @@
+[
+  {
+    "evento_id": "evento-001-reforma-tributaria-2023",
+    "medio": "El Tiempo",
+    "titulo": "Reforma tributaria de Petro obtiene respaldo inicial en el Congreso",
+    "fecha": "2023-10-12",
+    "url": "https://www.eltiempo.com/politica/reforma-tributaria-gobierno-petro",
+    "texto": "El Gobierno Petro logró este jueves un primer respaldo legislativo para su ambiciosa reforma tributaria, que busca aumentar la recaudación fiscal en 20 billones de pesos anuales. Los senadores de la coalición de Gobierno expresaron su compromiso con el proyecto, mientras que se abren espacios de diálogo con sectores empresariales preocupados por el impacto en la competitividad. El Ministro de Hacienda sostuvo que la reforma es esencial para financiar los programas sociales de la administración y reducir la desigualdad. Analistas económicos consultados señalaron que la medida podría tener efectos mixtos en la economía nacional."
+  },
+  {
+    "evento_id": "evento-001-reforma-tributaria-2023",
+    "medio": "Blu Radio",
+    "titulo": "Gremios empresariales en alerta por reforma tributaria que aumentaría impuestos",
+    "fecha": "2023-10-12",
+    "url": "https://www.bluradio.com/noticias/reforma-tributaria-inquieta-empresarios",
+    "texto": "La propuesta de reforma tributaria del Gobierno Petro encendió las alarmas en gremios empresariales, que advirtieron sobre posibles despidos y retracción de inversiones. El presidente de la ANDI calificó la iniciativa como 'un golpe a la productividad' y señaló que empresas medianas y pequeñas serían las más afectadas. Según estimaciones del sector privado, la reforma podría reducir entre 50 mil y 100 mil empleos en el primer año de implementación. El Gobierno, por su parte, insistió en que la reforma es necesaria para financiar políticas de redistribución que beneficiarán a millones de colombianos."
+  },
+  {
+    "evento_id": "evento-001-reforma-tributaria-2023",
+    "medio": "Noticias Caracol",
+    "titulo": "Reforma tributaria: qué dice la propuesta y cuáles son sus implicaciones",
+    "fecha": "2023-10-13",
+    "url": "https://www.noticiascaracol.com/economia/reforma-tributaria-detalles",
+    "texto": "La reforma tributaria presentada por el Gobierno incluye aumentos en el impuesto a la renta para personas jurídicas, ampliación de la base gravable y nuevos tributos sobre el patrimonio financiero. Economistas de diferentes tendencias coincidieron en que la medida tiene el potencial de aumentar la recaudación, pero divergieron en los posibles efectos sobre el crecimiento económico y el empleo. Mientras algunos expertos destacaron la necesidad de financiar programas sociales, otros alertaron sobre posibles desincentivos a la inversión privada. Fuentes del Gobierno indicaron que se mantendrán mesas de concertación con sectores empresariales y laborales durante el trámite legislativo."
+  },
+  {
+    "evento_id": "evento-002-acuerdo-paz-complementario",
+    "medio": "El Tiempo",
+    "titulo": "Gobierno avanza en negociaciones de acuerdo complementario de paz",
+    "fecha": "2023-11-08",
+    "url": "https://www.eltiempo.com/politica/acuerdo-paz-complementario",
+    "texto": "El Gobierno Nacional anunció avances significativos en las negociaciones para un acuerdo complementario que profundice en los temas de justicia transicional y reincorporación de excombatientes. La Comisionada de Paz señaló que existe voluntad política de ambas partes para alcanzar un acuerdo antes de fin de año. Organizaciones defensoras de derechos humanos manifestaron optimismo sobre el proceso, aunque pidieron garantías adicionales para las víctimas. El presidente Gustavo Petro enfatizó que el acuerdo complementario es crucial para consolidar la paz territorial y reducir la conflictividad en zonas rurales."
+  },
+  {
+    "evento_id": "evento-002-acuerdo-paz-complementario",
+    "medio": "Blu Radio",
+    "titulo": "Críticas por lentitud en implementación del acuerdo de paz",
+    "fecha": "2023-11-09",
+    "url": "https://www.bluradio.com/noticias/implementacion-acuerdo-paz-lenta",
+    "texto": "Organizaciones de víctimas y defensores de derechos humanos criticaron lo que denominan como 'falta de celeridad' en la implementación del acuerdo de paz con la guerrilla del ELN. Según reportes, muchas comunidades afectadas por el conflicto aún no han visto resultados concretos en reparación y restitución de tierras. Representantes de víctimas demandaron que se acelere el proceso de justicia transicional y se garantice el esclarecimiento de crímenes de guerra. El Gobierno argumentó que la implementación requiere recursos adicionales que están siendo gestionados con cooperación internacional."
+  },
+  {
+    "evento_id": "evento-002-acuerdo-paz-complementario",
+    "medio": "Noticias Caracol",
+    "titulo": "Negociaciones de paz avanzan con nuevo acuerdo complementario en discusión",
+    "fecha": "2023-11-08",
+    "url": "https://www.noticiascaracol.com/politica/acuerdo-paz-negociaciones",
+    "texto": "En el marco de las conversaciones entre el Gobierno y el ELN, se han hecho progresos en varios puntos de agenda que formarían parte de un acuerdo complementario al pactado en 2016. Fuentes cercanas a las negociaciones indicaron que existen puntos de consenso sobre desarme, reincorporación económica y garantías de no repetición. Analistas políticos señalaron que un nuevo acuerdo podría ayudar a reducir la presencia de grupos armados ilegales en territorios históricamente controlados por estos actores. Sin embargo, persisten debates sobre los mecanismos de verificación internacional y las garantías para víctimas del conflicto."
+  },
+  {
+    "evento_id": "evento-003-reforma-pensional-2023",
+    "medio": "El Tiempo",
+    "titulo": "Gobierno presenta nueva propuesta de reforma pensional",
+    "fecha": "2023-12-01",
+    "url": "https://www.eltiempo.com/economia/reforma-pensional-propuesta",
+    "texto": "La administración Petro presentó una propuesta de reforma pensional que busca incrementar la cobertura del sistema e incorporar a trabajadores informales. La iniciativa incluye el aumento gradual de la edad de jubilación y mayores aportes de empleadores. El Ministro de Trabajo defendió la reforma como una medida de inclusión que beneficiará a millones de colombianos excluidos del sistema pensional actual. Expertos en seguridad social señalaron que la propuesta requiere ajustes para ser fiscalmente sostenible a largo plazo."
+  },
+  {
+    "evento_id": "evento-003-reforma-pensional-2023",
+    "medio": "Blu Radio",
+    "titulo": "Sindicalistas rechazan reforma pensional por aumento de edad de jubilación",
+    "fecha": "2023-12-02",
+    "url": "https://www.bluradio.com/noticias/sindicalistas-rechazan-reforma-pensional",
+    "texto": "Los principales sindicatos colombianos convocaron a movilizaciones contra la propuesta de reforma pensional del Gobierno, argumentando que aumentar la edad de jubilación afecta desproporcionadamente a trabajadores de sectores como minería, agricultura y construcción. Los dirigentes sindicales calificaron la medida como 'regresiva' y demandaron una reforma que garantice pensiones dignas sin alargar los años de trabajo. Señalaron que Colombia ya tiene una de las edades de jubilación más altas de América Latina, y que la propuesta genera inseguridad en trabajadores próximos a retirarse."
+  },
+  {
+    "evento_id": "evento-003-reforma-pensional-2023",
+    "medio": "Noticias Caracol",
+    "titulo": "Expertos analizan impacto de reforma pensional en trabajadores",
+    "fecha": "2023-12-02",
+    "url": "https://www.noticiascaracol.com/economia/analisis-reforma-pensional",
+    "texto": "Académicos y expertos en seguridad social ofrecieron sus análisis sobre la propuesta de reforma pensional, con opiniones divididas sobre sus alcances y limitaciones. Mientras algunos destacaron el potencial inclusivo de ampliar la cobertura, otros expresaron preocupación sobre la sostenibilidad fiscal de las nuevas obligaciones estatales. Un estudio de la Universidad de los Andes indicó que el sistema pensional colombiano requiere cambios estructurales más profundos. El debate se intensificará en las próximas semanas en el Congreso, donde se espera el trámite legislativo de la iniciativa."
+  },
+  {
+    "evento_id": "evento-004-elecciones-locales-2024",
+    "medio": "El Tiempo",
+    "titulo": "Candidatos para alcaldías se lanzan en busca de apoyo ciudadano",
+    "fecha": "2024-02-15",
+    "url": "https://www.eltiempo.com/politica/campana-alcaldes-2024",
+    "texto": "Con miras a las elecciones locales de octubre de 2024, candidatos a alcaldías en principales ciudades han iniciado sus campañas con propuestas focalizadas en seguridad, empleo y servicios públicos. Los sondeos de intención de voto muestran una fragmentación significativa del electorado, con múltiples opciones políticas compitiendo en las principales urbes. Analistas políticos señalaron que estas elecciones serán un indicador importante del desempeño del Gobierno Petro a nivel territorial. Ciudadanos expresaron interés en candidatos que presenten soluciones concretas a problemas de inseguridad y desempleo."
+  },
+  {
+    "evento_id": "evento-004-elecciones-locales-2024",
+    "medio": "Blu Radio",
+    "titulo": "Campañas electorales despiertan preocupación sobre financiamiento y transparencia",
+    "fecha": "2024-02-16",
+    "url": "https://www.bluradio.com/noticias/campanas-electorales-transparencia",
+    "texto": "Organizaciones de control ciudadano alertaron sobre posibles irregularidades en el financiamiento de campañas para las elecciones locales de 2024, llamando a mayor vigilancia de las autoridades electorales. Reportes indicaron que candidatos han recibido aportes de empresas cuya legalidad es cuestionable en algunos casos. La Registraduría Nacional fue exhortada a reforzar los controles sobre el origen de recursos destinados a campañas. Académicos en temas electorales advirtieron que la falta de transparencia puede debilitar la credibilidad de los próximos comicios."
+  },
+  {
+    "evento_id": "evento-004-elecciones-locales-2024",
+    "medio": "Noticias Caracol",
+    "titulo": "Elecciones locales 2024: claves para entender el proceso electoral",
+    "fecha": "2024-02-16",
+    "url": "https://www.noticiascaracol.com/politica/elecciones-locales-2024-explicacion",
+    "texto": "A diez meses de las elecciones locales, la Registraduría Nacional ha iniciado el proceso de validación de candidatos y conformación de las juntas electorales regionales. En esta ocasión, se elegirán gobernadores, alcaldes y concejales en todos los municipios del país. Los analistas político consultados señalaron que el resultado de estas elecciones incidirá en el equilibrio de poder territorial y en la capacidad del Gobierno Nacional de implementar sus agendas departamentales. Se espera una participación electoral cercana al 50 por ciento basada en tendencias históricas."
+  }
+]
