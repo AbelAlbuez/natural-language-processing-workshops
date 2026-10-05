@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import typer
@@ -16,16 +16,56 @@ from news_corpus.db.session import session_scope
 console = Console()
 
 
+def month_windows(desde: str | None, hasta: str | None) -> list[tuple[date | None, date | None]]:
+    """Parte el rango en meses para confirmar cada uno por separado.
+
+    `enrich` y `tag` cargan cada artículo en la sesión; sobre cientos de miles
+    de filas en una sola transacción la memoria crece hasta tumbar el proceso.
+    Un mes por transacción la acota y deja lo ya hecho confirmado si se corta.
+    Sin rango se conserva la ejecución de siempre: una sola pasada.
+    """
+    from news_corpus.cli_collect import _parse_month
+
+    if not desde and not hasta:
+        return [(None, None)]
+    if not (desde and hasta):
+        raise typer.BadParameter("--from y --to van juntos.")
+    inicio, fin = _parse_month(desde), _parse_month(hasta, last_day=True)
+    ventanas: list[tuple[date | None, date | None]] = []
+    cursor = inicio
+    while cursor <= fin:
+        siguiente = date(cursor.year + cursor.month // 12, cursor.month % 12 + 1, 1)
+        ventanas.append((cursor, min(fin, siguiente - timedelta(days=1))))
+        cursor = siguiente
+    return ventanas
+
+
+def _sumar(total: dict, parcial: dict) -> None:
+    for clave, valor in parcial.items():
+        if isinstance(valor, int):
+            total[clave] = total.get(clave, 0) + valor
+        else:
+            total[clave] = valor
+
+
 def enrich(
     all_articles: bool = typer.Option(
         False, "--all", help="Reprocesar también los que ya tienen título."
     ),
+    desde: str = typer.Option(None, "--from", "-f", help="Mes o día inicial, p. ej. 2018-08"),
+    hasta: str = typer.Option(None, "--to", "-t", help="Mes o día final, p. ej. 2022-08"),
 ) -> None:
     """Deriva título y sección a partir de la URL."""
     from news_corpus.pipeline.enrich import enrich_articles
 
-    with session_scope() as session:
-        stats = enrich_articles(session, only_missing=not all_articles)
+    stats: dict = {}
+    for inicio, fin in month_windows(desde, hasta):
+        with session_scope() as session:
+            _sumar(stats, enrich_articles(
+                session, only_missing=not all_articles, date_from=inicio, date_to=fin
+            ))
+        if inicio:
+            console.print(f"[dim]{inicio:%Y-%m} · revisados {stats['revisados']}[/]")
 
     console.print(
         f"[green]✓[/] revisados {stats['revisados']} · "
@@ -44,14 +84,22 @@ def enrich(
 
 
 def tag(
-    retag: bool = typer.Option(False, "--retag", help="Borrar y rehacer todas las etiquetas."),
+    retag: bool = typer.Option(False, "--retag", help="Borrar y rehacer las etiquetas del rango."),
+    desde: str = typer.Option(None, "--from", "-f", help="Mes o día inicial, p. ej. 2018-08"),
+    hasta: str = typer.Option(None, "--to", "-t", help="Mes o día final, p. ej. 2022-08"),
 ) -> None:
     """Etiqueta el corpus con la jerarquía de config/topics.yaml."""
     from news_corpus.pipeline.tagging import tag_corpus
 
     catalog = load_catalog(get_settings().config_dir)
-    with session_scope() as session:
-        stats = tag_corpus(session, catalog, retag=retag)
+    stats: dict = {}
+    for inicio, fin in month_windows(desde, hasta):
+        with session_scope() as session:
+            _sumar(stats, tag_corpus(
+                session, catalog, retag=retag, date_from=inicio, date_to=fin
+            ))
+        if inicio:
+            console.print(f"[dim]{inicio:%Y-%m} · procesados {stats['articulos']}[/]")
 
     console.print(
         f"[green]✓[/] artículos procesados {stats['articulos']} · "

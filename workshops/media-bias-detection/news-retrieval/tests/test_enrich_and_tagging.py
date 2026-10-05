@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
-import pytest
+from datetime import date
 
+import pytest
+import typer
+
+from news_corpus.cli_analyze import month_windows
 from news_corpus.config.catalog import load_catalog
 from news_corpus.config.settings import REPO_ROOT
 from news_corpus.pipeline.enrich import derive_from_url
@@ -125,3 +129,32 @@ def test_rule_version_cambia_con_las_keywords(catalog):
     topic = next(t for t in catalog.topics if t.id == "protestas")
     topic.keywords = [*topic.keywords, "cacerolazo"]
     assert rule_version(catalog) != v1
+
+
+# ── ventanas mensuales de enrich/tag ─────────────────────────────────────────
+
+
+def test_sin_rango_es_una_sola_pasada():
+    assert month_windows(None, None) == [(None, None)]
+
+
+def test_rango_se_parte_en_meses_con_fin_real():
+    ventanas = month_windows("2019-12", "2020-02")
+    assert ventanas == [
+        (date(2019, 12, 1), date(2019, 12, 31)),
+        (date(2020, 1, 1), date(2020, 1, 31)),
+        (date(2020, 2, 1), date(2020, 2, 29)),
+    ]
+
+
+def test_rango_con_dias_respeta_los_extremos():
+    ventanas = month_windows("2018-08-07", "2018-09-15")
+    assert ventanas == [
+        (date(2018, 8, 7), date(2018, 8, 31)),
+        (date(2018, 9, 1), date(2018, 9, 15)),
+    ]
+
+
+def test_rango_incompleto_da_error():
+    with pytest.raises(typer.BadParameter):
+        month_windows("2018-08", None)

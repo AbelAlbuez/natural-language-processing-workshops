@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from datetime import date
 from urllib.parse import unquote, urlsplit
 
 from sqlalchemy import select
@@ -84,11 +85,21 @@ def derive_from_url(url: str) -> Derived:
     return Derived(title=text[0].upper() + text[1:], section=section)
 
 
-def enrich_articles(session: Session, *, only_missing: bool = True) -> dict[str, int]:
+def enrich_articles(
+    session: Session,
+    *,
+    only_missing: bool = True,
+    date_from: date | None = None,
+    date_to: date | None = None,
+) -> dict[str, int]:
     """Rellena `title` (desde el slug) y `section` donde falten."""
     stmt = select(Article)
     if only_missing:
         stmt = stmt.where(Article.title.is_(None))
+    if date_from:
+        stmt = stmt.where(Article.published_date >= date_from)
+    if date_to:
+        stmt = stmt.where(Article.published_date <= date_to)
 
     stats = {"revisados": 0, "titulos": 0, "secciones": 0, "sin_titulo": 0}
 

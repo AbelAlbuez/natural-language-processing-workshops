@@ -15,6 +15,7 @@ import hashlib
 import re
 import unicodedata
 from dataclasses import dataclass
+from datetime import date
 
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
@@ -83,25 +84,48 @@ class TopicTagger:
         return list(encontrados.values())
 
 
-def tag_corpus(session: Session, catalog: Catalog, *, retag: bool = False) -> dict[str, int]:
+def tag_corpus(
+    session: Session,
+    catalog: Catalog,
+    *,
+    retag: bool = False,
+    date_from: date | None = None,
+    date_to: date | None = None,
+) -> dict[str, int]:
     tagger = TopicTagger(catalog)
     stats = {"articulos": 0, "etiquetas": 0, "sin_tema": 0, "version": tagger.version}
 
+    articulos = select(Article.id)
+    if date_from:
+        articulos = articulos.where(Article.published_date >= date_from)
+    if date_to:
+        articulos = articulos.where(Article.published_date <= date_to)
+    acotado = date_from is not None or date_to is not None
+
     if retag:
-        session.execute(delete(ArticleTopic))
+        # Con rango, el re-etiquetado borra sólo las etiquetas de ese rango.
+        borrar = delete(ArticleTopic)
+        if acotado:
+            borrar = borrar.where(ArticleTopic.article_id.in_(articulos))
+        session.execute(borrar)
         session.flush()
 
     ya_etiquetados: set[int] = set()
     if not retag:
-        ya_etiquetados = set(
-            session.scalars(
-                select(ArticleTopic.article_id).where(
-                    ArticleTopic.rule_version == tagger.version
-                )
-            ).all()
+        consulta = select(ArticleTopic.article_id).where(
+            ArticleTopic.rule_version == tagger.version
         )
+        if acotado:
+            consulta = consulta.where(ArticleTopic.article_id.in_(articulos))
+        ya_etiquetados = set(session.scalars(consulta).all())
 
-    for article in session.scalars(select(Article)).yield_per(1000):
+    stmt = select(Article)
+    if date_from:
+        stmt = stmt.where(Article.published_date >= date_from)
+    if date_to:
+        stmt = stmt.where(Article.published_date <= date_to)
+
+    for article in session.scalars(stmt).yield_per(1000):
         if article.id in ya_etiquetados:
             continue
         stats["articulos"] += 1
