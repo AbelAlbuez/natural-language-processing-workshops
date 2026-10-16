@@ -1,0 +1,1234 @@
+{
+  "complete": true,
+  "label": "fold_5",
+  "parallelism": 6,
+  "wall_seconds": 160.4798843120002,
+  "jobs": [
+    {
+      "ok": true,
+      "id": "fold_5_class_18-24",
+      "fingerprint": "3bb3456bb30bddb267e8894cbaa13df64df163154bf38cc8fa89090ea1ba6ada",
+      "class_index": 1,
+      "seconds": 135.9671748149999,
+      "epochs": 30,
+      "best_epoch": 30,
+      "peak_memory_bytes": 364689920,
+      "history": [
+        {
+          "epoch": 1,
+          "train_nll": 3.382569080316072,
+          "internal_nll": 3.161305091605989,
+          "seconds": 4.60677017099988
+        },
+        {
+          "epoch": 2,
+          "train_nll": 2.9235607504472685,
+          "internal_nll": 2.6534580576986317,
+          "seconds": 4.180569348000063
+        },
+        {
+          "epoch": 3,
+          "train_nll": 2.5425944288235685,
+          "internal_nll": 2.4138163829455297,
+          "seconds": 4.17940365000004
+        },
+        {
+          "epoch": 4,
+          "train_nll": 2.3820969820615887,
+          "internal_nll": 2.290536060673836,
+          "seconds": 4.180866294000225
+        },
+        {
+          "epoch": 5,
+          "train_nll": 2.297406943207319,
+          "internal_nll": 2.241988950768012,
+          "seconds": 4.1956569859999036
+        },
+        {
+          "epoch": 6,
+          "train_nll": 2.24780088872703,
+          "internal_nll": 2.1765281835605736,
+          "seconds": 4.214796215000206
+        },
+        {
+          "epoch": 7,
+          "train_nll": 2.2060901831220194,
+          "internal_nll": 2.1496956662748063,
+          "seconds": 4.170234157999857
+        },
+        {
+          "epoch": 8,
+          "train_nll": 2.1707034544934634,
+          "internal_nll": 2.125863269800061,
+          "seconds": 4.205876079000063
+        },
+        {
+          "epoch": 9,
+          "train_nll": 2.1403622541634717,
+          "internal_nll": 2.0882870882553237,
+          "seconds": 4.210305900000094
+        },
+        {
+          "epoch": 10,
+          "train_nll": 2.1187194557540145,
+          "internal_nll": 2.067268021800037,
+          "seconds": 4.203509364999718
+        },
+        {
+          "epoch": 11,
+          "train_nll": 2.093184924245268,
+          "internal_nll": 2.0414295387923946,
+          "seconds": 4.2057936719998
+        },
+        {
+          "epoch": 12,
+          "train_nll": 2.0685305421591758,
+          "internal_nll": 2.03044603825623,
+          "seconds": 4.214297134999924
+        },
+        {
+          "epoch": 13,
+          "train_nll": 2.0504470873473064,
+          "internal_nll": 1.9980107409332664,
+          "seconds": 4.196074917999795
+        },
+        {
+          "epoch": 14,
+          "train_nll": 2.028684278611464,
+          "internal_nll": 1.9922047315519225,
+          "seconds": 4.193059622999954
+        },
+        {
+          "epoch": 15,
+          "train_nll": 2.0198626497587813,
+          "internal_nll": 1.972269116118893,
+          "seconds": 4.166135961999771
+        },
+        {
+          "epoch": 16,
+          "train_nll": 1.9958806981579362,
+          "internal_nll": 1.9509223775835596,
+          "seconds": 4.182690271000411
+        },
+        {
+          "epoch": 17,
+          "train_nll": 1.9788304636121483,
+          "internal_nll": 1.9306453177758731,
+          "seconds": 4.202127343000029
+        },
+        {
+          "epoch": 18,
+          "train_nll": 1.9598773195362496,
+          "internal_nll": 1.9191990854371013,
+          "seconds": 4.193991804999769
+        },
+        {
+          "epoch": 19,
+          "train_nll": 1.9461852562262143,
+          "internal_nll": 1.899170635978995,
+          "seconds": 4.190423460999682
+        },
+        {
+          "epoch": 20,
+          "train_nll": 1.9268612545261148,
+          "internal_nll": 1.887347475073927,
+          "seconds": 4.174443037999936
+        },
+        {
+          "epoch": 21,
+          "train_nll": 1.9139379035931987,
+          "internal_nll": 1.8755753538921378,
+          "seconds": 4.190213867999773
+        },
+        {
+          "epoch": 22,
+          "train_nll": 1.8996307772722822,
+          "internal_nll": 1.8613032689212878,
+          "seconds": 4.207825456000137
+        },
+        {
+          "epoch": 23,
+          "train_nll": 1.8838707757038229,
+          "internal_nll": 1.8472404295701685,
+          "seconds": 4.19664880099981
+        },
+        {
+          "epoch": 24,
+          "train_nll": 1.8715345403536583,
+          "internal_nll": 1.8440587680480176,
+          "seconds": 4.184952815000088
+        },
+        {
+          "epoch": 25,
+          "train_nll": 1.8590377816713268,
+          "internal_nll": 1.8228916691495098,
+          "seconds": 4.193643350000002
+        },
+        {
+          "epoch": 26,
+          "train_nll": 1.846361872552938,
+          "internal_nll": 1.809183147263052,
+          "seconds": 4.198027098000239
+        },
+        {
+          "epoch": 27,
+          "train_nll": 1.830837077297892,
+          "internal_nll": 1.8075092070864363,
+          "seconds": 4.206913952999912
+        },
+        {
+          "epoch": 28,
+          "train_nll": 1.823299399427444,
+          "internal_nll": 1.7947923435145279,
+          "seconds": 4.212479432000237
+        },
+        {
+          "epoch": 29,
+          "train_nll": 1.810990435410796,
+          "internal_nll": 1.7776269696121036,
+          "seconds": 4.20127804599997
+        },
+        {
+          "epoch": 30,
+          "train_nll": 1.7981988840669862,
+          "internal_nll": 1.7758620929445392,
+          "seconds": 4.19544246400028
+        }
+      ],
+      "reused_checkpoint": false,
+      "numeric_policy": {
+        "determinista": true,
+        "precision": "fp32",
+        "tf32": false,
+        "seed": 42
+      },
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA A100-SXM4-40GB",
+      "pid": 12693,
+      "fresh_training": true,
+      "process_wall_s": 138.77928943900042
+    },
+    {
+      "ok": true,
+      "id": "fold_5_class_13-17",
+      "fingerprint": "c1ad731bd460b5fe307f3f17dba6f3c983b250986121f250d8ad99ee13355a7e",
+      "class_index": 0,
+      "seconds": 140.04050958900007,
+      "epochs": 30,
+      "best_epoch": 30,
+      "peak_memory_bytes": 364061184,
+      "history": [
+        {
+          "epoch": 1,
+          "train_nll": 3.445854499056057,
+          "internal_nll": 3.1866301452118297,
+          "seconds": 4.940475434999826
+        },
+        {
+          "epoch": 2,
+          "train_nll": 2.914379105784872,
+          "internal_nll": 2.6552029093348612,
+          "seconds": 4.34769759899973
+        },
+        {
+          "epoch": 3,
+          "train_nll": 2.5538673692660345,
+          "internal_nll": 2.4310548938587635,
+          "seconds": 4.289971021000383
+        },
+        {
+          "epoch": 4,
+          "train_nll": 2.4081654622324606,
+          "internal_nll": 2.3274754291453026,
+          "seconds": 4.363023983999938
+        },
+        {
+          "epoch": 5,
+          "train_nll": 2.323931927916269,
+          "internal_nll": 2.2725170367367156,
+          "seconds": 4.367221526999856
+        },
+        {
+          "epoch": 6,
+          "train_nll": 2.27205905621318,
+          "internal_nll": 2.201810324735861,
+          "seconds": 4.36775693699974
+        },
+        {
+          "epoch": 7,
+          "train_nll": 2.225261743498644,
+          "internal_nll": 2.168036018910555,
+          "seconds": 4.371154491000198
+        },
+        {
+          "epoch": 8,
+          "train_nll": 2.1888446391738547,
+          "internal_nll": 2.1394513891586393,
+          "seconds": 4.3539717600001495
+        },
+        {
+          "epoch": 9,
+          "train_nll": 2.1604182353257095,
+          "internal_nll": 2.103078468122022,
+          "seconds": 4.364848393000102
+        },
+        {
+          "epoch": 10,
+          "train_nll": 2.13513248900162,
+          "internal_nll": 2.0826912864809923,
+          "seconds": 4.369321954000043
+        },
+        {
+          "epoch": 11,
+          "train_nll": 2.10269210315095,
+          "internal_nll": 2.0536214384905223,
+          "seconds": 4.367556100999991
+        },
+        {
+          "epoch": 12,
+          "train_nll": 2.0781700550792914,
+          "internal_nll": 2.0388054943223017,
+          "seconds": 4.371914572000151
+        },
+        {
+          "epoch": 13,
+          "train_nll": 2.059117707310986,
+          "internal_nll": 2.0131644590325255,
+          "seconds": 4.367482736000056
+        },
+        {
+          "epoch": 14,
+          "train_nll": 2.033213636710102,
+          "internal_nll": 1.9857113833967788,
+          "seconds": 4.375852984000176
+        },
+        {
+          "epoch": 15,
+          "train_nll": 2.0139365176403863,
+          "internal_nll": 1.9673728142156104,
+          "seconds": 4.3297100309996495
+        },
+        {
+          "epoch": 16,
+          "train_nll": 1.9928778360412112,
+          "internal_nll": 1.9411179303915478,
+          "seconds": 4.363759453000057
+        },
+        {
+          "epoch": 17,
+          "train_nll": 1.9735409967902613,
+          "internal_nll": 1.9283247694446604,
+          "seconds": 4.370311012000002
+        },
+        {
+          "epoch": 18,
+          "train_nll": 1.9541486733069118,
+          "internal_nll": 1.9070535792320542,
+          "seconds": 4.3406830369999625
+        },
+        {
+          "epoch": 19,
+          "train_nll": 1.9377378925770232,
+          "internal_nll": 1.8875348624922315,
+          "seconds": 4.3397435710003265
+        },
+        {
+          "epoch": 20,
+          "train_nll": 1.9183337667525042,
+          "internal_nll": 1.87585562412601,
+          "seconds": 4.364205418999973
+        },
+        {
+          "epoch": 21,
+          "train_nll": 1.9031732767926748,
+          "internal_nll": 1.8622940215843176,
+          "seconds": 4.336591927999962
+        },
+        {
+          "epoch": 22,
+          "train_nll": 1.8844713538383064,
+          "internal_nll": 1.8468982153608609,
+          "seconds": 4.3671428280003965
+        },
+        {
+          "epoch": 23,
+          "train_nll": 1.8696786555726403,
+          "internal_nll": 1.8414765009969962,
+          "seconds": 4.369379714999923
+        },
+        {
+          "epoch": 24,
+          "train_nll": 1.8533358333415506,
+          "internal_nll": 1.822734542919386,
+          "seconds": 4.389153273999909
+        },
+        {
+          "epoch": 25,
+          "train_nll": 1.8402601981075706,
+          "internal_nll": 1.8031010340597162,
+          "seconds": 4.353350153000065
+        },
+        {
+          "epoch": 26,
+          "train_nll": 1.8237974967355575,
+          "internal_nll": 1.7878204326736329,
+          "seconds": 4.3966590589998304
+        },
+        {
+          "epoch": 27,
+          "train_nll": 1.8088190888806317,
+          "internal_nll": 1.776507764349622,
+          "seconds": 4.349941144999775
+        },
+        {
+          "epoch": 28,
+          "train_nll": 1.7969828986065914,
+          "internal_nll": 1.7656120782997982,
+          "seconds": 4.3669517160001305
+        },
+        {
+          "epoch": 29,
+          "train_nll": 1.7839678780511599,
+          "internal_nll": 1.7520195947761292,
+          "seconds": 4.31725649200007
+        },
+        {
+          "epoch": 30,
+          "train_nll": 1.7692934698274787,
+          "internal_nll": 1.741322996377797,
+          "seconds": 4.106482853000216
+        }
+      ],
+      "reused_checkpoint": false,
+      "numeric_policy": {
+        "determinista": true,
+        "precision": "fp32",
+        "tf32": false,
+        "seed": 42
+      },
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA A100-SXM4-40GB",
+      "pid": 12692,
+      "fresh_training": true,
+      "process_wall_s": 142.81541733599988
+    },
+    {
+      "ok": true,
+      "id": "fold_5_class_25-34",
+      "fingerprint": "692a9dc4870ff4bd42ea50f6a5a68af6534f2e72866a52a04e72b3fff22eae5b",
+      "class_index": 2,
+      "seconds": 142.56690331000027,
+      "epochs": 30,
+      "best_epoch": 30,
+      "peak_memory_bytes": 367655424,
+      "history": [
+        {
+          "epoch": 1,
+          "train_nll": 3.3610031080236213,
+          "internal_nll": 3.141399253787893,
+          "seconds": 1.4526298289997612
+        },
+        {
+          "epoch": 2,
+          "train_nll": 2.8943175527858416,
+          "internal_nll": 2.6026649207272774,
+          "seconds": 1.5518560909999906
+        },
+        {
+          "epoch": 3,
+          "train_nll": 2.4929658641667363,
+          "internal_nll": 2.357036566469086,
+          "seconds": 4.759524474000045
+        },
+        {
+          "epoch": 4,
+          "train_nll": 2.3387759533143613,
+          "internal_nll": 2.251125392303741,
+          "seconds": 4.8043162880003365
+        },
+        {
+          "epoch": 5,
+          "train_nll": 2.2654780770988796,
+          "internal_nll": 2.2151320149595075,
+          "seconds": 4.728251668000212
+        },
+        {
+          "epoch": 6,
+          "train_nll": 2.2195689119942617,
+          "internal_nll": 2.1520561262263556,
+          "seconds": 4.781836883999858
+        },
+        {
+          "epoch": 7,
+          "train_nll": 2.1830122815433275,
+          "internal_nll": 2.1246318245200198,
+          "seconds": 4.821632894999766
+        },
+        {
+          "epoch": 8,
+          "train_nll": 2.1501810007423705,
+          "internal_nll": 2.0907121378873694,
+          "seconds": 4.781910849000269
+        },
+        {
+          "epoch": 9,
+          "train_nll": 2.122152297553275,
+          "internal_nll": 2.0640344852781394,
+          "seconds": 4.799400895999952
+        },
+        {
+          "epoch": 10,
+          "train_nll": 2.096317368187382,
+          "internal_nll": 2.0484691884254063,
+          "seconds": 4.779070445999878
+        },
+        {
+          "epoch": 11,
+          "train_nll": 2.0727770999484836,
+          "internal_nll": 2.018857283965393,
+          "seconds": 4.8043908380000175
+        },
+        {
+          "epoch": 12,
+          "train_nll": 2.0537030924187842,
+          "internal_nll": 2.0009507174272336,
+          "seconds": 4.77244400499967
+        },
+        {
+          "epoch": 13,
+          "train_nll": 2.032212711747117,
+          "internal_nll": 1.9735578752684528,
+          "seconds": 4.805932951000159
+        },
+        {
+          "epoch": 14,
+          "train_nll": 2.0132510290199384,
+          "internal_nll": 1.9618927175683527,
+          "seconds": 4.795246832999965
+        },
+        {
+          "epoch": 15,
+          "train_nll": 1.9956446865413668,
+          "internal_nll": 1.9397188787799946,
+          "seconds": 4.803657578000184
+        },
+        {
+          "epoch": 16,
+          "train_nll": 1.9803707035925229,
+          "internal_nll": 1.9268210480895518,
+          "seconds": 4.767918485999871
+        },
+        {
+          "epoch": 17,
+          "train_nll": 1.9636474892845301,
+          "internal_nll": 1.9095730295250934,
+          "seconds": 4.802236451999761
+        },
+        {
+          "epoch": 18,
+          "train_nll": 1.946346136280617,
+          "internal_nll": 1.896712169028601,
+          "seconds": 4.817673007999929
+        },
+        {
+          "epoch": 19,
+          "train_nll": 1.9331267921739739,
+          "internal_nll": 1.8779911274959034,
+          "seconds": 4.777558133000184
+        },
+        {
+          "epoch": 20,
+          "train_nll": 1.9175177956563734,
+          "internal_nll": 1.8678285888651838,
+          "seconds": 4.813864581999951
+        },
+        {
+          "epoch": 21,
+          "train_nll": 1.9041468475305094,
+          "internal_nll": 1.8491131754689052,
+          "seconds": 4.772969869000008
+        },
+        {
+          "epoch": 22,
+          "train_nll": 1.8895326404908706,
+          "internal_nll": 1.8494510453537283,
+          "seconds": 4.797410785000011
+        },
+        {
+          "epoch": 23,
+          "train_nll": 1.8781695380984476,
+          "internal_nll": 1.8268404524321114,
+          "seconds": 4.772967071000039
+        },
+        {
+          "epoch": 24,
+          "train_nll": 1.8641319076221847,
+          "internal_nll": 1.8197377178589265,
+          "seconds": 4.806184943000062
+        },
+        {
+          "epoch": 25,
+          "train_nll": 1.8530394577396365,
+          "internal_nll": 1.8046654838269027,
+          "seconds": 4.791860814999836
+        },
+        {
+          "epoch": 26,
+          "train_nll": 1.840531125682434,
+          "internal_nll": 1.788439930385868,
+          "seconds": 4.793020195999816
+        },
+        {
+          "epoch": 27,
+          "train_nll": 1.828496884607775,
+          "internal_nll": 1.7869843510429646,
+          "seconds": 4.8071918440000445
+        },
+        {
+          "epoch": 28,
+          "train_nll": 1.818568771527011,
+          "internal_nll": 1.7728372662411214,
+          "seconds": 4.789143508000052
+        },
+        {
+          "epoch": 29,
+          "train_nll": 1.8091070558295554,
+          "internal_nll": 1.7624441552615246,
+          "seconds": 4.675865282999894
+        },
+        {
+          "epoch": 30,
+          "train_nll": 1.7976325335668475,
+          "internal_nll": 1.75617163342594,
+          "seconds": 3.821996214000137
+        }
+      ],
+      "reused_checkpoint": false,
+      "numeric_policy": {
+        "determinista": true,
+        "precision": "fp32",
+        "tf32": false,
+        "seed": 42
+      },
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA A100-SXM4-40GB",
+      "pid": 12694,
+      "fresh_training": true,
+      "process_wall_s": 145.314803062
+    },
+    {
+      "ok": true,
+      "id": "fold_5_class_35-49",
+      "fingerprint": "80ebbe831023e69a1270d9925505c7bf99496f7bf6026c90c683afd5bfc1c394",
+      "class_index": 3,
+      "seconds": 152.9893674169998,
+      "epochs": 30,
+      "best_epoch": 30,
+      "peak_memory_bytes": 368498176,
+      "history": [
+        {
+          "epoch": 1,
+          "train_nll": 3.3500671478573416,
+          "internal_nll": 3.1401873888177225,
+          "seconds": 5.571331088000079
+        },
+        {
+          "epoch": 2,
+          "train_nll": 2.87013687307683,
+          "internal_nll": 2.6234762818573882,
+          "seconds": 5.2022176660002515
+        },
+        {
+          "epoch": 3,
+          "train_nll": 2.471793636210974,
+          "internal_nll": 2.362591945545805,
+          "seconds": 5.1174455159998615
+        },
+        {
+          "epoch": 4,
+          "train_nll": 2.308291999321103,
+          "internal_nll": 2.2571486931983844,
+          "seconds": 5.190292407000015
+        },
+        {
+          "epoch": 5,
+          "train_nll": 2.229815718958314,
+          "internal_nll": 2.223076111479491,
+          "seconds": 5.1916568789997655
+        },
+        {
+          "epoch": 6,
+          "train_nll": 2.1844426388239544,
+          "internal_nll": 2.156661092901736,
+          "seconds": 5.196653485999832
+        },
+        {
+          "epoch": 7,
+          "train_nll": 2.1506985458384023,
+          "internal_nll": 2.131828678007911,
+          "seconds": 5.2129062550002345
+        },
+        {
+          "epoch": 8,
+          "train_nll": 2.1175971444037454,
+          "internal_nll": 2.0941105517659935,
+          "seconds": 5.194016331000057
+        },
+        {
+          "epoch": 9,
+          "train_nll": 2.089166989760521,
+          "internal_nll": 2.0668452828428374,
+          "seconds": 5.192093285000283
+        },
+        {
+          "epoch": 10,
+          "train_nll": 2.0649197981848384,
+          "internal_nll": 2.053728887719086,
+          "seconds": 5.193386087999897
+        },
+        {
+          "epoch": 11,
+          "train_nll": 2.0421379106861686,
+          "internal_nll": 2.02059428515394,
+          "seconds": 5.210841920000348
+        },
+        {
+          "epoch": 12,
+          "train_nll": 2.0202035122471673,
+          "internal_nll": 2.009277415534835,
+          "seconds": 5.192982562999987
+        },
+        {
+          "epoch": 13,
+          "train_nll": 2.0037560609821052,
+          "internal_nll": 1.981853840196723,
+          "seconds": 5.183583777000422
+        },
+        {
+          "epoch": 14,
+          "train_nll": 1.9836540259190438,
+          "internal_nll": 1.9672694965285977,
+          "seconds": 5.188134687999991
+        },
+        {
+          "epoch": 15,
+          "train_nll": 1.9650171960689726,
+          "internal_nll": 1.940634755117946,
+          "seconds": 5.188830885999778
+        },
+        {
+          "epoch": 16,
+          "train_nll": 1.9468682614502504,
+          "internal_nll": 1.9309416456343784,
+          "seconds": 5.1982761730000675
+        },
+        {
+          "epoch": 17,
+          "train_nll": 1.9291523348469237,
+          "internal_nll": 1.9103290132390807,
+          "seconds": 5.174801899000158
+        },
+        {
+          "epoch": 18,
+          "train_nll": 1.9111833152477593,
+          "internal_nll": 1.8901061111400568,
+          "seconds": 5.184867259999919
+        },
+        {
+          "epoch": 19,
+          "train_nll": 1.8939754910771502,
+          "internal_nll": 1.8695630500803735,
+          "seconds": 5.204213985000024
+        },
+        {
+          "epoch": 20,
+          "train_nll": 1.877307037308138,
+          "internal_nll": 1.8521622947803908,
+          "seconds": 5.205634893000024
+        },
+        {
+          "epoch": 21,
+          "train_nll": 1.861472946407017,
+          "internal_nll": 1.8401701556449221,
+          "seconds": 5.191667246000179
+        },
+        {
+          "epoch": 22,
+          "train_nll": 1.8462995331619991,
+          "internal_nll": 1.8310314003391004,
+          "seconds": 5.183967181999833
+        },
+        {
+          "epoch": 23,
+          "train_nll": 1.8403473330000155,
+          "internal_nll": 1.8098395515496286,
+          "seconds": 5.201102427999558
+        },
+        {
+          "epoch": 24,
+          "train_nll": 1.818111240415112,
+          "internal_nll": 1.7989187848352957,
+          "seconds": 5.203132304000064
+        },
+        {
+          "epoch": 25,
+          "train_nll": 1.8076679961856366,
+          "internal_nll": 1.783217284859486,
+          "seconds": 5.135190430999955
+        },
+        {
+          "epoch": 26,
+          "train_nll": 1.7933988573321626,
+          "internal_nll": 1.7673882248359425,
+          "seconds": 4.219608544000039
+        },
+        {
+          "epoch": 27,
+          "train_nll": 1.7791093994024627,
+          "internal_nll": 1.7655094035567294,
+          "seconds": 3.1113324470002226
+        },
+        {
+          "epoch": 28,
+          "train_nll": 1.7716493212369715,
+          "internal_nll": 1.7514511547027842,
+          "seconds": 2.5789879570002086
+        },
+        {
+          "epoch": 29,
+          "train_nll": 1.759337186353258,
+          "internal_nll": 1.7373481726676971,
+          "seconds": 2.580429353999989
+        },
+        {
+          "epoch": 30,
+          "train_nll": 1.7473175063648565,
+          "internal_nll": 1.733205581525179,
+          "seconds": 2.582725612000104
+        }
+      ],
+      "reused_checkpoint": false,
+      "numeric_policy": {
+        "determinista": true,
+        "precision": "fp32",
+        "tf32": false,
+        "seed": 42
+      },
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA A100-SXM4-40GB",
+      "pid": 12695,
+      "fresh_training": true,
+      "process_wall_s": 155.82424183400008
+    },
+    {
+      "ok": true,
+      "id": "fold_5_class_50-64",
+      "fingerprint": "4d3fbd7a177fa470a55e2f1a4750aa4391bb82ddc31c0616725e375e2007530e",
+      "class_index": 4,
+      "seconds": 157.2007627359999,
+      "epochs": 30,
+      "best_epoch": 30,
+      "peak_memory_bytes": 371959296,
+      "history": [
+        {
+          "epoch": 1,
+          "train_nll": 3.3726126734080064,
+          "internal_nll": 3.1866083134777354,
+          "seconds": 5.952896047000195
+        },
+        {
+          "epoch": 2,
+          "train_nll": 2.85858121256755,
+          "internal_nll": 2.615749547917729,
+          "seconds": 5.635475561000021
+        },
+        {
+          "epoch": 3,
+          "train_nll": 2.441844606985272,
+          "internal_nll": 2.3749979875663936,
+          "seconds": 5.571865487000196
+        },
+        {
+          "epoch": 4,
+          "train_nll": 2.2780161392763434,
+          "internal_nll": 2.2643655486063445,
+          "seconds": 5.623133426000095
+        },
+        {
+          "epoch": 5,
+          "train_nll": 2.188985838797164,
+          "internal_nll": 2.2034015622182284,
+          "seconds": 5.655283687000065
+        },
+        {
+          "epoch": 6,
+          "train_nll": 2.138532001205753,
+          "internal_nll": 2.1471487822048956,
+          "seconds": 5.64349745599975
+        },
+        {
+          "epoch": 7,
+          "train_nll": 2.09944385573121,
+          "internal_nll": 2.112551881686555,
+          "seconds": 5.620609068000249
+        },
+        {
+          "epoch": 8,
+          "train_nll": 2.0695175187161983,
+          "internal_nll": 2.081855191539986,
+          "seconds": 5.63510714999984
+        },
+        {
+          "epoch": 9,
+          "train_nll": 2.0416571939040424,
+          "internal_nll": 2.0556944507129344,
+          "seconds": 5.6487189160002345
+        },
+        {
+          "epoch": 10,
+          "train_nll": 2.0170241389486865,
+          "internal_nll": 2.0396030626303845,
+          "seconds": 5.657981915000164
+        },
+        {
+          "epoch": 11,
+          "train_nll": 1.995739765546925,
+          "internal_nll": 2.010154710108148,
+          "seconds": 5.6250831900001685
+        },
+        {
+          "epoch": 12,
+          "train_nll": 1.9755026052458846,
+          "internal_nll": 1.999182547374518,
+          "seconds": 5.6264045430002625
+        },
+        {
+          "epoch": 13,
+          "train_nll": 1.9581090517674589,
+          "internal_nll": 1.9721846865340318,
+          "seconds": 5.602504682000017
+        },
+        {
+          "epoch": 14,
+          "train_nll": 1.9391184792567504,
+          "internal_nll": 1.9602041712110116,
+          "seconds": 5.643431191000218
+        },
+        {
+          "epoch": 15,
+          "train_nll": 1.922930883430394,
+          "internal_nll": 1.936800340295851,
+          "seconds": 5.642998762999923
+        },
+        {
+          "epoch": 16,
+          "train_nll": 1.9072199347116396,
+          "internal_nll": 1.9251889366386474,
+          "seconds": 5.623991595999996
+        },
+        {
+          "epoch": 17,
+          "train_nll": 1.8890602330365003,
+          "internal_nll": 1.9095095241267608,
+          "seconds": 5.635951586999909
+        },
+        {
+          "epoch": 18,
+          "train_nll": 1.8734332822522732,
+          "internal_nll": 1.8893094471708032,
+          "seconds": 5.642684212000404
+        },
+        {
+          "epoch": 19,
+          "train_nll": 1.859500706449826,
+          "internal_nll": 1.8709491038131982,
+          "seconds": 5.6223269429997345
+        },
+        {
+          "epoch": 20,
+          "train_nll": 1.8420986501762038,
+          "internal_nll": 1.85460552925024,
+          "seconds": 5.625926153999899
+        },
+        {
+          "epoch": 21,
+          "train_nll": 1.8269439789968875,
+          "internal_nll": 1.84483811835118,
+          "seconds": 5.643883720999838
+        },
+        {
+          "epoch": 22,
+          "train_nll": 1.8111653908404937,
+          "internal_nll": 1.8403347201840319,
+          "seconds": 5.646027257999776
+        },
+        {
+          "epoch": 23,
+          "train_nll": 1.7987766883833871,
+          "internal_nll": 1.8115683592229426,
+          "seconds": 5.621468349999759
+        },
+        {
+          "epoch": 24,
+          "train_nll": 1.7825322278065612,
+          "internal_nll": 1.8008571103682764,
+          "seconds": 4.581228263999947
+        },
+        {
+          "epoch": 25,
+          "train_nll": 1.7692418928963423,
+          "internal_nll": 1.7833518534634538,
+          "seconds": 3.2779699459997573
+        },
+        {
+          "epoch": 26,
+          "train_nll": 1.7554757632690428,
+          "internal_nll": 1.7666322889631474,
+          "seconds": 2.8048297410000487
+        },
+        {
+          "epoch": 27,
+          "train_nll": 1.7404858969820896,
+          "internal_nll": 1.7682965533240476,
+          "seconds": 2.7995540700003403
+        },
+        {
+          "epoch": 28,
+          "train_nll": 1.7298043360207425,
+          "internal_nll": 1.7457032796951661,
+          "seconds": 2.725609681000151
+        },
+        {
+          "epoch": 29,
+          "train_nll": 1.7180617512978444,
+          "internal_nll": 1.7302964526340965,
+          "seconds": 2.1153106169999774
+        },
+        {
+          "epoch": 30,
+          "train_nll": 1.7045476744307875,
+          "internal_nll": 1.7273381519589763,
+          "seconds": 1.8526506490002248
+        }
+      ],
+      "reused_checkpoint": false,
+      "numeric_policy": {
+        "determinista": true,
+        "precision": "fp32",
+        "tf32": false,
+        "seed": 42
+      },
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA A100-SXM4-40GB",
+      "pid": 12697,
+      "fresh_training": true,
+      "process_wall_s": 159.9263842260002
+    },
+    {
+      "ok": true,
+      "id": "fold_5_class_65-xx",
+      "fingerprint": "962b8373e19b74b01aa813d714186aebd8d00c069329db1368fb32dd96841cff",
+      "class_index": 5,
+      "seconds": 157.71104710500003,
+      "epochs": 30,
+      "best_epoch": 30,
+      "peak_memory_bytes": 371885056,
+      "history": [
+        {
+          "epoch": 1,
+          "train_nll": 3.380403592388974,
+          "internal_nll": 3.139136295775869,
+          "seconds": 6.201939203000165
+        },
+        {
+          "epoch": 2,
+          "train_nll": 2.845349280895924,
+          "internal_nll": 2.5329392101259813,
+          "seconds": 5.714435389999835
+        },
+        {
+          "epoch": 3,
+          "train_nll": 2.4054849744665328,
+          "internal_nll": 2.2900262847411885,
+          "seconds": 5.661252378999961
+        },
+        {
+          "epoch": 4,
+          "train_nll": 2.2478800614060295,
+          "internal_nll": 2.181596591998257,
+          "seconds": 5.744651035000061
+        },
+        {
+          "epoch": 5,
+          "train_nll": 2.1690083258551933,
+          "internal_nll": 2.122778485437672,
+          "seconds": 5.713017363999825
+        },
+        {
+          "epoch": 6,
+          "train_nll": 2.1211600075118704,
+          "internal_nll": 2.0750028282310304,
+          "seconds": 5.735734059000151
+        },
+        {
+          "epoch": 7,
+          "train_nll": 2.0769071559602006,
+          "internal_nll": 2.0348367014579893,
+          "seconds": 5.72992094700021
+        },
+        {
+          "epoch": 8,
+          "train_nll": 2.045728023794655,
+          "internal_nll": 2.0009401405832983,
+          "seconds": 5.724240031000136
+        },
+        {
+          "epoch": 9,
+          "train_nll": 2.0129603968822107,
+          "internal_nll": 1.9732271206396927,
+          "seconds": 5.74891724400004
+        },
+        {
+          "epoch": 10,
+          "train_nll": 1.9859117334921488,
+          "internal_nll": 1.9571803224685773,
+          "seconds": 5.689033067999844
+        },
+        {
+          "epoch": 11,
+          "train_nll": 1.9641869332013322,
+          "internal_nll": 1.9212565990572485,
+          "seconds": 5.738686675999816
+        },
+        {
+          "epoch": 12,
+          "train_nll": 1.9397420815739874,
+          "internal_nll": 1.9095431033145573,
+          "seconds": 5.724410512999839
+        },
+        {
+          "epoch": 13,
+          "train_nll": 1.9213540405990324,
+          "internal_nll": 1.8783465715550507,
+          "seconds": 5.735311355999784
+        },
+        {
+          "epoch": 14,
+          "train_nll": 1.89983400492763,
+          "internal_nll": 1.8663722780817955,
+          "seconds": 5.733127560999947
+        },
+        {
+          "epoch": 15,
+          "train_nll": 1.8809246190239854,
+          "internal_nll": 1.8374844408598012,
+          "seconds": 5.744806497999889
+        },
+        {
+          "epoch": 16,
+          "train_nll": 1.8614266580881125,
+          "internal_nll": 1.8227203002195798,
+          "seconds": 5.736339620999843
+        },
+        {
+          "epoch": 17,
+          "train_nll": 1.8413668737206668,
+          "internal_nll": 1.8086752512019724,
+          "seconds": 5.706133103999946
+        },
+        {
+          "epoch": 18,
+          "train_nll": 1.824026287302672,
+          "internal_nll": 1.7800657580532884,
+          "seconds": 5.739987441000267
+        },
+        {
+          "epoch": 19,
+          "train_nll": 1.804011216643672,
+          "internal_nll": 1.7623389815142196,
+          "seconds": 5.74926177999987
+        },
+        {
+          "epoch": 20,
+          "train_nll": 1.7876251289264429,
+          "internal_nll": 1.7437100545069208,
+          "seconds": 5.694117772000027
+        },
+        {
+          "epoch": 21,
+          "train_nll": 1.7675890169151025,
+          "internal_nll": 1.7280726625686993,
+          "seconds": 5.744867673000044
+        },
+        {
+          "epoch": 22,
+          "train_nll": 1.7538239976293826,
+          "internal_nll": 1.7167223119621284,
+          "seconds": 5.727308686000015
+        },
+        {
+          "epoch": 23,
+          "train_nll": 1.737944937722425,
+          "internal_nll": 1.7001105467348665,
+          "seconds": 5.265858800999922
+        },
+        {
+          "epoch": 24,
+          "train_nll": 1.7226566787051678,
+          "internal_nll": 1.6848170406145528,
+          "seconds": 4.080050981000113
+        },
+        {
+          "epoch": 25,
+          "train_nll": 1.7087291812806906,
+          "internal_nll": 1.6678742764301027,
+          "seconds": 2.990936407999925
+        },
+        {
+          "epoch": 26,
+          "train_nll": 1.6947416937102868,
+          "internal_nll": 1.6535610086758201,
+          "seconds": 2.8614978159998827
+        },
+        {
+          "epoch": 27,
+          "train_nll": 1.683154587802224,
+          "internal_nll": 1.6408506799403084,
+          "seconds": 2.8541086699997322
+        },
+        {
+          "epoch": 28,
+          "train_nll": 1.6686613019625702,
+          "internal_nll": 1.6314097080548298,
+          "seconds": 2.586853628999961
+        },
+        {
+          "epoch": 29,
+          "train_nll": 1.6557553764767872,
+          "internal_nll": 1.622368407038868,
+          "seconds": 1.9031933849996676
+        },
+        {
+          "epoch": 30,
+          "train_nll": 1.644958743793756,
+          "internal_nll": 1.6137171525185305,
+          "seconds": 1.70903003300009
+        }
+      ],
+      "reused_checkpoint": false,
+      "numeric_policy": {
+        "determinista": true,
+        "precision": "fp32",
+        "tf32": false,
+        "seed": 42
+      },
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA A100-SXM4-40GB",
+      "pid": 12696,
+      "fresh_training": true,
+      "process_wall_s": 160.45157191299995
+    }
+  ],
+  "nvidia_start": "name, utilization.gpu [%], memory.used [MiB], memory.total [MiB]\nNVIDIA A100-SXM4-40GB, 0 %, 640 MiB, 40960 MiB\n",
+  "nvidia_mid": "name, utilization.gpu [%], memory.used [MiB], memory.total [MiB]\nNVIDIA A100-SXM4-40GB, 91 %, 4431 MiB, 40960 MiB\n"
+}
