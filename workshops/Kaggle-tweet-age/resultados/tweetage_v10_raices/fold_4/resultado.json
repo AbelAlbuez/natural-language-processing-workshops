@@ -1,0 +1,16 @@
+{
+  "combinacion_elegida": [
+    0.75,
+    0.0,
+    0.25
+  ],
+  "diferencia": -0.0010832127192262897,
+  "f1_interno_elegida": 0.43442611186874647,
+  "f1_solo_caracteres": 0.42351235646681656,
+  "f1_solo_palabras": 0.40381651843248645,
+  "f1_solo_raices": 0.408800777570618,
+  "f1_v10": 0.44114249189255944,
+  "f1_v6": 0.44222570461178573,
+  "fingerprint": "65d8b1aaec1daf23fe877e9d979ccce8515a9d5f0035841bc28fcbef46c30aae",
+  "pliegue": 4
+}
