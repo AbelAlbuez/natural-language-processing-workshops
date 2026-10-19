@@ -3,6 +3,14 @@
 Punto de partida: `TweetToxic_modelo.ipynb`, un stacking de 5 modelos que obtuvo **0,79160** en el leaderboard público (4.º puesto).
 Cada prueba está en su propio notebook, ejecutable de principio a fin y guardado con sus salidas. El código común está en `toxic_base.py`.
 
+## Entregables del curso
+| Entregable (PDF) | Archivo |
+|---|---|
+| 1. CSV enviado a Kaggle | `submissions/toxic_submission_E11c_base_lgbmps.csv` y `submissions/toxic_submission_E13a_generica_h19_23.csv` |
+| 2. Notebook ejecutable | `TweetToxic_final.ipynb` (de punta a punta; verifica que reproduce exactamente los dos CSV enviados) |
+| 3. Informe breve | `../Informe_TweetToxic_NLP_G1.docx` (6 páginas) |
+| Reproducibilidad | `../requirements.txt`, `toxic_base.py`, `ext_*.py`, `recursos/`, notebooks `E*.ipynb` y `scripts/` |
+
 ## Cómo reproducir
 ```bash
 cd workshops/Kaggle-tweet-toxic
