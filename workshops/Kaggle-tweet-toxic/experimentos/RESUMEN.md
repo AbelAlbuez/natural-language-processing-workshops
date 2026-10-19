@@ -63,15 +63,15 @@ Las probabilidades OOF se guardan en caché en `oof/`. Si se borra esa carpeta, 
 | `submissions/toxic_submission_E11a_variables_lgbmps.csv` | H12-H17 + bagging 5 + LGBM + LGBM-PS | 0,8300 | 0,79644 | Enviado |
 | `submissions/toxic_submission_E11b_generica_lgbmps.csv` | H12-H17 genérica + LGBM-PS | 0,8244 | 0,79895 | Enviado |
 | `submissions/toxic_submission_E11c_base_lgbmps.csv` | Bagging 5 + LGBM + LGBM-PS (sin variables nuevas) | 0,8204 | 0,80206 | Enviado |
-| `submissions/toxic_submission_E13a_generica_h19_23.csv` | H12-H17 genérica + H19-H23 + bagging 5 + LGBM + LGBM-PS | 0,8284 | _pendiente_ | Candidato |
+| `submissions/toxic_submission_E13a_generica_h19_23.csv` | H12-H17 genérica + H19-H23 + bagging 5 + LGBM + LGBM-PS | 0,8284 | 0,79597 | Enviado |
 
 > Ojo con los nombres: en la tabla "Versiones enviadas" del notebook original, la v1 aparece como `toxic_submission.csv`. Pero la prevalencia predicha (0,393/0,298/0,373) muestra que ese archivo es el **stacking** (0,79160), y que `toxic_submission_v1.csv` es el ensamble (0,78516).
 
 ### Recomendación para la selección final en Kaggle (2 submissions)
-- **A: `toxic_submission_E11c_base_lgbmps.csv`** (CV 0,8204, público 0,80206): el mejor público, y su CV no depende de variables ajustadas a mano.
-- **B: `toxic_submission_E11b_generica_lgbmps.csv`** (CV 0,8244, público 0,79895): la versión genérica de H12-H17, con menos sesgo de selección que E11a.
+- **A: `toxic_submission_E11c_base_lgbmps.csv`** (CV 0,8204, público 0,80206): mejor público y sin variables ajustadas a mano.
+- **B: `toxic_submission_E13a_generica_h19_23.csv`** (CV 0,8284, control 0,8217, público 0,79597): la mejor con variables de contexto, y la única validada en un control no visto.
 
-E11a (CV 0,8300) no se elige porque esa CV está inflada por el sesgo de selección y obtuvo el peor público de los tres. Si no se marcan manualmente, Kaggle elige las 2 de mejor puntaje público. El detalle completo está en `INFORME_EXPERIMENTOS.md`.
+Kaggle toma la mejor de las 2 en el privado, así que se cubren las dos hipótesis: que las variables de contexto generalicen o no. Si no se marcan manualmente, Kaggle elige las 2 de mejor puntaje público. El detalle está en `INFORME_EXPERIMENTOS.md`, sección 6.
 
 ## Recursos externos y licencias
 - **HurtLex** v1.2 (español): Bassignana, E., Basile, V. y Patti, V. (2018). *Hurtlex: A Multilingual Lexicon of Words to Hurt*. CLiC-it 2018. Licencia CC BY-NC-SA 4.0. https://github.com/valeriobasile/hurtlex. Se usó solo en E5 y no se adoptó.

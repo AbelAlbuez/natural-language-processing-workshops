@@ -14,7 +14,7 @@ Todas las cifras salen de las salidas guardadas en los notebooks `E*.ipynb`, de 
 | **Mejor CV** | **0,8300 ± 0,0010** | E11a: variables H12-H17 + *seed bagging* 5 semillas + LightGBM + LGBM-PS (CV inflada por sesgo de selección) |
 | Mejor CV sin variables ajustadas a mano | 0,8204 ± 0,0004 | E11c: *bagging* 5 semillas, 5 modelos + LightGBM + LGBM-PS |
 | **Mejor público** | **0,80206** | E11c |
-| **Selección final recomendada** | **E11c + E11b** | Ver sección 6 |
+| **Selección final recomendada** | **E11c + E13a** | Ver sección 6 |
 
 **Lecciones principales**
 1. **Lo que más mueve el F1 son las variables lingüísticas de contexto escritas a mano** (H1-H10 en el original: +2,2 puntos sobre la LR; H12-H17 en E10b: +1,2 puntos de CV). Un léxico genérico (HurtLex) o vectores aprendidos con tan pocos datos (Word2Vec, redes) no capturan ese contexto.
@@ -510,6 +510,21 @@ Scripts: `scripts/E12_*.py` y `scripts/E13_1..4_*.py`, que se ejecutan desde `ex
 
 Submission: `submissions/toxic_submission_E13a_generica_h19_23.csv`. Difiere en 26 filas de E11b y en 56 de E11c. Prevalencia predicha: HS 0,406, TR 0,302, AG 0,371.
 
+**Resultado público: 0,79597**, por debajo de E11b (0,79895) y de E11c (0,80206). El público vuelve a ir en contra de la CV, como ya pasó con las variables H12-H17:
+
+| Envío | Variables de contexto | CV | Público |
+|---|---|---|---|
+| E11c | ninguna | 0,8204 | **0,80206** |
+| E11b | H12-H17 genérica | 0,8244 | 0,79895 |
+| E11a | H12-H17 completa | 0,8300 | 0,79644 |
+| E13a | H12-H17 genérica + H19-H23 | **0,8284** | 0,79597 |
+
+Hay dos lecturas posibles y ninguna se puede descartar con los datos disponibles:
+1. **Ruido.** Las submissions difieren en solo 26 a 56 filas, unas 13 a 28 de ellas en el público. Una diferencia de 0,3 a 0,6 puntos equivale a 2 o 3 tweets.
+2. **Cambio de distribución entre el train y el test.** En HatEval 2019 los organizadores reportaron una caída fuerte de los sistemas entre el desarrollo y el test (Basile et al., 2019). Las variables ajustadas a la redacción del train generalizan peor, y el patrón se repite en los 3 envíos con variables nuevas.
+
+Por eso la selección final cubre las dos hipótesis (sección 6).
+
 ---
 
 ## 5. Historial de envíos a Kaggle
@@ -527,11 +542,12 @@ Submission: `submissions/toxic_submission_E13a_generica_h19_23.csv`. Difiere en 
 | 9 | `submissions/toxic_submission_E11a_variables_lgbmps.csv` | H12-H17 + *bagging* 5 + LGBM + LGBM-PS | 0,8300 | 0,79644 |
 | 10 | `submissions/toxic_submission_E11b_generica_lgbmps.csv` | H12-H17 genérica + LGBM-PS | 0,8244 | 0,79895 |
 | 11 | `submissions/toxic_submission_E11c_base_lgbmps.csv` | *Bagging* 5 + LGBM + LGBM-PS (sin variables nuevas) | 0,8204 | **0,80206** |
+| 12 | `submissions/toxic_submission_E13a_generica_h19_23.csv` | H12-H17 genérica + H19-H23 + *bagging* 5 + LGBM + LGBM-PS | 0,8284 | 0,79597 |
 
 Notas:
 - **Nombres cruzados en el notebook original.** Su tabla "Versiones enviadas" llama v1 a `toxic_submission.csv`. La prevalencia predicha (0,393 / 0,298 / 0,373) muestra que ese archivo es el **stacking** (0,79160) y que `toxic_submission_v1.csv` es el **ensamble** (0,78516).
 - **No enviados:** `toxic_submission_E0.csv` (idéntico a la base) y los archivos `toxic_submission_E10b_variables*.csv` (sustituidos por las versiones E11).
-- Los envíos de E11 se hicieron el **18-oct-2026 a las 02:48 UTC**.
+- Los envíos de E11 se hicieron el **18-oct-2026 a las 02:48 UTC** y el de E13a el **19-oct-2026 a las 16:15 UTC**.
 - **Incidente con el límite de envíos.** Un envío programado de E9a, E9b y E9c que se creía cancelado se ejecutó y volvió a subir esos tres archivos como **duplicados el 18-oct a las 00:01 UTC** (con los mismos puntajes). Por eso, en esa ventana se **excedió el límite del curso de 3 envíos por día**. Los duplicados no aportan información nueva ni cambian la selección; se deja constancia para el informe.
 
 ---
@@ -542,12 +558,14 @@ Kaggle permite marcar 2 submissions para el privado. Si no se marcan a mano, eli
 
 | Elección | Archivo | CV | Público | Justificación |
 |---|---|---|---|---|
-| **A** | `toxic_submission_E11c_base_lgbmps.csv` | 0,8204 ± 0,0004 | 0,80206 | Mejor público. Su CV no depende de variables ajustadas a mano mirando errores, así que es la estimación menos sesgada. Es la de menor desviación entre semillas |
-| **B** | `toxic_submission_E11b_generica_lgbmps.csv` | 0,8244 ± 0,0015 | 0,79895 | Aporta la mejora de las variables de contexto H12-H17 en su versión genérica, con menos sesgo de selección que E11a. Diversifica la apuesta frente a A (con y sin variables nuevas) |
+| **A** | `toxic_submission_E11c_base_lgbmps.csv` | 0,8204 ± 0,0004 | 0,80206 | Mejor público. Su CV no depende de variables ajustadas a mano mirando errores, así que es la estimación menos sesgada. Es la de menor desviación entre semillas. Gana si el cambio de distribución hacia el test perjudica a las variables de contexto |
+| **B** | `toxic_submission_E13a_generica_h19_23.csv` | 0,8284 (0,827 / 0,827 / 0,832) | 0,79597 | Es la mejor configuración con variables de contexto, y la única con una mejora medida en un control no visto (+0,0051 sobre E11b). Gana si las variables generalizan y la diferencia en el público es ruido |
 
-**Por qué no E11a.** Su CV (0,8300) es la más alta, pero está inflada: las variables se escribieron mirando los errores del mismo train, la versión genérica conserva solo dos terceras partes de la mejora, varios de sus patrones aparecen la mitad de veces en el test y obtuvo el peor público de los tres E11 (0,79644). E11b captura la parte generalizable de esa mejora con menos riesgo.
+**Por qué las dos.** Kaggle califica el privado con la mejor de las 2 marcadas, así que conviene que cubran hipótesis distintas: sin variables nuevas (A) y con ellas (B). Elegir dos variantes del mismo modelo no aportaría cobertura.
 
-Si E13 confirma una ganancia en el conjunto de control, se puede revisar la elección B.
+**Por qué E13a y no E11b como B.** E13a supera a E11b en la CV (+0,0040, en 3 de 3 semillas) y en el control limpio (+0,0051, en 3 de 3 semillas). E11b solo la supera en el público, por 0,003, que equivale a unos 2 tweets sobre unas 13 filas distintas. La regla del proyecto es decidir por CV y no por el público.
+
+**Por qué no E11a.** Su CV (0,8300) está inflada: las variables se escribieron mirando los errores del mismo train. La versión genérica conserva solo dos terceras partes de la mejora, y su público fue bajo (0,79644).
 
 ---
 
