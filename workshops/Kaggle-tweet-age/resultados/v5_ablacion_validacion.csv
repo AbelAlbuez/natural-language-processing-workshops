@@ -1,0 +1,10 @@
+paso,F1 macro
+(solo) LM char orden 5: log-verosimilitud + prior,0.566866624559393
+(solo) LM word orden 3: log-verosimilitud + prior,0.51484305750586
+"1. v4: K=3, 1 semilla",0.6178552398253371
+2. v4: + pesos por clase (referencia v4),0.6192965044073258
+3. K_FOLDS = 5,0.6192649888073282
+"4. + LM n-grama (caracteres 5, palabras 3)",0.6231386164869809
+5. + meta-modelo promediado en 3 semillas,0.6245046171334414
+6. + pesos por clase (modelo v5),0.6265466088799628
+"7. + pseudo-etiquetas en el meta-modelo (τ=0.9, 8767 tweets)",0.626314793451091
