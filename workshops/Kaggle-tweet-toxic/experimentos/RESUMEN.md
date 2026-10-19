@@ -9,6 +9,7 @@ Cada prueba está en su propio notebook, ejecutable de principio a fin y guardad
 | 1. CSV enviado a Kaggle | `submissions/toxic_submission_E11c_base_lgbmps.csv` y `submissions/toxic_submission_E13a_generica_h19_23.csv` |
 | 2. Notebook ejecutable | `TweetToxic_final.ipynb` (de punta a punta; verifica que reproduce exactamente los dos CSV enviados) |
 | 3. Informe breve | `../Informe_TweetToxic_NLP_G1.docx` (6 páginas) |
+| Notebook en Kaggle (privado) | https://www.kaggle.com/code/juancamilotorrespea/tweettoxic-nlp-g1-final (fuente en `kaggle/`; usa el dataset privado https://www.kaggle.com/datasets/juancamilotorrespea/tweettoxic-nlp-g1-codigo con el código, la caché `oof/` y las submissions) |
 | Reproducibilidad | `../requirements.txt`, `toxic_base.py`, `ext_*.py`, `recursos/`, notebooks `E*.ipynb` y `scripts/` |
 
 ## Cómo reproducir

@@ -1,0 +1,17 @@
+{
+  "id": "juancamilotorrespea/tweettoxic-nlp-g1-final",
+  "title": "TweetToxic NLP_G1 final",
+  "code_file": "tweettoxic-nlp-g1-final.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "dataset_sources": [
+    "juancamilotorrespea/tweettoxic-nlp-g1-codigo"
+  ],
+  "competition_sources": [
+    "tweet-toxic-2026-puj"
+  ],
+  "kernel_sources": []
+}
