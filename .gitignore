@@ -26,3 +26,5 @@ workshops/Kaggle-tweet-age/tweet-age-2026-puj/
 workshops/Kaggle-tweet-age/modelos_v7_neuronal/
 workshops/Kaggle-tweet-toxic/tweet-toxic-2026-puj/
 workshops/Kaggle-tweet-toxic/experimentos/oof/
+# boilerplate del curso: clon de puj-nlp/boilerplate_rag, no se versiona aquí
+workshops/taller-rag/boilerplate/

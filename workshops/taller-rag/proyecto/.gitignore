@@ -1,0 +1,15 @@
+.env
+__pycache__/
+.pytest_cache/
+.venv/
+.idea/
+data/*.parquet
+*.parquet
+reports/*.jsonl
+reports/*.csv
+data/
+data/backup/
+models/
+models/*.bin
+volumes/
+*.pyc
