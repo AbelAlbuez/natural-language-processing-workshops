@@ -23,6 +23,12 @@ pip install -r requirements.txt
 
 `fasttext-numpy2` puede compilarse desde código fuente durante la instalación y ese paso puede tardar.
 
+Para ejecutar el notebook de análisis exploratorio, instala además las dependencias de desarrollo (Jupyter, matplotlib y nbstripout). No hacen falta para la API ni el frontend:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
 ## Corpus
 
 Descarga el conjunto `dragons_rag` con el comando Python de `open_corpus_co_es`:
@@ -48,6 +54,21 @@ python scripts/prepare_corpus.py --languages es en
 La salida es `data/documentos_rag.parquet`. Con el corpus verificado se esperan 146.923 filas. El script usa por defecto la copia de `dragons_rag` gestionada por `open_corpus_co_es`.
 
 Si hay registros sin idioma informado, se requiere el modelo `models/lid.176.bin`. Este archivo no se versiona.
+
+## Análisis exploratorio
+
+`notebooks/01_analisis_exploratorio.ipynb` describe el corpus preparado: composición por fuente e idioma, longitudes, distribución temporal, duplicados, propagación entre fuentes y cuotas para el gold standard. Solo usa columnas agregadas; no lee `text` ni muestra texto de documentos. Requiere `data/documentos_rag.parquet` (41 columnas) y el parquet original de `open_corpus_co_es`. También requiere las dependencias de desarrollo (`requirements-dev.txt`, ver Instalación local).
+
+```bash
+jupyter nbconvert --to notebook --execute notebooks/01_analisis_exploratorio.ipynb --output 01_analisis_exploratorio.ipynb
+nbstripout notebooks/01_analisis_exploratorio.ipynb
+```
+
+Ejecuta `nbstripout` antes de cada commit: el notebook se versiona sin salidas. Las salidas quedan en:
+
+- `docs/analisis_corpus.json`: cada cifra con la celda y el cálculo que la producen.
+- `docs/analisis_corpus.md`: tablas y hallazgos.
+- `docs/figuras/`: figuras en PNG.
 
 ## Ejecución completa
 
@@ -80,6 +101,13 @@ La colección activa es `rag_e5s_tok256_v1`. `rag_e5s_sent256_v1` es una alterna
 - Se guarda texto en Milvus por simplicidad educativa; evaluar limites y almacenamiento alterno para producción.
 - **No publicar documentos ni datos personales** en GitHub: publicar código, instrucciones, muestras autorizadas y artefactos no sensibles.
 - El corpus incluye publicaciones sociales y noticias: distinguir alegaciones, atribuciones y evidencia; no equiparar cobertura con veracidad.
+
+## Documentos de diseño
+
+- `docs/diagnostico_corpus.md`: integridad, esquema y preparación del corpus.
+- `docs/diseno_chunking.md`: tokenizador, estrategias de chunking, offsets e ID estable.
+- `docs/propuestas_investigacion.md`: preguntas de investigación y estado del arte (referencias por verificar).
+- `docs/EVALUACION.md`: protocolo de evaluación requerido.
 
 ## Entregas
 

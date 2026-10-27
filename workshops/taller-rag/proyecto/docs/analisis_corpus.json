@@ -1,0 +1,783 @@
+{
+ "generado": "2026-10-26",
+ "notebook": "notebooks/01_analisis_exploratorio.ipynb",
+ "entradas": {
+  "preparado": "data/documentos_rag.parquet",
+  "original": "~/.open_corpus_co_es/data/dragons_rag/dragons_rag.parquet",
+  "columnas_leidas_preparado": [
+   "document_id",
+   "source",
+   "lang",
+   "lang_source",
+   "word_count",
+   "created_at_utc",
+   "dup_count",
+   "dup_sources",
+   "dup_document_ids"
+  ],
+  "columnas_leidas_original": [
+   "document_id",
+   "created_at",
+   "source"
+  ]
+ },
+ "nota": "Solo cifras agregadas; no contiene texto de documentos.",
+ "cifras": {
+  "preparado_filas": {
+   "valor": 146923,
+   "celda": 1,
+   "calculo": "metadatos de data/documentos_rag.parquet"
+  },
+  "preparado_columnas": {
+   "valor": 41,
+   "celda": 1,
+   "calculo": "campos del esquema arrow del preparado"
+  },
+  "original_filas": {
+   "valor": 169248,
+   "celda": 1,
+   "calculo": "metadatos de dragons_rag.parquet"
+  },
+  "original_columnas": {
+   "valor": 33,
+   "celda": 1,
+   "calculo": "campos del esquema arrow del original"
+  },
+  "original_bytes": {
+   "valor": 256941261,
+   "celda": 1,
+   "calculo": "tamaño en disco del original"
+  },
+  "original_sha256": {
+   "valor": "f4a669f17eaedd357f72b70c2192e685b6d534a94f6ffaeadbced7290b181728",
+   "celda": 1,
+   "calculo": "sha256 del original en bloques de 1 MB"
+  },
+  "original_sha256_coincide": {
+   "valor": true,
+   "celda": 1,
+   "calculo": "comparación con f4a669f17eaedd357f72b70c2192e685b6d534a94f6ffaeadbced7290b181728"
+  },
+  "preparado_document_id_repetidos": {
+   "valor": 0,
+   "celda": 1,
+   "calculo": "document_id.duplicated().sum()"
+  },
+  "por_fuente": {
+   "valor": {
+    "media_cloud": 94301,
+    "bluesky": 51876,
+    "gdelt": 746
+   },
+   "celda": 2,
+   "calculo": "source.value_counts()"
+  },
+  "por_fuente_pct": {
+   "valor": {
+    "media_cloud": 64.18,
+    "bluesky": 35.31,
+    "gdelt": 0.51
+   },
+   "celda": 2,
+   "calculo": "100 * source.value_counts() / N"
+  },
+  "por_idioma": {
+   "valor": {
+    "en": 82257,
+    "es": 64666
+   },
+   "celda": 2,
+   "calculo": "lang.value_counts()"
+  },
+  "por_idioma_pct": {
+   "valor": {
+    "en": 55.99,
+    "es": 44.01
+   },
+   "celda": 2,
+   "calculo": "100 * lang.value_counts() / N"
+  },
+  "fuente_x_idioma": {
+   "valor": {
+    "media_cloud": {
+     "en": 35176,
+     "es": 59125
+    },
+    "bluesky": {
+     "en": 46716,
+     "es": 5160
+    },
+    "gdelt": {
+     "en": 365,
+     "es": 381
+    }
+   },
+   "celda": 2,
+   "calculo": "crosstab(source, lang)"
+  },
+  "fuente_idioma_x_origen_idioma": {
+   "valor": {
+    "bluesky|en": {
+     "fasttext": 8225,
+     "language_base": 38491
+    },
+    "bluesky|es": {
+     "fasttext": 1930,
+     "language_base": 3230
+    },
+    "gdelt|en": {
+     "fasttext": 0,
+     "language_base": 365
+    },
+    "gdelt|es": {
+     "fasttext": 0,
+     "language_base": 381
+    },
+    "media_cloud|en": {
+     "fasttext": 0,
+     "language_base": 35176
+    },
+    "media_cloud|es": {
+     "fasttext": 0,
+     "language_base": 59125
+    }
+   },
+   "celda": 2,
+   "calculo": "crosstab([source, lang], lang_source)"
+  },
+  "comparacion_diagnostico": {
+   "valor": [
+    {
+     "source": "media_cloud",
+     "lang": "es",
+     "real": 59125,
+     "referencia": 59125,
+     "coincide": true
+    },
+    {
+     "source": "media_cloud",
+     "lang": "en",
+     "real": 35176,
+     "referencia": 35176,
+     "coincide": true
+    },
+    {
+     "source": "bluesky",
+     "lang": "es",
+     "real": 5160,
+     "referencia": 5160,
+     "coincide": true
+    },
+    {
+     "source": "bluesky",
+     "lang": "en",
+     "real": 46716,
+     "referencia": 46716,
+     "coincide": true
+    },
+    {
+     "source": "gdelt",
+     "lang": "es",
+     "real": 381,
+     "referencia": 381,
+     "coincide": true
+    },
+    {
+     "source": "gdelt",
+     "lang": "en",
+     "real": 365,
+     "referencia": 365,
+     "coincide": true
+    }
+   ],
+   "celda": 2,
+   "calculo": "crosstab(source, lang) vs. diagnostico_corpus.md §12 P2"
+  },
+  "comparacion_diagnostico_todo_coincide": {
+   "valor": true,
+   "celda": 2,
+   "calculo": "all(coincide)"
+  },
+  "longitud_word_count": {
+   "valor": {
+    "media_cloud": {
+     "n": 94301.0,
+     "p50": 636.0,
+     "p90": 1230.0,
+     "p95": 1621.0,
+     "p99": 2882.0,
+     "max": 58181.0,
+     "gt_5000": 232.0,
+     "gt_5000_pct": 0.246
+    },
+    "bluesky": {
+     "n": 51876.0,
+     "p50": 35.0,
+     "p90": 49.0,
+     "p95": 52.0,
+     "p99": 56.0,
+     "max": 67.0,
+     "gt_5000": 0.0,
+     "gt_5000_pct": 0.0
+    },
+    "gdelt": {
+     "n": 746.0,
+     "p50": 492.5,
+     "p90": 1205.0,
+     "p95": 1508.75,
+     "p99": 3205.449999999996,
+     "max": 5330.0,
+     "gt_5000": 1.0,
+     "gt_5000_pct": 0.134
+    },
+    "total": {
+     "n": 146923.0,
+     "p50": 423.0,
+     "p90": 1040.0,
+     "p95": 1363.0,
+     "p99": 2455.779999999999,
+     "max": 58181.0,
+     "gt_5000": 233.0,
+     "gt_5000_pct": 0.159
+    }
+   },
+   "celda": 3,
+   "calculo": "percentiles 50/90/95/99, máximo y conteo > 5.000 palabras de word_count, por fuente (quantile lineal)"
+  },
+  "longitud_word_count_por_idioma": {
+   "valor": {
+    "es": {
+     "n": 64666.0,
+     "p50": 589.0,
+     "p90": 1152.0,
+     "p95": 1536.75,
+     "p99": 2676.3499999999985,
+     "max": 58181.0,
+     "gt_5000": 137.0,
+     "gt_5000_pct": 0.212
+    },
+    "en": {
+     "n": 82257.0,
+     "p50": 48.0,
+     "p90": 973.0,
+     "p95": 1214.0,
+     "p99": 2286.320000000007,
+     "max": 29906.0,
+     "gt_5000": 96.0,
+     "gt_5000_pct": 0.117
+    }
+   },
+   "celda": 3,
+   "calculo": "mismas métricas, por lang"
+  },
+  "documentos_por_anio_fuente": {
+   "valor": {
+    "2006": {
+     "media_cloud": 0,
+     "bluesky": 0,
+     "gdelt": 1
+    },
+    "2008": {
+     "media_cloud": 0,
+     "bluesky": 1,
+     "gdelt": 0
+    },
+    "2009": {
+     "media_cloud": 0,
+     "bluesky": 2,
+     "gdelt": 0
+    },
+    "2010": {
+     "media_cloud": 0,
+     "bluesky": 3,
+     "gdelt": 0
+    },
+    "2011": {
+     "media_cloud": 2,
+     "bluesky": 6,
+     "gdelt": 0
+    },
+    "2012": {
+     "media_cloud": 1,
+     "bluesky": 7,
+     "gdelt": 0
+    },
+    "2013": {
+     "media_cloud": 0,
+     "bluesky": 19,
+     "gdelt": 0
+    },
+    "2014": {
+     "media_cloud": 0,
+     "bluesky": 14,
+     "gdelt": 0
+    },
+    "2015": {
+     "media_cloud": 8,
+     "bluesky": 21,
+     "gdelt": 0
+    },
+    "2016": {
+     "media_cloud": 1367,
+     "bluesky": 21,
+     "gdelt": 6
+    },
+    "2017": {
+     "media_cloud": 1918,
+     "bluesky": 40,
+     "gdelt": 12
+    },
+    "2018": {
+     "media_cloud": 2874,
+     "bluesky": 36,
+     "gdelt": 55
+    },
+    "2019": {
+     "media_cloud": 4885,
+     "bluesky": 35,
+     "gdelt": 52
+    },
+    "2020": {
+     "media_cloud": 5554,
+     "bluesky": 43,
+     "gdelt": 19
+    },
+    "2021": {
+     "media_cloud": 8397,
+     "bluesky": 42,
+     "gdelt": 44
+    },
+    "2022": {
+     "media_cloud": 11063,
+     "bluesky": 0,
+     "gdelt": 81
+    },
+    "2023": {
+     "media_cloud": 12530,
+     "bluesky": 0,
+     "gdelt": 108
+    },
+    "2024": {
+     "media_cloud": 21045,
+     "bluesky": 2447,
+     "gdelt": 97
+    },
+    "2025": {
+     "media_cloud": 10190,
+     "bluesky": 13431,
+     "gdelt": 90
+    },
+    "2026": {
+     "media_cloud": 14444,
+     "bluesky": 35708,
+     "gdelt": 181
+    }
+   },
+   "celda": 4,
+   "calculo": "crosstab(created_at_utc.dt.year, source)"
+  },
+  "sin_fecha_por_fuente": {
+   "valor": {
+    "media_cloud": 23,
+    "bluesky": 0,
+    "gdelt": 0
+   },
+   "celda": 4,
+   "calculo": "created_at_utc.isna() por source"
+  },
+  "rango_fechas": {
+   "valor": {
+    "min": "2006-08-24T00:00:00+00:00",
+    "max": "2026-09-21T18:03:56.341143+00:00"
+   },
+   "celda": 4,
+   "calculo": "min/max de created_at_utc"
+  },
+  "pct_desde_2025": {
+   "valor": 50.4,
+   "celda": 4,
+   "calculo": "100 * (año >= 2025) / N, sin fecha cuenta en el denominador"
+  },
+  "pct_desde_2025_por_fuente": {
+   "valor": {
+    "bluesky": 94.72,
+    "gdelt": 36.33,
+    "media_cloud": 26.12
+   },
+   "celda": 4,
+   "calculo": "100 * mean(año >= 2025) por source"
+  },
+  "dup_count_distribucion": {
+   "valor": {
+    "1": 142748,
+    "2": 2782,
+    "3": 698,
+    "4": 387,
+    "5": 97,
+    "6": 42,
+    "7": 21,
+    "8": 15,
+    "9": 11,
+    "10": 6,
+    "11": 13,
+    "12": 6,
+    "13": 9,
+    "14": 4,
+    "15": 3,
+    "16": 3,
+    "17": 4,
+    "18": 3,
+    "19": 3,
+    "20": 7,
+    "21": 5,
+    "22": 4,
+    "23": 2,
+    "26": 3,
+    "28": 1,
+    "30": 4,
+    "31": 1,
+    "32": 1,
+    "36": 1,
+    "38": 1,
+    "39": 2,
+    "42": 2,
+    "43": 1,
+    "44": 1,
+    "46": 1,
+    "47": 1,
+    "48": 1,
+    "50": 1,
+    "51": 1,
+    "52": 1,
+    "54": 1,
+    "57": 1,
+    "60": 2,
+    "61": 1,
+    "62": 1,
+    "72": 1,
+    "73": 1,
+    "82": 1,
+    "120": 1,
+    "121": 1,
+    "123": 1,
+    "124": 1,
+    "136": 1,
+    "140": 1,
+    "143": 1,
+    "159": 1,
+    "171": 1,
+    "214": 1,
+    "255": 1,
+    "268": 1,
+    "347": 1,
+    "399": 1,
+    "526": 1,
+    "674": 1,
+    "839": 1
+   },
+   "celda": 5,
+   "calculo": "dup_count.value_counts() (1 = sin duplicados)"
+  },
+  "dup_count_rangos": {
+   "valor": {
+    "1": 142748,
+    "2": 2782,
+    "3–5": 1182,
+    "6–10": 95,
+    "11–50": 88,
+    "51–200": 20,
+    ">200": 8
+   },
+   "celda": 5,
+   "calculo": "pd.cut(dup_count) en rangos"
+  },
+  "grupos_con_duplicados": {
+   "valor": 4175,
+   "celda": 5,
+   "calculo": "filas del preparado con dup_count > 1 (una por grupo)"
+  },
+  "filas_en_grupos_con_duplicados": {
+   "valor": 17654,
+   "celda": 5,
+   "calculo": "suma de dup_count en esos grupos"
+  },
+  "copias_descartadas_en_preparado": {
+   "valor": 13479,
+   "celda": 5,
+   "calculo": "sum(dup_count) - grupos"
+  },
+  "dup_count_max": {
+   "valor": 839,
+   "celda": 5,
+   "calculo": "max(dup_count)"
+  },
+  "grupos_mezclan_fuentes": {
+   "valor": 14,
+   "celda": 5,
+   "calculo": "grupos con más de una source distinta en dup_sources"
+  },
+  "grupos_mezclan_fuentes_combinaciones": {
+   "valor": {
+    "gdelt + media_cloud": 14
+   },
+   "celda": 5,
+   "calculo": "combinaciones de fuentes en esos grupos"
+  },
+  "top10_grupos": {
+   "valor": [
+    {
+     "rango": 1,
+     "dup_count": 839,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 839,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 2,
+     "dup_count": 674,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 674,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 3,
+     "dup_count": 526,
+     "fuente_conservada": "media_cloud",
+     "lang": "es",
+     "n_fuentes": 1,
+     "copias_media_cloud": 526,
+     "copias_bluesky": 0,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 4,
+     "dup_count": 399,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 399,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 5,
+     "dup_count": 347,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 347,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 6,
+     "dup_count": 268,
+     "fuente_conservada": "media_cloud",
+     "lang": "es",
+     "n_fuentes": 1,
+     "copias_media_cloud": 268,
+     "copias_bluesky": 0,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 7,
+     "dup_count": 255,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 255,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 8,
+     "dup_count": 214,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 214,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 9,
+     "dup_count": 171,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 171,
+     "copias_gdelt": 0
+    },
+    {
+     "rango": 10,
+     "dup_count": 159,
+     "fuente_conservada": "bluesky",
+     "lang": "en",
+     "n_fuentes": 1,
+     "copias_media_cloud": 0,
+     "copias_bluesky": 159,
+     "copias_gdelt": 0
+    }
+   ],
+   "celda": 5,
+   "calculo": "nlargest(10, dup_count); solo conteos por fuente"
+  },
+  "combinaciones_fuentes_en_grupos": {
+   "valor": {
+    "gdelt + media_cloud": 14,
+    "bluesky + media_cloud": 0,
+    "bluesky + gdelt": 0,
+    "bluesky + gdelt + media_cloud": 0
+   },
+   "celda": 6,
+   "calculo": "grupos del preparado con más de una source en dup_sources, por combinación (incluye combinaciones con 0)"
+  },
+  "propagacion_mc_bluesky": {
+   "valor": {
+    "grupos_mc_y_bs": 0,
+    "n": 0,
+    "copias_sin_match_en_original": 0,
+    "delta_h_p25": null,
+    "delta_h_mediana": null,
+    "delta_h_p75": null,
+    "delta_dias_p25": null,
+    "delta_dias_mediana": null,
+    "delta_dias_p75": null,
+    "pct_bluesky_antes": null,
+    "pct_mc_primera_solo_dia": null,
+    "pct_bs_primera_solo_dia": null,
+    "pct_media_cloud_solo_dia_en_todo_el_original": 94.9,
+    "pct_bluesky_solo_dia_en_todo_el_original": 0.0
+   },
+   "celda": 6,
+   "calculo": "grupos con media_cloud y bluesky en dup_sources; fechas del original por document_id; delta = min(ts bluesky) - min(ts media_cloud); solo_dia = created_at con formato AAAA-MM-DD"
+  },
+  "cobertura_pct": {
+   "valor": {
+    "fuente": {
+     "media_cloud": 64.18,
+     "bluesky": 35.31,
+     "gdelt": 0.51
+    },
+    "idioma": {
+     "en": 55.99,
+     "es": 44.01
+    },
+    "periodo": {
+     "2026": 34.26,
+     "≤2023": 33.53,
+     "2025": 16.14,
+     "2024": 16.06,
+     "sin fecha": 0.02
+    }
+   },
+   "celda": 7,
+   "calculo": "100 * value_counts(normalize=True) por source, lang y periodo de created_at_utc"
+  },
+  "cobertura_pct_por_anio": {
+   "valor": {
+    "2006": 0.001,
+    "2008": 0.001,
+    "2009": 0.001,
+    "2010": 0.002,
+    "2011": 0.005,
+    "2012": 0.005,
+    "2013": 0.013,
+    "2014": 0.01,
+    "2015": 0.02,
+    "2016": 0.949,
+    "2017": 1.341,
+    "2018": 2.018,
+    "2019": 3.384,
+    "2020": 3.822,
+    "2021": 5.774,
+    "2022": 7.585,
+    "2023": 8.602,
+    "2024": 16.055,
+    "2025": 16.138,
+    "2026": 34.258,
+    "sin fecha": 0.016
+   },
+   "celda": 7,
+   "calculo": "100 * year.value_counts(normalize=True, dropna=False)"
+  },
+  "cuotas_40_proporcional": {
+   "valor": {
+    "media_cloud": {
+     "es": 16,
+     "en": 10,
+     "total": 26
+    },
+    "bluesky": {
+     "es": 1,
+     "en": 13,
+     "total": 14
+    },
+    "gdelt": {
+     "es": 0,
+     "en": 0,
+     "total": 0
+    }
+   },
+   "celda": 7,
+   "calculo": "resto mayor por source y, dentro de cada fuente, por lang; mínimo 6 en inglés"
+  },
+  "cuotas_40_proporcional_pct_en": {
+   "valor": 57.5,
+   "celda": 7,
+   "calculo": "100 * en / 40"
+  },
+  "cuotas_40_proporcional_ajuste_en": {
+   "valor": 0,
+   "celda": 7,
+   "calculo": "preguntas movidas de es a en para llegar a 6"
+  },
+  "cuotas_40_minimo_1_por_fuente": {
+   "valor": {
+    "media_cloud": {
+     "es": 16,
+     "en": 9,
+     "total": 25
+    },
+    "bluesky": {
+     "es": 1,
+     "en": 13,
+     "total": 14
+    },
+    "gdelt": {
+     "es": 1,
+     "en": 0,
+     "total": 1
+    }
+   },
+   "celda": 7,
+   "calculo": "igual, con al menos 1 pregunta por fuente"
+  },
+  "cuotas_40_por_periodo_referencia": {
+   "valor": {
+    "≤2023": 13,
+    "2024": 6,
+    "2025": 7,
+    "2026": 14
+   },
+   "celda": 7,
+   "calculo": "resto mayor por periodo, sin filas sin fecha"
+  },
+  "figuras": {
+   "valor": [
+    "docs/figuras/documentos_por_anio.png",
+    "docs/figuras/dup_count_distribucion.png",
+    "docs/figuras/longitudes_por_fuente.png"
+   ],
+   "celda": 8,
+   "calculo": "PNG guardados en docs/figuras/"
+  }
+ }
+}
