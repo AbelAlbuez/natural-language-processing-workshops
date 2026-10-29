@@ -2,7 +2,7 @@ import os, time
 import requests
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-from app.core import retrieve
+from app.core import retrieve, client, COLLECTION
 
 app = FastAPI(title='RAG Milvus - Taller universitario')
 class Ask(BaseModel):
@@ -12,7 +12,26 @@ class Ask(BaseModel):
     temperature: float = Field(default=0.0, ge=0, le=1)
 
 @app.get('/health')
-def health(): return {'status':'ok'}
+def health(deep: bool = False):
+    """Sin parámetros: la API está viva (lo usa el healthcheck de Docker).
+    Con ?deep=true: además prueba Milvus (colección y número de chunks) y Ollama (modelos descargados)."""
+    if not deep:
+        return {'status': 'ok'}
+    out = {'status': 'ok'}
+    try:
+        c = client()
+        exists = c.has_collection(COLLECTION)
+        out['milvus'] = {'ok': True, 'collection': COLLECTION, 'exists': exists,
+                         'chunks': c.get_collection_stats(COLLECTION)['row_count'] if exists else 0}
+    except Exception as e:
+        out['milvus'] = {'ok': False, 'error': str(e)}; out['status'] = 'degraded'
+    try:
+        r = requests.get(os.getenv('OLLAMA_URL', 'http://ollama:11434') + '/api/tags', timeout=5)
+        r.raise_for_status()
+        out['ollama'] = {'ok': True, 'models': [m['name'] for m in r.json().get('models', [])]}
+    except Exception as e:
+        out['ollama'] = {'ok': False, 'error': str(e)}; out['status'] = 'degraded'
+    return out
 
 @app.post('/retrieve')
 def search(request: Ask):

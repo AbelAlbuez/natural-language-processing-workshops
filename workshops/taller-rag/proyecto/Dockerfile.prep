@@ -1,0 +1,10 @@
+# Imagen para descargar, verificar y preparar el corpus (scripts/preparar_datos.sh).
+# Incluye compilador porque fasttext-numpy2 no publica versión precompilada para ARM (Mac M1-M4).
+FROM python:3.11-slim
+WORKDIR /work
+ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends build-essential curl ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+RUN pip install "pyarrow>=17,<24" "pandas>=2.2,<3" "open_corpus_co_es==0.1.1a4" "fasttext-numpy2==0.10.4"
+COPY scripts/ scripts/

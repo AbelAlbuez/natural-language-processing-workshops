@@ -42,4 +42,19 @@ def retrieve(query, k=5):
     rows = c.search(collection_name=COLLECTION, data=embed([query], kind='query'), limit=k,
                     output_fields=['text','document_id','title','url','collection_name','source','position'],
                     search_params={'metric_type':'COSINE'})[0]
-    return [{'chunk_id': x['id'], 'score': x['distance'], **x['entity']} for x in rows]
+    return [_hit_to_dict(x) for x in rows]
+
+
+def _hit_to_dict(hit):
+    """Normaliza un resultado de búsqueda.
+
+    En pymilvus 2.6 cada resultado es un diccionario con la clave primaria bajo su nombre real
+    ('chunk_id'), 'distance' y 'entity'. En versiones anteriores la clave primaria venía como 'id'.
+    Se admiten las dos formas para no depender de la versión instalada.
+    """
+    fields = dict(hit.get('entity') or {})
+    fields.pop('vector', None)
+    chunk_id = fields.pop('chunk_id', None)
+    if chunk_id is None:
+        chunk_id = dict.get(hit, 'chunk_id', None) or dict.get(hit, 'id', None)
+    return {'chunk_id': chunk_id, 'score': dict.get(hit, 'distance', None), **fields}

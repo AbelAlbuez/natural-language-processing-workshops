@@ -1,0 +1,13 @@
+# Evita copiar datos y modelos pesados al construir las imágenes (se montan como volúmenes).
+data/
+models/
+reports/
+notebooks/
+docs/
+.venv/
+.git/
+**/__pycache__/
+.pytest_cache/
+.env
+*.parquet
+*.bin
