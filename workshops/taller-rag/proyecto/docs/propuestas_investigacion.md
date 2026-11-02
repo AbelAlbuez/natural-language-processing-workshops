@@ -29,7 +29,7 @@ Los umbrales de cada hipótesis son propuestas. Hay que fijarlos con el conjunto
 
 ## PI2. Sesgo por plataforma: posts cortos frente a fragmentos de artículos
 
-**Contexto.** Bluesky no pasa de 67 palabras. *Hipótesis (pendiente de medir con el tokenizador de e5-small):* con un máximo de 67 palabras, se espera que cada post quepa en un chunk de 256 tokens. Un artículo de `media_cloud` tiene una mediana de 636 palabras, así que se espera que ocupe varios chunks (H2). Prensa y Bluesky solo coinciden en el tiempo en 2025–2026 (H3).
+**Contexto.** Bluesky no pasa de 67 palabras. La medición con el tokenizador de e5-small encontró que 1 de 51.876 posts supera 256 tokens; los otros 51.875 caben en un chunk. El post `bluesky_posts:bluesky_3lb2v7rdork2z` tiene 319 tokens y produce 2 chunks. Un artículo de `media_cloud` tiene una mediana de 636 palabras, así que se espera que ocupe varios chunks (H2). Prensa y Bluesky solo coinciden en el tiempo en 2025–2026 (H3).
 
 | Elemento | Propuesta |
 |---|---|
