@@ -42,7 +42,7 @@ Presupuesto por chunk: 512 − 2 (especiales) − tokens de `passage: ` (unos 3;
 |---|---:|---:|
 | `chunk_tokens` | 256 | 384 / 500 |
 | `overlap_tokens` | 48 (≈ 19 %) | 64 |
-| `min_tokens` del último chunk | 64. Si es menor, se une al anterior, siempre que la suma no pase de 500. | — |
+| `min_tokens` del último chunk | Regla de unión descartada. El último chunk puede tener menos de 64 tokens. El máximo por chunk es 256 tokens, para mantener el tamaño fijo que usa el modelo de embeddings y la verificación del Parquet. Conteo de referencia: 577.324 chunks. | — |
 | `strategy` | `fixed_tok` | — |
 
 **Algoritmo.**
