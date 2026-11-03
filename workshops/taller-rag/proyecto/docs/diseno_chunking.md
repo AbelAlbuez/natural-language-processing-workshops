@@ -87,6 +87,10 @@ Igual en las dos estrategias:
 
 `char_start` reemplaza a `position` en Milvus, o se guarda en ese mismo campo. Se agrega `char_end`. Se amplía `tests/test_chunking.py` para que cubra las dos estrategias, texto con tildes y emojis (índices en caracteres, no en bytes), y documentos de un solo chunk.
 
+### Verificación
+
+Al retokenizar el texto guardado de cada chunk, algunos superan 256 tokens por efectos de frontera (subpalabras que cambian de tamaño en los bordes). La ventana de diseño sigue siendo de 256 tokens en token_count. La verificación exige un máximo de 512 tokens, el límite de multilingual-e5-small. Medición del corpus completo: 40.474 chunks superan 256 al retokenizar; el máximo es 258 y la diferencia con token_count es de 1 a 2.
+
 ## 6. ID estable
 
 ```

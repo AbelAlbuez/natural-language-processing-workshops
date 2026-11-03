@@ -225,6 +225,8 @@ def verify(tokenizer, temporary, document_ids):
     chunk_ids = set()
     per_document = Counter()
     maximum_tokens = 0
+    retokenized_over_256 = 0
+    maximum_token_difference = 0
 
     for batch in parquet.iter_batches(
         columns=["chunk_id", "document_id", "text", "token_count"],
@@ -246,10 +248,14 @@ def verify(tokenizer, temporary, document_ids):
                 "Ventana original mayor de 256 tokens.",
             )
             require(
-                len(token_ids) <= WINDOW,
-                "Texto del chunk retokenizado supera 256 tokens.",
+                len(token_ids) <= 512,
+                "Texto del chunk retokenizado supera 512 tokens.",
             )
             maximum_tokens = max(maximum_tokens, len(token_ids))
+            retokenized_over_256 += len(token_ids) > WINDOW
+            maximum_token_difference = max(
+                maximum_token_difference, len(token_ids) - row["token_count"]
+            )
 
     require(
         set(per_document) == document_ids,
@@ -259,7 +265,10 @@ def verify(tokenizer, temporary, document_ids):
         distribution(per_document.values()) == EXPECTED_DISTRIBUTION,
         "La distribución escrita no coincide.",
     )
-    return chunk_ids, per_document, maximum_tokens
+    return (
+        chunk_ids, per_document, maximum_tokens,
+        retokenized_over_256, maximum_token_difference,
+    )
 
 
 def main():
@@ -301,9 +310,10 @@ def main():
 
     try:
         write_temporary(tokenizer, temporary)
-        chunk_ids, per_document, maximum_tokens = verify(
-            tokenizer, temporary, document_ids
-        )
+        (
+            chunk_ids, per_document, maximum_tokens,
+            retokenized_over_256, maximum_token_difference,
+        ) = verify(tokenizer, temporary, document_ids)
         require(
             git("status", "--short") == status_before,
             "El estado Git cambió durante la ejecución.",
@@ -326,6 +336,8 @@ def main():
     print(f"unique_chunk_ids={len(chunk_ids)}")
     print(f"covered_documents={len(per_document)}")
     print(f"max_chunk_tokens={maximum_tokens}")
+    print(f"retokenized_over_256={retokenized_over_256}")
+    print(f"max_difference_from_token_count={maximum_token_difference}")
     print(
         f"chunks_per_document_p50={median:.1f} "
         f"p95={p95:.1f} max={maximum}"
