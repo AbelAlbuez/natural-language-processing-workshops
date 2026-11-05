@@ -37,5 +37,5 @@ def test_no_content_solo_quita_el_cuerpo():
 
 def test_las_marcas_de_procedencia_no_se_pierden():
     for campo in ("title_source", "date_precision", "archive_density_month",
-                  "extraction_status"):
+                  "extraction_status", "non_news_reason"):
         assert campo in METADATA_COLUMNS
