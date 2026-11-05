@@ -1,0 +1,10 @@
+{
+  "input_sha256": "fdb3a453b21dedb15733f9ebb457453ad1f29ea4b0fb791f3ec19b27cede6e22",
+  "per_cell": 40000,
+  "seed": 42,
+  "no_below": 20,
+  "no_above": 0.5,
+  "keep_n": 20000,
+  "stopwords_sha256": "62e6563002293f2de90843b4be20586cb779d62f41a4c903868e7b93ea0786d3",
+  "passes": 10
+}

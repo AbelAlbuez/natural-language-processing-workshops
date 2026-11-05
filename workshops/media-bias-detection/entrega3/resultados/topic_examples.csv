@@ -1,0 +1,285 @@
+topic,source_id,government_id,theta,title
+0,el_tiempo,petro,0.922,Cinco senales de testosterona baja en hombres mayores de expertos advierten que la principal alerta se refleja en el deseo sexual
+0,el_tiempo,petro,0.922,Cada ano se diagnostican cerca de casos nuevos de cancer infantil en el mundo ocho de cada diez ninos enfrentan barreras para recibir atencion
+0,noticias_rcn,petro,0.915,Oms confirma ocho casos de hantavirus de la cepa andes la unica que se transmite de humano a humano
+0,blu_radio,duque,0.907,Cerca de colombia reporta la cifra mas alta de casos diarios de covid de toda la pandemia
+0,blu_radio,duque,0.907,Aumentan cifras de muertos por coronavirus en reporte diario registran fallecidos en colombia
+0,noticias_rcn,duque,0.907,India reporto cifra diaria de casos covid mas alta del mundo en lo corrido de la emergencia
+0,blu_radio,duque,0.907,Por escasez de vacunas medicos advierten que covid podria dejar secuelas en jovenes en antioquia
+0,blu_radio,duque,0.907,Colombia vuelve a superar record de muertos por covid en toda la pandemia fallecimientos
+0,el_tiempo,petro,0.907,Nutricionista explica como deben alimentarse las personas con diabetes y desmonta mitos comunes pueden comer mas de lo que pensaban
+0,el_tiempo,petro,0.907,No hay alerta sobre la presencia de hantavirus en colombia dice reporte del ministerio de salud y el instituto nacional de salud
+0,la_republica,duque,0.896,Cifra de muertos por brote de covid en italia alcanza y supera fallecidos en china
+0,la_republica,duque,0.896,Con fallecidos colombia alcanzo la cifra diaria de muertos mas alta por covid
+0,noticias_rcn,duque,0.896,Con mas de casos activos cifras de contagios y muertos por covid siguen a la baja
+0,noticias_rcn,duque,0.896,Antioquia vuelve a registrar la cifra de casos diarios mas alta en colombia
+0,noticias_caracol,petro,0.896,Dia mundial de la diabetes que habitos pueden aumentar el riesgo de desarrollar esta enfermedad
+0,la_republica,duque,0.896,Una cuarta vacuna de la dosis de pfizer aumenta la proteccion contra covid estudio
+0,noticias_caracol,duque,0.896,Dolar en colombia alcanza su precio mas alto en la historia como podria afectar esto su bolsillo
+0,la_republica,duque,0.896,La ultima jornada el dolar alcanzo un precio de tras subir frente a la trm
+0,noticias_caracol,duque,0.896,Escasez de vacunas covid podria dar tiempo al virus para generar nuevos linajes advierten expertos
+0,noticias_caracol,duque,0.896,Posible iva para toda la canasta familiar tiene a colombianos haciendo cuentas
+1,el_tiempo,petro,0.922,Tormenta electrica causa emergencia en bucaramanga graves inundaciones y afectaciones en zonas claves de la ciudad
+1,el_tiempo,petro,0.922,Gobernadores de atlantico y bolivar piden al gobierno destrabar pagos del canal del dique ante retrasos y la falta de millones a contratista
+1,blu_radio,duque,0.922,Gerente de subred centro oriente no renuncia al cargo pese a polemica fiesta en hospital santa clara
+1,el_tiempo,petro,0.915,Sucre y cordoba en emergencia por fuertes lluvias inundaciones ya dejan a mas de mil de damnificados y serios estragos en varios municipios
+1,blu_radio,petro,0.915,En antioquia prenden las alarmas por falta de entrega de medicamentos por parte de eps savia salud
+1,blu_radio,petro,0.915,Asamblea de antioquia y concejo de medellin ponen lupa a savia salud en debate de control politico
+1,el_tiempo,petro,0.915,Sucre sincelejo sin luz y sin agua en mas del de sus habitantes otros municipios y sus zonas rurales tambien presentan afectaciones
+1,blu_radio,petro,0.915,Procuraduria hara mesas de trabajo con comunidades aguas abajo para evaluar riesgos de hidroituango
+1,noticias_caracol,petro,0.907,Volcan purace mantiene alerta naranja por aumento de actividad sismica gases y ceniza
+1,noticias_rcn,petro,0.907,Nivel del agua empieza a descender en monteria zonas rurales de cordoba siguen bajo alerta roja
+1,noticias_rcn,petro,0.907,Procuraduria visito instalaciones de la anla por falta de claridad en operacion del muelle de buenaventura
+1,noticias_rcn,duque,0.907,Mininterior envio medidas estrictas a alcaldes y gobernadores por alta ocupacion de camas uci
+1,noticias_rcn,petro,0.896,Caos en la nueva eps hospitales de antioquia suspenden atencion no urgente para sus afiliados
+1,noticias_caracol,petro,0.896,Lluvias en medellin generan inundaciones en vias y emergencias por tormenta electrica
+1,la_republica,duque,0.896,Gobernacion del atlantico prepara plan para posible reapertura de playas y turismo
+1,noticias_caracol,duque,0.896,Son condiciones inhumanas procuraduria pone la lupa a colegios que antioquia le entrego al choco
+1,la_republica,petro,0.896,Supersalud ordena a la eps asmet salud frenar el riesgo en que pone a sus afiliados
+1,noticias_caracol,petro,0.896,Ungrd denuncia irregularidades en millonario contrato de ollas comunitarias en la guajira
+1,la_republica,petro,0.896,Emergencia en cali deja fuertes inundaciones alcaldia adelanta inspeccion de danos
+1,la_republica,petro,0.896,Aeronautica civil puso en marcha nueva zona de llegadas nacionales del ernesto cortissoz
+2,noticias_rcn,petro,0.915,Nequi permite comprar dolares digitales asi funciona la opcion que gana cada vez mas usuarios
+2,el_tiempo,petro,0.915,Los clientes de la app de bancolombia ya pueden comprar y vender dolares digitales gracias a la integracion con wenia
+2,la_republica,petro,0.915,Juzgado ordena embargo de cuentas del gobierno y exige pago de deuda con filial de epm
+2,el_tiempo,petro,0.915,El gobierno les pidio a las entidades publicas ahorrar energia para mitigar posibles efectos del fenomeno de el nino
+2,el_tiempo,petro,0.915,Google habilita servicios multidispositivo de envio de llamadas y conexion compartida a internet a partir de android
+2,blu_radio,petro,0.907,Epm inicio venta de acciones que tiene en tigo une empleados tienen primera opcion de compra
+2,el_tiempo,petro,0.907,Grupos del sisben que pueden acceder al subsidio de vivienda del gobierno para tener casa propia
+2,blu_radio,petro,0.907,Usuarios de tigo y movistar podrian enfrentar cambios con la venta de acciones de epm
+2,blu_radio,petro,0.907,Epm pidio el retiro de su servicio de salud para empleados del sistema de seguridad social
+2,noticias_rcn,petro,0.907,Reportan caida masiva de meta facebook instagram y whatsapp presentan falla
+2,blu_radio,petro,0.907,Davivienda presenta fallas en sus sistemas entidad aclara que dinero de clientes no esta en riesgo
+2,noticias_caracol,duque,0.907,Incentivo para empleo en jovenes gobierno propone que el estado les pague la seguridad social
+2,noticias_caracol,duque,0.907,Sic ordena a tigo movistar y claro suspender prestacion de servicios a uber
+2,la_republica,duque,0.907,China propone normas para regular operaciones en pensiones privadas mediante afp
+2,noticias_caracol,petro,0.907,Alcaldia de bucaramanga expidio decreto que prohibe consumo de drogas y licor en espacios publicos
+2,la_republica,petro,0.907,Planes de responsabilidad social de las grandes empresas de redes sociales como tiktok instagram y facebook
+2,noticias_rcn,petro,0.896,Desde que fecha las empresas deben pagar la seguridad social de trabajadores por prestacion de servicios
+2,la_republica,petro,0.896,Os usuarios de la app bitso podran comprar euros digitales a traves de la plataforma
+2,noticias_rcn,duque,0.896,Herramientas digitales pueden ayudar a mejorar condiciones de creditos de vivienda
+2,noticias_caracol,petro,0.896,Cuanto gana con ctd de davivienda si invierte millon de pesos recomiendan este plazo
+3,noticias_rcn,petro,0.915,Cartel de lujo festival de la leyenda vallenata hizo oficial los artistas invitados fechas y agrupaciones
+3,el_tiempo,petro,0.915,Cartagena y bolivar seran sede del gf nairo quintana fest un evento que reunira a deportistas y proyectara la region al mundo
+3,el_tiempo,petro,0.915,Colombia brilla en los gourmand awards rey guerrero gana premio al mejor libro de cultura afroamericana con sabores de resistencia
+3,noticias_caracol,petro,0.915,Entre lagrimas y aplausos martha lucia zamora renuncio a la agencia de defensa juridica del estado
+3,noticias_rcn,petro,0.907,Mejores artistas sorpresa en concierto de feid en medellin karol g bad bunny maluma j balvin y mas
+3,el_tiempo,petro,0.907,Juegos paralimpicos nelson crispin gano la plata y juan alejandro campas el bronce en paris
+3,noticias_caracol,petro,0.907,David bowie asi fue la vida y carrera artistica de la estrella de la musica que cumple una decada de fallecido
+3,noticias_rcn,petro,0.907,Avianca abrira ruta internacional desde medellin hacia popular destino turistico
+3,el_tiempo,petro,0.907,Nairo quintana ya conoce su proxima carrera en europa a escasos meses de su retiro competira contra tadej pogacar
+3,blu_radio,duque,0.907,Coalicion centro esperanza lamenta decision de juan fernando cristo de no participar en consulta
+3,la_republica,duque,0.907,El sena y el diario la republica realizaran el foro creer y emprender la clave del exito
+3,blu_radio,petro,0.907,Coalicion mira nuevo liberalismo y dignidad compromiso se lanza en medellin con lista abierta
+3,noticias_caracol,petro,0.896,La cancion del ano que une a karol g maluma feid j balvin blessd y ryan castro
+3,noticias_rcn,petro,0.896,Orgullo nacional cantante colombiano lanzo su nuevo sencillo en un gran evento en paris
+3,blu_radio,duque,0.896,Alejandro gaviria y carlos amaya ya son candidatos a consulta de coalicion centro esperanza
+3,blu_radio,duque,0.896,Premios grammy conozca la lista completa de los ganadores juanes y j balvin protagonistas
+3,noticias_caracol,petro,0.896,Yeison lopez del desafio a ganar medalla de plata en los juegos olimpicos paris
+3,la_republica,petro,0.896,Karol g cerro coachella con sello colombiano junto a j balvin y ryan castro
+3,la_republica,duque,0.896,El cantante colombiano juanes hara parte de la transmision en vivo de la llegada a marte
+3,la_republica,petro,0.896,Cerveza andina lanzo campana ser autentico refresca junto al cantante urbano blessd
+4,el_tiempo,petro,0.928,El caribe presenta plan de accion para hacer frente a la crisis energetica que enfrenta la region y que amenaza con apagon a todo el pais
+4,el_tiempo,petro,0.922,Mexico impone aranceles de hasta a importaciones asiaticas las claves de la medida y del nuevo frente de tension comercial que se abre con china
+4,el_tiempo,petro,0.922,Lluvias no cesaran en el caribe onda tropical y baja presion mantienen bajo amenaza la zona norte de colombia
+4,el_tiempo,petro,0.922,Australia y la union europea firman acuerdo comercial que elimina aranceles a exportaciones clave tras casi una decada de negociaciones
+4,la_republica,petro,0.915,Se espera crecimiento en ganancias de de ee uu pese a riesgos economicos a medida que baja inflacion y tasas de interes
+4,la_republica,petro,0.915,Citi research mantiene riesgo alto a ecopetrol por posible venta de negocio de fracking en estados unidos
+4,blu_radio,petro,0.915,Cerro matoso preve frenar una linea de produccion de niquel por recorte de gas de canacol energy
+4,blu_radio,petro,0.915,Cerro matoso alerta por riesgo por posible quiebra de canacol energy habria que importar mas gas
+4,la_republica,petro,0.907,Banco de japon mantiene estables los tipos de interes ante riesgo de comercial de trump
+4,blu_radio,petro,0.907,Vivienda de interes social muestra senales de recuperacion pese a retos economicos
+4,la_republica,duque,0.907,Pandemia llevo la deuda publica de chile a cerrar en un record de casi tres decadas
+4,blu_radio,petro,0.907,Gobierno esta abierto a nuevos contratos de exploracion y ecopetrol evalua comprar gas a venezuela
+4,noticias_caracol,petro,0.907,Ideam alerta nuevo frente frio en colombia lluvias y mas viento esta semana en varias regiones
+4,noticias_caracol,petro,0.907,Dane publica informe de nacimientos en colombia el mas bajo en una decada muestra caida libre
+4,noticias_rcn,petro,0.907,Nuevo frente frio en el caribe colombiano ideam advierte lluvias rafagas y riesgo en playas
+4,noticias_caracol,petro,0.907,Ecopetrol estudia reactivar contratos de exploracion suspendidos la idea es aumentar reservas
+4,noticias_rcn,duque,0.896,Precio del combustible en colombia se mantendra estable en febrero a pesar del alza del petroleo
+4,noticias_rcn,duque,0.896,Gobierno evalua medidas para reducir el impacto del aumento en el precio del gas
+4,noticias_rcn,petro,0.896,Por que la gasolina en colombia sigue siendo una de las mas baratas de la region a pesar del aumento de precios
+4,noticias_caracol,petro,0.896,Segundo frente frio en colombia se estaria acercando y afectaria a varias regiones del pais esto dijo el ideam
+5,noticias_caracol,duque,0.907,Sebastian caicedo volvio a hablar de carmen villalobos eso ya es el pasado la amare toda mi vida
+5,blu_radio,petro,0.907,Con amor todo sana lina tejeiro recibio romantica sorpresa de juan duque tras ser hospitalizada
+5,el_tiempo,petro,0.907,Gastroenterologo explica la verdad detras de la comida picante y senala si este tipo de alimentos son perjudiciales causa una ulcera estomacal
+5,blu_radio,petro,0.896,Nos espera orar dar gracias a dios y prepararnos para el consistorio monsenor luis jose rueda
+5,el_tiempo,petro,0.896,Oro verde este es el jugo que ayuda a bajar el azucar en la sangre y solo tiene tres ingredientes
+5,blu_radio,petro,0.896,Reflexion dominical del padre rafael de brigard reflexion dominical del padre rafael de brigard
+5,blu_radio,duque,0.896,Debemos obrar bien y siempre seguir el buen camino padre rafael de brigard
+5,el_tiempo,petro,0.896,Melissa martinez y toda su verdad tras el divorcio de matias mier lo que mas me dolio fue la exposicion
+5,el_tiempo,duque,0.896,Friends jennifer aniston y el elenco de la serie siguen haciendo dinero
+5,noticias_caracol,petro,0.896,Erika zapata quiere dar un importante paso en su vida no quiero solo ser inteligente
+5,noticias_caracol,duque,0.896,No veo ni a una sola persona de las farc ante un microfono o ante sus victimas critican a la jep
+5,noticias_caracol,duque,0.896,Video no veo ni a una sola persona de las farc ante un microfono o ante sus victimas critican a la jep
+5,noticias_rcn,duque,0.883,Pido perdon a todas las victimas de los falsos positivos santos en la comision de la verdad
+5,la_republica,petro,0.883,Margarita rosa de francisco vuelve al drama televisivo con una historia de poder
+5,noticias_rcn,petro,0.883,Aida victoria merlano destapo los secretos detras de su distanciamiento con yina calderon
+5,la_republica,petro,0.883,Yuca platano y tomate de arbol los alimentos que mas subieron de precio en un ano
+5,noticias_rcn,duque,0.883,Presidente duque lanzo duras criticas contra la jep y exjefes de las farc
+5,noticias_rcn,petro,0.883,Westcol enciende las redes sociales con su posible boda con aida victoria merlano
+5,la_republica,duque,0.867,Duque para construir una paz duradera hay que acabar con los cultivos de coca
+5,la_republica,duque,0.867,Anillos de compromiso en oro rosado hacen parte de la nueva tendencia
+6,el_tiempo,petro,0.933,Golpe al clan del golfo en antioquia fue abatido en andes alias cartagena temido cabecilla del suroeste que hacia parte de los mas buscados
+6,el_tiempo,petro,0.933,Atencion cayo en cucuta alias hd integrante del tren de aragua en se fugo junto con el maximo cabecilla de la banda nino guerrero
+6,el_tiempo,petro,0.933,Disidentes lanzan explosivos contra el ejercito en zona de san antonio jamundi hay un soldado herido pero la fuerza publica ya derribo dos drones
+6,el_tiempo,petro,0.928,Atencion ejercito nacional reporta combates con integrantes del frente de las disidencias en briceno antioquia hay tres soldados heridos
+6,blu_radio,petro,0.922,Cayo en medellin alias negro mosquera presunto cabecilla del eln que hacia labores de inteligencia
+6,blu_radio,petro,0.915,Golpe al terror hallan arsenal de drones y minas de disidencias de alias ivan mordisco en el meta
+6,noticias_caracol,petro,0.915,A la carcel alias pirulo senalado de dejar grave a policia con papa bomba lanzada en u nacional
+6,noticias_caracol,duque,0.907,Nueve heridos dejan ataques terroristas del eln en cesar norte de santander santander y cauca
+6,noticias_caracol,petro,0.907,Atentado en batallon de ocana deja varios militares heridos ejercito atribuyo ataque al eln
+6,blu_radio,petro,0.907,Dos ninos heridos y un joven muerto dejaron ataques armados en buenaventura valle del cauca
+6,blu_radio,petro,0.907,Capturado responsable de ataque a bala que dejo un hombre muerto y dos mujeres heridas en santander
+6,noticias_rcn,petro,0.907,Secuestro lyan hortua capturado alias jf disidente de las farc de ivan mordisco senalado de ser el principal responsable
+6,noticias_caracol,duque,0.907,Video policia rescato a joven secuestrado en el sur de cali y capturo a dos mujeres y tres hombres
+6,noticias_rcn,petro,0.907,Ecuatoriana murio y su bebe quedo gravemente herido tras ataque explosivo contra la policia de suarez cauca
+6,noticias_rcn,duque,0.907,Reconocido ganadero javier barbosa se reencontro con su familia tras pasar varios dias secuestrado
+6,noticias_rcn,petro,0.907,Ejercito confirma identidad de tres soldados asesinados en ataque con drones en ipiales narino
+7,el_tiempo,petro,0.938,Accidente en popayan genera caos vial en plena semana santa vehiculo sin frenos habria provocado choque y deja varios heridos en via a cali
+7,blu_radio,petro,0.933,Ataque armado a un carro en rionegro dejo un muerto y otra persona mas herida hombre muerto y una mujer herida dejo ataque armado a vehiculo en rionegro
+7,el_tiempo,petro,0.928,Reportan fuerte accidente en santa elena medellin bus se fue al abismo y autoridades intentan llegar a la zona para socorrer a los heridos
+7,el_tiempo,petro,0.928,Estas son las vias alternas tras el grave accidente en peaje via zipaquira ubate que dejo varias personas heridas la via esta completamente cerrada
+7,el_tiempo,petro,0.928,Revelan estado de salud de escoltas heridos en balacera durante robo a estacion de gasolina en soacha cundinamarca uno de los delincuentes murio
+7,blu_radio,petro,0.915,Conductor en medellin casi cae al vacio al chocar con pared de un parqueadero a metros de altura
+7,blu_radio,petro,0.915,Intento de hurto a carro de valores genero grave enfrentamiento a bala en el norte de barranquilla
+7,noticias_caracol,petro,0.915,Reportan incendio de vehiculo en la localidad de kennedy trafico afectado sobre avenida ciudad de cali
+7,noticias_caracol,petro,0.915,Explosion de bateria de bicicleta electrica casi provoca una tragedia joven se quemo la pierna webstory
+7,blu_radio,duque,0.915,Tragedia en el tren de la sabana hombre dormido en la via ferrea murio arrollado esta madrugada
+7,noticias_caracol,petro,0.915,Maquina de la obra del metro de bogota causo accidente con bus de transmilenio le cayo encima y le hizo un hueco
+7,noticias_caracol,petro,0.915,Joven choco una casa un local arrollo un motociclista y huyo un poste le puso freno
+7,noticias_rcn,petro,0.915,Helicoptero militar se atraveso en plena pista y freno un vuelo de latam rumbo a san andres
+7,noticias_rcn,petro,0.907,Carro sin frenos arrollo siete vehiculos en medellin y mato a un menor el conductor huyo
+7,noticias_rcn,petro,0.907,Capturan a ladrones que intentaron robar carro de valores en via riohacha santa marta
+7,noticias_rcn,petro,0.907,Victima de su propio intento asi termino ladron que quiso atracar un bus en barranquilla
+7,la_republica,duque,0.907,El tren del agua de cerrejon volvio a recorrer la guajira tras bloqueo de la linea ferrea
+8,la_republica,petro,0.928,Espana insta a la union europea a levantar las sanciones a delcy rodriguez presidenta encargada de venezuela por la aprobacion de la ley de amnistia
+8,el_tiempo,petro,0.928,Putin ratifica su apoyo a cuba frente a las sanciones de ee uu pero no confirma el envio de combustible tras su reunion en con el canciller cubano
+8,el_tiempo,petro,0.922,Mininterior armando benedetti defendio cooperacion de colombia con venezuela mientras avanza cerco militar de donald trump a nicolas maduro
+8,el_tiempo,petro,0.922,Administracion de donald trump tienen un plan para liberar a los rehenes israelies en manos de hamas y enviar mas ayuda a gaza esto es lo que se sabe
+8,el_tiempo,petro,0.922,Donald trump afirma avances para acabar el conflicto en medio oriente pero el gobierno irani niega negociaciones directas con estados unidos
+8,blu_radio,petro,0.915,Colombia respalda a onu y pide respetar acuerdos de paz petro ante conflicto israel palestina
+8,la_republica,petro,0.915,Daniel garcia pena embajador de colombia en estados unidos entrego detalles sobre reunion petro trump
+8,noticias_caracol,petro,0.915,Gobierno exige a antonio garcia jefe del eln que respete a gustavo petro y la delegacion de paz
+8,noticias_rcn,petro,0.915,Trump rompe con maduro ordena suspender todo contacto diplomatico con venezuela segun the york times
+8,noticias_caracol,petro,0.907,Gobierno de israel aprueba acuerdo para liberar rehenes en gaza e iniciar una tregua
+8,blu_radio,petro,0.907,Cancilleria a israel colombia reitera su respaldo a decision de la onu y exige un alto al fuego
+8,noticias_caracol,petro,0.907,Duque califico de torpe llamado a consulta de embajadora de colombia en israel por parte de petro
+8,blu_radio,petro,0.907,La paz en colombia tiene que ver con el cambio de politica de eeuu petro previo a reunion con biden
+8,noticias_rcn,petro,0.907,Gobierno le respondio al eln acepta reunion para intentar retomar negociaciones de paz
+8,noticias_rcn,duque,0.907,Apoyo de francia a denuncia contra maduro es muestra de solidaridad con el pueblo venezolano duque
+8,blu_radio,petro,0.907,Colombia y venezuela acuerdan reunion entre congresistas previo encuentro petro maduro
+8,noticias_rcn,duque,0.907,Congreso de peru nego permiso a castillo para asistir a posesion de petro en colombia
+8,la_republica,petro,0.907,Israel aprueba pacto de liberacion de rehenes y pone en marcha cese al fuego en gaza
+8,la_republica,duque,0.907,Congreso peruano aprueba solicitud de confianza del presidente pero sin presion para votar reformas
+8,noticias_caracol,petro,0.907,Trump pone en duda la confianza en el sistema electoral de ee uu y acusa a china de intervencion
+9,el_tiempo,petro,0.933,Video johan mojica jugador de seleccion colombia anoto golazo en insolito tiro libre indirecto y le dio agonico triunfo a mallorca
+9,el_tiempo,petro,0.928,Tabla de posiciones de la liga junior es lider llaneros goleo al deportivo cali y tolima no pudo con un nacional que acabo con nueve jugadores
+9,el_tiempo,petro,0.928,Luis javier suarez otra vez clave para el sporting vea el golazo que le dio el triunfo a su equipo contra el estoril en la liga de portugal
+9,el_tiempo,petro,0.928,Seleccion colombia leonel alvarez le hizo importante llamado a nestor lorenzo hablo de una oportunidad para el arquero campeon del bucaramanga
+9,noticias_rcn,petro,0.928,Queremos ganarle a brasil y vamos con la ilusion firme de ser campeones hector cardenas tecnico de la seleccion colombia sub
+9,blu_radio,duque,0.922,America millonarios junior nacional santa fe tolima cali equidad cuartos de final liga colombiana horario
+9,noticias_rcn,petro,0.922,Tabla de posiciones de liga betplay i tras victoria de atletico nacional en fecha atentos millonarios santa fe cali dim america y junior
+9,blu_radio,duque,0.922,Santa fe hizo respetar la casa y es lider de la liga millonarios empato y cali volvio a ganar
+9,noticias_rcn,petro,0.922,Boca se lo empato a river en la ultima jugada pero el var anulo el gol vea la polemica jugada
+9,noticias_rcn,petro,0.915,Tabla de posiciones de la liga betplay i tras partidos de atletico nacional america santa fe millonarios cali junior y dim en fecha
+9,blu_radio,duque,0.915,Liga colombiana tolima goleo a cali junior vencio a santa fe y equidad derroto a nacional
+9,blu_radio,petro,0.915,Liga betplay america debuto con victoria en casa nacional empato sin goles frente a once caldas
+9,la_republica,petro,0.907,Boca juniors alarga racha sin ganar con agonico empate ante racing club en clasico de argentina
+9,noticias_caracol,petro,0.907,Daniel catano jugador de millonarios fue golpeado en ibague por un hincha en el campo de juego
+10,el_tiempo,petro,0.922,Rechazo por actos de vandalismo contra estaciones del sistema de transporte mio en el sur de cali durante protestas de estudiantes de la univalle
+10,noticias_rcn,petro,0.915,Con arma en mano un ladron intento robar supermercado en bosa la policia lo capturo en persecucion
+10,el_tiempo,petro,0.915,Estudiantes de cartagena pueden postularse hasta el de agosto al subsidio de tarifa diferencial en transcaribe conozca los requisitos para aplicar
+10,el_tiempo,petro,0.915,Hombre armado entro a robar una cadena de oro a un restaurante en bogota fue capturado por la policia
+10,el_tiempo,petro,0.915,Con ayuda de un agente encubierto desarticulan banda que vendia drogas en parques y colegios del centro de medellin
+10,noticias_caracol,petro,0.915,Ciudadano mata a ladron de bicicletas en bogota vio un asalto saco su arma y disparo
+10,blu_radio,duque,0.915,Banda de atracadores robo sede de la conferencia episcopal en bogota y se llevo cinco cajas fuertes
+10,noticias_rcn,petro,0.915,Operativo de la policia logro recuperar celulares robados y sellar locales en el centro de bogota
+10,noticias_caracol,petro,0.907,Ladron se metio a un colegio y les robo celulares a varios alumnos en plena clase
+10,noticias_caracol,duque,0.907,Delincuentes se hicieron pasar por policias para sacar a un hombre de su casa pero algo salio mal
+10,blu_radio,duque,0.907,Levantan la medida del pico y placa en cali desde el de diciembre se levanta la medida del pico y placa en cali a partir del de diciembre
+10,noticias_rcn,petro,0.907,Caos en la movilidad de soacha por conductores que entrar a paro denuncian inseguridad y extorsiones
+10,noticias_caracol,petro,0.907,Video robo a mano armada en restaurante de bogota valiente mujer enfrento al ladron
+10,blu_radio,petro,0.907,En bogota trabajo si hay mujeres pueden inscribirse para conducir buses electricos del sitp
+10,blu_radio,petro,0.907,Sicario asesino a hombre en el barrio santa fe de bogota le disparo tres veces por la espalda
+10,noticias_rcn,petro,0.907,Carcel para banda que vendia droga y usaba menores con ayuda de policias en bogota
+10,la_republica,duque,0.896,Manifestantes incendian centro de ciudad de wisconsin tras disparos de policia a hombre negro
+10,la_republica,petro,0.883,Camara de comercio de bogota abre inscripciones para bogota fashion week
+10,la_republica,duque,0.883,La feria del millon estara ademas de bogota en medellin barranquilla y cali hasta diciembre de este ano
+11,el_tiempo,petro,0.933,Pacto historico pierde un voto clave en eleccion de magistrado de la corte constitucional senado aprobo impedimento de la senadora isabel zuleta
+11,el_tiempo,petro,0.922,Estas fueron las reacciones de jorge alfredo vargas y ricardo orrego tras salida de caracol tv en medio de denuncias por presunto caso de acoso sexual
+11,el_tiempo,petro,0.922,Corte ordena como prueba el testimonio de gabriel jaimes en proceso contra el fiscal daniel hernandez por caso odebrecht
+11,el_tiempo,petro,0.915,Olmedo lopez sneyder pinilla y luis eduardo lopez ante la justicia fiscalia los imputara por caso de corrupcion en la ungrd
+11,blu_radio,petro,0.907,Audiencia uribe juez niega nulidad del proceso y ordena seguir con el caso
+11,blu_radio,duque,0.907,Juez nego tutela al hacker de la fiscalia que llamo corrupta a juez del caso uribe
+11,noticias_rcn,petro,0.907,Andres calle seguira en la carcel por orden de la corte que nego por segunda vez solicitud de libertad condicional
+11,blu_radio,duque,0.907,Ordenan prision en caso de supuesto aporte de odebrecht a campana de rafael correa
+11,blu_radio,petro,0.907,Consejo de estado ratifico salida de jorge carrillo de isa gustavo petro cuestiono la decision
+11,noticias_caracol,duque,0.907,Polemica por llamado de corte suprema a arturo char para dar version libre en caso de aida merlano
+11,noticias_caracol,duque,0.907,No hay una prueba santos en version libre ante cne por supuesto dinero de odebrecht en su campana
+11,noticias_caracol,petro,0.907,Arturo char seguira en la carcel corte suprema nego recurso con el que pedia salir de la picota
+11,noticias_rcn,petro,0.907,Un fanatico mas maluma asistio a concierto de luis miguel y le cumplio sueno a su mama
+11,noticias_rcn,petro,0.907,Defensa de nicolas petro denuncia que eduardo noriega pretende obstaculizar el proceso judicial de colaboracion
+11,noticias_caracol,duque,0.907,Video consejo superior de la judicatura pidio investigar a juez que se nego a casar a dos mujeres
+11,noticias_rcn,duque,0.907,Cree que la corte suprema le ha dado todas las garantias a uribe en el proceso por el cual es llamado a indagatoria
+11,la_republica,duque,0.896,Carrasquilla da el visto bueno a llegada de jose andres romero a la dian
+11,la_republica,duque,0.896,Isa define nueva junta directiva sale ana fernanda maiguashca entra carolina rojas
+11,la_republica,duque,0.883,Ivan duque designo a eduardo jose gonzalez como director de la ungrd
+11,la_republica,duque,0.883,Supersociedades acepto al cantante jorge celedon en proceso de reorganizacion empresarial
+12,el_tiempo,petro,0.933,La pelea entre la joven y su novio antes de ser asesinada en giron junto a su amiga la pareja nego haberla visto nuevas hipotesis en extrano caso
+12,el_tiempo,petro,0.928,La condena al estado por feminicidio de joven madre que fue ignorada por la policia y termino asesinada en quindio tambien intento matar a su bebe
+12,el_tiempo,petro,0.922,Brayan campo es padre de una nina que pasara con esta menor luego de que el padre confeso el asesinato de la pequena sofia delgado
+12,el_tiempo,petro,0.922,Las ultimas horas de vida de mateo jaramillo joven profesor asesinado en su apartamento en medellin video es clave en el caso
+12,noticias_caracol,petro,0.915,Revelan causas de muerte dueno de restaurante habria matado a esposa e hijos antes de acabar con su vida
+12,noticias_rcn,petro,0.915,Aida victoria merlano juan david tejada su expareja revelo la verdadera razon por la que terminaron la relacion
+12,noticias_caracol,petro,0.915,Joven penso que tenia ulceras por estres y termino siendo un cancer que le quito casi toda la lengua
+12,noticias_caracol,petro,0.915,Actor rodolfo sancho visito en prision a su hijo daniel sancho asesino del medico edwin arrieta
+12,noticias_caracol,petro,0.915,Condenan a mujer que abandono a su hija bebe y la dejo morir por irse de vacaciones horror puro
+12,blu_radio,petro,0.915,Laura villamil hablo tras despertar del coma nadie de andres carne de res ha venido
+12,noticias_rcn,petro,0.907,Me envio la foto de mi hijo sin vida desgarrador relato de la mama del nino asesinado
+12,blu_radio,petro,0.907,Revelan ultimo mensaje que envio nina de anos a su papa antes de morir junto a su hermana
+12,blu_radio,petro,0.907,Hombre mando a matar a su esposa a sus tres hijos y a su mama al parecer con ayuda de su papa
+12,blu_radio,petro,0.907,Intento de feminicidio en cajica hombre golpeo y apunalo a joven en su propia casa
+12,noticias_rcn,petro,0.907,Fiscalia investiga antecedentes familiares en el caso del nino asesinado presuntamente por su padre
+12,noticias_rcn,duque,0.907,Insolito hombre aparece muerto por error y no supo hasta que pidio una cita medica
+12,la_republica,petro,0.896,La futbolista espanola hermoso presenta una denuncia ante la fiscalia por el beso de rubiales
+12,la_republica,petro,0.896,El pelo de beethoven delata que al morir tenia hepatitis b y bebia demasiado y destapa un secreto familiar
+13,el_tiempo,petro,0.938,Trump acusa a iran de ataque fallido contra tres buques estadounidenses y amenaza con mayor fuerza militar si teheran no firma rapido un acuerdo
+13,el_tiempo,petro,0.928,Iran afirma haber lanzado misiles de advertencia contra buques de guerra de estados unidos cerca de sus costas pero washington lo niega
+13,el_tiempo,petro,0.922,Trump amenaza a putin si rusia no termina la guerra estados unidos dara esta ayuda clave a ucrania
+13,noticias_caracol,duque,0.915,Zelenski acusa a rusia de crimenes de guerra tras ataque a escuela en ucrania con cientos de civiles
+13,blu_radio,duque,0.915,Rusia envia seis buques de guerra hacia el mar negro aumenta la tension por ucrania
+13,noticias_caracol,petro,0.915,Jefe del comando sur de eeuu advierte sobre la amenaza de china rusia e iran en la region
+13,el_tiempo,petro,0.915,Rusia lanza una dura amenaza a estados unidos advierte con consecuencias tras ataque de ucrania en crimea
+13,noticias_rcn,petro,0.915,Kiev bajo ataque rusia expone su arsenal y bombardea zonas civiles en toda ucrania
+13,la_republica,petro,0.915,Rusia dice que es dificil creer que estado islamico pudiera haber lanzado ataque de moscu
+13,noticias_caracol,duque,0.907,Ola de frio en mexico y estados unidos deja varios muertos y millones de personas sin electricidad
+13,blu_radio,petro,0.907,Caleno murio ahogado intentando cruzar la frontera hacia estados unidos en mexico
+13,blu_radio,petro,0.907,Trump pide a paises enviar buques de guerra al estrecho de ormuz tras amenaza de cierre por iran
+13,noticias_caracol,petro,0.907,Israel ataca la television estatal irani en teheran presentadora abandono transmision en vivo
+13,la_republica,petro,0.907,Helada en eeuu deja sin electricidad a casi millones de personas causa cancelacion de miles de vuelos
+13,blu_radio,petro,0.907,Iran niega recibir ataque por parte de israel no hay ninguna amenaza aerea
+13,noticias_rcn,petro,0.907,El fbi hallo informacion nuclear de otros paises en la residencia de donald trump en mar a lago
+13,la_republica,petro,0.896,Ataque ruso deja sin electricidad a cientos de miles de personas en el norte de ucrania
+13,la_republica,petro,0.896,Rusia ataca a ucrania mientras trump presiona a zelenski para llegar a un acuerdo
+13,noticias_rcn,duque,0.896,Murio el principal jefe del estado islamico tras una operacion de estados unidos en siria
+13,noticias_rcn,duque,0.896,Rusia enviara a multimillonario japones una actriz y un director de cine al espacio
+14,el_tiempo,petro,0.915,Ia muestra como serian las camisetas de la seleccion colombia argentina brasil alemania y otras selecciones del mundo en el proximo mundial
+14,el_tiempo,petro,0.915,Sena abre cupos gratis en programas tecnicos y tecnologicos virtuales inscripciones cierran el de agosto
+14,noticias_caracol,petro,0.907,Quiere estudiar en japon icetex lanzo becas del a colombianos que cumplan estos requisitos
+14,blu_radio,petro,0.907,Venezuela sera libre maria corina machado dedica nobel de paz a la lucha del pueblo venezolano
+14,el_tiempo,petro,0.907,Ranking de las mejores universidades de colombia segun pruebas saber pro nacional y los andes lideran en puntaje
+14,blu_radio,duque,0.907,Minuto a minuto colombia vuelve a barranquilla para recibir a chile en duelo clave por eliminatoria
+14,la_republica,duque,0.907,Ya inicio la venta oficial del celular samsung galaxy note en el mercado nacional
+14,blu_radio,duque,0.907,Alineacion colombia vs honduras nominas titulares para el partido amistoso previo a eliminatoria
+14,noticias_caracol,petro,0.907,La lider opositora maria corina machado viajara a oslo pero no llegara a ceremonia del nobel
+14,blu_radio,duque,0.907,Colombia y honduras listos para el examen previo a la doble jornada de eliminatoria a qatar
+14,el_tiempo,petro,0.907,Brasil vs paraguay el partido clave y el resto de juegos de la octava fecha de la eliminatoria al mundial del
+14,noticias_rcn,petro,0.896,Uruguay vs espana por el mundial en vivo canal para ver y hora online link gratis
+14,la_republica,duque,0.896,Ecuador chile y brasil los paises donde mas crecio la venta de vehiculos el ano pasado
+14,la_republica,petro,0.896,Colombia esta entre los paises mas importantes en el mercado de la industria automotriz para la marca renault sofasa
+14,noticias_rcn,duque,0.896,Peru proximo rival de colombia igualo contra panama en partido amistoso
+14,noticias_caracol,petro,0.896,Icetex lanza becas del para estudiar vulcanologia con universidades del exterior fechas clave
+14,noticias_caracol,petro,0.896,Quiere perfeccionar su ingles icetex lanzo becas para colombianos que cumplan estos requisitos
+14,noticias_rcn,petro,0.896,Oficial cambio en la nomina de convocados de la seleccion colombia para enfrentar a bolivia y venezuela
+14,la_republica,petro,0.896,Colombia baja un puesto en ranking de paises con gasolina mas barata de la region
+14,noticias_rcn,petro,0.896,Se acerca la hora y se define la titular los cambios de colombia para enfrenta a uruguay
