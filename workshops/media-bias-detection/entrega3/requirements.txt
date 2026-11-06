@@ -9,3 +9,4 @@ nltk==3.9.1
 matplotlib==3.9.2
 seaborn==0.13.2
 pytest==8.3.3
+openpyxl==3.1.5
