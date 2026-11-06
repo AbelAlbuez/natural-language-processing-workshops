@@ -105,13 +105,24 @@ RCN es el que más cambia respecto a sí mismo (0,139).
 - **Los titulares son reconstruidos** desde la URL (sin tildes, cifras ni
   puntuación) y en RCN 2018–2020 sólo se conoce el mes de publicación.
 
+## Titulares del mismo hecho entre medios (hecho)
+
+- Se emparejan titulares de medios distintos que son recíprocamente los más
+  parecidos en ±2 días (embeddings multilingües) y se agrupan en **eventos**.
+- **Umbral 0,80, calibrado a mano:** dos personas anotaron 270 filas (210
+  parejas, 60 dobles). El acuerdo es bueno (κ = 0,77) y la **precisión es del
+  81 % (IC 95 % 72–90 %)**. El 0,75 que se usaba antes daba 75 %; el 0,90 llega
+  a 93 %, pero se queda con un cuarto de las parejas.
+- Resultado: **20.905 eventos, 5.867 con ≥3 medios** (1.916 de Duque y 3.951
+  de Petro) y 342 con los cinco medios.
+- Detalle en el [`README.md`](README.md#emparejamiento-de-titulares-entre-medios-pasos-1-y-3).
+
 ## Siguientes pasos recomendados
 
-1. **Emparejar titulares del mismo hecho entre medios**, reutilizando los
-   embeddings de BERTopic (`resultados_publico/bertopic/embeddings.npy`) con una
-   ventana de ±2 días. Es la base para pasar de agenda a encuadre.
-2. Sobre esos eventos: **cobertura u omisión** de cada medio y **elección
+1. Sobre los eventos: **cobertura u omisión** de cada medio y **elección
    léxica** (*log-odds* con prior informativo) dentro del mismo hecho.
+2. Calibrar también el umbral del **seguimiento** (notas extra del mismo medio
+   en un evento), que hoy usa el mismo 0,80 sin medición propia.
 3. **Validar los tópicos de BERTopic con el equipo** (prueba de intrusión de
    palabras) y revisar los dos tópicos mixtos antes de citarlos.
 4. Extender BERTopic al **corpus completo** para comparar con el LDA K = 15.

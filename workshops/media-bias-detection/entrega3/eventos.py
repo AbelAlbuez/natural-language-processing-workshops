@@ -11,9 +11,10 @@ sólo titulares con fecha al día.
                 conexas, partición de las componentes encadenadas, núcleo de un
                 titular por medio y notas de seguimiento del mismo medio
 
-El umbral es PROVISIONAL: falta el paso 2 (calibración con parejas revisadas a
-mano). `eventos` corre también con --umbrales para la tabla de sensibilidad y
-deja las salidas completas sólo para --umbral.
+El umbral (0,80) está calibrado con 270 anotaciones manuales (paso 2,
+calibracion.py): precisión ponderada 81 % (IC 95 % 72–90 %), kappa 0,77.
+`eventos` corre también con --umbrales para la tabla de sensibilidad y deja las
+salidas completas sólo para --umbral.
 
 Uso: SCRIPT=eventos.py ./run.sh - --output resultados_publico --stage all
 """
@@ -339,9 +340,9 @@ def _examples_md(ev: pd.DataFrame, summary: pd.DataFrame, umbral: float, seed: i
     pick = list(rng.choice(big["event_id"].to_numpy(), size=min(15, len(big)), replace=False))
     largest = big.sort_values(["n_titulares", "n_medios"], ascending=False)["event_id"].head(5).tolist()
     lines = [
-        f"# Ejemplos de eventos (umbral provisional {umbral:.2f})", "",
-        "Para el paso 2 (calibración): ¿los titulares de cada evento hablan del mismo hecho? Anotar por evento",
-        "*sí / no / parcial* y, si es parcial, qué titular sobra. 15 eventos con ≥3 medios elegidos al azar",
+        f"# Ejemplos de eventos (umbral {umbral:.2f})", "",
+        "Para revisar a ojo si los titulares de cada evento hablan del mismo hecho.",
+        "15 eventos con ≥3 medios elegidos al azar",
         f"(semilla {seed}) y los 5 más grandes. Titulares reconstruidos desde la URL (sin tildes ni cifras).", "",
     ]
     for title, ids in (("Eventos al azar", pick), ("Los eventos más grandes", largest)):
@@ -358,6 +359,22 @@ def _examples_md(ev: pd.DataFrame, summary: pd.DataFrame, umbral: float, seed: i
                              f"{r.sim_centroide:.2f} | {r.title} |")
             lines.append("")
     return "\n".join(lines)
+
+
+def _calibration(umbral: float) -> dict:
+    """Precisión medida a mano para este umbral (calibracion.py evaluar), si existe."""
+    path = HERE / "resultados_publico" / "calibracion" / "precision_por_umbral.csv"
+    if not path.exists():
+        return {"calibrado": False}
+    tab = pd.read_csv(path)
+    row = tab[np.isclose(tab["umbral"], umbral)]
+    if row.empty:
+        return {"calibrado": False}
+    r = row.iloc[0]
+    ev = load_json(path.parent / "evaluacion.json")
+    return {"calibrado": True, "precision": round(float(r.precision), 4),
+            "ic95": [round(float(r.ic_bajo), 4), round(float(r.ic_alto), 4)],
+            "n_muestra": int(r.n_muestra), "kappa_mismo_hecho": round(ev["kappa_mismo_hecho"], 4)}
 
 
 def stage_eventos(args, res: Path, out: Path) -> None:
@@ -386,7 +403,7 @@ def stage_eventos(args, res: Path, out: Path) -> None:
     (res / "ejemplos_eventos.md").write_text(_examples_md(ev, summary, args.umbral, args.seed), encoding="utf-8")
     by_gov = summary[summary["n_medios"] >= 3].groupby("gobierno").size().to_dict()
     save_json(res / "eventos.json", {
-        **stats, "umbral_provisional": True, "ventana_dias": args.ventana_dias, "max_dias": args.max_dias,
+        **stats, "calibracion": _calibration(args.umbral), "ventana_dias": args.ventana_dias, "max_dias": args.max_dias,
         "margen_particion": args.margen, "eventos_3_o_mas_medios_por_gobierno": {k: int(v) for k, v in by_gov.items()},
         "eventos_por_n_medios": {str(k): int(v) for k, v in summary["n_medios"].value_counts().sort_index().items()},
     })
@@ -408,8 +425,8 @@ def main() -> None:
     parser.add_argument("--stage", choices=[*STAGES, "all"], default="all")
     parser.add_argument("--ventana-dias", type=int, default=2)
     parser.add_argument("--sim-min", type=float, default=0.60)
-    parser.add_argument("--umbral", type=float, default=0.75, help="Umbral provisional (sin calibrar)")
-    parser.add_argument("--umbrales", type=float, nargs="+", default=[0.70, 0.75, 0.80])
+    parser.add_argument("--umbral", type=float, default=0.80, help="Umbral calibrado (calibracion.py evaluar)")
+    parser.add_argument("--umbrales", type=float, nargs="+", default=[0.70, 0.75, 0.80, 0.85, 0.90])
     parser.add_argument("--max-dias", type=int, default=5)
     parser.add_argument("--margen", type=float, default=0.10,
                         help="Al partir componentes encadenadas: todos los pares ≥ umbral − margen")
