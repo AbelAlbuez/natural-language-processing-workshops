@@ -89,6 +89,53 @@ def reciprocal_pairs(dates: np.ndarray, media: np.ndarray, emb: np.ndarray, quer
     return pd.DataFrame(rows, columns=["a", "b", "sim"])
 
 
+def population_by_tramo(force: bool = False) -> pd.Series:
+    """Cuántas parejas recíprocas del corpus completo caen en cada tramo.
+
+    Son las parejas a las que se aplica el umbral en eventos.py (mismo `_load`,
+    mismas exclusiones de plantilla). Se guarda en poblacion_tramos.csv.
+    """
+    path = OUT / "poblacion_tramos.csv"
+    if path.exists() and not force:
+        return pd.read_csv(path).set_index("tramo")["parejas"]
+    import eventos
+
+    _, _, _, media, _ = eventos._load(DATA)
+    data = np.load(DATA / "eventos" / "mejores.npz")
+    _, _, sims = eventos.reciprocal_pairs(data["best_idx"], data["best_sim"], media)
+    counts = pd.Series([tramo(float(x)) for x in sims]).value_counts()
+    counts = counts.drop("<0.60", errors="ignore").sort_index().rename("parejas")
+    counts.rename_axis("tramo").reset_index().to_csv(path, index=False)
+    return counts
+
+
+def weighted_precision(d1: pd.DataFrame, population: pd.Series) -> pd.DataFrame:
+    """Precisión de quedarse con las parejas ≥ cada umbral, ponderada por población.
+
+    La muestra tiene el mismo número de parejas por tramo, pero en el corpus los
+    tramos bajos son mucho más frecuentes; sin ponderar, la precisión ≥ u se
+    sobrestima. Estimador estratificado: Σ W_t p_t, con W_t = N_t / Σ N_t sobre los
+    tramos ≥ u. IC 95 % normal con varianza Σ W_t² p̃_t(1 − p̃_t)/n_t, donde
+    p̃_t = (x + 1)/(n + 2) evita varianza cero en tramos con 0 % o 100 %.
+    """
+    stats = d1.groupby("tramo")["acierto"].agg(["sum", "count"])
+    rows = []
+    for u in TRAMOS[:-1]:
+        ts = [t for t in stats.index if float(t.split("–")[0]) >= u - 1e-9 and t in population.index]
+        if not ts:
+            continue
+        w = population[ts] / population[ts].sum()
+        x, n = stats.loc[ts, "sum"], stats.loc[ts, "count"]
+        p = x / n
+        pt = (x + 1) / (n + 2)
+        prec = float((w * p).sum())
+        se = float(np.sqrt((w**2 * pt * (1 - pt) / n).sum()))
+        rows.append({"umbral": u, "parejas_corpus": int(population[ts].sum()), "n_muestra": int(n.sum()),
+                     "precision": prec, "ic_bajo": max(0.0, prec - 1.96 * se),
+                     "ic_alto": min(1.0, prec + 1.96 * se)})
+    return pd.DataFrame(rows)
+
+
 def stratified(pairs: pd.DataFrame, per_bin: int, seed: int) -> pd.DataFrame:
     pairs = pairs.assign(tramo=pairs["sim"].map(tramo))
     pairs = pairs[pairs["tramo"] != "<0.60"]
@@ -398,7 +445,8 @@ def stage_evaluar(args) -> None:
             lo, hi = wilson_interval(int(g["acierto"].sum()), len(g))
             umbrales.append({"umbral": u, "n": len(g), "precision": g["acierto"].mean(), "ic_bajo": lo, "ic_alto": hi})
     umbrales = pd.DataFrame(umbrales)
-    ok = umbrales[umbrales["precision"] >= args.precision_objetivo]
+    ponderada = weighted_precision(d1, population_by_tramo())
+    ok = ponderada[ponderada["precision"] >= args.precision_objetivo]
     dobles = df.dropna(subset=["Anotador 1 · ¿mismo hecho?", "Anotador 2 · ¿mismo hecho?"])
     a1, a2 = dobles["Anotador 1 · ¿mismo hecho?"].tolist(), dobles["Anotador 2 · ¿mismo hecho?"].tolist()
     binario = lambda xs: ["si" if x == "Mismo hecho" else "no" for x in xs]  # noqa: E731
@@ -406,14 +454,17 @@ def stage_evaluar(args) -> None:
         "anotadas": int(len(d1)),
         "umbral_recomendado": float(ok["umbral"].min()) if len(ok) else None,
         "precision_objetivo": args.precision_objetivo,
+        "criterio": "menor umbral con precisión ponderada por la población de parejas ≥ objetivo",
+        "precision_ponderada": {f"{r.umbral:.2f}": round(r.precision, 4) for r in ponderada.itertuples()},
         "kappa_4_clases": cohen_kappa(a1, a2), "kappa_mismo_hecho": cohen_kappa(binario(a1), binario(a2)),
         "parejas_dobles_anotadas": int(len(dobles)),
     }
     pd.DataFrame(por_tramo).to_csv(OUT / "precision_por_tramo.csv", index=False)
-    umbrales.to_csv(OUT / "precision_por_umbral.csv", index=False)
+    umbrales.to_csv(OUT / "precision_por_umbral_sin_ponderar.csv", index=False)
+    ponderada.to_csv(OUT / "precision_por_umbral.csv", index=False)
     json.dump(result, open(OUT / "evaluacion.json", "w"), ensure_ascii=False, indent=2)
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    print(umbrales.round(3).to_string(index=False))
+    print(ponderada.round(3).to_string(index=False))
 
 
 def main() -> None:

@@ -68,3 +68,16 @@ def test_division_para_dos_personas():
     assert d["Anotador 1 · nombre"].eq("uno").all() and d["Anotador 2 · nombre"].eq("dos").all()
     s = both[both["doble"] == "No"]
     assert s["Anotador 1 · nombre"].notna().all() and s["Anotador 2 · nombre"].isna().all()
+
+
+def test_precision_ponderada_por_poblacion():
+    from calibracion import weighted_precision
+
+    # Tramo bajo: 0 % de aciertos y muy frecuente; tramo alto: 100 % y raro.
+    d1 = pd.DataFrame({"tramo": ["0.85–0.90"] * 10 + ["0.90–1.00"] * 10,
+                       "acierto": [False] * 10 + [True] * 10})
+    pop = pd.Series({"0.85–0.90": 900, "0.90–1.00": 100})
+    w = weighted_precision(d1, pop).set_index("umbral")
+    assert w.loc[0.85, "precision"] == pytest.approx(0.10)  # sin ponderar sería 0.50
+    assert w.loc[0.90, "precision"] == pytest.approx(1.0)
+    assert w.loc[0.85, "ic_bajo"] < 0.10 < w.loc[0.85, "ic_alto"]

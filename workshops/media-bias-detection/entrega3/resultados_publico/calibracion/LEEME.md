@@ -62,7 +62,9 @@ Genera:
 - `precision_por_tramo.csv`: proporción de «Mismo hecho» en cada tramo, con
   intervalo de Wilson.
 - `precision_por_umbral.csv`: precisión de quedarse con las parejas ≥ cada
-  umbral.
+  umbral, ponderada por cuántas parejas hay de cada tramo en el corpus
+  (`poblacion_tramos.csv`). La versión sin ponderar queda en
+  `precision_por_umbral_sin_ponderar.csv`.
 - `evaluacion.json`: umbral recomendado (el menor con precisión ≥ 90 %; se
   cambia con `--precision-objetivo`) y **kappa de Cohen** sobre las parejas
   dobles, en 4 clases y en binario «mismo hecho / no».
@@ -70,3 +72,9 @@ Genera:
 «No se puede saber» queda fuera del cálculo de precisión. Un kappa por debajo
 de ~0,6 indicaría que las definiciones no son lo bastante claras y habría que
 revisarlas antes de fijar el umbral.
+
+## Resultado (noviembre de 2026)
+
+Kappa 0,77 (mismo hecho sí/no) y 0,70 (4 clases). Precisión ponderada: 75 % con
+umbral 0,75, **81 % con 0,80** y 93 % con 0,90. El equipo eligió **0,80** y los
+eventos se rearmaron con ese umbral (ver el README de `entrega3`).
