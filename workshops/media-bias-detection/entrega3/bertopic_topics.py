@@ -14,6 +14,10 @@ Se ajusta sobre la muestra balanceada de `prepare` y se aplica a todo el
 corpus. La estabilidad se mide igual que en el LDA: se repite con otras
 semillas (UMAP y k-means) y se emparejan los tópicos.
 
+Los titulares de ejemplo (topic_examples.csv) son los más cercanos al
+centroide de embeddings de cada tópico; la columna es `similitud_centroide`
+(coseno), no `theta`, porque con θ one-hot todos empatan en 1.
+
 Después: python topics.py --model bertopic --stage compare --output <misma carpeta>
 """
 
@@ -100,6 +104,37 @@ def class_tfidf(docs: list[str], assigned: np.ndarray, vocab: list[str]) -> np.n
     return w / w.sum(axis=1, keepdims=True)
 
 
+def centroid_examples(frame: pd.DataFrame, assigned: np.ndarray, emb: np.ndarray, min_tokens: int = 4,
+                      per_source: int = 4, n: int = 20) -> pd.DataFrame:
+    """Titulares de ejemplo de cada tópico, los más cercanos a su centroide.
+
+    Con θ one-hot todos los titulares de un tópico empatan, así que el criterio
+    del LDA (mayor θ) elegía casi al azar. Aquí el centroide es la media de los
+    embeddings (normalizados) de los titulares asignados al tópico, y el puntaje
+    `similitud_centroide` es el coseno de cada titular con ese centroide. Se
+    mantiene el reparto del LDA: titulares con ≥ `min_tokens` tokens, hasta
+    `per_source` por medio y `n` en total.
+    """
+    ntok = frame["tokens"].map(len).to_numpy()
+    rows = []
+    for k in range(int(assigned.max()) + 1):
+        members = np.flatnonzero(assigned == k)
+        if not len(members):
+            continue
+        centroid = emb[members].mean(axis=0)
+        centroid = centroid / np.linalg.norm(centroid)
+        cand = members[ntok[members] >= min_tokens]
+        sims = emb[cand] @ centroid
+        pick = (frame.iloc[cand][["source_id", "government_id", "title"]]
+                .assign(similitud_centroide=sims).sort_values("similitud_centroide", ascending=False)
+                .groupby("source_id", group_keys=False).head(per_source)
+                .sort_values("similitud_centroide", ascending=False).head(n))
+        rows.extend({"topic": k, "source_id": r.source_id, "government_id": r.government_id,
+                     "similitud_centroide": round(float(r.similitud_centroide), 4), "title": r.title}
+                    for r in pick.itertuples())
+    return pd.DataFrame(rows)
+
+
 def one_hot(assigned: np.ndarray, k: int) -> np.ndarray:
     theta = np.zeros((len(assigned), k), dtype=np.float32)
     ok = assigned >= 0
@@ -116,6 +151,8 @@ def main() -> None:
     parser.add_argument("--stability-seeds", type=int, nargs="+", default=[7, 123])
     parser.add_argument("--batch", type=int, default=256)
     parser.add_argument("--cv-docs", type=int, default=100_000)
+    parser.add_argument("--only-examples", action="store_true",
+                        help="Sólo regenerar asignaciones, términos y ejemplos desde las cachés")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
@@ -146,6 +183,10 @@ def main() -> None:
     empty = assigned < 0
     T.save_assignments(frame, theta, empty, res)
     T.save_examples(frame, theta, topic_word, vocab, res)
+    # Sustituye los ejemplos por θ (empatados en one-hot) por los más cercanos al centroide.
+    centroid_examples(frame, assigned, emb).to_csv(res / "topic_examples.csv", index=False)
+    if args.only_examples:
+        return
 
     rows, matrices, jaccards = [], {}, {}
     for seed in args.stability_seeds:

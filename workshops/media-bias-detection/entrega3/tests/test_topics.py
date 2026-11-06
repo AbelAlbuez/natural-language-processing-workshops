@@ -134,3 +134,36 @@ def test_piso_del_p_valor_permite_significancia_tras_holm():
     from topics import BOOTSTRAP_REPS
 
     assert 125 / BOOTSTRAP_REPS < 0.05
+
+
+def test_ejemplos_por_cercania_al_centroide():
+    from bertopic_topics import centroid_examples
+
+    # Tópico 0 (a, b, c, e): b y e son simétricos respecto al eje x, así que el
+    # centroide queda casi sobre el eje y 'a', que está sobre él, es el más cercano.
+    emb = np.array([[1.0, 0.0], [0.8, 0.6], [0.95, 0.31], [0.0, 1.0], [0.8, -0.6]], dtype=np.float32)
+    emb /= np.linalg.norm(emb, axis=1, keepdims=True)
+    frame = pd.DataFrame({
+        "source_id": ["m1", "m1", "m2", "m2", "m1"],
+        "government_id": ["duque"] * 5,
+        "title": ["a", "b", "c", "d", "e"],
+        "tokens": [["w"] * 4] * 5,
+    })
+    assigned = np.array([0, 0, 0, 1, 0])
+    ex = centroid_examples(frame, assigned, emb, per_source=1, n=20)
+    t0 = ex[ex["topic"] == 0]
+    assert t0.iloc[0]["title"] == "a"
+    assert list(t0["title"]) == ["a", "c"]  # uno por medio: 'a' de m1 y 'c' de m2
+    assert t0["source_id"].value_counts().max() == 1
+    assert t0["similitud_centroide"].is_monotonic_decreasing
+    assert set(ex[ex["topic"] == 1]["title"]) == {"d"}
+
+
+def test_ejemplos_por_centroide_exigen_minimo_de_tokens():
+    from bertopic_topics import centroid_examples
+
+    emb = np.eye(3, dtype=np.float32)[[0, 0, 0]]
+    frame = pd.DataFrame({"source_id": ["m"] * 3, "government_id": ["petro"] * 3, "title": ["x", "y", "z"],
+                          "tokens": [["w"] * 4, ["w"] * 2, ["w"] * 5]})
+    ex = centroid_examples(frame, np.zeros(3, dtype=int), emb)
+    assert set(ex["title"]) == {"x", "z"}

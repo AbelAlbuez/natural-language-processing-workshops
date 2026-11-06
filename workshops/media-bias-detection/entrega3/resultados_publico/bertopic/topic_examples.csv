@@ -1,383 +1,401 @@
-topic,source_id,government_id,theta,title
-0,el_tiempo,duque,1.0,Folklore electoral caricatura de matador
-0,noticias_caracol,duque,1.0,Mujer de anos con desnutricion entre las nuevas victimas mortales de covid en valle del cauca
-0,noticias_caracol,duque,1.0,Video eleccion de defensor del pueblo estaria definida pese a los peros de organizaciones y victimas
-0,noticias_caracol,duque,1.0,Rayo destroza arbol en luisiana estados unidos
-0,noticias_rcn,duque,1.0,Ministro de defensa senala que retencion de biologo en caqueta es un secuestro
-0,noticias_caracol,duque,1.0,Fotografias y testimonios hacen parte del informe que entregaran a jep sobre reclutamiento de ninos
-0,el_tiempo,duque,1.0,Alias otoniel pidio someterse a la jep
-0,el_tiempo,petro,1.0,Caso de ninas envenenadas indagan movimientos bancarios de zulma guzman importaciones de talio y a tres personas en el exterior
-0,el_tiempo,petro,1.0,Que viene para el canciller alvaro leyva tras suspension de la procuraduria
-0,noticias_rcn,duque,1.0,Disidencias de las farc serian responsables de hostigamientos en cajibio y suarez cauca
-0,noticias_rcn,duque,1.0,Lens castigado sin hinchas por disturbios en el partido contra lille
-0,noticias_rcn,duque,1.0,Habria caido alias fabian el cabecilla del frente occidental del eln
-0,blu_radio,petro,1.0,Operacion orion las heridas siguen abiertas anos despues para las victimas que piden justicia
-0,blu_radio,petro,1.0,Video hombres pagan a influencer para que los pise durante un evento en estados unidos
-0,blu_radio,petro,1.0,Pequeno gabriel sufrio abandono y maltrato de sus padres antes de ser asesinado procuraduria
-0,blu_radio,petro,1.0,Las decisiones del pueblo no deben nacer del odio ni ansiedad iglesia catolica ante elecciones
-0,la_republica,duque,1.0,El fondo de victimas de jeffrey epstein pago un monto cercano a us millones
-0,la_republica,duque,1.0,Policia italiana descubrio un sobre con varias balas que habrian sido enviadas al papa
-1,el_tiempo,petro,1.0,Laura sarabia fue a la fiscalia a declarar por el robo de plata en su casa
-1,el_tiempo,petro,1.0,Viceministerio de la mujer la apuesta del gobierno para frenar la desigualdad
-1,el_tiempo,petro,1.0,Ni una sola pared sin nuestros murales el llamado que hizo ivan cepeda a sus simpatizantes en medio de episodios de hostigamientos a la oposicion
-1,blu_radio,petro,1.0,Petro pide acelerar dialogos con eln y que se superen todas las hostilidades contra la poblacion
-1,blu_radio,petro,1.0,Solo duro dos meses director de bomberos presento su carta de renuncia al ministro del
-1,noticias_caracol,petro,1.0,Gobierno nacional prepara decreto para eliminar prima de servicios que reciben los congresistas
-1,el_tiempo,petro,1.0,Cesar gaviria pronunciamiento del expresidente sobre situacion del gobierno petro
-1,noticias_caracol,petro,1.0,Nicolas maduro dice de cuanto es su sueldito de presidente y afirma que no ve esa platica
-1,blu_radio,petro,1.0,Nuevo ciclo de dialogos de paz con el eln se aplazaria
-1,blu_radio,petro,1.0,Acusando a duque de cinico y a disidencias de traquetos santos se despacha contra petro
-1,noticias_caracol,petro,1.0,Cambio en la cupula militar quienes son los nuevos altos mandos designados por el presidente
-1,noticias_caracol,petro,1.0,Presidente petro anuncia cambios en cupula militar sale el almirante francisco hernando cubides
-2,el_tiempo,petro,1.0,Brasil exigira visa a turistas de estados unidos canada y australia esto se sabe
-2,noticias_caracol,duque,1.0,La policia brasilena no ve indicios de violacion en caso neymar
-2,blu_radio,duque,1.0,Jueces haitianos se niegan a investigar el magnicidio del presidente jovenel moise
-2,noticias_rcn,petro,1.0,Vea en vivo el partido paraguay vs argentina por el sudamericano sub por el canal rcn
-2,el_tiempo,petro,1.0,Que es un dia civico y quienes se lo pueden tomar segun lo anunciado por el presidente petro en colombia
-2,la_republica,duque,1.0,Presidente de ecuador lenin moreno celebro inicio de dialogos con los manifestantes
-2,el_tiempo,petro,1.0,La cancilleria presenta un libro para promover la gastronomia colombiana en el mundo
-2,el_tiempo,duque,1.0,Presentan en el centro colombiano de politicas publicas y gobierno
-2,blu_radio,petro,1.0,Informe de inteligencia alerta riesgos de desestabilizacion para el gobierno entrante en colombia
-2,noticias_rcn,petro,1.0,Colmada la plaza de cibeles en madrid por movilizacion contra el gobierno espanol
-2,noticias_caracol,duque,1.0,Los retos del nuevo embajador de colombia en venezuela que seria armando benedetti
-2,la_republica,petro,1.0,Jair bolsonaro anuncio privatizacion de petrobras si es reelecto presidente de brasil
-2,la_republica,duque,1.0,Cancilleria recomienda a colombianos en ecuador evitar salir de casa por las protestas
-2,la_republica,duque,1.0,Colombia y chile empataron sin goles en partido amistoso en alicante espana
-2,blu_radio,petro,1.0,Bahia vs atletico nacional apuestas dan su favorito para el partido de copa libertadores
-2,blu_radio,petro,1.0,Intentan robar la casa de lamine yamal tras el partido espana francia
-2,noticias_rcn,petro,1.0,Deportivo pasto esta encerrado en peru por crisis del pais y piden ayuda al gobierno para volver a casa
-2,noticias_caracol,duque,1.0,Presidente de peru propone reducir su mandato y el de legisladores y adelantar elecciones
-2,noticias_rcn,petro,1.0,Golazo oscar cortes empato el partido de colombia frente a peru en el sudamericano sub
-2,noticias_caracol,duque,1.0,Juan carlos gossain exgobernador de bolivar salpicado en proceso del cartel de la hemofilia
-3,la_republica,petro,1.0,Ventaja de lula sobre bolsonaro se reduce ligeramente de cara a las elecciones
-3,blu_radio,petro,1.0,Alvaro echeverry electo magistrado por el congreso no somos activistas politicos en el cne
-3,blu_radio,petro,1.0,Cej pide respeto por los resultados electorales y rechaza intentos de deslegitimar las elecciones
-3,el_tiempo,petro,1.0,Por que se esta apretando la carrera entre biden y trump por las presidenciales de estados unidos
-3,el_tiempo,petro,1.0,Paz electoral sin fake news analisis del editor multimedia
-3,el_tiempo,duque,1.0,Miguel ceballos renuncia centro democratico defendio a uribe
-3,noticias_rcn,petro,1.0,El presidente gustavo petro es una persona que escucha a todos david racero
-3,blu_radio,petro,1.0,Sector empresarial del valle pide actuar con responsabilidad y respeto por resultados de elecciones
-3,noticias_rcn,petro,1.0,Cne abrio investigacion al pacto historico por supuestos excesos en segunda vuelta presidencial
-3,blu_radio,petro,1.0,Ivan cepeda dice que hasta ahora no encuentran indicios de irregularidades en elecciones
-3,el_tiempo,duque,1.0,Procuraduria investiga casos de irregularidades en elecciones
-3,noticias_rcn,petro,1.0,Survivor definio a su noveno eliminado en medio de tensa votacion
-3,noticias_rcn,petro,1.0,Confidencial por que la senadora ana maria castaneda falto a la foto de oposicion de cambio radical
-3,noticias_caracol,petro,1.0,Cabello pide que levantamiento de sanciones sea parte de dialogo con oposicion a la que critica
-3,noticias_caracol,petro,1.0,Wadith manzur vinculado al caso de la ungrd pide posesionarse virtualmente responde el congreso
-3,noticias_caracol,petro,1.0,La pelea entre el presidente gustavo petro e ivan duque por las casas de providencia
-3,la_republica,duque,1.0,Michael bloomberg cancela su precandidatura por la presidencia de estados unidos
-3,la_republica,petro,1.0,Lea el discurso del presidente de la fed jerome powell en simposio de jackson holec
-3,la_republica,petro,1.0,El gobierno propone y el congreso dispone
-3,noticias_caracol,petro,1.0,Ee uu puede aprender del mensaje que el presidente petro esta enviando congresista de ese pais
-4,noticias_rcn,duque,1.0,Penalosa condena acto terrorista en la escuela general santander en bogota
-4,noticias_rcn,duque,1.0,Intensa busqueda de los coautores del atentado contra la policia en bogota
-4,noticias_rcn,duque,1.0,Nuevos ataques del eln contra la policia en arauca y antioquia
-4,blu_radio,petro,1.0,Patrullero de la policia fue asesinado en una rina en sogamoso boyaca estaba de descanso
-4,el_tiempo,petro,1.0,Tiroteos en texas y pensilvania dejan al menos ocho muertos en estados unidos
-4,blu_radio,petro,1.0,Un expatrullero de la policia fue hallado culpable del homicidio de uno de sus amigos
-4,blu_radio,petro,1.0,Impactante ataque a machetazos en suba pelea habria sido por zonas de microtrafico
-4,el_tiempo,petro,1.0,Esto es lo que se sabe sobre fuerte tiroteo frente a la registraduria y el mindefensa verifican si uno de los capturados llevaba brazalete del inpec
-4,el_tiempo,petro,1.0,El ejercito y la policia desactivaron una motocicleta cargada con explosivos de alto poder en el corregimiento de el plateado cauca
-4,el_tiempo,petro,1.0,Atencion capturan a dos presuntos ladrones a pocas cuadras del ministerio de defensa tras un fuerte tiroteo
-4,blu_radio,petro,1.0,Sentido y multitudinario homenaje a victimas del accidente de bus lleno de migrantes en santander
-4,noticias_rcn,duque,1.0,Motociclista que aparece en videos de carro bomba se presento ante la fiscalia
-5,noticias_caracol,duque,1.0,Video polemica entre los constituyentes de venezuela por la aprobacion de la ley antibloqueo
-5,blu_radio,duque,1.0,Estamos retornando al pasado en colombia se esta reactivando el conflicto jep
-5,el_tiempo,duque,1.0,Cuba presidente acusa a ee uu de buscar estallidos sociales
-5,el_tiempo,petro,1.0,Segun ivan cepeda intervencion militar de estados unidos puede convertir a america latina en una zona de guerra
-5,el_tiempo,petro,1.0,Que esta pasando con el gps en venezuela fallas coinciden con ejercicios de estados unidos en el caribe
-5,el_tiempo,petro,1.0,El senalado escudo ruso antiaereo de venezuela seria el primer blanco en posible ataque de estados unidos
-5,noticias_caracol,duque,1.0,Video torturas en venezuela expreso politico cuenta lo que vivio en prision
-5,blu_radio,petro,1.0,Maria corina machado en algun lugar de venezuela estamos en el umbral de una nueva era
-5,blu_radio,petro,1.0,Colombia ve posible una accion encubierta de eeuu contra venezuela e insiste en dialogo
-5,noticias_caracol,duque,1.0,Maduro y sus ministros tienen responsabilidad en crimenes de lesa humanidad mision de la onu
-5,noticias_rcn,duque,1.0,Lluvias en colombia victimas mortales y familias damnificadas
-5,noticias_caracol,duque,1.0,Video trump certifica a colombia en lucha antidrogas pero hace llamado de atencion por cultivos ilicitos
-5,blu_radio,duque,1.0,Colombia no tiene la capacidad de asumir nuevos migrantes de venezuela marta lucia ramirez
-5,noticias_rcn,duque,1.0,Gobierno de colombia afiliara a mil migrantes venezolanos al sistema de salud
-5,la_republica,duque,1.0,Nicolas maduro busca recuperar el control de la estatal venezolana monomeros
-5,la_republica,duque,1.0,Gobierno y oposicion de venezuela logran acuerdos tras ronda de dialogo en mexico
-5,la_republica,duque,1.0,La casa blanca formara un grupo para estudiar como se puede enviar dinero a cuba
-5,noticias_rcn,duque,1.0,Comenzo el partido seleccion colombia denuncia retrasos en el aeropuerto de venezuela
-5,noticias_rcn,duque,1.0,No hay nada escrito asi le fue a seleccion colombia en ultimas tres visitas a venezuela
-5,la_republica,duque,1.0,Comprar casa hoy en venezuela es casi imposible se debe pagarla de contado
-6,el_tiempo,duque,1.0,Alcalde de ibague procuraduria levanto suspension provisional
-6,noticias_rcn,duque,1.0,Cancilleria investigara si hay funcionarios difundiendo informacion no oficial
-6,blu_radio,petro,1.0,En vivo juicio contra expresidente uribe por fraude procesal y soborno
-6,noticias_rcn,petro,1.0,Nicolas petro y day vasquez comenzaran oficialmente a entregar informacion a la fiscalia
-6,el_tiempo,duque,1.0,Fiscalia dice que implicados en atentado al andino pertenecerian al eln
-6,blu_radio,duque,1.0,Informe de contraloria de san andres permitio libertad de gobernador y hoy esta en lupa de fiscalia
-6,el_tiempo,petro,1.0,Las denuncias mas graves de angie rodriguez directora del fondo de adaptacion sobre presuntas irregularidades en el gobierno de gustavo petro
-6,noticias_rcn,petro,1.0,Como agendar cita para entrar gratis a la casa de narino
-6,blu_radio,petro,1.0,Procuraduria formulo nuevos cargos a alcalde de riohacha que petro nego suspender
-6,el_tiempo,duque,1.0,Vicitmas del andino presentan tutela contra decision de dejar a libres a involuctrados
-6,blu_radio,petro,1.0,Los candidatos a magistrado de la corte constitucional avalados por la corte suprema
-6,la_republica,petro,1.0,Ministerio de trabajo dijo que investigara condiciones laborales de los rappitenderos
-6,noticias_rcn,duque,1.0,Procuraduria le abre investigacion a alcalde de bucaramanga
-6,noticias_caracol,petro,1.0,Fiscalia llama a declarar a presidente de la sae que denuncio presunta corrupcion en la entidad
-6,noticias_caracol,duque,1.0,Juez que dejo libre a vinculada en estafa de libranzas tiene proceso por corrupcion judicial
-6,noticias_caracol,petro,1.0,El chapo guzman pide a amlo cumplir su condena en mexico por tormento psicologico que sufre
-6,noticias_caracol,duque,1.0,Fiscalia captura a subcontralor de antioquia y a su esposa implicados en presunta red de corrupcion
-6,la_republica,duque,1.0,Hallazgos de la contraloria no dan meritos para investigaciones empresa metro de bogota
-6,la_republica,petro,1.0,Kamala harris recibira a ejecutivos como trabajadores de tribunales de la casa blanca
-6,la_republica,petro,1.0,Inicio etapa de inscripcion para el proceso de seleccion de la dian con vacantes
-7,blu_radio,petro,1.0,Ejercito capturo a dos miembros del grupo criminal los chatas en antioquia
-7,noticias_rcn,petro,1.0,Llaman a comandante del ejercito a declarar por atentado al fiscal francisco barbosa
-7,noticias_rcn,petro,1.0,Explosivo en anori antioquia habria impactado la patrulla que iba a acompanar al senador felipe lemos
-7,blu_radio,petro,1.0,Abelardo de la espriella anuncia ofensiva militar en el catatumbo contra eln y disidencias
-7,el_tiempo,petro,1.0,Presidente gustavo petro asegura que ataque contra helicoptero de la policia en amalfi fue con cilindros la trampa era muy dificil de detectar
-7,el_tiempo,petro,1.0,Cali disidencias ejecutan el peor acto terrorista en una capital desde
-7,el_tiempo,petro,1.0,Estados unidos ejecuta un nuevo bombardeo contra una narcolancha en aguas del pacifico reportan tres sobrevivientes
-7,el_tiempo,duque,1.0,Cayo alias gonzalo en sucre peligroso sicario del clan del golfo
-7,blu_radio,petro,1.0,En operaciones militares en contra de las disidencias y el eln ejercito confirmo bajas
-7,noticias_rcn,duque,1.0,Presunto proveedor de armas del eln capturado en operacion de la interpol
-7,blu_radio,duque,1.0,Tres militares y un policia herido dejo emboscada en tulua
-7,noticias_rcn,petro,1.0,Procuraduria cito a manuel ranoque para conciliar con duenos de la avioneta accidentada
-7,noticias_caracol,petro,1.0,Por paro armado del eln hay mil personas confinadas en choco
-7,la_republica,duque,1.0,Calles de bogota se militarizan tras toque de queda impuesto por las autoridades
-7,noticias_caracol,petro,1.0,Capturan en panama a personas presuntamente vinculadas al clan del golfo
-7,noticias_caracol,petro,1.0,Claman por suboficial de la armada secuestrado si creen en el proceso de paz que lo liberen
-7,noticias_caracol,petro,1.0,Anuncio de paro armado del eln en choco genera autoconfinamiento y desplazamiento
-7,la_republica,petro,1.0,Acdac dice que pilotos podrian perder empleo al negarse la union avianca viva
-7,la_republica,duque,1.0,Ejercito interviene en cali tras ataques de vandalos en zonas residenciales
-7,la_republica,duque,1.0,Ministerio de defensa reporto capturados tras disturbios en las protestas de ayer
-8,blu_radio,petro,1.0,Nicolas petro tiene plazo hasta el de marzo para comparecer ante la procuraduria
-8,el_tiempo,petro,1.0,Procuraduria pide a la car informe por alerta de racionamiento de agua en cundinamarca
-8,el_tiempo,petro,1.0,Estados unidos ofrece millonaria recompensa por informacion para dar con la captura de dos capos del cartel de sinaloa tras muerte de alias el mencho
-8,blu_radio,petro,1.0,En antioquia ya han postulado hectareas de tierra para implementar reforma agraria
-8,el_tiempo,petro,1.0,Lo informacion relevante que entrego otoniel a la jep en estados unidos
-8,blu_radio,duque,1.0,Mercado de futuros de agua es un negocio puntual de una region en estados unidos experto
-8,noticias_rcn,duque,1.0,Gobierno anuncia medidas frente a crisis por derrumbes en la via al llano
-8,el_tiempo,petro,1.0,El escalofriante lugar de estados unidos que esta rodeado de caimanes mas de
-8,blu_radio,petro,1.0,Gobierno nacional no negociara con mineros de antioquia si continuan los bloqueos en las vias
-8,la_republica,petro,1.0,Ministro saudi de energia advierte que las sanciones provocarian escasez energetica
-8,noticias_caracol,petro,1.0,Gobierno anuncia paquete de medidas para reactivar economia en san andres cuales son
-8,la_republica,duque,1.0,Le haremos propuestas al gobierno para las cooperativas acero
-8,la_republica,petro,1.0,Gobierno radica el nuevo plan nacional de desarrollo ante el congreso
-8,noticias_rcn,petro,1.0,Ministerio de minas expidio medidas que apoyaran financieramente las empresas del sector
-8,la_republica,duque,1.0,El gobierno firmo un nuevo pacto por el saneamiento rural y el agua
-8,noticias_caracol,duque,1.0,Ministerio de transporte echo para atras aumento en tarifas de peajes via barranquilla cartagena
-8,noticias_rcn,duque,1.0,Reino unido firma orden de extradicion de julian assange a estados unidos
-8,noticias_caracol,petro,1.0,Tormenta destructiva con tornados en estados unidos deja al menos muertos
-8,noticias_rcn,duque,1.0,Gremios piden ayuda al gobierno por cierre de la via al llano
-8,noticias_caracol,duque,1.0,Autoridades indigenas propusieron plan piloto para la erradicacion de cultivos ilicitos en el cauca
-9,blu_radio,petro,1.0,Desde gobernacion de cundinamarca viene cobrando un impuesto ilegal
-9,blu_radio,petro,1.0,Reforma tributaria de petro paso el primer debate aqui todo lo que necesita saber
-9,la_republica,petro,1.0,Declaracion de renta de vicepresidenta registro un saldo a favor de millones
-9,blu_radio,petro,1.0,Cancilleria justifica compra de computadores camaras y auriculares por casi millones
-9,la_republica,petro,1.0,Ministerio de vivienda confirmo que subsidio mi casa ya continuara en el cuatrienio
-9,noticias_rcn,petro,1.0,Contraloria analiza mas de contratos de prosperidad social ejecutados en direccion de pierre garcia
-9,noticias_rcn,duque,1.0,Ojo asi estarian estafando a personas con el impuesto predial en bogota
-9,blu_radio,petro,1.0,Reforma tributaria de petro paso el primer debate aqui todo lo que necesita saber resumen de las noticias del de octubre
-9,el_tiempo,duque,1.0,Ministerio de vivienda gana premio de onu habitat
-9,la_republica,petro,1.0,Onu advierte sobre peligro de recesion pero recomienda no limitar el gasto publico
-9,noticias_caracol,petro,1.0,Eln afirmo que el tema del financiamiento si se toco en la mesa de dialogo
-9,noticias_caracol,duque,1.0,Reforma tributaria permitira responder a reclamos de quienes protestan asegura congresista
-9,el_tiempo,duque,1.0,Impuesto predial estos son los descuentos y alivios para morosos
-9,el_tiempo,petro,1.0,Cci dice que el gobierno esta poniendo en riesgo un billon de pesos en proyectos estrategicos
-9,noticias_rcn,duque,1.0,Se necesita un salto enorme en la financiacion para frenar al covid onu
-9,el_tiempo,petro,1.0,La deuda disparada otra bomba para las finanzas publicas que deja el gobierno
-9,la_republica,duque,1.0,Recaudo bruto de impuestos nacionales crecio en mayo segun la dian
-9,noticias_caracol,petro,1.0,Congreso aprobo presupuesto que salva a transmilenio estamos muy agradecidos
-9,noticias_rcn,petro,1.0,Que vehiculos tienen derecho al de descuento en el impuesto vehicular en bogota
-9,noticias_caracol,duque,1.0,Partido liberal quiere incluirle modificaciones a la reforma tributaria en segundo debate
-10,el_tiempo,petro,1.0,Cuanto deberia cobrarle un contador por hacer la declaracion de renta en estas son las tarifas estimadas en colombia
-10,blu_radio,duque,1.0,Historico dolar en colombia rompe la barrera de los pesos
-10,blu_radio,petro,1.0,Precio dolar hoy colombia trm y cotizacion de la divisa este de febrero
-10,noticias_rcn,duque,1.0,Onu reconoce trabajo y esfuerzo de colombiana inventora de alquiler de lavadoras a domicilio
-10,blu_radio,duque,1.0,Colombia quiere quitarle a odebrecht los beneficios tributarios que tuvo por anos
-10,blu_radio,petro,1.0,Colombianos le bajaron al te y a las chocolatinas por impuesto a los ultraprocesados kantar
-10,el_tiempo,petro,1.0,Dolar esto fue lo que retrocedio su valor esta semana en colombia
-10,noticias_caracol,petro,1.0,Primer acuerdo sobre aumento de salario minimo para productividad de colombia fue de
-10,la_republica,duque,1.0,Procolombia cumple anos y el gobierno destaca su impulso a la competitividad
-10,noticias_rcn,petro,1.0,Colombia reduce su desempleo a la tasa mas baja en anos
-10,el_tiempo,petro,1.0,La estratificacion ya no combate la pobreza la normaliza refuerza la desigualdad ana carolina quijano y su propuesta en coalicion ahora colombia
-10,noticias_caracol,petro,1.0,Dolar en colombia llega a su precio mas bajo en los ultimos meses
-10,noticias_rcn,petro,1.0,Aumento del salario minimo colombiano para podria tener impacto negativo en la economia advierte exministro
-10,noticias_caracol,duque,1.0,Costo de vida en colombia estable inflacion anual llego a en noviembre segun el dane
-10,el_tiempo,petro,1.0,Cuanto se gana como conductor de autobus en estados unidos latina revelo la verdad
-10,la_republica,petro,1.0,El ministro de hacienda ricardo bonilla entrego nuevas perspectivas sobre la economia colombiana
-10,la_republica,duque,1.0,Buscamos duplicar las exportaciones desde colombia hacia canada en cinco anos
-10,noticias_rcn,petro,1.0,Esto quedaran valiendo las horas extra en colombia con el salario minimo del
-10,la_republica,petro,1.0,Ajuste al presupuesto gobierno ecuatoriano busca reducir deficit y acuerdo con fmi
-10,noticias_caracol,petro,1.0,Un colombiano estaria detras de millonario fraude en estados unidos
-11,la_republica,petro,1.0,Aversion al riesgo impulso al dolar y lo llevo a romper la barrera de el jueves
-11,blu_radio,duque,1.0,Es una decision que esta tomando el banco para contener inflacion duque sobre tasas de interes
-11,la_republica,duque,1.0,Emisor espera que la inflacion llegue a su meta de a finales de
-11,el_tiempo,petro,1.0,Costco lanza un plan para bajar de peso en estados unidos de que trata
-11,la_republica,duque,1.0,La nueva canasta familiar que mide el dane hara menos volatil la inflacion
-11,el_tiempo,duque,1.0,Cuanto decidio subir el banco de la republica su tasa en octubre
-11,el_tiempo,petro,1.0,El accesorio que todo nino necesita en el verano y dollar tree vende a solo dolar
-11,el_tiempo,petro,1.0,Precio del dolar cayo a niveles de hace meses cuando se negocio a menos de
-11,la_republica,petro,1.0,Las razones por las que operadores del mercado creen que el dolar seguiria bajando
-11,blu_radio,duque,1.0,Banco de la republica sube las tasas de interes a el incremento mas alto del
-11,noticias_rcn,petro,1.0,Las reservas de petroleo y gasolina aumentan en estados unidos
-11,blu_radio,duque,1.0,Ejercito pago tapabocas n95 a cada uno cuando valen maximo
-11,noticias_rcn,petro,1.0,Bancos con mejor tasa de interes para un cdt pagan mas del
-11,blu_radio,petro,1.0,No a la guerra pide maduro mientras promete mantener exportacion petrolera tras bloqueo
-11,noticias_rcn,petro,1.0,En cuanto quedo la nueva tasa de interes de politica monetaria
-11,noticias_rcn,duque,1.0,Por septimo mes consecutivo el banco de la republica mantuvo estable su tasa de interes
-11,noticias_caracol,duque,1.0,Precio del dolar tiene en aprietos economicos a beneficiarios de becas de colfuturo
-11,noticias_caracol,duque,1.0,Banco de la republica baja a la tasa de interes para darle un empujon a la economia
-11,noticias_caracol,duque,1.0,Dolar cae gracias a tranquilidad en los mercados pese a alertas por covid
-11,noticias_caracol,duque,1.0,Gobierno autorizo proyectos piloto de exploracion con fracking
-12,la_republica,petro,1.0,Como la tasa de infertilidad economica esta golpeando el costo de vida en canada
-12,blu_radio,petro,1.0,Preocupaba premura para presentar reforma pensional viceministra de pensiones sobre su renuncia
-12,el_tiempo,petro,1.0,La brecha de genero en el mercado laboral se ubico en el nivel mas bajo desde que se tiene registro
-12,el_tiempo,petro,1.0,Procuraduria dice que el cese de las actividades de los sindicatos del ministerio de trabajo esta perjudicando gravemente al pais
-12,la_republica,duque,1.0,Durante el primer trimestre descendio la informalidad hasta de los ocupados
-12,el_tiempo,duque,1.0,Desempleo y crisis economica requiere soluciones de largo alcance
-12,el_tiempo,petro,1.0,Estados unidos busca empleados sin experiencia ni ingles por casi us la hora estos son los requisitos
-12,la_republica,petro,1.0,En diciembre hubo millones de desocupados y desempleo cerro en
-12,noticias_caracol,petro,1.0,Subsidio de desempleo estas son las personas que podran aplicar a este beneficio
-12,noticias_caracol,duque,1.0,Reforma politica fue aprobada a ultima hora en el senado
-12,la_republica,duque,1.0,Sindicatos y gremios presentaron sus propuestas para salario minimo de
-12,noticias_rcn,petro,1.0,Vacantes de empleo en colfondos salarios de millones
-12,blu_radio,petro,1.0,Lo que debe saber de la reforma pensional segun especialista felix cordoba
-12,noticias_rcn,duque,1.0,Programa de las naciones unidas para el desarrollo tiene vacantes de empleo
-12,blu_radio,petro,1.0,Que peligro todos esos dineros en manos del estado fico sobre cambios en reforma pensional de petro
-12,noticias_rcn,petro,1.0,Que necesitaria la reforma laboral para ser aprobada en el proximo periodo legislativo
-12,blu_radio,petro,1.0,Director de la dian sale en defensa de la reforma pensional obvio que tengo rabia
-12,noticias_caracol,duque,1.0,Dian aumento el valor de la uvt para el proximo ano en
-12,noticias_caracol,duque,1.0,Dian embargara los salarios de morosos
-12,noticias_rcn,petro,1.0,Feria de empleo secretaria de desarrollo abrio mas de vacantes en bogota
-13,el_tiempo,petro,1.0,Que riesgo corre si viaja sin su real id a partir del de mayo en estados unidos
-13,la_republica,petro,1.0,El gobierno de trump planea vetar componentes chinos para centros de datos y empresas
-13,el_tiempo,petro,1.0,Presidente de estados unidos donald trump advirtio al reino unido que acercarse a china le puede resultar peligroso
-13,la_republica,duque,1.0,Aranceles de estados unidos a la union europea afectarian el mercado aeronautico
-13,la_republica,duque,1.0,Valores de servicios streaming se encarecen hasta con dolar a
-13,la_republica,petro,1.0,Ee uu recibe un volumen record de cobre mientras espera decision de trump sobre aranceles
-13,el_tiempo,petro,1.0,Que pasa si un solicitante de visa en estados unidos da positivo de sifilis
-13,noticias_rcn,petro,1.0,Presidente trump aplazo fecha para imponer aranceles a la union europea
-13,el_tiempo,petro,1.0,Reforma a la justicia ideas de german vargas lleras corte suprema y expertos
-13,noticias_rcn,duque,1.0,Oposicion propone que las iglesias paguen impuesto de renta
-13,noticias_rcn,duque,1.0,Aumenta la migracion internacional pese a las restricciones por covid segun la onu
-13,blu_radio,duque,1.0,Eeuu y china comparten la responsabilidad de contribuir a la paz mundial presidente chino a biden
-13,noticias_rcn,petro,1.0,Los productos que estaran mas caros por la subida del dolar ropa y tiquetes aereos incluidos
-13,noticias_caracol,petro,1.0,Karol g finalizo su gira por los estados unidos en la ciudad que le cambio la vida
-13,blu_radio,duque,1.0,Segun la universidad de culifornia trump y aranceles son una amenaza brownfield
-13,blu_radio,petro,1.0,Cohete chino ingreso a la atmosfera y cayo en el oceano pacifico segun estados unidos
-13,blu_radio,petro,1.0,Gobierno revoco la expulsion de alemana linda sproßer por participar en protestas del paro nacional
-13,noticias_caracol,petro,1.0,Green card profesiones que le pueden otorgar la residencia permanente en estados unidos
-13,noticias_caracol,duque,1.0,Gobierno trump busca acabar con norma que pone limites a detencion de ninos migrantes
-13,noticias_caracol,petro,1.0,Como viajar a estados unidos sin visa paises que lo pueden hacer y requisitos
-14,noticias_rcn,petro,1.0,Deportivo cali es sancionado para el partido contra independiente santa fe
-14,noticias_caracol,petro,1.0,Extrema derecha se impone en la primera vuelta de elecciones legislativas en francia
-14,el_tiempo,duque,1.0,Barcelona vs boca junior el partido de homenaje a diego maradona
-14,el_tiempo,duque,1.0,Falcao garcia no esta convocado para el partido galatasaray vs real madrid en champions league
-14,el_tiempo,duque,1.0,Resultado del partido liga de quito vs deportivo cali
-14,el_tiempo,petro,1.0,Inaudito jugador del pereira agrede a un recogebolas en el partido contra bucaramanga y se va expulsado
-14,noticias_rcn,petro,1.0,Tenia miedo en este partido alberto gamero luego del triunfo de millonarios sobre el america
-14,noticias_rcn,petro,1.0,Homenaje de liverpool a diogo jota partido amistoso
-14,blu_radio,petro,1.0,Audiencia contra jugadores del once caldas senalados por extorsion a estudiante
-14,blu_radio,petro,1.0,Escandalo por polemico gol de junior al pereira termino el partido
-14,noticias_rcn,petro,1.0,Atletico nacional y la opcion para dejar atras el atanasio girardot esto revelo el presidente
-14,la_republica,duque,1.0,La fifa aplazo el partido clasificatorio al mundial qatar entre ucrania y escocia
-14,blu_radio,petro,1.0,Por fuertes disturbios entre hinchas y fuerza publica se aplazo el juego entre nacional y america
-14,blu_radio,duque,1.0,El partido de ida no cambia nada tecnico del barcelona no se siente ganador
-14,la_republica,petro,1.0,Macron se reune con lideres de los partidos para intentar nombrar un primer ministro
-14,la_republica,petro,1.0,Francia celebrara la primera vuelta de las elecciones presidenciales el proximo de abril
-14,noticias_caracol,petro,1.0,Carlos vives sera embajador de las fiestas por los anos de santa marta
-14,noticias_caracol,duque,1.0,Mario draghi considerado el salvador del euro renuncio como primer ministro de italia
-14,noticias_caracol,petro,1.0,Equipo frances denuncia que grabaron pelicula para adultos en su estadio durante un partido
-14,la_republica,petro,1.0,Corte suprema de eeuu allana el camino para las prohibiciones deportivas a personas transgenero
-15,noticias_caracol,petro,1.0,Disidencias de las farc destruyen mil hectareas de selva cada mes para procesar cocaina
-15,noticias_rcn,petro,1.0,Extincion de dominio a red de narcotrafico que financiaba disidencias farc
-15,noticias_rcn,duque,1.0,Desarticulan en espana red de narcotrafico que era dirigida por un colombiano
-15,el_tiempo,petro,1.0,La narcofortuna y los otros negocios ocultos de alias tico el poderoso capo invisible capturado que ee uu pide en extradicion
-15,noticias_rcn,petro,1.0,Colombiano estaria vinculado a red que camuflaba cocaina en cana de azucar
-15,el_tiempo,petro,1.0,Gobierno petro intentara sacar adelante el acto legislativo que legaliza el cannabis de uso adulto
-15,el_tiempo,duque,1.0,Cannabis para adultos avanzo en el congreso
-15,el_tiempo,petro,1.0,Incautan catorce toneladas de cocaina en el principal puerto de colombia en el pacifico
-15,noticias_rcn,petro,1.0,Alias chupeta fue sentenciado a anos de prision en ee uu por narcotrafico
-15,blu_radio,duque,1.0,Boom de la coca salvo la economia tras desplome del petroleo andres felipe arias en conversatorio
-15,blu_radio,petro,1.0,Debemos trabajar para a hacer la incautacion de cocaina mas grande en la historia mindefensa
-15,noticias_caracol,duque,1.0,Cambiando drogas por material belico asi piensan rearmarse las disidencias de las farc
-15,blu_radio,petro,1.0,Incautan cerca de una tonelada de clorhidrato de cocaina en el golfo de uraba
-15,blu_radio,petro,1.0,Policia incauta mas de kilos de marihuana en santander la escondian en un camion
-15,noticias_caracol,duque,1.0,Con fajas en las piernas voluptuosas yayitas pretendian sacar cocaina a espana
-15,noticias_caracol,duque,1.0,Video asi se mueven las redes de narcotrafico para evadir controles de la policia durante la pandemia
-15,la_republica,duque,1.0,Colombia la paz trae mas muertes y cocaina a zonas rebeldes
-15,la_republica,duque,1.0,Cultivos de hoja coca en colombia bajaron a hectareas segun la casa blanca
-15,la_republica,duque,1.0,En colombia la cocaina habria movido entre y billones durante el ano pasado
-15,la_republica,petro,1.0,La rapera estadounidense nicki minaj es retenida por la policia en aeropuerto de amsterdam
-16,la_republica,petro,1.0,Israel decidio detener las exportaciones de seguridad a colombia tras las declaraciones de petro
-16,la_republica,petro,1.0,Confirman nueve estadounidenses entre victimas mortales de ataque de hamas a israel
-16,blu_radio,duque,1.0,Camara baja de ee uu aprueba proyecto de ley sobre amenaza rusia venezuela
-16,blu_radio,duque,1.0,Gobierno mantiene alerta preventiva en frontera por llegada de militares rusos a venezuela
-16,blu_radio,petro,1.0,Presidente petro le responde a tuitera que critico apoyo a palestina somos guisos con orgullo
-16,blu_radio,petro,1.0,Banco de israel intenta moderar el impacto de guerra reduciendo en un la tasa de interes webstory
-16,noticias_rcn,petro,1.0,Rusia acuso a ucrania ante la onu de atacar a civiles en belgorod
-16,el_tiempo,petro,1.0,Embajada de estados unidos en bagdad capital de irak recibio un nuevo ataque aereo irani
-16,la_republica,duque,1.0,Exportaciones de gas ruso a europa a traves de yamal aumentan tras caida
-16,el_tiempo,petro,1.0,Analisis genetico confirma muerte de lider del grupo paramilitar ruso wagner
-16,la_republica,petro,1.0,Presidente anuncia envio de vuelo humanitario a israel para repatriar a colombianos
-16,el_tiempo,petro,1.0,Estados unidos pentagono advierte sobre posible enfrentamiento entre la otan y rusia
-16,noticias_caracol,petro,1.0,Gobierno colombiano comprara cerca de fusiles israelies por que
-16,noticias_caracol,duque,1.0,Pompeo y lavrov optimistas sobre relaciones bilaterales en reunion en sochi rusia
-16,el_tiempo,petro,1.0,Estados unidos alerta que iran podria realizar importantes ataques contra israel esta semana
-16,noticias_rcn,duque,1.0,Ejercito ucraniano invito a madres de soldados rusos capturados a ir a buscarlos a ucrania
-16,noticias_rcn,duque,1.0,Rusia amenaza con una guerra nuclear si estados unidos sigue implementando sanciones
-16,noticias_rcn,duque,1.0,Maduro revela la llamada que tuvo con vladimir putin y le ratifico su apoyo
-16,noticias_caracol,petro,1.0,Colombia condena ataque de israel a escuela en gaza que deja mas de muertos
-16,noticias_caracol,duque,1.0,Rusia acusa a ee uu de hacer campana para derrocar a autoridades legitimas en venezuela
-17,blu_radio,petro,1.0,Gobierno envio mensaje de urgencia para que se le de tramite a la reforma de salud
-17,noticias_caracol,petro,1.0,Que dicen los partidos frente al avance de la reforma a la salud y los articulos que faltan
-17,blu_radio,petro,1.0,Procuraduria pide al superintendente de salud garantizar los servicios a pacientes de eps savia
-17,blu_radio,petro,1.0,Que convoque una gran mesa nacional de salud lo que pide centro democratico para tinto con petro
-17,noticias_caracol,petro,1.0,Esta reforma a la salud genero la division del pais senadora norma hurtado
-17,el_tiempo,petro,1.0,Reforma de salud minsalud convoca a sectores del gremio para entablar dialogo nacional
-17,noticias_rcn,petro,1.0,Reforma a la salud cuales senadores no iran a la reunion convocada en la casa de narino
-17,noticias_caracol,petro,1.0,Aplazan debate de reforma a la salud por tension con los partidos
-17,el_tiempo,petro,1.0,Los habitantes de estados unidos que tendran descuento en compras de insulina en
-17,blu_radio,petro,1.0,Me preocupa es que de aqui a que se apruebe la reforma no haya sistema de salud alejandro gaviria
-17,noticias_caracol,petro,1.0,Avalan mas articulos de reforma a la salud pero aun no tocan los polemicos como el de las eps
-17,el_tiempo,petro,1.0,Gobierno responde ante crisis por cierres de servicios de salud no es desmantelar el sistema es fortalecerlo y corregirlo
-17,la_republica,petro,1.0,Entrevista al ministro de salud guillermo alfonso jaramillo
-17,noticias_rcn,petro,1.0,Corte constitucional le abre incidente de desacato al ministro de salud
-17,noticias_rcn,petro,1.0,Desde el sector salud reaccionaron al incidente de desacato al ministro guillermo jaramillo
-17,el_tiempo,petro,1.0,Por bajo recaudo contraloria hara seguimiento permanente a la gestion de la dian
-17,la_republica,duque,1.0,Este es el cronograma de entrega de ventiladores mecanicos del ministerio de salud
-17,la_republica,petro,1.0,Siga en vivo el debate de la reforma a la salud en las sesiones extras del congreso
-17,la_republica,petro,1.0,Camara aplazo discusion de la reforma a la salud por discusion entre parlamentarios
-17,noticias_rcn,petro,1.0,Reforma a la salud ya tiene concepto fiscal esto costaria implementarla
-18,el_tiempo,duque,1.0,Duque le responde a maduro sobre maquinas para detectar coronavirus
-18,noticias_rcn,duque,1.0,Se cumplen los decretos del gobierno sobre la emergencia por el coronavirus
-18,el_tiempo,duque,1.0,Onu envia ayuda a venezuela para manejo del coronavirus
-18,noticias_rcn,duque,1.0,Presidente ivan duque dio negativo en la prueba de coronavirus
-18,noticias_rcn,duque,1.0,Eliminan algunos aranceles de importacion para enfrentar el coronavirus
-18,el_tiempo,duque,1.0,Coronavirus piden que personas de altos ingresos paguen impuesto adicional
-18,noticias_rcn,duque,1.0,Presidente duque se realizara nuevamente la prueba de coronavirus
-18,el_tiempo,duque,1.0,Presidente duque anuncia medidas para evitar despidos masivos por coronavirus
-18,noticias_caracol,duque,1.0,Tapabocas a trump el presidente de ee uu que se burlaba de la mascarilla tiene coronavirus
-18,blu_radio,duque,1.0,Vacunagate el escandalo que sacude a peru en medio de segunda ola por coronavirus
-18,la_republica,duque,1.0,El ministro de defensa carlos holmes trujillo dio positivo en prueba de coronavirus
-18,blu_radio,duque,1.0,En china no hay censura sobre el coronavirus embajador lan hu
-18,blu_radio,duque,1.0,Migracion pidio a fiscalia investigar casos de viajeros con coronavirus que entraron al pais
-18,noticias_caracol,duque,1.0,La estrategia de medellin para dar empleo a personas que se recuperaron del coronavirus
-18,noticias_caracol,duque,1.0,Hombre de anos una de las nuevas victimas que deja el coronavirus en antioquia
-18,blu_radio,duque,1.0,Donald trump confirmo primera muerte por coronavirus en estados unidos
-18,la_republica,duque,1.0,Gobierno nacional dio lineamientos para evitar propagacion del virus en dia sin iva
-18,la_republica,petro,1.0,Ministerio de agricultura de brasil confirma primer brote de gripe aviar en una granja
-18,noticias_caracol,duque,1.0,Mario abdo benitez presidente de paraguay fue diagnosticado con dengue
-18,la_republica,duque,1.0,La deuda de brasil podria superar del pib por la crisis del nuevo coronavirus
-19,el_tiempo,duque,1.0,Estados unidos vacunados serian priorizados para camas uci en texas
-19,noticias_caracol,duque,1.0,Video gobierno de colombia revela acciones que adelanta para adquirir vacuna del covid
-19,blu_radio,duque,1.0,Gobierno estaria negociando la compra de millones de vacunas de pfizer y moderna para
-19,blu_radio,duque,1.0,Estados unidos compro millones de tratamientos de la pastilla contra el covid de pfizer
-19,noticias_rcn,petro,1.0,Eln estaria cobrando vacunas a maestros para dejarlos dictar clases en el catatumbo
-19,blu_radio,duque,1.0,Gobierno no adquirira vacunas de pfizer para ninos con sinovac es suficiente
-19,noticias_caracol,duque,1.0,Video la vacuna contra el covid esta en cada uno campana de la policia en medellin
-19,noticias_caracol,duque,1.0,La vacuna contra el covid esta en cada uno campana de la policia en medellin
-19,el_tiempo,duque,1.0,Vacuna contra covid antioquenos viajan a estados unidos a vacunarse
-19,el_tiempo,duque,1.0,Vacuna contra la covid de moderna tendra prioridad para estados unidos
-19,blu_radio,duque,1.0,Consejo de estado admite demanda contra decreto que exige carne de vacunacion
-19,el_tiempo,duque,1.0,Vacunacion gobierno dice que hay vacunas suficientes en el pais
-19,noticias_caracol,duque,1.0,Video que vacuna contra el covid se aplique al de la poblacion y sin costo pide oposicion a duque
-19,noticias_rcn,duque,1.0,Gobierno aleman dona mas de dos millones de dosis de vacuna pfizer a colombia
-19,la_republica,petro,1.0,Estados unidos aprueba tecnica de emergencia para la vacuna de viruela del mono
-19,la_republica,duque,1.0,Estados unidos aparto millones dosis de potencial vacuna de astrazeneca
-19,la_republica,duque,1.0,La vacuna para combatir el covid inicia pruebas en humanos en estados unidos
-19,la_republica,duque,1.0,Pfizer dice que las pruebas de vacuna en estados unidos iniciaran la proxima semana
-19,noticias_rcn,duque,1.0,Gobierno insiste en complementar esquemas de vacunacion contra el covid
-19,noticias_rcn,duque,1.0,Estados unidos se prepara para el plan de vacunacion contra covid para bebes
+topic,source_id,government_id,similitud_centroide,title
+0,el_tiempo,petro,0.8768,Las penas que enfrentarian los responsables del secuestro de diana ospina en bogota
+0,blu_radio,duque,0.8744,Los testimonios que tiene la procuraduria sobre atentado en la general santander
+0,el_tiempo,petro,0.8685,Exjefe de los urabenos condenado por homicidios busco que la jep le diera libertad
+0,el_tiempo,duque,0.8646,En atentado contra dos excombatientes de farc cayo asesinado comunero
+0,el_tiempo,petro,0.8625,Los pagos el nexo con martin llanos y los testimonios de exparas que salpican a lucho herrera con homicidios
+0,noticias_rcn,duque,0.8548,Murio el concejal opositor alban salazar supuesto implicado en el atentado contra nicolas maduro
+0,blu_radio,duque,0.8544,Polemica por orden de desalojo de la sae a sede de victimas en antioquia
+0,blu_radio,duque,0.8499,Niegan tutela contra matarife interpuesta por uribe y de la espriella
+0,blu_radio,duque,0.8461,A la carcel presunto sicario que habria asesinado a exguerrillera de las farc en bogota
+0,noticias_rcn,petro,0.8425,Cayo alias richard el asesino del concejal juan camilo espinosa en san andres de cuerquia hay otras victimas
+0,noticias_caracol,petro,0.8376,Penas a maximos jefes de la farc por secuestros revive debate
+0,noticias_caracol,petro,0.8277,Que sanciones contempla la jep para exjefes de las farc que admitieron el secuestro
+0,noticias_caracol,petro,0.8265,Quienes son los siete exjefes de las farc condenados por la jep por secuestros
+0,noticias_rcn,duque,0.8237,La pena que pediria la fiscalia para los responsables del crimen de natalia castillo
+0,noticias_rcn,petro,0.8224,A la carcel uno de los mas buscados de norte de santander la fiscalia lo judicializo
+0,noticias_caracol,duque,0.8178,Caso sergio fajardo contraloria y gobernacion de antioquia pidieron ser victimas
+0,la_republica,petro,0.7956,Con presencia de la canciller sarabia y llamados
+0,la_republica,petro,0.7708,Estados unidos desestimo los cargos contra alex saab
+0,la_republica,petro,0.7613,La verdad detras del escandalo de los interventores
+0,la_republica,petro,0.7613,La verdad detras del escandalo de los interventores
+1,noticias_caracol,petro,0.8788,Pronunciamiento del jefe negociador del gobierno sobre eln
+1,blu_radio,petro,0.8747,En que va el rifirrafe entre la alcaldia y el gobierno por resolucion de sabana de bogota
+1,el_tiempo,petro,0.8657,La polemica por duro trino de alvaro leyva contra el gobierno del presidente petro
+1,noticias_rcn,petro,0.865,Gobernador del caqueta y un llamado al gobierno nacional por enfrentamientos entre disidencias de las farc
+1,blu_radio,petro,0.8634,La version del gobierno sobre por que no le sirvio de fiador a ultra
+1,el_tiempo,duque,0.86,Amenazas a carlos caicedo gobernador del magdalena el gobierno responde
+1,el_tiempo,petro,0.8565,Petro los retos para la gobernabilidad del presidente por el caso de nicolas petro
+1,noticias_caracol,duque,0.8525,Defensor del pueblo le jalo las orejas al gobierno por situacion de san andres y providencia
+1,blu_radio,petro,0.8474,Encontronazo entre petro y rendon gobernador critico el concepto de seguridad del presidente
+1,noticias_rcn,petro,0.8458,Contraloria y procuraduria le piden claridad al gobierno en el empalme
+1,el_tiempo,petro,0.8453,Columna de luis felipe henao sobre el gobierno petro y el banrepublica
+1,blu_radio,duque,0.842,Que hay detras de la andanada del gobierno contra la onu
+1,noticias_caracol,duque,0.8387,Como va su plan marshall los dardos del gobierno a claudia lopez
+1,noticias_rcn,duque,0.8325,Gobernador de meta responsabilizo a las disidencias de las farc de atentado en su contra
+1,noticias_rcn,petro,0.8321,La supuesta carta de ivan marquez que abre un vacio en los dialogos con el gobierno nacional
+1,noticias_caracol,duque,0.8314,Manejo de puntos criticos en via al llano no quedo en concesion a coviandes advierte gobierno
+1,la_republica,petro,0.83,Entrevista a federico salazar presidente de la junta directiva de cusezar
+1,la_republica,duque,0.8237,Presidente de la dimayor discrepo de la decision tomada por el gobierno
+1,la_republica,petro,0.8159,Contraloria llamo a reconocer la legitimidad del gobierno electo de de la espriella
+1,la_republica,petro,0.8124,Petro desconocio legitimidad de eleccion de abelardo de la espriella como presidente
+2,el_tiempo,duque,0.929,Secretos de la politica en colombia objeciones a la jep
+2,blu_radio,duque,0.926,Violaron flagrantemente derechos de colombianos pablo bustos explica tutela por brasil vs colombia
+2,el_tiempo,petro,0.9248,Gustavo petro san andres y ausencias de presidente de colombia fallo pleito nicaragua
+2,el_tiempo,petro,0.9194,El colombiano aclara si pertenece a argos tras senalamientos del presidente petro
+2,noticias_rcn,petro,0.9182,Carlos andres gomez provoco el en el duelo entre la seleccion colombia y venezuela
+2,noticias_rcn,duque,0.9135,Que les hace ser tan retadores presidente de nicaragua arremete contra el gobierno colombiano
+2,el_tiempo,petro,0.9134,Seleccion colombia esta seria la titular para el partido contra venezuela
+2,blu_radio,duque,0.9111,Colombia se ponea disposicion del imperio norteamericano mindefensa venezolano sobre otan
+2,noticias_rcn,petro,0.9108,Cne ratifica a abelardo de la espriella como presidente electo de colombia
+2,blu_radio,petro,0.9108,Como llega la seleccion colombia para el partido contra venezuela en barranquilla
+2,blu_radio,petro,0.9091,Habla abelardo de la espriella tras ser electo presidente de colombia
+2,noticias_caracol,petro,0.9089,Colombia tendra representacion en la posesion de nicolas maduro como presidente de venezuela
+2,noticias_rcn,duque,0.9067,Aclaran situacion de movimiento indignados de colombia con la registraduria
+2,noticias_caracol,petro,0.9067,Refundar la gran colombia la propuesta de nicolas maduro de reunir venezuela con colombia
+2,noticias_caracol,duque,0.9035,Colombia reconocio a humberto calderon berti como representante diplomatico de venezuela
+2,noticias_caracol,duque,0.9013,Venezolanos no gratos la lista que prepara el gobierno colombiano
+2,la_republica,petro,0.8936,Canciller de colombia luis gilberto murillo sobre elecciones en venezuela
+2,la_republica,petro,0.893,Gustavo petro sobre la reunion entre las cancillerias de colombia y venezuela
+2,la_republica,duque,0.8923,Los retos que tendra antonio nunez como presidente de nestle colombia
+2,la_republica,petro,0.8907,Certezas y dudas de los gremios en colombia con trump como presidente de ee uu
+3,el_tiempo,petro,0.9132,Elecciones presidenciales que partidos apoyan a abelardo de la espriella y cuales a ivan cepeda
+3,el_tiempo,duque,0.9055,Consultas presidenciales votacion de petro fico y fajardo
+3,blu_radio,petro,0.8906,Que tan grave es la posicion de petro y cepeda sobre las elecciones
+3,blu_radio,petro,0.8827,Aspirantes a la gobernacion de santander asi quedo el tarjeton electoral
+3,el_tiempo,duque,0.8824,Polemica por posible aspiracion presidencial del canciller trujillo
+3,noticias_rcn,petro,0.881,Respuesta abelardo de la espriella a milei por elecciones
+3,el_tiempo,duque,0.8809,Se mueven las fichas para las elecciones en antioquia para el
+3,blu_radio,petro,0.8701,Disputa en el centro democratico por encuestadora que definira aspirante presidencial
+3,noticias_rcn,duque,0.8699,La razon por la que jurados de votacion estarian inhabilitados para las presidenciales
+3,blu_radio,petro,0.868,Que respeten las elecciones pierdan o ganen clemencia vargas al presidente petro y cepeda
+3,noticias_caracol,petro,0.8626,Pruebas del cne de supuesta violacion de topes electorales en campana petro presidente
+3,noticias_rcn,petro,0.8597,Propuestas de mauricio cardenas para las elecciones
+3,noticias_caracol,petro,0.8548,Presidente gustavo petro vuelve a hablar de constituyente no se hara en epoca electoral
+3,noticias_caracol,duque,0.8548,Disputa en el centro democratico por la presidencia de la camara de representantes
+3,noticias_rcn,duque,0.854,Que pasa con las elecciones en estados unidos al ser impugnadas por trump
+3,la_republica,petro,0.8464,Perfil de maria corina machado candidata que disputara la presidencia con maduro
+3,noticias_caracol,duque,0.8453,Carrera contrarreloj del gobierno para lograr votos que le faltan para objeciones a la jep
+3,la_republica,duque,0.8362,Calentamiento tema electoral para no olvidar
+3,la_republica,petro,0.8216,Y la farc politica senor canciller
+3,la_republica,petro,0.82,La orden de silencio de trump en el caso electoral de dc
+4,el_tiempo,petro,0.9073,Por hacer una requisa asesinan a policia en roldanillo
+4,el_tiempo,petro,0.9066,Atentado de las disidencias de las farc contra la policia en huila
+4,noticias_rcn,duque,0.9041,Policia frustro dos atentados que serian cometidos por las disidencias de las farc
+4,blu_radio,petro,0.8941,Este es el cabecilla de las disidencias detras del asesinato de policias en caqueta los emboscaron
+4,blu_radio,duque,0.8915,Masacre en anori seria por ajuste de cuentas de disidencias de las farc policia
+4,blu_radio,duque,0.8834,Atribuyen a las disidencias de las farc el asesinato de un patrullero de la policia en cali
+4,el_tiempo,petro,0.8819,Las hipotesis detras del atentado contra los patrulleros de la policia en una de las ollas del crimen mas peligrosas de bogota
+4,el_tiempo,petro,0.8803,Ataque de las disidencias de las farc contra la policia en guaviare
+4,blu_radio,duque,0.8795,Delincuente hirio a policia durante persecucion en bogota
+4,noticias_rcn,duque,0.8748,El clamor de un policia a los cucutenos para que se cuiden del covid
+4,noticias_caracol,duque,0.8738,Alias magangue segundo al mando de los rastrojos costenos murio en operativo de la policia
+4,noticias_rcn,duque,0.8718,A la carcel responsables de asesinar a patrulleros de policia en san andres
+4,noticias_caracol,duque,0.8697,Asesina a patrullero de la policia que llego a gallera para realizar unas requisas
+4,noticias_caracol,petro,0.867,Detalles sobre crimen de policia en medellin que intento evitar un robo senalado asesino capturado
+4,noticias_caracol,petro,0.8624,Detalles del asesinato de intendente de la policia en medio de un atraco en valledupar
+4,noticias_rcn,duque,0.8569,Tire y afloje entre claudia lopez y policia de bogota por muerte de joven en suba
+4,la_republica,duque,0.7675,Detonan carrobomba en estacion de policia de santander de quilichao
+4,la_republica,petro,0.7475,Policia de nueva york adelanta perfilamiento de quien asesino al ceo de unitedhealth
+4,la_republica,petro,0.7381,Un homenaje a los guardianes del orden anos policia nacional
+4,la_republica,duque,0.7341,Policia abatio a supuesto terrorista que acuchillo a personas en atentando en londres
+5,noticias_rcn,petro,0.9407,Venezuela autorizo a latam para operar entre bogota y caracas
+5,el_tiempo,duque,0.939,Columna de alexander cambero sobre la situacion en venezuela
+5,el_tiempo,duque,0.939,Columna de alexander cambero sobre la situacion en venezuela
+5,blu_radio,duque,0.9321,El plan internacional de respuesta para atender a venezolanos esta desfinanciado onu
+5,noticias_rcn,duque,0.9315,Dispuesto a contar luciano d alessandro habla de la situacion en venezuela
+5,noticias_rcn,petro,0.9314,Resolucion de la oea sobre situacion en venezuela
+5,la_republica,petro,0.9312,La mayoria de paises pide el reconteo en venezuela
+5,blu_radio,duque,0.9286,Venezuela en un callejon sin salida opinion de ricardo ospina
+5,el_tiempo,duque,0.9269,Informe de la relatora de la onu sobre la situacion de venezuela
+5,el_tiempo,petro,0.9262,Venezuela asi estan las cartas para la posesion presidencial
+5,blu_radio,duque,0.926,Crisis por exodo de venezolanos impacta seguridad de la region canciller
+5,blu_radio,petro,0.9235,Probogota asedio a la registraduria nos aterra mas despues de lo que paso en venezuela
+5,noticias_rcn,duque,0.9234,Obviar lo que pasa en venezuela lo hace complice de la dictadura guaido sobre petro
+5,noticias_caracol,duque,0.9183,Amenazas al parecer del eln generan desplazamiento masivo de venezolanos en cauca
+5,la_republica,duque,0.9169,El encuentro pompeo trujillo por venezuela
+5,la_republica,petro,0.9159,El canciller de colombia luis gilberto murillo hablo sobre la situacion en venezuela
+5,noticias_caracol,petro,0.9156,Donde esta edmundo gonzalez y que planes tiene de cara a la investidura presidencial en venezuela
+5,noticias_caracol,duque,0.9136,Donde esta el pernil se preguntan venezolanos tras promesa navidena de maduro
+5,noticias_caracol,duque,0.9124,Venezuela acuso a colombia ante la oea de querer derrocar a maduro
+5,la_republica,petro,0.9121,Siga en vivo la posesion presidencial de venezuela
+6,noticias_rcn,petro,0.9072,Fiscalia judicializo a exdirectora del inpec por presuntos sobornos
+6,el_tiempo,duque,0.8893,Polemica por libertad a magistrado procesado por corrupcion pese a ley que lo prohibe
+6,el_tiempo,petro,0.8877,Proceso contra petro en el cne e inhabilidades de la procuraduria las posturas espinosas del magistrado carvajal
+6,noticias_rcn,duque,0.8866,El duro pronunciamiento de la procuraduria contra el tribunal de cundinamarca por eleccion de contralor
+6,blu_radio,duque,0.8785,Comision de disciplina judicial y procuraduria indagan por salidas de la carcel de carlos mattos
+6,el_tiempo,petro,0.8707,Los reproches del tribunal superior de bogota a la fiscalia por omisiones en fallo el que se absolvio al expresidente alvaro uribe
+6,el_tiempo,petro,0.8669,Palacio de justicia duros reclamos por revision de condena arias cabrales
+6,blu_radio,petro,0.8666,La pirueta juridica que planteo la defensa de cesar manrique para evitar su imputacion
+6,blu_radio,duque,0.8656,Procuraduria destituira e inhabilitara a wilman munoz exdirectivo de la distrital
+6,blu_radio,duque,0.8638,El preacuerdo de carlos mattos con la fiscalia por intentar corromper a funcionarios judiciales
+6,noticias_rcn,petro,0.8561,Fiscalia imputo a exfuncionarios de la ani por presuntas maniobras ilicitas
+6,noticias_caracol,duque,0.854,La fiscal que tiene contra las cuerdas a la contraloria de antioquia
+6,noticias_caracol,petro,0.8521,Que sigue en el proceso judicial de angie rodriguez contra gobierno petro habla el abogado
+6,noticias_rcn,duque,0.8511,Procuraduria destituye e inhabilita por anos a responsables de la muerte de javier ordonez
+6,noticias_caracol,petro,0.8491,Escandalo de las presuntas chuzadas a magistrados que puede significar para el gobierno
+6,noticias_caracol,petro,0.8432,Habla el magistrado jorge ibanez quien denuncio supuestas chuzadas y seguimientos
+6,la_republica,duque,0.8305,El juzgado administrativo de bogota concedio la impugnacion de tutela de dominio co
+6,la_republica,petro,0.7719,Tras fallo de la corte constitucional la sic nego peritaje que exigia la dimayor
+6,la_republica,petro,0.7581,Corte constitucional inadmitio tesis del ministerio de hacienda sobre prohibicion de deducibilidad de regalias
+6,la_republica,petro,0.7548,La corte declaro subsanado el vicio de procedimiento en el pnd del gobierno petro
+7,blu_radio,duque,0.8842,Disidencias de farc serian los responsables de atentado contra el ejercito en arauca
+7,el_tiempo,duque,0.8751,Secuestro fuerzas militares victimas de las farc
+7,el_tiempo,petro,0.8647,Antioquia ataque del eln y disidencias de las farc a unidad del ejercito
+7,el_tiempo,duque,0.8642,En combate con ejercito mueren integrantes de las disidencias de farc
+7,noticias_rcn,duque,0.8616,Ciro y capi responsables del atentado contra el ejercito en cucuta serian extraditados
+7,blu_radio,duque,0.8613,La personeria de medellin denuncia redadas del ejercito
+7,el_tiempo,duque,0.8591,El rosario narino habitantes sacan a militares
+7,blu_radio,duque,0.8587,A la carcel alias aurelio por atentado contra brigada del ejercito en cucuta
+7,blu_radio,duque,0.8581,Ejercito responsabiliza al eln de atentado en arauca que dejo un soldado muerto
+7,noticias_caracol,petro,0.8576,Frustran atentado en cauca de disidencias de las farc contra militares
+7,noticias_caracol,duque,0.8571,Atribuyen al eln atentados contra sedes militares en cesar y norte de santander
+7,noticias_caracol,duque,0.8571,Ejercito frustra atentado de supuestos miembros del eln en hacari norte de santander
+7,noticias_caracol,petro,0.8544,Lo que se sabe del intento de atentado a batallon del ejercito en tunja
+7,noticias_rcn,duque,0.8482,Abatido disidente de las farc en combates con el ejercito en el cauca
+7,noticias_rcn,petro,0.8354,Asesinan en medellin a subteniente del ejercito
+7,noticias_rcn,petro,0.8338,Carcel para militares por masacre en alto remanso
+7,la_republica,petro,0.7458,Abogados el ejercito de los que dicen aperturar
+7,la_republica,duque,0.7252,Calles de bogota se militarizan tras toque de queda impuesto por las autoridades
+7,la_republica,duque,0.6953,Los emprendimientos que crearon los exguerrilleros desmovilizados de las farc
+7,la_republica,petro,0.6726,Ola de violencia en jalisco se agrava luego que el mencho fuera abatido por militares
+8,el_tiempo,duque,0.8217,Columna sobre claver carone y el nuevo gobierno de estados unidos
+8,blu_radio,duque,0.8206,Los recursos para el pae si aumentaran un como anuncio el gobierno
+8,la_republica,duque,0.7957,Una por una cuales son las medidas anunciadas por el gobierno de mauricio macri
+8,el_tiempo,petro,0.7952,Las tareas economicas mas urgentes del gobierno entrante de abelardo de la espriella
+8,blu_radio,petro,0.7931,La ia contra trump anthropic demanda al gobierno de estados unidos
+8,el_tiempo,petro,0.7874,La controversial guia sobre cuando si debe dar propina en estados unidos
+8,noticias_caracol,petro,0.7864,Tras aviso a claudia lopez cuales son las obras cofinanciadas por el gobierno que estan en riesgo
+8,noticias_rcn,petro,0.7784,Estados unidos sabe de nexos del gobierno petro con disidencias de las farc de calarca
+8,el_tiempo,duque,0.7779,Que dicen las normas del gobierno sobre los trasteos en cuarentena
+8,blu_radio,petro,0.773,Hasta las car quieren tumbar decreto del gobierno sobre reservas ambientales
+8,noticias_rcn,duque,0.7727,A proposito de epm que es el gobierno corporativo por carolina fierro
+8,blu_radio,petro,0.7716,Choque entre gobierno y alcaldia por pasaje de transmilenio recursos en riesgo
+8,la_republica,petro,0.7675,Propuestas del consejo gremial nacional al gobierno para la reactivacion economica
+8,noticias_caracol,petro,0.7552,Cual es el plan del gobierno para descongestionar las carceles
+8,noticias_caracol,duque,0.7542,Cual es el plan de gobierno de gustavo petro en materia economica
+8,noticias_rcn,petro,0.7504,Puede o no el gobierno nacional imponer su plan ambiental en la sabana de bogota
+8,la_republica,petro,0.7474,Rubio ordeno el regreso de times roman en el gobierno de los estados unidos
+8,noticias_rcn,petro,0.7368,Proyectos que estarian en riesgo por la advertencia del gobierno sobre el metro de bogota
+8,la_republica,duque,0.7332,Previo a la posesion de biden como presidente de estados unidos dolar rozo
+8,noticias_caracol,duque,0.7306,Dimitio fiscal de los estados unidos por peticion de trump
+9,el_tiempo,petro,0.8847,El panorama de las finanzas publicas del si se hunde la reforma tributaria
+9,el_tiempo,petro,0.8775,La caida de ricardo bonilla es la estocada final a la reforma tributaria del gobierno
+9,el_tiempo,duque,0.8765,Lo que tiene la fiscalia contra exfiscal de la jep y sus aliados
+9,el_tiempo,petro,0.8757,Alcaldia de cali respondio a la contraloria por procesos fiscales
+9,blu_radio,duque,0.8757,Mas impuestos para los estratos altos la propuesta del gobierno para salvar la ley de financiamiento
+9,la_republica,petro,0.8745,Los tramites pendientes para el presupuesto nacional de y la reforma tributaria
+9,blu_radio,petro,0.8718,Pretexto para cubrir pesada reforma tributaria representante por ley de financiamiento
+9,noticias_caracol,petro,0.8696,Abc de ley de financiamiento o reforma tributaria los llamados superricos pagaran mas
+9,blu_radio,petro,0.8678,Abece de la reforma tributaria de bogota estas son las zanahorias y garrotes de la propuesta
+9,blu_radio,petro,0.8609,Presupuesto sale por decreto por billones pese a hundimiento de la tributaria
+9,la_republica,duque,0.8602,La regla fiscal de caucho dana mas que mejora
+9,noticias_rcn,petro,0.8588,Con cifras asi cuestiono la andi al gobierno por la reforma tributaria
+9,la_republica,duque,0.8587,Las propuestas de los gremios para una nueva reforma tributaria de billones
+9,noticias_rcn,duque,0.8584,Detalles de la reforma tributaria que planteara el gobierno de gustavo petro
+9,noticias_rcn,petro,0.8563,A quienes impactaria la reforma tributaria el abc de la propuesta del gobierno
+9,la_republica,duque,0.8561,Minhacienda socializo las propuestas de la tributaria con la alcaldia de bogota
+9,noticias_rcn,petro,0.8556,Que cambio en la reforma tributaria con los ultimos anuncios del gobierno esto podria tener que pagar
+9,noticias_caracol,petro,0.854,Radican ponencia de archivo a la reforma tributaria que busca financiar parte del presupuesto
+9,noticias_caracol,petro,0.8409,Las peluqueadas que el gobierno petro le ha dado a la reforma tributaria
+9,noticias_caracol,petro,0.8373,Cuando vence plazo para pagar impuesto ica del regimen comun anual en bogota
+10,el_tiempo,petro,0.9028,Dolar en colombia a que se debe su tendencia a la baja
+10,el_tiempo,duque,0.9024,Salario minimo cuanto aumento el poder adquisitivo de los colombianos
+10,la_republica,duque,0.8966,Precio del dolar en colombia y por que aumento debido a la situacion e estados unidos
+10,noticias_rcn,duque,0.8963,Cuanto dinero recibira colombia de estados unidos por exodo de venezolanos
+10,la_republica,petro,0.8913,Crecimiento economico de colombia sera de el proximo ano segun fedesarollo
+10,blu_radio,duque,0.8904,Dolar en colombia a punto de superar los
+10,el_tiempo,duque,0.8892,Personas que declararon renta este ano en colombia
+10,noticias_caracol,petro,0.8887,El balance de la declaracion de renta en colombia cuanto se recaudo
+10,el_tiempo,petro,0.8873,Dolar en colombia en evolucion del alza y razones
+10,noticias_rcn,petro,0.8865,Dolar en colombia cerro al alza este miercoles tras anuncio de la fed
+10,la_republica,petro,0.8839,Colombia el quinto pais en america latina con la inflacion mas alta con corte a mayo
+10,la_republica,petro,0.8817,Salario minimo colombia de los sueldos mas bajos de america latina
+10,noticias_rcn,petro,0.8789,Colombia entre los cinco paises con la inflacion mas alta de america latina en
+10,noticias_caracol,petro,0.8787,Salario minimo colombia por que este miercoles es dia crucial en la negociacion del aumento
+10,blu_radio,duque,0.8756,El dolar sacude a gran parte de la economia de america latina colombia gran protagonista
+10,noticias_rcn,petro,0.875,Salario minimo por decreto en colombia que es y cuanto ha subido
+10,noticias_caracol,duque,0.8746,Como afectara la inflacion del los bolsillos de los colombianos
+10,blu_radio,petro,0.872,La dian salio a buscar a colombianos que deben impuestos por billones
+10,noticias_caracol,petro,0.8717,Paises latinoamericanos con mejor salario minimo en que puesto esta colombia
+10,blu_radio,petro,0.8678,La millonada que colombiana paga cada mes por vivir en estados unidos
+11,el_tiempo,petro,0.8968,Compras de navidad entre la inflacion y el alza del dolar
+11,la_republica,duque,0.8815,El desmadre del dolar las tasas y la inflacion
+11,el_tiempo,duque,0.8721,Que tanto del alza del dolar por el covid se ha trasladado a la inflacion
+11,el_tiempo,duque,0.8503,Inflacion que gastos golpearon mas el bolsillo en septiembre
+11,la_republica,petro,0.8484,Inflacion de estados unidos modera las apuestas de una caida en las tasas de la fed
+11,el_tiempo,petro,0.8483,Banco de la republica cuanto bajara la inflacion el proximo ano
+11,noticias_rcn,duque,0.8467,Claves para hacer rendir el dinero en medio de una latente inflacion
+11,la_republica,duque,0.8453,Un dato de inflacion mas alto de lo esperado en estados unidos impulso el dolar a
+11,la_republica,duque,0.8449,Inflacion de septiembre y la estancia de la politica monetaria
+11,blu_radio,duque,0.8414,Alza del dolar no va a disparar la inflacion exministro cardenas
+11,blu_radio,duque,0.8253,Busco los indicadores economicos y dice que el dolar subio pero egan se cayo la lilis
+11,noticias_rcn,duque,0.8201,Alza de interes un salvavidas ante la inflacion mundial
+11,noticias_rcn,petro,0.8166,Dolar inicia la jornada con incrementos impulsada por el alza de inflacion en estados unidos
+11,blu_radio,petro,0.8166,Almuerzos y arriendos disparan la inflacion en bucaramanga
+11,blu_radio,petro,0.8162,Bucaramanga de nuevo con la inflacion anual mas alta del pais esta pesado
+11,noticias_caracol,duque,0.8143,Estas son las proyecciones del pib inflacion y dolar que calcula el gobierno para
+11,noticias_caracol,petro,0.8133,Inflacion estancada y dudas sobre tasas de interes el banco de la republica las bajara
+11,noticias_rcn,petro,0.8098,Dolar cerro al alza tras conocer el dato de inflacion de ee uu
+11,noticias_caracol,duque,0.7969,Inflacion de ee uu en junio es la mas alta de los ultimos anos afectara el precio del dolar
+11,noticias_caracol,duque,0.792,Abece para entender que es la inflacion y las implicaciones que trae para el bolsillo
+12,la_republica,duque,0.8616,Los desafios laborales y reajuste del salario minimo para
+12,noticias_rcn,petro,0.8613,Fecha definida para mesas de concertacion sobre salario minimo y las reformas pensional y laboral
+12,la_republica,petro,0.8512,Reforma laboral avances y retos de la ponencia
+12,el_tiempo,duque,0.8508,Politicas laborales para combatir el desempleo columna de stefano farne
+12,el_tiempo,petro,0.8418,Reforma laboral impacto que tendria en el empleo segun fedesarrollo
+12,la_republica,petro,0.8416,Cuanta gana un reppitendero y como lo afectaria la aprobacion de la reforma laboral
+12,la_republica,petro,0.8378,Los puntos de la reforma laboral que son innegociables para el gobierno de petro
+12,el_tiempo,petro,0.8356,Estudio proyecta mas de despidos por la reforma laboral
+12,el_tiempo,petro,0.8328,Segun asofondos el pasivo pensional sera mas grande por la reforma laboral
+12,blu_radio,duque,0.8323,Lo que este paro no para es la reforma de ivan cuidadito
+12,blu_radio,petro,0.832,Norma hurtado ponencia alternativa de reforma laboral no con benedetti
+12,noticias_rcn,petro,0.8291,Fedesarrollo revelo como va la discusion del aumento del salario minimo para el
+12,noticias_rcn,petro,0.8291,Reforma laboral acabaria con empleos segun informe del gamla del banco de la republica
+12,noticias_rcn,petro,0.8269,Lo que proponen centrales obreras y empresarios sobre el aumento del salario minimo
+12,blu_radio,petro,0.8268,Empleo incluyente la nueva apuesta de la alcaldia para mitigar el desempleo en bogota
+12,noticias_caracol,petro,0.8235,Reforma laboral quitan sobre jugosas indemnizaciones en despidos sin justa causa
+12,noticias_caracol,duque,0.8231,Que deje de ser legal para ser vital centrales obreras sobre el incremento del salario minimo
+12,noticias_caracol,petro,0.8228,Que dicen los expertos frente a la reforma laboral y pensional
+12,blu_radio,petro,0.8206,Aumento del salario minimo sera por decreto estas son las posturas de acopi y la cut
+12,noticias_caracol,petro,0.7998,Feria de empleo en bogota como se puede aplicar a mas de vacantes
+13,noticias_caracol,petro,0.8656,Aranceles migracion y otras disputas de donald trump en un mes de gobierno en estados unidos
+13,el_tiempo,petro,0.8198,Empresarios de estados unidos bajo presion la politica migratoria y los aranceles de donald trump les pasan factura
+13,el_tiempo,petro,0.811,Las politicas migratorias de donald trump presidente de estados unidos ponen en jaque a los hinchas en el mundial
+13,noticias_rcn,petro,0.8106,Reaccion de donald trump tras aranceles de china a estados unidos
+13,el_tiempo,petro,0.7999,Discurso de donald trump en el congreso de estados unidos aranceles e inmigracion entre los temas clave
+13,el_tiempo,petro,0.7951,Que es parole in place el permiso para migrantes en estados unidos y cual sera su futuro en el gobierno de donald trump
+13,noticias_caracol,petro,0.7838,Deportaciones masivas de donald trump el duro golpe que sufriria la economia de estados unidos
+13,blu_radio,petro,0.7798,Inmigracion aranceles e indultos el programa prometido por donald trump
+13,noticias_rcn,petro,0.778,Estados unidos y la posibilidad de bajar los aranceles sobre china
+13,blu_radio,petro,0.7618,Que tengan un poquito mas de consideracion el pedido de migrantes al gobierno de estados unidos
+13,noticias_rcn,petro,0.758,Migracion a estados unidos asi es la nueva politica mas estricta
+13,la_republica,duque,0.7554,Un cambio en la politica migratoria de estados unidos llevara tiempo segun lopez obrador
+13,noticias_caracol,petro,0.7554,Visita de petro a china tendria consecuencias en el congreso de estados unidos
+13,noticias_rcn,petro,0.755,Que busca donald trump con los aranceles que impuso a mas de paises
+13,blu_radio,petro,0.7505,Rifirrafe entre china y estados unidos por el globo derribado por autoridades norteamericanas
+13,la_republica,duque,0.747,Gobierno de joe biden pone fin a restriccion migratoria fronteriza de la era trump
+13,noticias_caracol,petro,0.7464,Por que trump esta promoviendo la autodeportacion de migrantes en estados unidos y como funciona
+13,la_republica,petro,0.7463,Pausa en guerra arancelaria entre estados unidos y china alivia las bolsas del mundo
+13,la_republica,petro,0.7392,Migracion aranceles y seguridad lo que marco el primer ano de trump
+13,blu_radio,petro,0.737,Deportaciones masivas desde estados unidos no son nuevas esto dice el gobierno petro
+14,el_tiempo,petro,0.8602,Nacional vs millonarios el partido clave de la eliminacion directa en la copa sudamericana dia hora y por donde ver
+14,el_tiempo,duque,0.8443,Aficionado se metio a la cancha en el partido mallorca y barcelona
+14,noticias_rcn,petro,0.839,Un partido de locos en la premier no se pierda los goles de chelsea united
+14,el_tiempo,duque,0.8281,Las polemicas jugadas de penalti en el partido del real madrid
+14,noticias_rcn,petro,0.8191,Que desencadeno la suspension del partido entre atletico de madrid vs real madrid
+14,el_tiempo,petro,0.8184,Cuando se jugara el partido entre inglaterra y francia por el tercer puesto del mundial
+14,blu_radio,duque,0.8126,El mundo del deporte le rindio tributo a del potro tras su ultimo partido
+14,blu_radio,duque,0.807,Alcaldia de medellin autorizo el ingreso de hinchas a partido entre nacional y deportivo cali
+14,blu_radio,duque,0.8069,Hijo de messi se robo toda la atencion en el partido de barcelona por champions
+14,blu_radio,duque,0.8042,Nacional le gano el clasico a millonarios en un partido que termino en polemica
+14,noticias_rcn,petro,0.7985,Vibrante partido deportes tolima empato contra medellin
+14,noticias_rcn,petro,0.7871,Envigado vs millonarios vea los goles del partido de copa betplay
+14,la_republica,duque,0.7742,Infantino sometera a votacion la creacion de nuevos torneos pese a oposicion
+14,noticias_caracol,petro,0.765,Las trillizas vasquez asi viven hermanas arbitras que suenan con pitar partido fifa internacional
+14,la_republica,duque,0.7535,Presidente de la fifa respondio al rechazo de river plate de jugar en madrid
+14,la_republica,petro,0.7394,Entrevista con carlos mario zuluaga presidente del club deportivo la equidad
+14,noticias_caracol,petro,0.7292,Tras cancelacion de juegos panamericanos en barranquilla indagaran a ministerio de deporte
+14,la_republica,petro,0.7274,Entrevista con carlos mario zuluaga perez presidente del club deportivo la equidad
+14,noticias_caracol,duque,0.7151,Disturbios en atanasio girardot durante partido entre el dim y america de cali
+14,noticias_caracol,duque,0.7107,A ritmo de calma anitta y pedro capo animaron la clausura de la copa america
+15,noticias_rcn,duque,0.9115,Golpe al narcotrafico fiscalia y ejercito logran la incautacion mas grande de cocaina al eln
+15,el_tiempo,duque,0.9066,San andres gran incautacion de cocaina por parte de la armada
+15,noticias_caracol,duque,0.8995,Duro golpe al narcotrafico incautan mas de una tonelada de cocaina en cartagena
+15,noticias_caracol,duque,0.8956,En tarea conjunta armada y ejercito incautan bultos de cocaina en tumaco
+15,el_tiempo,duque,0.8925,Pablo escobar incautan cargamento de cocaina con rostro del capo en honduras narcotrafico
+15,el_tiempo,duque,0.892,Los extranos sellos en toneladas de cocaina incautadas en san andres
+15,el_tiempo,petro,0.8915,Medellin las empresas de la narcofamilia que cayo en el dorado con cocaina
+15,blu_radio,petro,0.8903,Carcel a extrabajadores de sociedad portuaria de santa marta por camuflar cocaina
+15,blu_radio,duque,0.8886,Narcoambulancias la nueva modalidad que mueve cocaina en el sur del pais
+15,noticias_caracol,duque,0.8863,Incautan narcojet que seria de las disidencias de las farc con una tonelada de cocaina
+15,la_republica,petro,0.8855,Antinarcoticos de guyana incautan toneladas de cocaina con destino a europa
+15,noticias_rcn,petro,0.8851,Ejercito nacional incauto kilos de cocaina en el huila
+15,noticias_caracol,duque,0.8851,Nuevo golpe al narcotrafico permitio incautar mas de mil kilos de cocaina y destruir laboratorios
+15,blu_radio,petro,0.8841,Cayo en espana la narcotraficante la reina de la ronda cuando recibia cocaina desde colombia
+15,blu_radio,duque,0.8834,Incautan mas de toneladas de cocaina en cartagena santa marta y uraba
+15,noticias_rcn,petro,0.8804,Narcoembarazada cayo traficando cocaina en un vientre falso en cali
+15,noticias_rcn,duque,0.8767,Diego molano sobre narcotrafico en colombia narino se lleno de coca
+15,la_republica,duque,0.8571,Confiscan toneladas de cocaina en operacion multinacional liderada por colombia
+15,la_republica,petro,0.8515,Cocaina ademas de legalizarse tambien se deberia gravar segun director de la dian
+15,la_republica,petro,0.8313,Cocaina le deja mas a la nacion que las remesas o ventas de petroleo o cafe
+16,blu_radio,duque,0.8215,Operacion militar rusa en ucrania el paso a paso de este conflicto internacional
+16,el_tiempo,petro,0.8187,Catar como se convirtio en intermediador de estados unidos rusia israel y hamas
+16,la_republica,petro,0.8161,Rusia advierte a estados unidos que no ayude militarmente a israel para atacar a iran
+16,el_tiempo,petro,0.8148,Que condiciones propone ucrania y estados unidos para un alto al fuego de dias con rusia
+16,el_tiempo,petro,0.8137,La incognita global respaldaran rusia y china a iran frente a los bombardeos de estados unidos e israel
+16,el_tiempo,petro,0.8106,Guerra en ucrania la estrategia de putin presidente de rusia es la espera
+16,blu_radio,petro,0.8089,Rusia condena el asesinato del lider de hamas a manos de israel
+16,noticias_caracol,petro,0.808,Conflicto en medio oriente gobierno de gustavo petro condena ataques de israel e iran
+16,noticias_rcn,duque,0.8075,Operacion militar especial o invasion a ucrania discusion entre rusia y la onu
+16,noticias_rcn,duque,0.8049,Expertos sobre situacion en ucrania tras anuncio de putin de operacion militar especial
+16,la_republica,petro,0.7965,La onu denuncia anexion rusa mientras occidente respalda a ucrania con defensa
+16,noticias_caracol,duque,0.7896,Estados unidos y rusia quieren limar asperezas tras visita de pompeo a putin
+16,noticias_rcn,duque,0.7882,No a la guerra en ucrania mensaje de malinovskiy para el gobierno de rusia
+16,noticias_rcn,duque,0.7877,Rusia pide a estados unidos que deje de provocar a iran
+16,blu_radio,duque,0.7856,Presidente de ucrania le pide al mundo que se manifieste contra la invasion de rusia
+16,blu_radio,petro,0.7833,Una guerrilla contra putin lo que se sabe de la la incursion armada en rusia
+16,la_republica,petro,0.7819,El ministro de defensa de israel y el de estados unidos hablaran de iran este miercoles
+16,la_republica,petro,0.7797,Estados unidos y rusia planean tregua para consolidar logros de putin en ucrania
+16,noticias_caracol,petro,0.7788,Enfrentamiento en la onu por ucrania embajador de rusia rechazo intervencion de zelenski
+16,noticias_caracol,petro,0.7772,Rusia ayuda a iran con inteligencia para sus ataques a estados unidos segun the washington post
+17,el_tiempo,petro,0.9387,Reforma a la salud controversia por facultades al gobierno
+17,blu_radio,petro,0.9315,Claves de la reforma a la salud presentada por el gobierno petro
+17,el_tiempo,petro,0.9301,Reforma a la salud del proyecto del gobierno de gustavo petro
+17,el_tiempo,petro,0.9301,Reforma a la salud los principales puntos del proyecto del gobierno petro
+17,blu_radio,petro,0.9294,Criticas al gobierno por el decreto que reforma parte del sistema de salud
+17,noticias_rcn,petro,0.9287,Reforma a la salud en que consiste la propuesta que hicieron las eps al gobierno nacional
+17,noticias_rcn,petro,0.9268,Se hundio la reforma a la salud del gobierno de gustavo petro
+17,el_tiempo,petro,0.9263,Reforma salud radican ponencia en la camara de representantes
+17,blu_radio,petro,0.9233,El abece y las claves de la reforma a la salud del gobierno petro
+17,la_republica,petro,0.9182,La discusion de la reforma a la salud avanzo en la camara de representantes
+17,la_republica,petro,0.9146,Que son los cap que propone la reforma a la salud del gobierno petro
+17,la_republica,petro,0.9128,Los duros de la salud piden a corcho destapar los articulos de la reforma a la salud
+17,noticias_rcn,petro,0.911,Intensos rifirrafes por la caida de la reforma a la salud y la intervencion de las eps
+17,noticias_rcn,petro,0.9098,En vivo que pasa con la propuesta de la reforma a la salud del gobierno
+17,blu_radio,petro,0.9082,La reforma a la salud es la prueba de fuego de la coalicion mayoritaria petro
+17,noticias_caracol,petro,0.907,Partido de la u tambien cuestiona la reforma a la salud se marchitan las eps
+17,la_republica,petro,0.9019,El tramite que falta para que la reforma a la salud sea realidad
+17,noticias_caracol,petro,0.9018,Reforma a la salud en que ha cedido el gobierno petro y que puntos siguen inamovibles
+17,noticias_caracol,petro,0.9014,Reforma a la salud criticas en la camara de representantes tras aprobacion de la iniciativa
+17,noticias_caracol,petro,0.8994,Que pasara con coalicion de gobierno tras radicacion de proyecto para cambiar reforma a la salud
+18,noticias_caracol,duque,0.9314,Coronavirus en antioquia deja victimas del gremio de la salud
+18,noticias_caracol,duque,0.9301,Ayudas del gobierno de cali en medio del coronavirus covid
+18,blu_radio,duque,0.9174,Anticipar la cuarentena por coronavirus el pedido de uribe al gobierno
+18,blu_radio,duque,0.9161,Fallo de tutela ordena proteger del coronavirus a reclusos de carceles en santander
+18,noticias_rcn,duque,0.9137,Contraloria le pone la lupa a pruebas de coronavirus en el pais
+18,el_tiempo,duque,0.9136,Coronavirus en colombia recomendaciones del gobierno para atender y manejar contagios
+18,el_tiempo,duque,0.9116,Cacerolazo en bogota ante medidas de gobierno contra coronavirus
+18,blu_radio,duque,0.9105,Coronavirus en antioquia el departamento batio record en contagios y victimas de covid
+18,el_tiempo,duque,0.9094,Precauciones del congreso de colombia por el coronavirus
+18,el_tiempo,duque,0.9055,Coronavirus en bogota elogios entre claudia lopez y el ministro de salud
+18,noticias_rcn,duque,0.9011,Vea el balance del gobierno frente al coronavirus con casi contagios
+18,noticias_rcn,duque,0.8969,Que pasa si incumple medidas impuestas por el gobierno por coronavirus
+18,noticias_rcn,duque,0.8955,Confirman primeros casos de contagiados por coronavirus en la fuerza publica
+18,blu_radio,duque,0.894,Prueba de coronavirus al presidente ivan duque salio negativa
+18,noticias_caracol,duque,0.8923,Estados unidos supero el millon de contagios con coronavirus
+18,noticias_caracol,duque,0.8885,Brote de coronavirus en corabastos ya cobra dos victimas mortales
+18,la_republica,duque,0.8874,El ministro de salud descarto esta manana casos de coronavirus en colombia
+18,la_republica,duque,0.8827,Los casos de enfermos por coronavirus en los estados unidos superan los
+18,la_republica,duque,0.8653,Cifra de fallecidos por coronavirus en estados unidos asciende a personas
+18,la_republica,duque,0.8635,Ministerio de salud descarto caso de coronavirus en hospital mederi de bogota
+19,el_tiempo,duque,0.932,Carnet de vacunacion por que el gobierno decidio exigirlo
+19,el_tiempo,duque,0.9257,Cuanto ha destinado el gobierno para las vacunas contra el covid
+19,el_tiempo,duque,0.9245,Plan nacional de vacunacion en valledupar en la mira de procuraduria
+19,la_republica,duque,0.9205,Gobierno haria bloque epidemiologico en leticia con las vacunas que llegan el sabado
+19,blu_radio,duque,0.9185,Paro si afecto distribucion de vacunas de covid ministerio de salud
+19,blu_radio,duque,0.9158,Gobierno y ops preven mas entregas de vacunas en el pais a traves de mecanismo covax
+19,la_republica,duque,0.9105,La agencia sanitaria habilito uso de vacunas covid desde anos en estados unidos
+19,blu_radio,duque,0.9103,Gobierno da el aval para iniciar vacunacion contra el covid en mayores de anos
+19,blu_radio,duque,0.9042,A cuentagotas llegan vacunas covid a antioquia gremios medicos piden al gobierno mas celeridad
+19,el_tiempo,petro,0.9033,El ministerio de salud alerto sobre el vencimiento de vacunas
+19,la_republica,duque,0.9017,Gobierno destino otros millones a la adquisicion de vacunas de sinovac
+19,noticias_caracol,duque,0.9005,Rifirrafe de daniel quintero y ministerio de salud por vacunacion en medellin
+19,noticias_caracol,duque,0.8985,Que se les paguen vacunas que han puesto llamado de bogota al gobierno nacional
+19,noticias_caracol,duque,0.8942,Gobierno evalua si envia a leticia vacunas de sinovac
+19,noticias_rcn,duque,0.8914,Piden al ministerio de salud revelar los contratos de las vacunas contra el covid
+19,noticias_rcn,duque,0.89,Indecision de la poblacion sobre la vacuna estaria relacionada con el gobierno isglobal
+19,noticias_caracol,duque,0.8894,Experto cuestiona plan de vacunacion y meta del gobierno de millones de inmunizados este ano
+19,la_republica,petro,0.8875,El ministro de salud califico las vacunas anticovid como el mas grande experimento
+19,noticias_rcn,duque,0.8724,Contraloria pide al gobierno nacional adquirir mas vacunas anticovid
+19,noticias_rcn,duque,0.8702,San andres es un ejemplo de operativos de vacunacion masiva gobierno nacional

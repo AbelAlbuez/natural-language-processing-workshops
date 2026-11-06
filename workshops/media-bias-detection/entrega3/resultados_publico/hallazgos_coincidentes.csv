@@ -1,4 +1,4 @@
 tema,source_id,direccion,n_modelos,modelos,secc_delta_rel_pp_rango,topicos
 Geopolítica y guerras,la_republica,más,2,BERTopic · asuntos públicos | LDA · asuntos públicos,+1.22 a +1.57,"Geopolítica y guerras | Guerras: Israel, Rusia y Ucrania"
-Inseguridad urbana y sucesos,el_tiempo,más,3,BERTopic · asuntos públicos | LDA de consenso · asuntos públicos | LDA · corpus completo,+1.09 a +1.65,Policía e inseguridad urbana | Seguridad urbana y Policía | Sucesos: accidentes y muertes
+Inseguridad urbana y sucesos,el_tiempo,más,3,BERTopic · asuntos públicos | LDA de consenso · asuntos públicos | LDA · corpus completo,+1.09 a +1.65,Policía y delitos | Seguridad urbana y Policía | Sucesos: accidentes y muertes
 Justicia y tribunales,el_tiempo,menos,2,LDA · asuntos públicos | LDA · corpus completo,-1.09 a -0.74,Justicia y tribunales | Justicia: cortes y condenas

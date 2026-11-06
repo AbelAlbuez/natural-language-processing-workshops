@@ -213,6 +213,17 @@ modelos (`resultados_publico/hallazgos_coincidentes.csv`):
 En justicia, BERTopic da el mismo signo para El Tiempo (−0,95 pp) sin ser
 significativo.
 
+Los titulares de ejemplo de BERTopic (`resultados_publico/bertopic/topic_examples.csv`)
+son los más cercanos al centroide de embeddings de cada tópico; la columna
+`similitud_centroide` es el coseno con el centroide (con θ one-hot el criterio
+del LDA, mayor θ, empataba y elegía casi al azar). Con esos ejemplos se
+revisaron las etiquetas: cambiaron T3 («Elecciones y campañas»), T4 («Policía y
+delitos»: la Policía como actor, ~28 % delitos y ~8 % ataques de grupos
+armados), T8 («Mixto: medidas de gobierno, energía y Estados Unidos», una mezcla
+que no debe citarse como tema aunque tenga Δ significativos en El Tiempo y La
+República) y T10 («Economía colombiana: dólar, salario y renta»). Las cifras no
+cambian.
+
 ### Reproducir
 
 ```bash

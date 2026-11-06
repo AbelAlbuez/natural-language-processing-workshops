@@ -33,7 +33,7 @@ MODELOS = {
     "BERTopic · asuntos públicos": HERE / "resultados_publico" / "bertopic",
 }
 TEMAS = {
-    "Inseguridad urbana y sucesos": r"sucesos|inseguridad|seguridad urbana|policía e",
+    "Inseguridad urbana y sucesos": r"sucesos|inseguridad|seguridad urbana|policía y delitos",
     "Justicia y tribunales": r"^(?!.*transicional).*(?:justicia|tribunales|cortes)",
     "Geopolítica y guerras": r"guerras|geopolít",
     "Gobierno y presidente": r"gobierno, petro|gobierno y presidente|petro, campaña",

@@ -53,10 +53,10 @@ en qué cubre dentro de cada sección.
 | Medio | Tópico | Duque → Petro | Δ relativo | Con control |
 |---|---|---|---:|---:|
 | Noticias Caracol | Venezuela, Cuba y Maduro | 6,6 % → 10,0 % | +4,8 pp | **+3,8 pp** |
-| El Tiempo | Mixto: Estado, energía y empresas públicas | 4,7 % → 6,8 % | +2,8 pp | +2,9 pp |
-| Noticias Caracol | Policía e inseguridad urbana | 17,1 % → 10,5 % | −5,8 pp | **−2,8 pp** |
-| La República | Mixto: Estado, energía y empresas públicas | 11,0 % → 9,0 % | −2,5 pp | −2,3 pp |
-| El Tiempo | Policía e inseguridad urbana | 7,7 % → 7,2 % | +2,2 pp | +1,7 pp |
+| El Tiempo | Mixto: medidas de gobierno, energía y Estados Unidos† | 4,7 % → 6,8 % | +2,8 pp | +2,9 pp |
+| Noticias Caracol | Policía y delitos | 17,1 % → 10,5 % | −5,8 pp | **−2,8 pp** |
+| La República | Mixto: medidas de gobierno, energía y Estados Unidos† | 11,0 % → 9,0 % | −2,5 pp | −2,3 pp |
+| El Tiempo | Policía y delitos | 7,7 % → 7,2 % | +2,2 pp | +1,7 pp |
 | El Tiempo | Conflicto, víctimas y justicia transicional | 12,8 % → 9,3 % | −1,3 pp | −1,6 pp |
 | La República | Guerras: Israel, Rusia y Ucrania | 1,8 % → 3,7 % | +1,7 pp | +1,6 pp |
 | Noticias Caracol | Narcotráfico | 2,7 % → 1,7 % | −1,1 pp | −0,9 pp |
@@ -66,6 +66,13 @@ en qué cubre dentro de cada sección.
 Los porcentajes son la participación del tópico dentro del subcorpus de cada
 medio y gobierno. El Δ relativo puede tener otro signo que el cambio absoluto:
 la policía baja en El Tiempo (7,7 → 7,2 %), pero baja mucho más en los demás.
+
+† **No citar como tema.** Revisado con los titulares más cercanos a su centroide,
+es una mezcla: el 27 % de sus titulares menciona Estados Unidos (incluidas notas
+de estilo de vida) y el resto son anuncios de gobiernos, energía e impuestos.
+«Policía y delitos» trata a la Policía como actor: delitos (~28 % de sus
+titulares), uniformados asesinados o heridos y abusos de agentes; ~8 % son
+ataques de grupos armados.
 
 **4. Tres hallazgos se repiten en varios modelos** (Δ con control por sección,
 significativo y del mismo signo; `resultados_publico/hallazgos_coincidentes.csv`):

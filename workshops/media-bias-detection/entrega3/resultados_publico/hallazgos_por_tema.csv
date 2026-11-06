@@ -114,11 +114,11 @@ Fútbol,blu_radio,LDA de consenso · asuntos públicos,Mixto: elecciones y fútb
 Fútbol,noticias_rcn,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,1.6860027679970702,0.719049149243773,1.0,False
 Fútbol,noticias_caracol,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,0.2368790996571793,0.1328809737193442,1.0,False
 Fútbol,la_republica,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,-0.1743440354726854,-0.0936301150463002,1.0,False
-Inseguridad urbana y sucesos,el_tiempo,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,2.216186214101415,1.6500557203718478,0.005,True
-Inseguridad urbana y sucesos,blu_radio,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,1.030546594120061,0.0264870291271625,1.0,False
-Inseguridad urbana y sucesos,noticias_rcn,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,0.2433133456720214,-0.1663697911444688,1.0,False
-Inseguridad urbana y sucesos,noticias_caracol,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,-5.757081603152936,-2.777222109429988,0.0445,True
-Inseguridad urbana y sucesos,la_republica,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,2.267035449259436,1.2670491510754458,1.0,False
+Inseguridad urbana y sucesos,el_tiempo,BERTopic · asuntos públicos,Policía y delitos,robusto,True,2.216186214101415,1.6500557203718478,0.005,True
+Inseguridad urbana y sucesos,blu_radio,BERTopic · asuntos públicos,Policía y delitos,robusto,True,1.030546594120061,0.0264870291271625,1.0,False
+Inseguridad urbana y sucesos,noticias_rcn,BERTopic · asuntos públicos,Policía y delitos,robusto,True,0.2433133456720214,-0.1663697911444688,1.0,False
+Inseguridad urbana y sucesos,noticias_caracol,BERTopic · asuntos públicos,Policía y delitos,robusto,True,-5.757081603152936,-2.777222109429988,0.0445,True
+Inseguridad urbana y sucesos,la_republica,BERTopic · asuntos públicos,Policía y delitos,robusto,True,2.267035449259436,1.2670491510754458,1.0,False
 Justicia y tribunales,el_tiempo,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,-0.8318477844838882,-0.9475603870671602,0.3969,False
 Justicia y tribunales,blu_radio,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,-0.9434013627549116,0.5532078141421669,1.0,False
 Justicia y tribunales,noticias_rcn,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,1.1120447705912753,0.6625591190284252,1.0,False
