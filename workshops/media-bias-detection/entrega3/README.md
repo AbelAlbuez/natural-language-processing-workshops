@@ -245,3 +245,121 @@ Tiempos en 12 núcleos: grilla LDA ≈3 min; cada ensamble ≈4 min; BERTopic �
 la primera vez (embeddings de 313 mil titulares y tres ajustes de UMAP, que se
 guardan en caché). En zsh, las listas de argumentos en variables necesitan
 `bash -c` (zsh no separa palabras).
+
+## Emparejamiento de titulares entre medios (pasos 1 y 3)
+
+Objetivo: encontrar titulares de **medios distintos sobre el mismo hecho**, para
+pasar de comparar agendas (de qué se habla) a comparar encuadres (cómo se
+cuenta). Código: `eventos.py`; resultados en `resultados_publico/eventos/`.
+**El umbral es provisional:** falta el paso 2, calibrarlo con parejas revisadas
+a mano. Para eso está `ejemplos_eventos.md`.
+
+### Método
+
+1. **Datos.** Subcorpus de asuntos públicos con fecha al día: 305.295 titulares.
+   Se excluyen **1.256 titulares de plantilla masiva**: del mismo medio y el
+   mismo día, con 9 o más casi idénticos (similitud ≥ 0,9). 1.236 son de El
+   Tiempo, sobre todo las páginas «En vivo elecciones… siga la jornada de
+   votación en <municipio>» de las elecciones de 2026, una por municipio. Quedan
+   304.039.
+2. **Candidatos (paso 1).** Cada titular se compara con todos los titulares de
+   **otros** medios publicados en ±2 días, por similitud coseno de los
+   embeddings de BERTopic (paraphrase-multilingual-MiniLM-L12-v2). Se calcula un
+   producto matricial por día contra la ventana, así que todo el subcorpus tarda
+   ~3 s. Se guardan las 898.961 aristas con similitud ≥ 0,60 (`aristas.parquet`,
+   no versionado) y, para cada titular, su más parecido en cada medio.
+3. **Eventos (paso 3).**
+   - **Parejas recíprocas:** A y B se emparejan solo si B es el más parecido a A
+     en el medio de B y A es el más parecido a B en el medio de A, con similitud
+     ≥ umbral (0,75). Así cada titular tiene como mucho una pareja por medio.
+   - **Componentes conexas** de esas parejas.
+   - **Contra el encadenamiento** (A~B, B~C… que unen hechos distintos): una
+     componente con dos titulares del mismo medio o que dura más de 5 días se
+     parte con enlace completo sobre la distancia coseno, de modo que dentro de
+     cada parte todos los pares tengan similitud ≥ umbral − 0,10. Se partieron
+     2.514 de las 27.892 componentes.
+   - **Núcleo:** un titular por medio, el más cercano al centroide del evento.
+   - **Seguimiento:** titulares libres de un medio que ya está en el evento, a
+     ±2 días y con similitud ≥ umbral con el centroide. Cada uno va a su evento
+     más parecido (23.484 titulares).
+
+### Cifras (umbral 0,75)
+
+| | Valor |
+|---|---:|
+| Titulares con pareja en otro medio, similitud ≥ 0,70 / 0,75 / 0,80 | 41 % / 30 % / 20 % |
+| Con pareja en ≥2 medios (similitud ≥ 0,75) | 13 % |
+| Parejas recíprocas ≥ 0,75 | 53.945 |
+| Eventos | 29.068 |
+| … con 2 / 3 / 4 / 5 medios | 19.899 / 6.298 / 2.310 / 561 |
+| Eventos con ≥3 medios (Duque / Petro) | 3.068 / 6.101 |
+| Titulares en el núcleo de algún evento / incluido seguimiento | 23,3 % / 31,0 % |
+| Evento más grande (núcleo + seguimiento) | 52 titulares |
+| Eventos que siguen durando > 5 días tras partir | 21 |
+
+**Sensibilidad al umbral** (`sensibilidad_umbral.csv`, figura 20):
+
+| Umbral | Eventos | ≥3 medios | ≥4 medios | 5 medios | % titulares en eventos | Componentes partidas |
+|---|---:|---:|---:|---:|---:|---:|
+| 0,70 | 36.836 | 12.895 | 4.108 | 798 | 42,7 % | 4.068 |
+| 0,75 | 29.068 | 9.169 | 2.871 | 561 | 31,0 % | 2.514 |
+| 0,80 | 20.905 | 5.867 | 1.740 | 342 | 20,5 % | 1.311 |
+
+La componente conexa más grande, antes de partir, mide 49 titulares con los tres
+umbrales. Son las elecciones de Venezuela de julio de 2024: 12 días de notas
+parecidas de los cinco medios que se encadenan entre sí. La partición la
+divide en sub-eventos.
+
+**Cobertura descriptiva** en eventos con ≥3 medios (`cobertura_eventos.csv`, figura 22):
+
+| Medio | Participa, Duque | Participa, Petro | Publica primero*, Duque | Publica primero*, Petro |
+|---|---:|---:|---:|---:|
+| El Tiempo | 90 % | 91 % | 24 % | 24 % |
+| Blu Radio | 85 % | 81 % | 30 % | 27 % |
+| Noticias RCN | 50 % | 69 % | 14 % | 20 % |
+| Noticias Caracol | 70 % | 64 % | 21 % | 19 % |
+| La República | 36 % | 36 % | 11 % | 10 % |
+
+\* Solo hay fecha al día, así que en un empate el crédito se reparte. En el
+65–67 % de los eventos más de un medio publica el primer día. La subida de RCN
+se explica, al menos en parte, porque sus titulares de 2018–2020 solo tienen
+fecha mensual y quedan fuera del emparejamiento. Ninguna de estas cifras mide
+sesgo.
+
+### Ejemplos
+
+| Fecha | Medios | Titulares |
+|---|---|---|
+| 2020-02-07 | Blu Radio, El Tiempo, La República, RCN | «Fernando Ruiz, **cercano a Vargas Lleras**, es el nuevo ministro de Salud» frente a «Fernando Ruiz Gómez es el nuevo ministro de Salud» |
+| 2025-03-06/07 | El Tiempo, La República, RCN, Caracol | «Reforma de la salud **continúa** el segundo debate» frente a «**Aprobada** la reforma a la salud en segundo debate» |
+| 2025-09-24/25 | El Tiempo, Blu Radio, Caracol, RCN | Sismos en Venezuela: «…**no dejan daños**» (Blu Radio) frente a «…momentos de **pánico**… la gente gritaba» (Caracol) |
+
+Son el mismo hecho con encuadres distintos, que es lo que el análisis siguiente
+va a medir. Más ejemplos en `ejemplos_eventos.md`.
+
+### Limitaciones
+
+- **Umbral sin calibrar.** Entre 0,65 y 0,75 se mezclan parejas del mismo hecho
+  con hechos solo relacionados. El paso 2 debe fijar el umbral y reportar su
+  precisión.
+- **El seguimiento usa el mismo umbral que el núcleo** y a veces pega notas solo
+  relacionadas. Por ejemplo, una nota sobre un video militar de EE. UU. quedó en
+  el evento de los sismos en Venezuela, con similitud 0,77. Conviene calibrar
+  también este umbral.
+- **Titulares reconstruidos** desde la URL: sin tildes, cifras ni comillas.
+- **Solo fecha al día**, sin hora: «quién publica primero» es aproximado. Unos
+  8.000 titulares con fecha solo mensual quedan fuera, sobre todo de RCN en
+  2018–2020.
+- La marca `non_news_reason` no detecta las páginas de plantilla masiva; aquí se
+  excluyen, pero convendría marcarlas en el pipeline del corpus.
+
+### Reproducir
+
+```bash
+SCRIPT=eventos.py ./run.sh - --output resultados_publico --stage all   # ~1 min en total
+SCRIPT=eventos.py ./run.sh - --output resultados_publico --stage eventos --umbral 0.80
+```
+
+Requiere `resultados_publico/prepared.parquet` y
+`resultados_publico/bertopic/embeddings.npy` (ver la sección de BERTopic).
+Figuras 18 a 22 en `resultados_publico/eventos/figuras/`.
