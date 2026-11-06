@@ -82,3 +82,55 @@ def test_clasificacion_de_robustez_por_jaccard():
     assert robustness_class(0.5) == "robusto"
     assert robustness_class(0.34) == "parcial"
     assert robustness_class(0.29) == "inestable"
+
+
+def test_emparejamiento_con_menos_topicos_deja_sin_pareja():
+    rng = np.random.default_rng(3)
+    base = rng.dirichlet(np.ones(40), size=5)
+    matched, sims = match_topics(base, base[[4, 1, 0]])
+    assert sorted(matched[matched >= 0].tolist()) == [0, 1, 2]
+    assert (matched == -1).sum() == 2 and (sims[matched == -1] == 0).all()
+    assert matched[4] == 0 and matched[1] == 1 and matched[0] == 2
+
+
+def test_pesos_por_seccion_igualan_la_mezcla_entre_gobiernos():
+    from topics import section_weights
+
+    # Duque: 80 % deportes; Petro: 20 % deportes. Mezcla común: 50 %.
+    meta = pd.DataFrame({
+        "source_id": ["a"] * 200,
+        "government_id": ["duque"] * 100 + ["petro"] * 100,
+        "section": ["deportes"] * 80 + ["politica"] * 20 + ["deportes"] * 20 + ["politica"] * 80,
+    })
+    w = section_weights(meta)
+    meta["w"] = w
+    for gov in ("duque", "petro"):
+        g = meta[meta["government_id"] == gov]
+        assert g.loc[g["section"] == "deportes", "w"].sum() / g["w"].sum() == pytest.approx(0.5)
+
+
+def test_secciones_raras_se_agrupan():
+    from topics import section_weights
+
+    meta = pd.DataFrame({
+        "source_id": ["a"] * 1000, "government_id": ["duque"] * 500 + ["petro"] * 500,
+        "section": ["x"] * 499 + ["rara"] + ["x"] * 500,
+    })
+    w = section_weights(meta)
+    assert np.isfinite(w).all()
+
+
+def test_medias_mensuales_ponderadas():
+    from topics import monthly_shares
+
+    meta = pd.DataFrame({"government_id": ["duque"] * 2, "month": ["2020-01"] * 2, "source_id": ["a"] * 2})
+    theta = np.array([[1.0, 0.0], [0.0, 1.0]])
+    assert monthly_shares(theta, meta)["t0"].iloc[0] == pytest.approx(0.5)
+    assert monthly_shares(theta, meta, np.array([3.0, 1.0]))["t0"].iloc[0] == pytest.approx(0.75)
+
+
+def test_piso_del_p_valor_permite_significancia_tras_holm():
+    """Con 125 pruebas, el p mínimo bootstrap × 125 debe quedar bajo 0,05."""
+    from topics import BOOTSTRAP_REPS
+
+    assert 125 / BOOTSTRAP_REPS < 0.05

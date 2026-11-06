@@ -1,9 +1,19 @@
 # Regenerables con ./run.sh y demasiado grandes para git.
-resultados/prepared.parquet
-resultados/theta.npy
-# De los modelos sólo se versiona el final (K=15), el diccionario y Phrases.
+resultados*/prepared.parquet
+resultados*/**/theta.npy
+resultados*/theta.npy
+resultados*/**/embeddings.npy
+resultados*/**/asignacion_seed*.npz
+# Modelos: sólo el final de cada corpus, el diccionario y Phrases.
 resultados/modelos/*
 !resultados/modelos/lda_k15.model
 !resultados/modelos/lda_k15.model.*
 !resultados/modelos/dictionary.dict
 !resultados/modelos/phrases.pkl
+resultados_publico/modelos/*
+!resultados_publico/modelos/lda_k25.model
+!resultados_publico/modelos/lda_k25.model.*
+!resultados_publico/modelos/ensemble_seed42_eps0.3.model
+!resultados_publico/modelos/ensemble_seed42_eps0.3.model.*
+!resultados_publico/modelos/dictionary.dict
+!resultados_publico/modelos/phrases.pkl

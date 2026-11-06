@@ -74,6 +74,13 @@ def etiqueta(labels: dict, robust: dict | None, k: int) -> str:
     return labels.get(k, f"T{k}") + (SUFIJO.get(robust.get(k), "") if robust else "")
 
 
+def _margins(fig, legend_handles, ncol: int, top_in: float = 1.0, bottom_in: float = 0.75) -> None:
+    """Leyenda bajo el título y márgenes en pulgadas, para que no choquen en figuras bajas."""
+    h = fig.get_figheight()
+    fig.legend(handles=legend_handles, loc="lower center", ncol=ncol, bbox_to_anchor=(0.5, 1 - 0.45 / h))
+    fig.subplots_adjust(top=1 - top_in / h, bottom=bottom_in / h)
+
+
 def miles(n: float) -> str:
     return f"{n:,.0f}".replace(",", ".")
 
@@ -298,14 +305,16 @@ def estabilidad(matrices: dict, jaccards: dict, out: Path) -> None:
 # ── tópicos ──────────────────────────────────────────────────────────────────
 
 
-def topicos_palabras(model, labels: dict, prevalence: np.ndarray, out: Path, robust: dict | None = None) -> None:
-    k = model.num_topics
+def topicos_palabras(terms: pd.DataFrame, labels: dict, prevalence: np.ndarray, out: Path,
+                     robust: dict | None = None) -> None:
+    k = len(prevalence)
     order = np.argsort(-prevalence)
     cols = 5
     rows = int(np.ceil(k / cols))
     fig, axes = plt.subplots(rows, cols, figsize=(3.1 * cols, 2.5 * rows), squeeze=False)
     for ax, t in zip(axes.flat, order):
-        words = model.show_topic(int(t), topn=10)[::-1]
+        top = terms[terms["topic"] == int(t)].sort_values("rango").head(10)
+        words = list(zip(top["palabra"], top["peso"]))[::-1]
         ax.barh([w.replace("_", " ") for w, _ in words], [p for _, p in words], color=BLUE, height=0.65)
         ax.set_title(textwrap.fill(f"{etiqueta(labels, robust, int(t))} · {prevalence[t]:.1%}", 30), fontsize=9)
         if robust and robust.get(int(t)) == "inestable":
@@ -398,7 +407,7 @@ def delta_relativo(deltas: pd.DataFrame, out: Path) -> None:
     deltas = deltas.assign(etiqueta=deltas["etiqueta"] + deltas["robustez"].map(SUFIJO))
     order = (deltas.groupby("etiqueta")["delta_rel_pp"].apply(lambda s: s.abs().max())
              .sort_values().index.tolist())
-    fig, axes = plt.subplots(1, len(MEDIA), figsize=(16, 0.3 * len(order) + 2.2), sharey=True, sharex=True)
+    fig, axes = plt.subplots(1, len(MEDIA), figsize=(16, max(3.6, 0.3 * len(order) + 2.4)), sharey=True, sharex=True)
     for ax, m in zip(axes, MEDIA):
         d = deltas[deltas["source_id"] == m].set_index("etiqueta").loc[order]
         y = np.arange(len(order))
@@ -415,17 +424,17 @@ def delta_relativo(deltas: pd.DataFrame, out: Path) -> None:
         ax.grid(axis="y", visible=False)
         ax.set_xlabel("puntos porcentuales")
     axes[0].set_yticks(np.arange(len(order)), order, fontsize=8)
-    fig.legend(handles=[
+    _margins(fig, [
         Line2D([], [], marker="o", ls="", color=BLUE, label="más que los otros medios en Petro"),
         Line2D([], [], marker="o", ls="", color=RED, label="menos que los otros medios en Petro"),
         Line2D([], [], marker="o", ls="", markerfacecolor=SURFACE, markeredgecolor=INK2,
                label="no significativo (Holm ≥ 0,05)"),
         Line2D([], [], marker="o", ls="", color=AXIS, label="tópico inestable o cambia de signo con otra semilla"),
-    ], loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.06))
+    ], ncol=4)
     _save(fig, out, "12_delta_relativo.png",
           "Qué cambió en cada medio de Duque a Petro, más allá de la agenda general",
           "Δ relativo = (Petro − Duque) del medio menos el de los otros cuatro, sobre series mensuales; barras = "
-          "IC 95 % por bootstrap de bloques de 3 meses; relleno = significativo tras Holm. " + FUENTE, note_y=-0.1)
+          "IC 95 % por bootstrap de bloques de 3 meses; relleno = significativo tras Holm. " + FUENTE)
 
 
 def distancias_js(js: pd.DataFrame, out: Path) -> None:
@@ -489,3 +498,69 @@ def series_topicos(monthly: pd.DataFrame, labels: dict, deltas: pd.DataFrame, ou
     _save(fig, out, "14_series_topicos.png", f"Tópicos que más cambiaron entre gobiernos, mes a mes",
           "Participación mensual (media de θ), media móvil de 3 meses. Sombreado: RCN 2018–2020 sólo con fecha "
           f"mensual. {FUENTE}", note_y=-0.07)
+
+
+# ── subcorpus y control por sección ─────────────────────────────────────────
+
+
+def subcorpus(cells: pd.DataFrame, full: pd.DataFrame | None, out: Path) -> None:
+    """Qué parte de cada medio × gobierno entra al subcorpus de asuntos públicos."""
+    if full is None:
+        return
+    merged = cells.merge(full, on=["source_id", "government_id"], suffixes=("", "_total"))
+    merged["pct"] = merged["disponibles"] / merged["disponibles_total"]
+    fig, ax = plt.subplots(figsize=(10, 4))
+    x = np.arange(len(MEDIA))
+    width = 0.38
+    for i, gov in enumerate(["duque", "petro"]):
+        part = merged[merged["government_id"] == gov].set_index("source_id").loc[MEDIA]
+        bars = ax.bar(x + (i - 0.5) * width, part["pct"], width, color=GOV_COLORS[gov],
+                      label=f"Gobierno {GOV_NAMES[gov]}", edgecolor=SURFACE, linewidth=2)
+        for b, v, n in zip(bars, part["pct"], part["disponibles"]):
+            ax.text(b.get_x() + b.get_width() / 2, v, f"{v:.0%}\n{miles(n)}", ha="center", va="bottom",
+                    fontsize=7.5, color=INK2)
+    ax.set_xticks(x, [MEDIA_NAMES[m] for m in MEDIA])
+    ax.set_ylim(0, merged["pct"].max() * 1.3)
+    ax.yaxis.set_major_formatter(PercentFormatter(1, decimals=0))
+    ax.set_ylabel("% de las noticias del medio")
+    ax.grid(axis="x", visible=False)
+    ax.legend(loc="upper left")
+    _save(fig, out, "15_subcorpus_publico.png", "Subcorpus de asuntos públicos: qué parte de cada medio entra",
+          "Noticias con una etiqueta del tesauro de política, economía, seguridad, justicia o relaciones "
+          "internacionales encontrada en el titular (no en la URL ni en la sección, que no son comparables entre "
+          f"medios). {FUENTE}")
+
+
+def control_seccion(deltas: pd.DataFrame, out: Path) -> None:
+    """Δ relativo sin y con control por sección, para los tópicos no inestables."""
+    d = deltas[deltas["robustez"].ne("inestable")].copy()
+    if d.empty:
+        return
+    d["etiqueta"] = d["etiqueta"] + d["robustez"].map(SUFIJO)
+    order = d.groupby("etiqueta")["delta_rel_pp"].apply(lambda s: s.abs().max()).sort_values().index.tolist()
+    fig, axes = plt.subplots(1, len(MEDIA), figsize=(16, max(3.6, 0.42 * len(order) + 2.4)), sharey=True, sharex=True)
+    for ax, m in zip(axes, MEDIA):
+        dm = d[d["source_id"] == m].set_index("etiqueta").loc[order]
+        y = np.arange(len(order))
+        ax.hlines(y, dm["delta_rel_pp"], dm["secc_delta_rel_pp"], color=AXIS, lw=2)
+        ax.scatter(dm["delta_rel_pp"], y, color=MUTED, s=34, zorder=3, edgecolor=SURFACE, lw=1.5, label="sin control")
+        color = np.where(dm["secc_delta_rel_pp"] >= 0, BLUE, RED)
+        sig = (dm["secc_delta_rel_p_holm"] < 0.05).to_numpy()
+        ax.scatter(dm["secc_delta_rel_pp"][sig], y[sig], color=color[sig], s=40, zorder=4, edgecolor=SURFACE, lw=1.5)
+        ax.scatter(dm["secc_delta_rel_pp"][~sig], y[~sig], facecolor=SURFACE, edgecolor=color[~sig], s=40, zorder=4,
+                   lw=1.5)
+        ax.axvline(0, color=INK2, lw=1)
+        ax.set_title(MEDIA_NAMES[m])
+        ax.grid(axis="y", visible=False)
+        ax.set_xlabel("Δ relativo (pp)")
+    axes[0].set_yticks(np.arange(len(order)), order, fontsize=8)
+    _margins(fig, [
+        Line2D([], [], marker="o", ls="", color=MUTED, label="sin control por sección"),
+        Line2D([], [], marker="o", ls="", color=BLUE, label="con control (relleno = Holm < 0,05)"),
+        Line2D([], [], marker="o", ls="", markerfacecolor=SURFACE, markeredgecolor=INK2,
+               label="con control, no significativo"),
+    ], ncol=3)
+    _save(fig, out, "16_control_seccion.png", "¿Cuánto del cambio se explica por la mezcla de secciones del archivo?",
+          "Control: cada medio se repondera para tener la misma mezcla de sus propias secciones en los dos "
+          "gobiernos. Si el punto se acerca a 0, el cambio venía de cuánto pesa cada sección en el archivo. "
+          f"Sólo tópicos robustos o parciales. {FUENTE}")

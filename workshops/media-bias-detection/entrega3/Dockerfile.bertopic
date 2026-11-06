@@ -1,0 +1,16 @@
+# BERTopic para el subcorpus de asuntos públicos. Parte de la imagen del LDA
+# (mismas versiones de numpy/pandas/gensim) y agrega torch CPU, sentence-
+# transformers y UMAP. El modelo de embeddings se descarga al construir, para
+# que el análisis corra sin red (--network none).
+FROM duque-petro-lda:local
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
+ && rm -rf /var/lib/apt/lists/*
+COPY requirements-bertopic.txt ./
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --timeout 300 --retries 10 --progress-bar off -r requirements-bertopic.txt
+ENV HF_HOME=/models SENTENCE_TRANSFORMERS_HOME=/models HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+RUN HF_HUB_OFFLINE=0 TRANSFORMERS_OFFLINE=0 python -c "from sentence_transformers import SentenceTransformer; \
+SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')" \
+ && chmod -R a+rX /models
+ENV NUMBA_CACHE_DIR=/tmp/numba
