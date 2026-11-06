@@ -363,3 +363,39 @@ SCRIPT=eventos.py ./run.sh - --output resultados_publico --stage eventos --umbra
 Requiere `resultados_publico/prepared.parquet` y
 `resultados_publico/bertopic/embeddings.npy` (ver la sección de BERTopic).
 Figuras 18 a 22 en `resultados_publico/eventos/figuras/`.
+
+## Calibración manual del emparejamiento (paso 2)
+
+Se mide qué tan seguido acierta el emparejamiento y se elige el umbral con datos.
+`calibracion.py` toma una muestra de las mismas parejas recíprocas que usa
+`eventos.py`, con las mismas plantillas masivas excluidas, y genera las
+planillas para el equipo:
+
+- **210 parejas, 30 por tramo de similitud** (0,60–0,65 … 0,90–1,00), salidas de
+  20.891 parejas recíprocas de 30.000 titulares al azar. Semilla 42.
+- **Dos planillas para trabajar en paralelo:** `planilla_persona_1.xlsx` y
+  `planilla_persona_2.xlsx`, de 135 parejas cada una.
+  - **60 parejas dobles** están en las dos planillas, para medir el acuerdo entre
+    anotadores (kappa de Cohen).
+  - Las otras 150 se reparten 75 y 75, equilibradas por tramo.
+- **Sin la similitud:** la planilla no la muestra, para no sesgar. Está en
+  `clave_no_abrir.csv`, que el equipo no debe abrir.
+- **Cuatro respuestas:** «Mismo hecho», «Mismo tema / otro hecho», «Distinto» y
+  «No se puede saber». Cada pareja trae enlaces a la nota original.
+
+Instrucciones para el equipo en
+[`resultados_publico/calibracion/LEEME.md`](resultados_publico/calibracion/LEEME.md).
+
+```bash
+python calibracion.py muestra && python calibracion.py dividir        # regenerar
+python calibracion.py evaluar --personas resultados_publico/calibracion/planilla_persona_{1,2}.xlsx
+```
+
+`evaluar` devuelve:
+
+- la precisión por tramo y por umbral, con intervalo de Wilson;
+- el umbral recomendado: el menor con precisión ≥ 90 %, ajustable con
+  `--precision-objetivo`;
+- la kappa de Cohen en 4 clases y en binario.
+
+Con ese umbral se vuelve a correr `eventos.py --umbral …`.
