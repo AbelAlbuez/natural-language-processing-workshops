@@ -1,7 +1,10 @@
 {
   "k": 15,
   "documentos": 1569403,
-  "delta_rel_significativos_holm_0_05": 39,
-  "delta_rel_significativos_y_robustos": 14,
-  "pares_medio_topico": 75
+  "delta_rel_significativos_holm_0_05": 38,
+  "delta_rel_significativos_y_robustos": 13,
+  "secc_delta_rel_significativos_y_robustos": 5,
+  "pares_medio_topico": 75,
+  "bootstrap_reps": 20000,
+  "p_min_ajustado_holm": 0.00375
 }

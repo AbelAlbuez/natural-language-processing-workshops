@@ -1,0 +1,156 @@
+tema,source_id,modelo,topico,robustez,fiable,delta_rel_pp,secc_delta_rel_pp,secc_p_holm,significativo_con_control
+Inseguridad urbana y sucesos,el_tiempo,LDA · corpus completo,Sucesos: accidentes y muertes,parcial,True,1.322034138064004,1.0900531567833711,0.00375,True
+Inseguridad urbana y sucesos,blu_radio,LDA · corpus completo,Sucesos: accidentes y muertes,parcial,True,1.7017841013727706,0.5842023172952577,0.954,False
+Inseguridad urbana y sucesos,noticias_rcn,LDA · corpus completo,Sucesos: accidentes y muertes,parcial,True,-2.236602935899467,-1.3997560517100895,0.8832,False
+Inseguridad urbana y sucesos,noticias_caracol,LDA · corpus completo,Sucesos: accidentes y muertes,parcial,False,-0.4305575657432663,0.3824023760541549,1.0,False
+Inseguridad urbana y sucesos,la_republica,LDA · corpus completo,Sucesos: accidentes y muertes,parcial,True,-0.3566577377940423,-0.6569017984226926,0.1976,False
+Inseguridad urbana y sucesos,el_tiempo,LDA · corpus completo,Seguridad urbana y movilidad,inestable,False,0.512615943468033,0.4029558695617901,0.9632,False
+Inseguridad urbana y sucesos,blu_radio,LDA · corpus completo,Seguridad urbana y movilidad,inestable,False,0.2060078152868843,-0.2644775350025978,1.0,False
+Inseguridad urbana y sucesos,noticias_rcn,LDA · corpus completo,Seguridad urbana y movilidad,inestable,False,-0.7894324920686653,-0.4233061107420511,1.0,False
+Inseguridad urbana y sucesos,noticias_caracol,LDA · corpus completo,Seguridad urbana y movilidad,inestable,False,-0.5630933888044998,-0.1097567739588436,1.0,False
+Inseguridad urbana y sucesos,la_republica,LDA · corpus completo,Seguridad urbana y movilidad,inestable,False,0.6339021221182475,0.3945845501417029,1.0,False
+Justicia y tribunales,el_tiempo,LDA · corpus completo,Justicia y tribunales,parcial,True,-0.7844562229313644,-1.085248707635172,0.00375,True
+Justicia y tribunales,blu_radio,LDA · corpus completo,Justicia y tribunales,parcial,True,-1.7760796866007007,-0.970879768649307,0.0399,True
+Justicia y tribunales,noticias_rcn,LDA · corpus completo,Justicia y tribunales,parcial,False,1.3534400375532023,1.4456844212897582,0.00375,False
+Justicia y tribunales,noticias_caracol,LDA · corpus completo,Justicia y tribunales,parcial,True,0.5590484105438319,0.1205626598627749,1.0,False
+Justicia y tribunales,la_republica,LDA · corpus completo,Justicia y tribunales,parcial,True,0.6480474614350307,0.4898813951319466,0.8525999999999999,False
+Geopolítica y guerras,el_tiempo,LDA · corpus completo,Guerras y conflicto internacional,inestable,False,1.2501500792325273,0.3396846280171501,1.0,False
+Geopolítica y guerras,blu_radio,LDA · corpus completo,Guerras y conflicto internacional,inestable,False,-0.0543939033366741,-0.2408980686962969,1.0,False
+Geopolítica y guerras,noticias_rcn,LDA · corpus completo,Guerras y conflicto internacional,inestable,False,-1.7230801720997873,-0.4628281914037594,1.0,False
+Geopolítica y guerras,noticias_caracol,LDA · corpus completo,Guerras y conflicto internacional,inestable,False,-0.010695349987463,-0.2137119913055975,1.0,False
+Geopolítica y guerras,la_republica,LDA · corpus completo,Guerras y conflicto internacional,inestable,False,0.5380193461913968,0.5777536233885037,0.00375,False
+Gobierno y presidente,el_tiempo,LDA · corpus completo,"Gobierno, Petro y política internacional",robusto,False,0.2930364801261793,-0.7870386695070952,0.0399,False
+Gobierno y presidente,blu_radio,LDA · corpus completo,"Gobierno, Petro y política internacional",robusto,True,0.9197467973854552,0.9378514348340994,0.00375,True
+Gobierno y presidente,noticias_rcn,LDA · corpus completo,"Gobierno, Petro y política internacional",robusto,True,-2.93052865296499,-0.9517002356611424,1.0,False
+Gobierno y presidente,noticias_caracol,LDA · corpus completo,"Gobierno, Petro y política internacional",robusto,True,0.8625069479148552,0.0988987726168887,1.0,False
+Gobierno y presidente,la_republica,LDA · corpus completo,"Gobierno, Petro y política internacional",robusto,True,0.8552384275385001,0.7019886977172506,1.0,False
+Conflicto armado,el_tiempo,LDA · corpus completo,Conflicto armado y orden público,robusto,True,0.6610769414930993,0.2361625122208375,1.0,False
+Conflicto armado,blu_radio,LDA · corpus completo,Conflicto armado y orden público,robusto,True,2.4508899355842964,1.033940394890627,0.9632,False
+Conflicto armado,noticias_rcn,LDA · corpus completo,Conflicto armado y orden público,robusto,True,-2.492305677091807,-1.060191513429782,1.0,False
+Conflicto armado,noticias_caracol,LDA · corpus completo,Conflicto armado y orden público,robusto,True,-0.8514363374343834,0.0323711779563536,1.0,False
+Conflicto armado,la_republica,LDA · corpus completo,Conflicto armado y orden público,robusto,True,0.2317751374487961,-0.2422825716380354,1.0,False
+Fútbol,el_tiempo,LDA · corpus completo,Fútbol,robusto,True,-5.001598243796885,-1.478966067944762,1.0,False
+Fútbol,blu_radio,LDA · corpus completo,Fútbol,robusto,True,-3.7697811386346967,-1.9169799789456248,0.0122,True
+Fútbol,noticias_rcn,LDA · corpus completo,Fútbol,robusto,True,11.5013461441942,5.4887222443222194,1.0,False
+Fútbol,noticias_caracol,LDA · corpus completo,Fútbol,robusto,True,-1.509145236002387,-1.191379259899674,1.0,False
+Fútbol,la_republica,LDA · corpus completo,Fútbol,robusto,True,-1.2208215257602288,-0.901396937532159,1.0,False
+Inseguridad urbana y sucesos,el_tiempo,LDA · asuntos públicos,Inseguridad urbana,inestable,False,0.8615818535361239,0.7628447242994668,0.0872,False
+Inseguridad urbana y sucesos,blu_radio,LDA · asuntos públicos,Inseguridad urbana,inestable,False,0.5798801992653172,0.0546071257544116,1.0,False
+Inseguridad urbana y sucesos,noticias_rcn,LDA · asuntos públicos,Inseguridad urbana,inestable,False,0.0193325185387153,-0.3072289774731634,1.0,False
+Inseguridad urbana y sucesos,noticias_caracol,LDA · asuntos públicos,Inseguridad urbana,inestable,False,-2.6302867611839007,-1.2556768590879928,0.3232,False
+Inseguridad urbana y sucesos,la_republica,LDA · asuntos públicos,Inseguridad urbana,inestable,False,1.1694921898437454,0.745453986507278,1.0,False
+Inseguridad urbana y sucesos,el_tiempo,LDA · asuntos públicos,Mixto: impuestos y sucesos,inestable,False,0.6888169530225708,0.6020093712816954,1.0,False
+Inseguridad urbana y sucesos,blu_radio,LDA · asuntos públicos,Mixto: impuestos y sucesos,inestable,False,-0.5885479471093463,-0.4893398330491822,0.817,False
+Inseguridad urbana y sucesos,noticias_rcn,LDA · asuntos públicos,Mixto: impuestos y sucesos,inestable,False,0.7840475173177482,0.6408692604388342,0.212,False
+Inseguridad urbana y sucesos,noticias_caracol,LDA · asuntos públicos,Mixto: impuestos y sucesos,inestable,False,-0.1422421913496504,-0.0302137918756275,1.0,False
+Inseguridad urbana y sucesos,la_republica,LDA · asuntos públicos,Mixto: impuestos y sucesos,inestable,False,-0.7420743318813222,-0.72332500679572,0.00625,False
+Justicia y tribunales,el_tiempo,LDA · asuntos públicos,Justicia: cortes y condenas,parcial,True,-0.5253000985990638,-0.7409410208127709,0.00625,True
+Justicia y tribunales,blu_radio,LDA · asuntos públicos,Justicia: cortes y condenas,parcial,True,-0.8900947039890121,-0.0958427978701194,1.0,False
+Justicia y tribunales,noticias_rcn,LDA · asuntos públicos,Justicia: cortes y condenas,parcial,False,0.4066214681221411,0.2943990580552106,1.0,False
+Justicia y tribunales,noticias_caracol,LDA · asuntos públicos,Justicia: cortes y condenas,parcial,False,-0.0242894294060956,0.0057858818729387,1.0,False
+Justicia y tribunales,la_republica,LDA · asuntos públicos,Justicia: cortes y condenas,parcial,True,1.03306276387203,0.5365988787547418,0.4998,False
+Geopolítica y guerras,el_tiempo,LDA · asuntos públicos,Geopolítica y guerras,parcial,False,0.4698450497994978,-0.2218186824957347,1.0,False
+Geopolítica y guerras,blu_radio,LDA · asuntos públicos,Geopolítica y guerras,parcial,True,-0.2912065307612186,-0.3546472587725501,1.0,False
+Geopolítica y guerras,noticias_rcn,LDA · asuntos públicos,Geopolítica y guerras,parcial,True,-2.395717436520917,-1.0401379207061956,0.0665999999999999,False
+Geopolítica y guerras,noticias_caracol,LDA · asuntos públicos,Geopolítica y guerras,parcial,True,0.9043105769051162,0.3917447322997303,1.0,False
+Geopolítica y guerras,la_republica,LDA · asuntos públicos,Geopolítica y guerras,parcial,True,1.3127683405775228,1.2248591296747502,0.00625,True
+Gobierno y presidente,el_tiempo,LDA · asuntos públicos,"Petro, campaña y Pacto Histórico",inestable,False,0.2358693829939416,0.1982058560857479,1.0,False
+Gobierno y presidente,blu_radio,LDA · asuntos públicos,"Petro, campaña y Pacto Histórico",inestable,False,0.3483031560005021,0.4582702513851627,1.0,False
+Gobierno y presidente,noticias_rcn,LDA · asuntos públicos,"Petro, campaña y Pacto Histórico",inestable,False,-0.0446442038046062,0.325537943724061,1.0,False
+Gobierno y presidente,noticias_caracol,LDA · asuntos públicos,"Petro, campaña y Pacto Histórico",inestable,False,0.3326701704317212,-0.1973826493932163,1.0,False
+Gobierno y presidente,la_republica,LDA · asuntos públicos,"Petro, campaña y Pacto Histórico",inestable,False,-0.8721985056215588,-0.7846314018017547,0.2808,False
+Conflicto armado,el_tiempo,LDA · asuntos públicos,Ataques de grupos armados,parcial,True,0.4105559161959059,0.0614379364370211,1.0,False
+Conflicto armado,blu_radio,LDA · asuntos públicos,Ataques de grupos armados,parcial,True,0.4151262509790759,-0.0657223701481321,1.0,False
+Conflicto armado,noticias_rcn,LDA · asuntos públicos,Ataques de grupos armados,parcial,True,-0.0402069256538525,-0.0751156064761252,1.0,False
+Conflicto armado,noticias_caracol,LDA · asuntos públicos,Ataques de grupos armados,parcial,True,-1.0349886210169068,0.2016540047063184,1.0,False
+Conflicto armado,la_republica,LDA · asuntos públicos,Ataques de grupos armados,parcial,False,0.2495133794957769,-0.1222539645190819,1.0,False
+Conflicto armado,el_tiempo,LDA · asuntos públicos,Combates del Ejército y Clan del Golfo,inestable,False,0.4382327606428047,0.2805446604216209,1.0,False
+Conflicto armado,blu_radio,LDA · asuntos públicos,Combates del Ejército y Clan del Golfo,inestable,False,1.566100550809884,0.918271084590548,0.00625,False
+Conflicto armado,noticias_rcn,LDA · asuntos públicos,Combates del Ejército y Clan del Golfo,inestable,False,-0.5923301636249413,-0.4269609111899448,1.0,False
+Conflicto armado,noticias_caracol,LDA · asuntos públicos,Combates del Ejército y Clan del Golfo,inestable,False,-1.552098778890683,-0.7190601819249263,0.077,False
+Conflicto armado,la_republica,LDA · asuntos públicos,Combates del Ejército y Clan del Golfo,inestable,False,0.1400956310629357,-0.0527946518972973,1.0,False
+Venezuela,el_tiempo,LDA · asuntos públicos,"Venezuela, oposición y renuncias",inestable,False,-0.4173351706658984,-0.6198587400643368,0.00625,False
+Venezuela,blu_radio,LDA · asuntos públicos,"Venezuela, oposición y renuncias",inestable,False,-0.1459211526909024,-0.0693256175079085,1.0,False
+Venezuela,noticias_rcn,LDA · asuntos públicos,"Venezuela, oposición y renuncias",inestable,False,-0.6780551587657859,-0.0056425741033667,1.0,False
+Venezuela,noticias_caracol,LDA · asuntos públicos,"Venezuela, oposición y renuncias",inestable,False,1.2448722141257036,0.6903021679347386,0.212,False
+Venezuela,la_republica,LDA · asuntos públicos,"Venezuela, oposición y renuncias",inestable,False,-0.0035607320031169,0.0045247637408733,1.0,False
+Venezuela,el_tiempo,LDA · asuntos públicos,"Venezuela, frontera y Estados Unidos",inestable,False,-1.050835742356543,-0.9812393939370376,0.00625,False
+Venezuela,blu_radio,LDA · asuntos públicos,"Venezuela, frontera y Estados Unidos",inestable,False,-0.6571682431178382,-0.5613442909598589,0.00625,False
+Venezuela,noticias_rcn,LDA · asuntos públicos,"Venezuela, frontera y Estados Unidos",inestable,False,0.630258510499823,0.7333164048697357,0.306,False
+Venezuela,noticias_caracol,LDA · asuntos públicos,"Venezuela, frontera y Estados Unidos",inestable,False,1.218296117241776,0.9472508094835116,0.00625,False
+Venezuela,la_republica,LDA · asuntos públicos,"Venezuela, frontera y Estados Unidos",inestable,False,-0.1405506422672178,-0.1379835294563499,1.0,False
+Fútbol,el_tiempo,LDA · asuntos públicos,Fútbol (residual en asuntos públicos),robusto,True,-2.3689315769754677,-0.7007272152233759,1.0,False
+Fútbol,blu_radio,LDA · asuntos públicos,Fútbol (residual en asuntos públicos),robusto,True,-0.8229704170945158,-0.481368525508039,1.0,False
+Fútbol,noticias_rcn,LDA · asuntos públicos,Fútbol (residual en asuntos públicos),robusto,True,2.987037440588005,1.154799721604154,1.0,False
+Fútbol,noticias_caracol,LDA · asuntos públicos,Fútbol (residual en asuntos públicos),robusto,True,0.0105095617526855,-0.0583908249245345,1.0,False
+Fútbol,la_republica,LDA · asuntos públicos,Fútbol (residual en asuntos públicos),robusto,False,0.1943549917292931,0.0856868440517948,1.0,False
+Inseguridad urbana y sucesos,el_tiempo,LDA de consenso · asuntos públicos,Seguridad urbana y Policía,parcial,True,1.610111001890142,1.3595405821111306,0.003,True
+Inseguridad urbana y sucesos,blu_radio,LDA de consenso · asuntos públicos,Seguridad urbana y Policía,parcial,True,0.6113941689985537,0.2327292125862526,1.0,False
+Inseguridad urbana y sucesos,noticias_rcn,LDA de consenso · asuntos públicos,Seguridad urbana y Policía,parcial,True,-0.5153935812278634,-0.7135939667392908,1.0,False
+Inseguridad urbana y sucesos,noticias_caracol,LDA de consenso · asuntos públicos,Seguridad urbana y Policía,parcial,True,-2.4668075256420536,-1.1418674779684124,0.1804,False
+Inseguridad urbana y sucesos,la_republica,LDA de consenso · asuntos públicos,Seguridad urbana y Policía,parcial,True,0.7606959359812198,0.2631916500103214,1.0,False
+Justicia y tribunales,el_tiempo,LDA de consenso · asuntos públicos,"Justicia, Fiscalía y cortes",inestable,False,0.0972757870123138,-0.1298829692722969,1.0,False
+Justicia y tribunales,blu_radio,LDA de consenso · asuntos públicos,"Justicia, Fiscalía y cortes",inestable,False,-0.959231221830822,-0.3724636550430968,1.0,False
+Justicia y tribunales,noticias_rcn,LDA de consenso · asuntos públicos,"Justicia, Fiscalía y cortes",inestable,False,0.3917748101914826,0.1320325781180966,1.0,False
+Justicia y tribunales,noticias_caracol,LDA de consenso · asuntos públicos,"Justicia, Fiscalía y cortes",inestable,False,0.370418970728615,0.1764282794606445,1.0,False
+Justicia y tribunales,la_republica,LDA de consenso · asuntos públicos,"Justicia, Fiscalía y cortes",inestable,False,0.0997616538984119,0.1938857667366546,1.0,False
+Gobierno y presidente,el_tiempo,LDA de consenso · asuntos públicos,"Petro, campaña y elecciones",inestable,False,0.5238005868309725,0.5736443581862986,1.0,False
+Gobierno y presidente,blu_radio,LDA de consenso · asuntos públicos,"Petro, campaña y elecciones",inestable,False,0.6565638038185532,0.8685435702886679,0.0106,False
+Gobierno y presidente,noticias_rcn,LDA de consenso · asuntos públicos,"Petro, campaña y elecciones",inestable,False,0.1255312085916838,0.1120332367930709,1.0,False
+Gobierno y presidente,noticias_caracol,LDA de consenso · asuntos públicos,"Petro, campaña y elecciones",inestable,False,0.0882302431966138,-0.3239482143207185,1.0,False
+Gobierno y presidente,la_republica,LDA de consenso · asuntos públicos,"Petro, campaña y elecciones",inestable,False,-1.3941258424378231,-1.2302729509473191,0.003,False
+Conflicto armado,el_tiempo,LDA de consenso · asuntos públicos,Conflicto armado,inestable,False,1.1704905597564736,0.8827643981157419,0.026,False
+Conflicto armado,blu_radio,LDA de consenso · asuntos públicos,Conflicto armado,inestable,False,1.2175145078241305,0.3112214339918484,1.0,False
+Conflicto armado,noticias_rcn,LDA de consenso · asuntos públicos,Conflicto armado,inestable,False,0.074403320311805,0.0059387128488372,1.0,False
+Conflicto armado,noticias_caracol,LDA de consenso · asuntos públicos,Conflicto armado,inestable,False,-0.9271733494989862,0.5968208135946167,1.0,False
+Conflicto armado,la_republica,LDA de consenso · asuntos públicos,Conflicto armado,inestable,False,-1.5352350383934246,-1.796745358551043,0.003,False
+Venezuela,el_tiempo,LDA de consenso · asuntos públicos,Venezuela y Maduro,inestable,False,-1.1725271216286228,-1.519930095547417,0.003,False
+Venezuela,blu_radio,LDA de consenso · asuntos públicos,Venezuela y Maduro,inestable,False,-0.7171998853776088,-0.6136612591836796,0.0882,False
+Venezuela,noticias_rcn,LDA de consenso · asuntos públicos,Venezuela y Maduro,inestable,False,-1.908821916351188,-0.8226309981526913,1.0,False
+Venezuela,noticias_caracol,LDA de consenso · asuntos públicos,Venezuela y Maduro,inestable,False,2.014696493536542,1.2997816863695733,0.1392,False
+Venezuela,la_republica,LDA de consenso · asuntos públicos,Venezuela y Maduro,inestable,False,1.7838524298208784,1.6564406665142133,0.0699999999999999,False
+Fútbol,el_tiempo,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,-1.5052455488848635,-0.5391974308435253,1.0,False
+Fútbol,blu_radio,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,-0.2432922832966998,-0.2191025770732904,1.0,False
+Fútbol,noticias_rcn,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,1.6860027679970702,0.719049149243773,1.0,False
+Fútbol,noticias_caracol,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,0.2368790996571793,0.1328809737193442,1.0,False
+Fútbol,la_republica,LDA de consenso · asuntos públicos,Mixto: elecciones y fútbol,inestable,False,-0.1743440354726854,-0.0936301150463002,1.0,False
+Inseguridad urbana y sucesos,el_tiempo,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,2.216186214101415,1.6500557203718478,0.005,True
+Inseguridad urbana y sucesos,blu_radio,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,1.030546594120061,0.0264870291271625,1.0,False
+Inseguridad urbana y sucesos,noticias_rcn,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,0.2433133456720214,-0.1663697911444688,1.0,False
+Inseguridad urbana y sucesos,noticias_caracol,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,-5.757081603152936,-2.777222109429988,0.0445,True
+Inseguridad urbana y sucesos,la_republica,BERTopic · asuntos públicos,Policía e inseguridad urbana,robusto,True,2.267035449259436,1.2670491510754458,1.0,False
+Justicia y tribunales,el_tiempo,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,-0.8318477844838882,-0.9475603870671602,0.3969,False
+Justicia y tribunales,blu_radio,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,-0.9434013627549116,0.5532078141421669,1.0,False
+Justicia y tribunales,noticias_rcn,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,1.1120447705912753,0.6625591190284252,1.0,False
+Justicia y tribunales,noticias_caracol,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,-0.1964137150901862,-0.3088446518270826,1.0,False
+Justicia y tribunales,la_republica,BERTopic · asuntos públicos,"Justicia: cortes, Fiscalía y corrupción",robusto,True,0.85961809173771,0.0406381057236518,1.0,False
+Geopolítica y guerras,el_tiempo,BERTopic · asuntos públicos,"Guerras: Israel, Rusia y Ucrania",robusto,True,0.3309287578887098,-0.2486313666343056,1.0,False
+Geopolítica y guerras,blu_radio,BERTopic · asuntos públicos,"Guerras: Israel, Rusia y Ucrania",robusto,True,-0.339776529451689,-0.3454508637692585,1.0,False
+Geopolítica y guerras,noticias_rcn,BERTopic · asuntos públicos,"Guerras: Israel, Rusia y Ucrania",robusto,True,-1.4171067603318903,-0.451121521290765,1.0,False
+Geopolítica y guerras,noticias_caracol,BERTopic · asuntos públicos,"Guerras: Israel, Rusia y Ucrania",robusto,True,-0.2281533016592279,-0.523039856860048,1.0,False
+Geopolítica y guerras,la_republica,BERTopic · asuntos públicos,"Guerras: Israel, Rusia y Ucrania",robusto,True,1.6541078335540975,1.5682436085543778,0.005,True
+Gobierno y presidente,el_tiempo,BERTopic · asuntos públicos,Gobierno y presidente (Petro / Duque),robusto,True,-0.4203257492094715,-0.8108042044991749,1.0,False
+Gobierno y presidente,blu_radio,BERTopic · asuntos públicos,Gobierno y presidente (Petro / Duque),robusto,True,0.6008007974961087,0.8510951414375529,0.48,False
+Gobierno y presidente,noticias_rcn,BERTopic · asuntos públicos,Gobierno y presidente (Petro / Duque),robusto,False,0.0609547183969227,0.7347636412723018,1.0,False
+Gobierno y presidente,noticias_caracol,BERTopic · asuntos públicos,Gobierno y presidente (Petro / Duque),robusto,True,0.0836623621772346,-0.7091627314047653,1.0,False
+Gobierno y presidente,la_republica,BERTopic · asuntos públicos,Gobierno y presidente (Petro / Duque),robusto,False,-0.3250921288607947,-0.0658918468059141,1.0,False
+Conflicto armado,el_tiempo,BERTopic · asuntos públicos,"Conflicto, víctimas y justicia transicional",robusto,True,-1.3289918327823451,-1.614609890016924,0.036,True
+Conflicto armado,blu_radio,BERTopic · asuntos públicos,"Conflicto, víctimas y justicia transicional",robusto,True,-0.5121136710277794,-0.4867653822150996,1.0,False
+Conflicto armado,noticias_rcn,BERTopic · asuntos públicos,"Conflicto, víctimas y justicia transicional",robusto,True,0.9067356387627692,0.4840609806557702,1.0,False
+Conflicto armado,noticias_caracol,BERTopic · asuntos públicos,"Conflicto, víctimas y justicia transicional",robusto,True,-1.5109785057661278,0.143270374996203,1.0,False
+Conflicto armado,la_republica,BERTopic · asuntos públicos,"Conflicto, víctimas y justicia transicional",robusto,True,2.4453483708134827,1.4740439165800492,0.3935999999999999,False
+Conflicto armado,el_tiempo,BERTopic · asuntos públicos,"Combates, Ejército y grupos armados",robusto,True,1.482804384741775,1.051743270663932,0.0527999999999999,False
+Conflicto armado,blu_radio,BERTopic · asuntos públicos,"Combates, Ejército y grupos armados",robusto,True,2.408533021074933,1.1579308769957508,0.129,False
+Conflicto armado,noticias_rcn,BERTopic · asuntos públicos,"Combates, Ejército y grupos armados",robusto,True,-0.238669384380544,-0.1334419986576757,1.0,False
+Conflicto armado,noticias_caracol,BERTopic · asuntos públicos,"Combates, Ejército y grupos armados",robusto,True,-1.885145933593452,0.2651415246536417,1.0,False
+Conflicto armado,la_republica,BERTopic · asuntos públicos,"Combates, Ejército y grupos armados",robusto,False,-1.767522087842712,-2.341373673655648,0.005,False
+Venezuela,el_tiempo,BERTopic · asuntos públicos,"Venezuela, Cuba y Maduro",robusto,True,-1.1796644504562368,-2.304680750328701,0.153,False
+Venezuela,blu_radio,BERTopic · asuntos públicos,"Venezuela, Cuba y Maduro",robusto,True,-0.7550340427691423,-0.908515698954336,1.0,False
+Venezuela,noticias_rcn,BERTopic · asuntos públicos,"Venezuela, Cuba y Maduro",robusto,True,-3.391553320856741,-0.8818260123983507,1.0,False
+Venezuela,noticias_caracol,BERTopic · asuntos públicos,"Venezuela, Cuba y Maduro",robusto,True,4.8368958860187306,3.762287884688324,0.005,True
+Venezuela,la_republica,BERTopic · asuntos públicos,"Venezuela, Cuba y Maduro",robusto,True,0.4893559280633881,0.3327345769930647,1.0,False
+Fútbol,el_tiempo,BERTopic · asuntos públicos,Fútbol (residual),robusto,True,-2.7199986333628363,-0.9340289106582396,0.8374,False
+Fútbol,blu_radio,BERTopic · asuntos públicos,Fútbol (residual),robusto,True,-0.6219451992885883,-0.0899292684418047,1.0,False
+Fútbol,noticias_rcn,BERTopic · asuntos públicos,Fútbol (residual),robusto,True,2.8751960954693336,1.0031153047081087,1.0,False
+Fútbol,noticias_caracol,BERTopic · asuntos públicos,Fútbol (residual),robusto,True,0.1943675503611169,-0.037896640542435,1.0,False
+Fútbol,la_republica,BERTopic · asuntos públicos,Fútbol (residual),robusto,True,0.2723801868209741,0.0587395149343708,1.0,False

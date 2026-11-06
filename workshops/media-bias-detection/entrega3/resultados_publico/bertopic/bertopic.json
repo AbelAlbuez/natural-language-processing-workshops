@@ -1,0 +1,9 @@
+{
+  "k": 20,
+  "coherence_cv": 0.39780410422051293,
+  "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "clustering": "UMAP(5d, coseno) + k-means (k=20)",
+  "documentos": 313170,
+  "ctfidf": "propio, vocabulario del diccionario LDA",
+  "muestra_ajuste": 140000
+}

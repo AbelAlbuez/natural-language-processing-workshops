@@ -1,0 +1,12 @@
+{
+  "pct_mismo_signo_todos": 51.2,
+  "pct_mismo_signo_por_robustez": {
+    "inestable": 46.7,
+    "parcial": 73.3,
+    "robusto": 80.0
+  },
+  "correlacion_base_vs_semillas": {
+    "semilla_7": 0.6604919298613903,
+    "semilla_123": 0.6736859796316021
+  }
+}
