@@ -17,3 +17,7 @@ resultados_publico/modelos/*
 !resultados_publico/modelos/ensemble_seed42_eps0.3.model.*
 !resultados_publico/modelos/dictionary.dict
 !resultados_publico/modelos/phrases.pkl
+# Emparejamiento entre medios: aristas y vecinos se regeneran con eventos.py.
+resultados*/eventos/aristas.parquet
+resultados*/eventos/mejores.npz
+resultados*/eventos/mejor_par.npy

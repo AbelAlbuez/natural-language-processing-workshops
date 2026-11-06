@@ -564,3 +564,140 @@ def control_seccion(deltas: pd.DataFrame, out: Path) -> None:
           "Control: cada medio se repondera para tener la misma mezcla de sus propias secciones en los dos "
           "gobiernos. Si el punto se acerca a 0, el cambio venía de cuánto pesa cada sección en el archivo. "
           f"Sólo tópicos robustos o parciales. {FUENTE}")
+
+
+# ── eventos: titulares del mismo hecho entre medios ─────────────────────────
+
+NOTA_UMBRAL = "Umbral provisional, sin calibrar con parejas revisadas a mano (paso 2 pendiente)."
+
+
+def eventos_similitud(best: np.ndarray, umbral: float, umbrales: list[float], cand: dict, out: Path) -> None:
+    """Distribución de la similitud del titular más parecido de otro medio (±ventana días)."""
+    v = best[np.isfinite(best)]
+    fig, ax = plt.subplots(figsize=(10, 4.2))
+    ax.hist(v, bins=np.linspace(0.2, 1.0, 81), color=BLUE, edgecolor=SURFACE, linewidth=0.5)
+    lines = []
+    for t in umbrales:
+        ax.axvline(t, color=INK if t == umbral else MUTED, lw=1.4 if t == umbral else 1, ls="-" if t == umbral else "--")
+        pct = cand["pct_con_pareja"].get(str(t), cand["pct_con_pareja"].get(f"{t:.2f}"))
+        mark = "  ← umbral usado" if t == umbral else ""
+        lines.append(f"similitud ≥ {t:.2f}: {pct:.0f} % de los titulares{mark}".replace(".", ",", 1))
+    ax.set_ylim(0, ax.get_ylim()[1] * 1.35)  # espacio para el texto sobre las barras
+    ax.text(0.02, 0.97, "\n".join(lines), transform=ax.transAxes, va="top", ha="left", fontsize=8.5, color=INK2,
+            linespacing=1.6)
+    ax.set_xlabel("similitud coseno con el titular más parecido de otro medio")
+    ax.set_ylabel("titulares")
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: miles(x)))
+    ax.grid(axis="x", visible=False)
+    _save(fig, out, "18_similitud_mejor_par.png", "¿Cuántos titulares tienen un gemelo en otro medio?",
+          f"Para cada uno de los {miles(len(v))} titulares con fecha al día del subcorpus de asuntos públicos, el más "
+          f"parecido de otro medio en ±{cand['ventana_dias']} días (embeddings multilingües). El texto indica el % con "
+          f"pareja sobre cada umbral. {NOTA_UMBRAL} {FUENTE}")
+
+
+def eventos_por_medios(summary: pd.DataFrame, umbral: float, out: Path) -> None:
+    counts = summary.groupby(["n_medios", "gobierno"]).size().unstack(fill_value=0).reindex(columns=["duque", "petro"])
+    fig, ax = plt.subplots(figsize=(9, 4))
+    x = np.arange(len(counts))
+    width = 0.38
+    for i, gov in enumerate(["duque", "petro"]):
+        bars = ax.bar(x + (i - 0.5) * width, counts[gov], width, color=GOV_COLORS[gov],
+                      label=f"Gobierno {GOV_NAMES[gov]}", edgecolor=SURFACE, linewidth=2)
+        for b, val in zip(bars, counts[gov]):
+            ax.text(b.get_x() + b.get_width() / 2, val, miles(val), ha="center", va="bottom", fontsize=8, color=INK2)
+    ax.set_xticks(x, [f"{k} medios" for k in counts.index])
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: miles(v)))
+    ax.set_ylabel("eventos")
+    ax.grid(axis="x", visible=False)
+    ax.legend(loc="upper right")
+    _save(fig, out, "19_eventos_por_medios.png", "Eventos según cuántos medios los cubren",
+          f"Evento = titulares de medios distintos que son recíprocamente el más parecido entre sí (similitud ≥ "
+          f"{umbral:.2f}), en ±2 días; un titular por medio en el núcleo. Petro tiene más titulares en el "
+          f"subcorpus, así que los conteos no se comparan directamente. {NOTA_UMBRAL} {FUENTE}".replace(".", ",", 1))
+
+
+def eventos_sensibilidad(sens: pd.DataFrame, umbral: float, out: Path) -> None:
+    fig, axes = plt.subplots(1, 3, figsize=(13, 3.8))
+    specs = [
+        (axes[0], ["eventos_2_o_mas_medios", "eventos_3_o_mas_medios", "eventos_4_o_mas_medios", "eventos_5_medios"],
+         ["≥2 medios", "≥3 medios", "≥4 medios", "5 medios"], "Eventos según el umbral", miles),
+        (axes[1], ["pct_titulares_en_eventos"], ["titulares en eventos"], "% de titulares en algún evento",
+         lambda v: f"{v:.0f} %"),
+        (axes[2], ["componente_mas_grande"], ["componente más grande"], "Componente conexa más grande (titulares)",
+         miles),
+    ]
+    for ax, cols, names, title, fmt in specs:
+        for k, (col, name) in enumerate(zip(cols, names)):
+            color = ORDINAL[min(2 + 2 * k, len(ORDINAL) - 1)] if len(cols) > 1 else BLUE
+            ax.plot(sens["umbral"], sens[col], "o-", color=color, ms=8, mec=SURFACE, mew=2)
+            if len(cols) > 1:
+                # Etiqueta al final con el valor del último punto; las líneas bajas van separadas.
+                ax.annotate(f"{name}: {fmt(sens[col].iloc[-1])}", (sens["umbral"].iloc[-1], sens[col].iloc[-1]),
+                            xytext=(8, {2: 11}.get(k, 0)), textcoords="offset points", va="bottom" if k == 3 else "center",
+                            fontsize=8,
+                            color=INK2)
+            if len(cols) == 1 or k < 2:
+                for xv, yv in zip(sens["umbral"].iloc[:-1] if len(cols) > 1 else sens["umbral"],
+                                  sens[col].iloc[:-1] if len(cols) > 1 else sens[col]):
+                    ax.annotate(fmt(yv), (xv, yv), xytext=(0, 7), textcoords="offset points", ha="center",
+                                fontsize=7.5, color=INK2)
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: miles(v)))
+        ax.axvline(umbral, color=MUTED, lw=1, ls="--")
+        ax.set_xticks(sens["umbral"], [f"{v:.2f}".replace(".", ",") for v in sens["umbral"]])
+        ax.set_xlabel("umbral de similitud")
+        ax.set_title(title, fontsize=10)
+        ax.set_ylim(0, sens[cols].to_numpy().max() * 1.2)
+        ax.set_xlim(sens["umbral"].min() - 0.02, sens["umbral"].max() + (0.07 if len(cols) > 1 else 0.03))
+    _save(fig, out, "20_sensibilidad_umbral.png", "Cuánto cambian los eventos con el umbral",
+          f"Línea punteada: umbral usado ({umbral:.2f}). La componente más grande se mide antes de partir las "
+          f"componentes encadenadas. {NOTA_UMBRAL} {FUENTE}".replace(".", ",", 1))
+
+
+def eventos_por_mes(summary: pd.DataFrame, umbral: float, out: Path) -> None:
+    big = summary[summary["n_medios"] >= 3].copy()
+    big["mes"] = pd.to_datetime(big["fecha_inicio"]).dt.to_period("M").dt.to_timestamp()
+    fig, ax = plt.subplots(figsize=(11, 4))
+    for gov in ["duque", "petro"]:
+        s = big[big["gobierno"] == gov].groupby("mes").size()
+        s = s[(s.index >= pd.Timestamp("2018-08-01")) & (s.index < pd.Timestamp("2026-08-01"))]
+        if gov == "duque":  # agosto de 2022 sólo tiene 6 días de Duque
+            s = s[s.index < pd.Timestamp("2022-08-01")]
+        ax.plot(s.index, s.values, color=GOV_COLORS[gov], lw=1.8, label=f"Gobierno {GOV_NAMES[gov]}")
+    ax.set_ylim(0, None)
+    _possession(ax)
+    ax.set_ylabel("eventos con ≥3 medios")
+    ax.legend(loc="upper left")
+    _save(fig, out, "21_eventos_por_mes.png", "Eventos cubiertos por al menos tres medios, mes a mes",
+          f"Mes de inicio del evento; se omiten los meses con 6 días de gobierno (agosto de 2022 para Duque y de "
+          f"2026 para Petro). Depende del volumen de cada archivo, que crece con los años. "
+          f"{NOTA_UMBRAL} {FUENTE}")
+
+
+def eventos_participacion(cov: pd.DataFrame, umbral: float, out: Path) -> None:
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4.6), sharey=False)
+    x = np.arange(len(MEDIA))
+    handles = []
+    width = 0.38
+    for ax, col, title in [(axes[0], "pct_participa", "Participa en el evento"),
+                           (axes[1], "pct_publica_primero", "Publica primero (día)")]:
+        for i, gov in enumerate(["duque", "petro"]):
+            part = cov[cov["gobierno"] == gov].set_index("source_id").loc[MEDIA]
+            bars = ax.bar(x + (i - 0.5) * width, part[col], width, color=GOV_COLORS[gov],
+                          label=f"Gobierno {GOV_NAMES[gov]} ({miles(part['eventos_3_mas_medios'].iat[0])} eventos)",
+                          edgecolor=SURFACE, linewidth=2)
+            if ax is axes[0]:
+                handles.append(bars)
+            for b, val in zip(bars, part[col]):
+                ax.text(b.get_x() + b.get_width() / 2, val, f"{val:.0f}", ha="center", va="bottom", fontsize=7.5,
+                        color=INK2)
+        ax.set_xticks(x, [SHORT[m] for m in MEDIA])
+        ax.set_ylim(0, 105 if col == "pct_participa" else cov[col].max() * 1.3)
+        ax.yaxis.set_major_formatter(PercentFormatter(100, decimals=0))
+        ax.set_title(title)
+        ax.grid(axis="x", visible=False)
+    _margins(fig, handles, ncol=2, top_in=1.1)
+    ties = cov.groupby("gobierno")["pct_eventos_con_empate_el_primer_dia"].first()
+    _save(fig, out, "22_participacion_eventos.png", "Qué medios cubren los eventos con al menos tres medios",
+          f"% de los eventos con ≥3 medios en los que aparece cada medio, y en los que publica primero. Sólo hay "
+          f"fecha al día: en un empate el crédito se reparte (empates el primer día: Duque {ties.get('duque', 0):.0f} %, "
+          f"Petro {ties.get('petro', 0):.0f} %). Descriptivo: no mide sesgo. {NOTA_UMBRAL} {FUENTE}")
