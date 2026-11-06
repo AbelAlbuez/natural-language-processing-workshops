@@ -7,6 +7,8 @@ qué palabras tienden a aparecer juntas en los titulares. Las etiquetas son una
 interpretación humana (`topic_labels.csv`).
 
 Resumen de resultados para el equipo: [`RESUMEN_EJECUTIVO.md`](RESUMEN_EJECUTIVO.md).
+Las mejoras posteriores (subcorpus de asuntos públicos, control por sección, LDA
+de consenso y BERTopic) están en la [sección final](#mejoras-subcorpus-de-asuntos-públicos-control-por-sección-lda-de-consenso-y-bertopic).
 
 ## Datos
 
@@ -127,6 +129,108 @@ los Δ de tópicos robustos o parciales que además conservan el signo
 > la agenda informativa general, se calculó un Δ relativo: la diferencia entre
 > gobiernos en la participación de un tópico en un medio, menos la diferencia
 > promedio en los otros cuatro, con intervalos por bootstrap de bloques mensuales
-> y corrección de Holm. De los 75 pares medio–tópico, 14 muestran un Δ relativo
+> y corrección de Holm. De los 75 pares medio–tópico, 13 muestran un Δ relativo
 > significativo en tópicos robustos o parciales que conserva el signo con las
-> tres semillas.
+> tres semillas; 5 siguen siéndolo al controlar por la mezcla de secciones de
+> cada medio.
+
+
+## Mejoras: subcorpus de asuntos públicos, control por sección, LDA de consenso y BERTopic
+
+Tres debilidades del LDA anterior motivaron esta segunda ronda: 10 de 15 tópicos
+inestables entre semillas, una agenda dominada por fútbol, farándula y sucesos, y
+cambios entre gobiernos que seguían la composición de los archivos (la sección
+de deportes de RCN pasa del ~1 % al 43–45 % de sus URLs).
+
+### Subcorpus de asuntos públicos
+
+`subcorpus_publico.sh` lista las noticias con al menos una etiqueta del tesauro
+(`config/topics.yaml`) de política, economía, seguridad, justicia o relaciones
+internacionales **encontrada en el titular**. No se usan las coincidencias en la
+URL ni en la sección porque las taxonomías no son comparables entre medios (RCN
+no tiene sección de política ni de justicia). Resultado: **313.170 titulares**;
+la celda más chica es RCN–Duque (14.689), así que la muestra balanceada es de
+14.000 por medio × gobierno (140.000). Vocabulario: 6.678 términos, 454 bigramas.
+
+### Control por sección
+
+`topics.section_weights` repondera, dentro de cada medio, para que los dos
+gobiernos tengan la misma mezcla de las secciones *de ese medio*
+(peso = p(sección | medio) / p(sección | medio, gobierno); secciones con menos
+del 0,5 % se agrupan). No hace falta armonizar taxonomías porque la comparación
+es siempre dentro del mismo medio. Lo que queda es el cambio *dentro* de las
+secciones; un cambio editorial real de cuánto espacio da el medio a una sección
+también se descuenta, por eso `deltas.csv` trae las dos versiones (`delta_rel_*`
+y `secc_delta_rel_*`). Figura: `16_control_seccion.png`.
+
+### Corrección de potencia del bootstrap
+
+Con 2.000 réplicas, el p-valor bootstrap no baja de 1/2.000 y Holm lo multiplica
+por el número de pruebas: con 125 pruebas (LDA K = 25 × 5 medios) el mínimo
+ajustado era 0,0625 y **ningún cambio podía ser significativo**; con 75 pruebas
+el mínimo era 0,0375, apenas bajo el umbral. Se pasó a **20.000 réplicas**
+(`BOOTSTRAP_REPS`; piso ajustado 0,005 con 100 pruebas). Con eso el LDA del corpus
+completo queda en 13 cambios fiables en vez de 14 (Fútbol en Caracol pasa a
+p = 0,17).
+
+### Modelos sobre el subcorpus
+
+| Modelo | K | c_v | Jaccard top-10 entre semillas | Robustos / parciales | Corr. Δ entre semillas | Δ fiables sin / con control |
+|---|---:|---:|---:|---|---:|---|
+| LDA · corpus completo (referencia) | 15 | 0,417 | 0,25 | 3 / 2 | 0,88 | 13 / 5 de 75 |
+| LDA · asuntos públicos | 25 | 0,360 | 0,19 | 1 / 3 | 0,67 | 7 / 2 de 125 |
+| LDA de consenso · asuntos públicos | 12 | 0,319 | 0,22 | 0 / 2 | 0,76 | 2 / 1 de 60 |
+| BERTopic · asuntos públicos | 20 | 0,398 | **0,79** | **19 / 0** | **0,95** | **22 / 10 de 100** |
+
+Fuente: `resultados_publico/comparacion_metodos.csv` (`comparar_metodos.py`). La
+c_v se calcula con los textos de la muestra de cada corpus, así que la del
+corpus completo no es directamente comparable con las del subcorpus.
+
+- **LDA · asuntos públicos**: grilla K = 10–30; máximo c_v en K = 25.
+- **LDA de consenso** (`gensim.models.EnsembleLda`): 16 LDA de K = 25 por
+  semilla, tres semillas. Con el radio por defecto (eps = 0,1) sólo sobrevivían
+  3–4 tópicos de 400; `ensemble_eps.csv` muestra que desde eps = 0,3 las tres
+  semillas dejan 12, y se usó ese valor. Aun así los tópicos de consenso no se
+  repiten entre ensambles (Jaccard 0,22) y en su mayoría son mezclas.
+- **BERTopic** (`bertopic_topics.py`, imagen `Dockerfile.bertopic`): embeddings
+  `paraphrase-multilingual-MiniLM-L12-v2` del titular, UMAP a 5 dimensiones y
+  k-means (k = 20) en vez de HDBSCAN, para que todo titular tenga tópico y las
+  participaciones sean comparables (θ es one-hot). El c-TF-IDF se calcula con el
+  vocabulario del diccionario del LDA: el `CountVectorizer` interno de BERTopic
+  aplica `min_df` sobre un documento por tópico y dejaba sólo 164 palabras.
+
+### Hallazgos que se repiten entre modelos
+
+Con control por sección, significativos y del mismo signo en al menos dos
+modelos (`resultados_publico/hallazgos_coincidentes.csv`):
+
+| Medio | Tema | Dirección | Modelos | Δ con control |
+|---|---|---|---|---|
+| El Tiempo | Inseguridad urbana y sucesos | más | LDA completo, consenso, BERTopic | +1,1 a +1,7 pp |
+| El Tiempo | Justicia y tribunales | menos | LDA completo, LDA público | −0,7 a −1,1 pp |
+| La República | Geopolítica y guerras | más | LDA público, BERTopic | +1,2 a +1,6 pp |
+
+En justicia, BERTopic da el mismo signo para El Tiempo (−0,95 pp) sin ser
+significativo.
+
+### Reproducir
+
+```bash
+./subcorpus_publico.sh                                   # → news-retrieval/exports/subcorpus_publico_ids.csv
+bash -c 'P="--output resultados_publico --ids /workspace/news-retrieval/exports/subcorpus_publico_ids.csv --per-cell 14000 --cv-docs 50000"
+  ./run.sh prepare $P --heldout-per-cell 500 --ids-label "Asuntos públicos (tesauro en el titular)"
+  ./run.sh train $P --topics 10 15 20 25 30
+  for e in stability infer examples robustness; do ./run.sh $e $P; done
+  ./run.sh compare $P --labels /workspace/entrega3/labels/publico_lda.csv
+  for e in ensemble stability infer examples robustness; do ./run.sh $e $P --model ensemble --ensemble-topics 25 --ensemble-eps 0.3; done
+  ./run.sh compare $P --model ensemble --ensemble-topics 25 --ensemble-eps 0.3 --labels /workspace/entrega3/labels/publico_ensemble.csv'
+docker build -t duque-petro-bertopic:local -f Dockerfile.bertopic .
+SCRIPT=bertopic_topics.py IMAGEN=duque-petro-bertopic:local ./run.sh - --output resultados_publico --k 20
+bash -c './run.sh compare --output resultados_publico --ids /workspace/news-retrieval/exports/subcorpus_publico_ids.csv --per-cell 14000 --model bertopic --labels /workspace/entrega3/labels/publico_bertopic.csv'
+SCRIPT=comparar_metodos.py ./run.sh -
+```
+
+Tiempos en 12 núcleos: grilla LDA ≈3 min; cada ensamble ≈4 min; BERTopic ≈1,5 h
+la primera vez (embeddings de 313 mil titulares y tres ajustes de UMAP, que se
+guardan en caché). En zsh, las listas de argumentos en variables necesitan
+`bash -c` (zsh no separa palabras).
