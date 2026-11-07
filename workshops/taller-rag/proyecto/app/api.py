@@ -47,7 +47,10 @@ def health(deep: bool = False):
     try:
         client = rag._milvus_client(s)
         exists = client.has_collection(s.collection)
-        rows = client.get_collection_stats(s.collection)["row_count"] if exists else 0
+        # count(*) con lectura fuerte: get_collection_stats incluye filas reemplazadas por upsert
+        # hasta la compactación y puede sobrecontar.
+        rows = int(client.query(collection_name=s.collection, filter="", output_fields=["count(*)"],
+                                consistency_level="Strong")[0]["count(*)"]) if exists else 0
         out["milvus"] = {"ok": exists, "exists": exists, "rows": rows}
         if not exists:
             out["status"] = "degraded"
@@ -90,5 +93,8 @@ def ask(req: AskRequest):
         return rag.answer(req.question, s, model=model, k=req.k)
     except rag.MilvusUnavailable as exc:
         raise HTTPException(503, detail={"servicio": "milvus", "error": str(exc)})
+    except rag.OllamaRepetition as exc:
+        # El servicio respondió, pero cortó la generación: 502 y motivo específico.
+        raise HTTPException(502, detail={"servicio": "ollama", "motivo": "repeticion", "error": str(exc)})
     except rag.OllamaUnavailable as exc:
         raise HTTPException(503, detail={"servicio": "ollama", "error": str(exc)})

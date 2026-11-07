@@ -65,6 +65,10 @@ class OllamaUnavailable(RuntimeError):
     """Ollama no responde, devolvió un error o el modelo no está descargado."""
 
 
+class OllamaRepetition(OllamaUnavailable):
+    """Ollama cortó la generación porque el modelo repetía tokens ("token repeat limit")."""
+
+
 # ── Configuración ────────────────────────────────────────────────────────────
 def _required(name):
     value = os.getenv(name, "").strip()
@@ -98,6 +102,10 @@ class Settings:
     # aproximación del consumo en el LLM, cuyo tokenizador es distinto.
     max_context_tokens: int = 2048
     temperature: float = 0.0
+    # Penalización de repetición, fija e igual para todos los modelos (configuración
+    # congelada). Con temperature 0 y sin ella, gemma2:2b entra en bucle y Ollama corta la
+    # generación ("token repeat limit reached"); con 1.1 los cuatro modelos terminan.
+    repeat_penalty: float = 1.1
     ollama_timeout: float = 240.0
     run_log: str = "reports/rag_runs.jsonl"
 
@@ -117,6 +125,7 @@ class Settings:
             score_threshold=_number("RAG_SCORE_THRESHOLD", cls.score_threshold, float),
             max_context_tokens=_number("RAG_MAX_CONTEXT_TOKENS", cls.max_context_tokens, int),
             temperature=_number("RAG_TEMPERATURE", cls.temperature, float),
+            repeat_penalty=_number("RAG_REPEAT_PENALTY", cls.repeat_penalty, float),
             ollama_timeout=_number("OLLAMA_TIMEOUT", cls.ollama_timeout, float),
             run_log=os.getenv("RAG_RUN_LOG", cls.run_log),
         )
@@ -223,6 +232,11 @@ def extract_citations(answer_text, selected):
 
 
 # ── Generación ───────────────────────────────────────────────────────────────
+def ollama_options(settings):
+    """Opciones de muestreo enviadas a Ollama; iguales para todos los modelos."""
+    return {"temperature": settings.temperature, "repeat_penalty": settings.repeat_penalty}
+
+
 def generate(prompt, model, settings, session=None):
     """Llama a Ollama /api/generate. Devuelve (texto, métricas de tokens)."""
     import requests
@@ -235,7 +249,7 @@ def generate(prompt, model, settings, session=None):
                 "model": model,
                 "prompt": prompt,
                 "stream": False,
-                "options": {"temperature": settings.temperature},
+                "options": ollama_options(settings),
             },
             timeout=settings.ollama_timeout,
         )
@@ -244,6 +258,15 @@ def generate(prompt, model, settings, session=None):
     if response.status_code == 404:
         raise OllamaUnavailable(f"El modelo {model!r} no está descargado en Ollama.")
     if response.status_code >= 400:
+        try:
+            error = str(response.json().get("error", ""))
+        except ValueError:
+            error = ""
+        if "repeat limit" in error.lower():
+            raise OllamaRepetition(
+                f"Ollama cortó la generación de {model!r} por repetición de tokens "
+                f"(repeat_penalty={settings.repeat_penalty})."
+            )
         raise OllamaUnavailable(f"Ollama devolvió HTTP {response.status_code}.")
     body = response.json()
     usage = {
@@ -270,6 +293,7 @@ class RunParams:
     score_threshold: float
     max_context_tokens: int
     temperature: float
+    repeat_penalty: float
     collection: str
     prompt_name: str = PROMPT_NAME
     prompt_version: str = PROMPT_VERSION
@@ -286,7 +310,7 @@ def answer(question, settings, model=None, k=None, retriever=None, generator=Non
     params = RunParams(
         model=model, top_k=k, score_threshold=settings.score_threshold,
         max_context_tokens=settings.max_context_tokens, temperature=settings.temperature,
-        collection=settings.collection,
+        repeat_penalty=settings.repeat_penalty, collection=settings.collection,
     )
 
     t0 = time.perf_counter()

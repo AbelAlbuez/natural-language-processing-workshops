@@ -98,6 +98,30 @@ def test_upsert_is_idempotent():
     assert ing.count_present(client, "c", ids, batch_size=4) == 10
 
 
+def test_count_queries_retry_transient_lag_but_not_other_errors():
+    class Flaky(FakeMilvus):
+        def __init__(self, message):
+            super().__init__()
+            self.calls, self.message = 0, message
+
+        def query(self, *args, **kwargs):
+            self.calls += 1
+            if self.calls == 1:
+                raise RuntimeError(self.message)
+            return super().query(*args, **kwargs)
+
+    client = Flaky("failed to query: lag(20.8s) max(3s): channel tsafe")
+    ms.ensure_collection(client, "c")
+    ing.upsert_all(client, "c", [ing.to_record(chunk_row(), [0.0] * ms.DIM, "es")])
+    assert ing.count_total(client, "c", wait=0) == 1 and client.calls == 2
+
+    broken = Flaky("collection not found")
+    ms.ensure_collection(broken, "c")
+    with pytest.raises(RuntimeError):
+        ing.count_total(broken, "c", wait=0)
+    assert broken.calls == 1
+
+
 # ── Esquema de la colección (sin conexión) ───────────────────────────────────
 def test_schema_fields_types_and_primary_key():
     schema = ms.build_schema()
@@ -201,6 +225,86 @@ def test_budget_too_small_for_first_fragment_abstains():
                      retriever=lambda q, k: [frag(1, 0.95, 40)],
                      generator=lambda *_: pytest.fail("no debe llamarse al LLM"))
     assert out["abstained"] and out["abstention_reason"] == "context_budget"
+
+
+# ── repeat_penalty y corte por repetición ───────────────────────────────────
+class FakeResponse:
+    def __init__(self, status, body):
+        self.status_code, self._body = status, body
+
+    def json(self):
+        return self._body
+
+
+class FakeSession:
+    def __init__(self, response):
+        self.response, self.sent = response, None
+
+    def post(self, url, json=None, timeout=None):
+        self.sent = json
+        return self.response
+
+
+def test_repeat_penalty_reaches_ollama():
+    session = FakeSession(FakeResponse(200, {"response": "ok [1]", "eval_count": 3}))
+    text, usage = rag.generate("prompt", "gemma2:2b", settings(), session=session)
+    assert text == "ok [1]" and usage["completion_tokens"] == 3
+    assert session.sent["options"] == {"temperature": 0.0, "repeat_penalty": 1.1}
+    assert session.sent["model"] == "gemma2:2b" and session.sent["stream"] is False
+
+
+def test_repeat_penalty_is_global_not_per_model(monkeypatch):
+    monkeypatch.setenv("LLM_MODEL", "a")
+    monkeypatch.setenv("MILVUS_URI", "http://m")
+    monkeypatch.setenv("OLLAMA_URL", "http://o")
+    monkeypatch.delenv("RAG_REPEAT_PENALTY", raising=False)
+    assert rag.Settings.from_env().repeat_penalty == 1.1
+    s = settings()
+    assert rag.ollama_options(s) == rag.ollama_options(s)  # mismas opciones para cualquier modelo
+    assert "model" not in rag.ollama_options(s)
+
+
+def test_repeat_limit_maps_to_specific_error():
+    session = FakeSession(FakeResponse(500, {"error": "prediction aborted, token repeat limit reached"}))
+    with pytest.raises(rag.OllamaRepetition):
+        rag.generate("prompt", "gemma2:2b", settings(), session=session)
+    other = FakeSession(FakeResponse(500, {"error": "something else"}))
+    with pytest.raises(rag.OllamaUnavailable) as exc:
+        rag.generate("prompt", "gemma2:2b", settings(), session=other)
+    assert not isinstance(exc.value, rag.OllamaRepetition)
+
+
+def test_api_returns_502_with_motivo_on_repetition(monkeypatch):
+    from fastapi import HTTPException
+
+    import app.api as api
+
+    monkeypatch.setattr(api, "_settings_or_500", lambda: settings())
+
+    def cut(*args, **kwargs):
+        raise rag.OllamaRepetition("cortado")
+
+    monkeypatch.setattr(rag, "answer", cut)
+    with pytest.raises(HTTPException) as exc:
+        api.ask(api.AskRequest(question="pregunta"))
+    assert exc.value.status_code == 502
+    assert exc.value.detail["servicio"] == "ollama" and exc.value.detail["motivo"] == "repeticion"
+
+    def down(*args, **kwargs):
+        raise rag.OllamaUnavailable("caído")
+
+    monkeypatch.setattr(rag, "answer", down)
+    with pytest.raises(HTTPException) as exc:
+        api.ask(api.AskRequest(question="pregunta"))
+    assert exc.value.status_code == 503 and "motivo" not in exc.value.detail
+
+
+def test_run_log_records_repeat_penalty(tmp_path):
+    log = tmp_path / "runs.jsonl"
+    out = rag.answer("pregunta", settings(run_log=str(log)), retriever=lambda q, k: [frag(1, 0.9)],
+                     generator=lambda p, m: ("Respuesta [1].", {}))
+    assert out["params"]["repeat_penalty"] == 1.1
+    assert '"repeat_penalty": 1.1' in log.read_text(encoding="utf-8")
 
 
 # ── Configuración ────────────────────────────────────────────────────────────
