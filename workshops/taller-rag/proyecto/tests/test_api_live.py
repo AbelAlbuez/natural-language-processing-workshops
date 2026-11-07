@@ -18,9 +18,7 @@ import requests
 pytestmark = pytest.mark.skipif(os.getenv("RAG_LIVE") != "1", reason="Defina RAG_LIVE=1 para pruebas en vivo.")
 
 API = os.getenv("RAG_API_URL", "http://localhost:8000").rstrip("/")
-GOLD = Path(__file__).resolve().parents[1] / "docs" / "gold_standard_plantilla.csv"
-DEV_IDS = ["G01", "G02", "G04", "G09", "G10", "G12", "G14", "G16", "G17", "G18",
-           "G20", "G21", "G25", "G27", "G30", "G31", "G32", "G33", "G36", "G39"]
+GOLD = Path(__file__).resolve().parents[1] / "docs" / "gold_standard.csv"
 GENERIC_QUERY = "elecciones presidenciales en Colombia"
 NONSENSE_QUERY = "qzxv blorf kwyjibo trznn plimp"
 K = 5
@@ -42,9 +40,16 @@ def model(health):
 
 
 def dev_questions(n=3):
-    rows = list(csv.DictReader(GOLD.open(encoding="utf-8")))
-    filled = [r for r in rows if r["id_pregunta"] in DEV_IDS and r["pregunta"].strip()]
-    return [(r["id_pregunta"], r["pregunta"].strip()) for r in filled[:n]]
+    """Primeras n respondibles de la partición de desarrollo de docs/gold_standard.csv.
+
+    Nunca usa la partición de prueba. Devuelve (id, pregunta); el texto no se imprime.
+    """
+    if not GOLD.exists():
+        return []
+    with GOLD.open(encoding="utf-8", newline="") as fh:
+        rows = [r for r in csv.DictReader(fh)
+                if r.get("split") == "desarrollo" and r.get("tipo") != "no_respondible" and r.get("pregunta", "").strip()]
+    return [(r["id"], r["pregunta"].strip()) for r in sorted(rows, key=lambda r: r["id"])[:n]]
 
 
 def assert_fragments(fragments, k):
@@ -80,7 +85,7 @@ def test_retrieve_contract_generic_query():
 def test_retrieve_dev_questions(position):
     questions = dev_questions()
     if len(questions) <= position:
-        pytest.skip("El gold standard aún no tiene texto en las preguntas de desarrollo.")
+        pytest.skip(f"{GOLD.name} no existe o no tiene {position + 1} preguntas respondibles de desarrollo.")
     _, question = questions[position]
     r = requests.post(f"{API}/retrieve", json={"question": question, "k": K}, timeout=60)
     assert r.status_code == 200
