@@ -142,16 +142,40 @@ eventos.
     mismos hechos (+11 pp), y RCN (−13), La República (−8) y Blu Radio (−5)
     menos. Sólo con Duque no se distingue ningún medio.
 
+## Lenguaje cargado, banda 0,65–0,80 y silver standard (hecho)
+
+- **Lenguaje cargado** ([detalle](resultados_publico/carga/LEEME.md)):
+  - Se usa un léxico evaluativo curado y validado a mano; no es análisis de
+    sentimiento.
+  - Ante el mismo hecho, las diferencias entre medios son de **3 pp como
+    mucho**: Caracol usa más carga negativa con Duque (+2,4) y La República
+    menos con Petro (−3,1).
+  - Blu Radio usa más verbos de atribución cargados («arremete», «denuncia»),
+    en los dos gobiernos.
+  - **Ningún medio carga al gobierno más que los otros en el mismo hecho.** La
+    carga negativa en los titulares sobre el gobierno sube en conjunto con
+    Petro (de 5 % a 10 %), igual en todos los medios.
+- **Banda 0,65–0,80** ([detalle](resultados_publico/lexico_banda/LEEME.md)):
+  - Con un filtro de ≈ 72 % de precisión no aparece encuadre nuevo, y la
+    personalización del gobierno se mantiene.
+  - Los resultados con ≥ 0,80 no son un artefacto del umbral.
+- **Silver standard** ([guía](resultados_publico/silver/LEEME.md)):
+  - Dos planillas de 180 titulares (60 dobles), a ciegas del medio, con el
+    contexto de otros medios.
+  - Esperan la anotación del equipo (~2 h por persona).
+
 ## Siguientes pasos recomendados
 
-1. Revisar con el equipo los ejemplos de `resultados_publico/lexico/ejemplos_lexico.md`
+1. **Anotar el silver standard** y usarlo para medir la precisión del léxico
+   de carga.
+2. Revisar con el equipo los ejemplos de `resultados_publico/lexico/ejemplos_lexico.md`
    antes de citar las diferencias léxicas, y estimar el **recall** del
    emparejamiento (anotar ausencias), que hoy limita la lectura de la omisión.
-2. Calibrar también el umbral del **seguimiento** (notas extra del mismo medio
+3. Calibrar también el umbral del **seguimiento** (notas extra del mismo medio
    en un evento), que hoy usa el mismo 0,80 sin medición propia.
-3. **Validar los tópicos de BERTopic con el equipo** (prueba de intrusión de
+4. **Validar los tópicos de BERTopic con el equipo** (prueba de intrusión de
    palabras) y revisar los dos tópicos mixtos antes de citarlos.
-4. Extender BERTopic al **corpus completo** para comparar con el LDA K = 15.
+5. Extender BERTopic al **corpus completo** para comparar con el LDA K = 15.
 
 ## Dónde está todo
 
@@ -164,3 +188,5 @@ eventos.
   el efecto del control, `16_control_seccion.png`)
 - Omisión y elección léxica: `resultados_publico/omision/` y `resultados_publico/lexico/`
   (cada uno con su `LEEME.md` y figuras 23–29)
+- Lenguaje cargado, banda 0,65–0,80 y silver standard: `resultados_publico/carga/`,
+  `resultados_publico/lexico_banda/` y `resultados_publico/silver/` (figuras 30–35)

@@ -557,3 +557,125 @@ cota inferior. No se usa sentimiento.
 ```bash
 SCRIPT=lexico.py ./run.sh - --output resultados_publico   # ~1 min
 ```
+
+## Lenguaje cargado (evaluativo) dentro del mismo hecho
+
+Código: `carga.py`; léxico: `lexico_carga.csv`. Detalle, validación y borrador
+para el artículo en [`resultados_publico/carga/LEEME.md`](resultados_publico/carga/LEEME.md)
+(figuras 30–32).
+
+**Enfoque.** No se usa sentimiento como medida de sesgo. Se mide el **lenguaje
+evaluativo**: palabras que añaden un juicio que el hecho no exige
+(«polémica», «fracaso», «arremete», «histórico», «logro»). Las que describen
+el hecho («muerto», «ataque», «corrupción») son agenda y no entran.
+- **Léxico.** 74 entradas activas, curadas a mano y sin tildes, con
+  polaridad y tipo (juicio, sensacionalismo, conflicto, intensificador,
+  atribución cargada frente a neutra).
+- **Validación.** Se revisó el contexto (KWIC) de cada entrada sobre 49.759
+  titulares y se cambiaron 28 entradas, marcadas `tras_datos`. Ejemplos:
+  - fuera «Pacto Histórico», «golpe de calor» y «falsos positivos»;
+  - «choco» es casi siempre Chocó, no «chocó».
+- **Diseño emparejado** por evento, como en el análisis léxico. RCN entra en
+  Duque sólo desde 2020-09.
+
+**Resultados** (medio − otros medios en los mismos eventos, pp, IC 95 %):
+- **Las diferencias son pequeñas**, de 3 pp como mucho.
+  - Caracol con Duque usa más carga negativa (+2,4; 1,3 a 3,4), sobre todo
+    léxico de sucesos («terror», «tragedia») en conflicto y combates.
+  - La República con Petro usa menos (−3,1; −4,1 a −2,1): evita «polémica»,
+    «crisis» y «escándalo».
+  - Las dos diferencias son robustas.
+- **Verbos de atribución.** Blu Radio usa más verbos cargados («denuncia»,
+  «arremete») en lugar de neutros («dice»): +12,5 pp con Duque y +11,4 con
+  Petro. Es un rasgo de redacción de la casa.
+- **Carga dirigida al gobierno.**
+  - **Nivel:** en los titulares que nombran al gobierno, la carga negativa
+    sube del 5,2 % (3,8 % desde 2020-09) al 9,7 % con Petro, y la positiva baja
+    del 2,1 % al 0,9 %. El cambio es **común a los cinco medios**: puede ser de
+    agenda o del periodo.
+  - **Emparejado:** **ningún medio carga al gobierno de forma distinta a los
+    demás**, ni con Duque ni con Petro; los 10 IC cruzan el 0.
+- **Por tema** no aparece carga contra el gobierno.
+
+Carga no es sesgo: puede ser el registro de la casa o una cita (los slugs no
+tienen comillas). El léxico se hizo a mano y todavía no tiene precisión medida;
+el silver standard sirve para medirla.
+
+```bash
+SCRIPT=carga.py ./run.sh - validar     # KWIC para revisar el léxico
+SCRIPT=carga.py ./run.sh - analizar
+```
+
+## Análisis léxico con parejas de similitud 0,65–0,80
+
+Código: `lexico_banda.py`. Detalle en
+[`resultados_publico/lexico_banda/LEEME.md`](resultados_publico/lexico_banda/LEEME.md)
+(figuras 33–35).
+
+**Por qué.** Con umbral ≥ 0,80 se eligen titulares redactados de forma
+parecida. El «mismo hecho contado distinto» debería estar entre 0,65 y 0,80,
+pero ahí sólo el 36 % de las parejas anotadas son el mismo hecho.
+
+**Filtro.** Misma fecha y al menos un término raro compartido: un nombre propio,
+un lugar o una institución que aparezca en ≤ 1.000 titulares. Se eligió entre
+42 reglas sin mirar resultados léxicos.
+- Deja 13.741 de 55.384 parejas.
+- Su precisión es de **≈ 72 %** con validación cruzada anidada (IC 61–81 %).
+  Sólo se apoya en 16 parejas anotadas que pasan el filtro, así que **la banda
+  es exploratoria**.
+- Compartir el tópico de BERTopic no ayuda: el 83 % de las parejas de la banda
+  ya lo comparte.
+
+**Resultados:**
+- **No aparece encuadre nuevo.** Las palabras distintivas repiten el estilo de
+  cada medio: nombres completos en El Tiempo, formas cortas en Blu Radio. Las
+  pocas palabras nuevas también separan a los medios en parejas que el filtro
+  rechaza, que son hechos distintos: son agenda o estilo de la casa.
+- **La personalización del gobierno se mantiene.** Con Petro, El Tiempo
+  personaliza +15,2 pp más que el otro medio de la pareja (IC 10,6 a 19,8), y
+  Blu Radio (−8,3), RCN (−8,4) y La República (−6,7) menos. Con Duque, ningún
+  medio se distingue.
+- **Conclusión:** el resultado con ≥ 0,80 (diferencias pequeñas y de estilo,
+  salvo cómo se nombra al gobierno) no parece un efecto del umbral.
+- **Sin filtro** salen diferencias falsas en Duque: es agenda que se cuela. Por
+  eso el filtro es necesario.
+
+```bash
+SCRIPT=lexico_banda.py ./run.sh - --output resultados_publico   # ~1,5 min
+```
+
+## Silver standard de titulares sesgados
+
+Código: `silver.py`. Guía para el equipo y diseño en
+[`resultados_publico/silver/LEEME.md`](resultados_publico/silver/LEEME.md).
+Responde a la sugerencia del profesor y sigue el mismo proceso que la
+calibración.
+
+- **300 titulares** en dos planillas de 180, con **60 dobles** para medir el
+  acuerdo. Unas 2 h por persona.
+- **Contexto:** cada titular que está en un evento se muestra con los titulares
+  de los otros medios sobre el mismo hecho (hasta 4).
+- **Anotación a ciegas del medio.** No se muestra el medio, la URL ni la
+  sección. Se excluyen los titulares que nombran a un medio. Un test recorre
+  todas las celdas para comprobarlo.
+- **Esquema:** ¿sesgado? (Sí / No / No se puede saber). Si es «Sí», además
+  tipo, dirección respecto al gobierno de turno e intensidad (1–3).
+- **Muestreo estratificado y enriquecido:**
+  - 30 titulares por medio × gobierno (RCN–Duque desde 2020-09).
+  - Dentro de cada celda, una parte al azar y otra de candidatos: titulares con
+    léxico cargado, con «Gobierno Petro/Duque» o que más se apartan de los otros
+    medios.
+  - Pesos por estrato para estimar la tasa real.
+- **Exclusiones:** opinión declarada y fútbol.
+- **Después de anotar:**
+  - `evaluar`: kappa, tasa de sesgo por medio × gobierno (ponderada, con IC) y
+    `silver_standard.csv`;
+  - `adjudicar`: genera una planilla, también a ciegas, para los dobles en
+    desacuerdo.
+- **Usos:** medir la precisión y la cobertura del léxico de carga, y entrenar o
+  evaluar un clasificador.
+
+```bash
+SCRIPT=silver.py ./run.sh - evaluar      # lee planilla_silver_persona_{1,2}.xlsx
+SCRIPT=silver.py ./run.sh - adjudicar    # desacuerdos → adjudicacion.xlsx; luego evaluar --adjudicacion …
+```
