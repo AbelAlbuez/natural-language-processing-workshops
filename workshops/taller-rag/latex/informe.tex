@@ -1,0 +1,184 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{url}
+
+\title{Asistente RAG reproducible sobre prensa y Bluesky colombianos con Milvus y LLM locales}
+
+\author{\begin{minipage}{\textwidth}\centering
+{\small\mbox{Abel Albuez Sánchez}, \mbox{Kelly Joane León Torres}, \mbox{Juan Camilo Torres Peña} y \mbox{Jesús David Romero Melo}}\\[2pt]
+Maestría en Inteligencia Artificial, Pontificia Universidad Javeriana\\
+Profesor: Ing. Luis Gabriel Moreno Sandoval, PhD\\
+Repositorio: \url{https://github.com/AbelAlbuez/natural-language-processing-workshops}
+\end{minipage}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila prevista usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. El protocolo divide un gold standard de 40 preguntas en 20 de desarrollo y 20 de prueba. Los embeddings, la carga en Milvus, la API, la interfaz, los experimentos y la evaluación humana están pendientes; este documento no presenta resultados experimentales. Las referencias bibliográficas están por verificar.
+\end{abstract}
+
+\begin{IEEEkeywords}
+RAG, recuperación de información, corpus bilingüe, segmentación, embeddings, Milvus, LLM locales, evaluación
+\end{IEEEkeywords}
+
+\section{Problema e hipótesis}
+El proyecto estudia la recuperación de evidencia en un corpus de prensa y publicaciones sociales colombianas en español e inglés. La hipótesis de trabajo PI6 propone que Recall@5 es menor para Bluesky que para Media Cloud al comparar preguntas del mismo idioma por separado, y que la abstención correcta es menor para preguntas en inglés que para preguntas en español. Es una hipótesis pendiente de evaluación.
+
+El protocolo prevé reportar Recall@k ($k\in\{1,3,5,10\}$), MRR, nDCG@10, abstención correcta y fidelidad de citas, desglosados por fuente esperada e idioma. Las métricas siguen referencias candidatas aún no verificadas \cite{jarvelin2002,es2023ragas}.
+
+\section{Corpus y perfilado (A)}
+El diagnóstico del proyecto registra 169.248 documentos originales y 146.923 después de la preparación bilingüe: 64.666 en español y 82.257 en inglés. El recuento de 146.923 filas del Parquet preparado se comprobó por metadatos. Las cifras se documentan en \path{docs/diagnostico_corpus.md} y \path{docs/prepare_stats_es_en.json}; no se incluye texto de documentos.
+
+\begin{table}[ht]
+\centering
+\caption{Tamaño del corpus preparado.}
+\begin{tabular}{lr}
+\toprule
+Etapa o idioma & Documentos \\
+\midrule
+Originales & 169.248 \\
+Preparados, total & 146.923 \\
+Español & 64.666 \\
+Inglés & 82.257 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Segmentación (B)}
+La segmentación por tokens usa ventanas de 256 tokens con solapamiento de 48 y produce 577.324 chunks en \path{data/chunks_tok256.parquet}. Al retokenizar, 40.474 chunks superan 256 tokens, con un máximo de 258. Por documento, la mediana es de 3 chunks, el percentil 95 de 10 y el máximo de 426. Estas cifras están verificadas.
+
+\section{Embeddings (C)}
+El proyecto usa \texttt{intfloat/multilingual-e5-small} con el prefijo \texttt{passage:} para documentos y \texttt{query:} para consultas \cite{wang2022e5,wang2024multilingual}. Los pesos se descargaron en la caché local de Hugging Face, fijados a la revisión \texttt{614241f}. Se bajaron solo los archivos necesarios para PyTorch y sentence-transformers: unos 493~MB, o 470~MiB en disco. La carga sin conexión con \texttt{AutoTokenizer} y \texttt{AutoModel} (\texttt{local\_files\_only=True}) funcionó: el modelo tiene una dimensión oculta de 384 y 117.653.760 parámetros. Todavía no se han calculado embeddings, así que normalización, latencia y consumo de memoria siguen sin medir. La comparación con otros encoders también está pendiente.
+
+\section{Milvus (D)}
+La pila usa Milvus standalone v2.6.25 con etcd embebido y almacenamiento local, sin MinIO. Esta configuración está validada. La colección prevista es \texttt{rag\_e5s\_tok256\_v1}; la carga de vectores está pendiente.
+
+\section{Diseño experimental (5)}
+El plan propuesto empieza con un piloto de 500 documentos y escala a 10.000 y luego al corpus completo solo si el hardware lo permite. El piloto se seleccionó con semilla 42, estratificado por fuente (\texttt{source}) e idioma (\texttt{lang}). La Tabla~\ref{tab:piloto} solo informa conteos.
+
+\begin{table}[ht]
+\centering
+\caption{Conteos del piloto de 500 documentos por fuente e idioma.}
+\label{tab:piloto}
+\begin{tabular}{lrrr}
+\toprule
+Fuente & es & en & Total \\
+\midrule
+Bluesky & 18 & 159 & 177 \\
+GDELT & 1 & 1 & 2 \\
+Media Cloud & 201 & 120 & 321 \\
+\midrule
+Total & 220 & 280 & 500 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Entre condiciones experimentales solo cambia el LLM; corpus, segmentación, encoder, índice, \texttt{top-k} y prompt se mantienen fijos. Según \path{docs/EVALUACION.md}, cada condición se repetirá al menos tres veces, registrando el arranque en frío y en caliente. Los modelos locales previstos se servirán con Ollama \cite{qwen2024,llama2024,gemma2024}. Todavía no se han medido la viabilidad en hardware, el tiempo de indexación ni ninguna métrica. Las referencias de evaluación automática son candidatas por verificar \cite{thakur2021beir,es2023ragas,saadfalcon2023ares}.
+
+\section{Gold standard y partición (6)}
+El gold standard contiene 40 preguntas: 22 en español y 18 en inglés. Su contenido está pendiente de revisión por el equipo. La Tabla~\ref{tab:gold} muestra la distribución por fuente esperada e idioma.
+
+\begin{table}[ht]
+\centering
+\caption{Distribución del gold standard.}
+\label{tab:gold}
+\begin{tabular}{lrrr}
+\toprule
+Fuente esperada & es & en & Total \\
+\midrule
+Media Cloud & 16 & 9 & 25 \\
+Bluesky & 5 & 9 & 14 \\
+GDELT & 1 & 0 & 1 \\
+\midrule
+Total & 22 & 18 & 40 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La partición vigente, registrada en \path{docs/protocolo_evaluacion.md}, divide las 40 preguntas en 20 de desarrollo y 20 de prueba. Usa los IDs de \path{docs/gold_standard_plantilla.csv}, semilla 42 y estratificación por fuente esperada e idioma de la pregunta, con cuotas asignadas por mayor resto (Tabla~\ref{tab:particion}). El único caso GDELT en español va a prueba, porque un estrato de un solo caso no puede quedar en ambas particiones. Los parámetros se ajustan solo con desarrollo y se congelan antes de evaluar con prueba.
+
+\begin{table}[ht]
+\centering
+\caption{Partición desarrollo/prueba del gold standard.}
+\label{tab:particion}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrr}
+\toprule
+Fuente esperada & Idioma & Desarrollo & Prueba & Total \\
+\midrule
+Bluesky & en & 5 & 4 & 9 \\
+Bluesky & es & 2 & 3 & 5 \\
+GDELT & es & 0 & 1 & 1 \\
+Media Cloud & en & 5 & 4 & 9 \\
+Media Cloud & es & 8 & 8 & 16 \\
+\midrule
+Total & & 20 & 20 & 40 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La evaluación humana independiente, la rúbrica y la resolución de desacuerdos están pendientes.
+
+\section{Decisiones de arquitectura}
+La configuración prevista combina los documentos preparados, la segmentación 256/48, embeddings E5 con prefijo de pasaje, Milvus como almacén vectorial, una API FastAPI, una interfaz Streamlit y LLM locales servidos con Ollama. La elección del encoder no se considera justificada hasta completar una comparación controlada. Las referencias sobre recuperación híbrida y embeddings son candidatas por verificar \cite{robertson2009,cormack2009,karpukhin2020,formal2021,chen2024bge,muennighoff2022mteb}.
+
+\section{Limitaciones y amenazas a la validez}
+El gold standard es pequeño y está desequilibrado: Bluesky en español tiene cinco preguntas y GDELT una. Con la partición, la prueba queda con tres preguntas de Bluesky en español y una de GDELT, así que esos estratos tendrán alta incertidumbre. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. Todas las referencias permanecen por verificar.
+
+\section{Pendientes}
+\begin{itemize}
+  \item Revisión del gold standard por el equipo.
+  \item Cálculo de embeddings y carga de la colección en Milvus.
+  \item Puesta en marcha de la API, la interfaz Streamlit y Ollama con los modelos elegidos.
+  \item Experimentos: piloto, 10.000 documentos y corpus completo si los recursos lo permiten, con métricas, tiempos, recursos y repeticiones por condición.
+  \item Evaluación humana, medición del acuerdo y resolución de desacuerdos.
+  \item Justificación del encoder frente a alternativas.
+  \item Verificación de cada referencia contra su fuente original.
+\end{itemize}
+
+\begin{thebibliography}{99}
+\bibitem{robertson2009} S. Robertson y H. Zaragoza, ``The Probabilistic Relevance Framework: BM25 and Beyond,'' 2009, doi:10.1561/1500000019. \textit{Por verificar}.
+\bibitem{cormack2009} G. V. Cormack, C. L. A. Clarke y S. B\"uttcher, ``Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods,'' 2009, doi:10.1145/1571941.1572114. \textit{Por verificar}.
+\bibitem{karpukhin2020} V. Karpukhin et al., ``Dense Passage Retrieval for Open-Domain Question Answering,'' 2020, arXiv:2004.04906. \textit{Por verificar}.
+\bibitem{formal2021} T. Formal, B. Piwowarski y S. Clinchant, ``SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking,'' 2021, arXiv:2107.05720. \textit{Por verificar}.
+\bibitem{thakur2021beir} N. Thakur et al., ``BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models,'' 2021, arXiv:2104.08663. \textit{Por verificar}.
+\bibitem{wang2022e5} L. Wang et al., ``Text Embeddings by Weakly-Supervised Contrastive Pre-training,'' 2022, arXiv:2212.03533. \textit{Por verificar}.
+\bibitem{wang2024multilingual} L. Wang et al., ``Multilingual E5 Text Embeddings: A Technical Report,'' 2024, arXiv:2402.05672. \textit{Por verificar}.
+\bibitem{chen2024bge} J. Chen et al., ``BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation,'' 2024, arXiv:2402.03216. \textit{Por verificar}.
+\bibitem{muennighoff2022mteb} N. Muennighoff et al., ``MTEB: Massive Text Embedding Benchmark,'' 2022, arXiv:2210.07316. \textit{Por verificar}.
+\bibitem{zhang2023miracl} X. Zhang et al., ``MIRACL: A Multilingual Retrieval Dataset Covering 18 Diverse Languages,'' 2023, arXiv:2210.09984. \textit{Por verificar}.
+\bibitem{nogueira2019} R. Nogueira y K. Cho, ``Passage Re-ranking with BERT,'' 2019, arXiv:1901.04085. \textit{Por verificar}.
+\bibitem{khattab2020} O. Khattab y M. Zaharia, ``ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT,'' 2020, arXiv:2004.12832. \textit{Por verificar}.
+\bibitem{sun2023} W. Sun et al., ``Is ChatGPT Good at Search? Investigating Large Language Models as Re-Ranking Agents,'' 2023, arXiv:2304.09542. \textit{Por verificar}.
+\bibitem{anthropic2024} Anthropic, ``Introducing Contextual Retrieval,'' 2024, \url{https://www.anthropic.com/news/contextual-retrieval}. \textit{Por verificar}.
+\bibitem{gunther2024} M. G\"unther et al., ``Late Chunking: Contextual Chunk Embeddings Using Long-Context Embedding Models,'' 2024, arXiv:2409.04701. \textit{Por verificar}.
+\bibitem{sarthi2024} P. Sarthi et al., ``RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval,'' 2024, arXiv:2401.18059. \textit{Por verificar}.
+\bibitem{liu2023} N. F. Liu et al., ``Lost in the Middle: How Language Models Use Long Contexts,'' 2023, arXiv:2307.03172. \textit{Por verificar}.
+\bibitem{yan2024} S.-Q. Yan et al., ``Corrective Retrieval Augmented Generation (CRAG),'' 2024, arXiv:2401.15884. \textit{Por verificar}.
+\bibitem{asai2023} A. Asai et al., ``Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection,'' 2023, arXiv:2310.11511. \textit{Por verificar}.
+\bibitem{rajpurkar2018} P. Rajpurkar, R. Jia y P. Liang, ``Know What You Don't Know: Unanswerable Questions for SQuAD,'' 2018, arXiv:1806.03822. \textit{Por verificar}.
+\bibitem{wen2024} B. Wen et al., ``Know Your Limits: A Survey of Abstention in Large Language Models,'' 2024, arXiv:2407.18418. \textit{Por verificar}.
+\bibitem{es2023ragas} S. Es et al., ``RAGAS: Automated Evaluation of Retrieval Augmented Generation,'' 2023, arXiv:2309.15217. \textit{Por verificar}.
+\bibitem{saadfalcon2023ares} J. Saad-Falcon et al., ``ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems,'' 2023, arXiv:2311.09476. \textit{Por verificar}.
+\bibitem{zheng2023} L. Zheng et al., ``Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena,'' 2023, arXiv:2306.05685. \textit{Por verificar}.
+\bibitem{jarvelin2002} K. J\"arvelin y J. Kek\"al\"ainen, ``Cumulated Gain-Based Evaluation of IR Techniques,'' 2002, doi:10.1145/582415.582418. \textit{Por verificar}.
+\bibitem{qwen2024} Qwen Team, ``Qwen2.5 Technical Report,'' 2024, arXiv:2412.15115. \textit{Por verificar}.
+\bibitem{gemma2024} Gemma Team, ``Gemma 2: Improving Open Language Models at a Practical Size,'' 2024, arXiv:2408.00118. \textit{Por verificar}.
+\bibitem{llama2024} A. Grattafiori et al. (Llama Team), ``The Llama 3 Herd of Models,'' 2024, arXiv:2407.21783. \textit{Por verificar}.
+\bibitem{abdin2024} M. Abdin et al., ``Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone,'' 2024, arXiv:2404.14219. \textit{Por verificar}.
+\bibitem{broder1997} A. Z. Broder, ``On the Resemblance and Containment of Documents,'' 1997, doi:10.1109/SEQUEN.1997.666900. \textit{Por verificar}.
+\bibitem{charikar2002} M. S. Charikar, ``Similarity Estimation Techniques from Rounding Algorithms,'' 2002, doi:10.1145/509907.509965. \textit{Por verificar}.
+\bibitem{leskovec2009} J. Leskovec, L. Backstrom y J. Kleinberg, ``Meme-tracking and the Dynamics of the News Cycle,'' 2009, doi:10.1145/1557019.1557077. \textit{Por verificar}.
+\bibitem{greshake2023} K. Greshake et al., ``Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection,'' 2023, arXiv:2302.12173. \textit{Por verificar}.
+\bibitem{zou2024} W. Zou et al., ``PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models,'' 2024, arXiv:2402.07867. \textit{Por verificar}.
+\end{thebibliography}
+
+\end{document}

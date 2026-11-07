@@ -27,11 +27,24 @@ Se reportarán Recall@k (k = 1, 3, 5, 10), MRR, nDCG@10, abstención correcta y 
 
 Bluesky en español cuenta con solo 5 preguntas y GDELT con 1. Los resultados de esos estratos se presentarán como estimaciones con sus intervalos, no como conclusiones firmes. En particular, el intervalo de Bluesky-es será muy amplio; el único caso GDELT no permite una conclusión generalizable.
 
-## 4. Evaluación final y preguntas de desarrollo
+## 4. Partición desarrollo/prueba
 
-Las 40 preguntas del gold standard se usan para la evaluación final. Todos los parámetros (chunking, encoder, índice, `top-k`, prompt y LLM) se congelan antes de correr el experimento y no se ajustan mirando el gold standard.
+Las 40 preguntas del gold standard se dividen en 20 preguntas de desarrollo y 20 de prueba. La partición usa los IDs de `docs/gold_standard_plantilla.csv`, con semilla 42 y estratificación por fuente esperada e idioma de la pregunta. Las cuotas se asignan proporcionalmente por mayor resto; los empates se resuelven por orden lexicográfico de fuente e idioma. Dentro de cada estrato, los IDs se ordenan antes del muestreo. El único caso GDELT-es se asigna a prueba porque no puede estar representado en ambas particiones.
 
-Si hace falta ajustar algún parámetro, se usan preguntas de desarrollo separadas, escritas aparte del gold standard y marcadas como tales. Su número y sus cuotas se definirán más adelante.
+| Fuente esperada | Idioma | Desarrollo | Prueba | Total |
+|---|---|---:|---:|---:|
+| `bluesky` | en | 5 | 4 | 9 |
+| `bluesky` | es | 2 | 3 | 5 |
+| `gdelt` | es | 0 | 1 | 1 |
+| `media_cloud` | en | 5 | 4 | 9 |
+| `media_cloud` | es | 8 | 8 | 16 |
+| **Total** | | **20** | **20** | **40** |
+
+IDs de desarrollo: G01, G02, G04, G09, G10, G12, G14, G16, G17, G18, G20, G21, G25, G27, G30, G31, G32, G33, G36, G39.
+
+IDs de prueba: G03, G05, G06, G07, G08, G11, G13, G15, G19, G22, G23, G24, G26, G28, G29, G34, G35, G37, G38, G40.
+
+Los parámetros (chunking, encoder, índice, `top-k`, prompt y LLM) se ajustan únicamente con desarrollo y se congelan antes de evaluar prueba. La partición de prueba no se usa para iterar ni seleccionar configuraciones.
 
 ## 5. Evaluación humana
 
