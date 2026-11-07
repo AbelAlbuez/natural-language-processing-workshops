@@ -5,6 +5,10 @@
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{graphicx}
+\graphicspath{{figuras/}}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,backgrounds,arrows.meta}
 \usepackage[hidelinks]{hyperref}
 \usepackage{cite}
 \usepackage{url}
@@ -22,7 +26,7 @@ Repositorio: \url{https://github.com/AbelAlbuez/natural-language-processing-work
 \maketitle
 
 \begin{abstract}
-Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila prevista usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. El protocolo divide un gold standard de 40 preguntas en 20 de desarrollo y 20 de prueba. Los embeddings, la carga en Milvus, la API, la interfaz, los experimentos y la evaluación humana están pendientes; este documento no presenta resultados experimentales. Las referencias bibliográficas están por verificar.
+Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila prevista usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. El protocolo divide un gold standard de 40 preguntas en 20 de desarrollo y 20 de prueba. Los embeddings del corpus completo están pendientes; los del piloto ya están calculados. La carga en Milvus, la API, la interfaz, los experimentos y la evaluación humana también están pendientes; este documento no presenta resultados experimentales. Las referencias bibliográficas están por verificar.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -35,7 +39,7 @@ El proyecto estudia la recuperación de evidencia en un corpus de prensa y publi
 El protocolo prevé reportar Recall@k ($k\in\{1,3,5,10\}$), MRR, nDCG@10, abstención correcta y fidelidad de citas, desglosados por fuente esperada e idioma. Las métricas siguen referencias candidatas aún no verificadas \cite{jarvelin2002,es2023ragas}.
 
 \section{Corpus y perfilado (A)}
-El diagnóstico del proyecto registra 169.248 documentos originales y 146.923 después de la preparación bilingüe: 64.666 en español y 82.257 en inglés. El recuento de 146.923 filas del Parquet preparado se comprobó por metadatos. Las cifras se documentan en \path{docs/diagnostico_corpus.md} y \path{docs/prepare_stats_es_en.json}; no se incluye texto de documentos.
+El diagnóstico del proyecto registra 169.248 documentos originales y 146.923 después de la preparación bilingüe: 64.666 en español y 82.257 en inglés. El recuento de 146.923 filas del Parquet preparado se comprobó por metadatos. Las cifras se documentan en \path{docs/diagnostico_corpus.md} y \path{docs/prepare_stats_es_en.json}; no se incluye texto de documentos. La Figura~\ref{fig:corpus} desglosa el corpus preparado por fuente e idioma.
 
 \begin{table}[ht]
 \centering
@@ -52,17 +56,40 @@ Inglés & 82.257 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_corpus_estratos.png}
+\caption{Documentos del corpus preparado (146.923) por fuente e idioma. Las barras de GDELT (381 en español y 365 en inglés) son casi invisibles a esta escala.}
+\label{fig:corpus}
+\end{figure}
+
 \section{Segmentación (B)}
-La segmentación por tokens usa ventanas de 256 tokens con solapamiento de 48 y produce 577.324 chunks en \path{data/chunks_tok256.parquet}. Al retokenizar, 40.474 chunks superan 256 tokens, con un máximo de 258. Por documento, la mediana es de 3 chunks, el percentil 95 de 10 y el máximo de 426. Estas cifras están verificadas.
+La segmentación por tokens usa ventanas de 256 tokens con solapamiento de 48 y produce 577.324 chunks en \path{data/chunks_tok256.parquet}. Al retokenizar, 40.474 chunks superan 256 tokens, con un máximo de 258. Por documento, la mediana es de 3 chunks, el percentil 95 de 10 y el máximo de 426. Estas cifras están verificadas. La Figura~\ref{fig:chunksdoc} muestra la distribución de chunks por documento y la Figura~\ref{fig:tokens}, la de tokens por chunk al retokenizar.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_chunks_por_documento.png}
+\caption{Histograma de chunks por documento (146.923 documentos, 577.324 chunks), con eje vertical logarítmico. Las líneas marcan la mediana (3), el percentil 95 (10) y el máximo (426).}
+\label{fig:chunksdoc}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_tokens_retokenizacion.png}
+\caption{Tokens por chunk al retokenizar los 577.324 chunks sin tokens especiales. Las líneas marcan la ventana de diseño (256) y el límite del modelo (512). El recuadro amplía la cola: 40.474 chunks superan 256 tokens y el máximo es 258.}
+\label{fig:tokens}
+\end{figure}
 
 \section{Embeddings (C)}
-El proyecto usa \texttt{intfloat/multilingual-e5-small} con el prefijo \texttt{passage:} para documentos y \texttt{query:} para consultas \cite{wang2022e5,wang2024multilingual}. Los pesos se descargaron en la caché local de Hugging Face, fijados a la revisión \texttt{614241f}. Se bajaron solo los archivos necesarios para PyTorch y sentence-transformers: unos 493~MB, o 470~MiB en disco. La carga sin conexión con \texttt{AutoTokenizer} y \texttt{AutoModel} (\texttt{local\_files\_only=True}) funcionó: el modelo tiene una dimensión oculta de 384 y 117.653.760 parámetros. Todavía no se han calculado embeddings, así que normalización, latencia y consumo de memoria siguen sin medir. La comparación con otros encoders también está pendiente.
+El proyecto usa \texttt{intfloat/multilingual-e5-small} con el prefijo \texttt{passage:} para documentos y \texttt{query:} para consultas \cite{wang2022e5,wang2024multilingual}. Los pesos se descargaron en la caché local de Hugging Face, fijados a la revisión \texttt{614241f}. Se bajaron solo los archivos necesarios para PyTorch y sentence-transformers: unos 493~MB, o 470~MiB en disco. La carga sin conexión con \texttt{AutoTokenizer} y \texttt{AutoModel} (\texttt{local\_files\_only=True}) funcionó: el modelo tiene una dimensión oculta de 384 y 117.653.760 parámetros.
+
+Los embeddings del piloto ya están calculados: 500 documentos y 1.904 chunks, con el prefijo \texttt{passage:}, lotes de 32 y normalización L2, en CPU. El cálculo tardó 22,4~s (11,8~ms por chunk) con un pico de memoria de 1,9~GB. Con la misma tasa, los 577.324 chunks del corpus completo tomarían unas 1,9~h. Son mediciones operativas de un solo equipo, no resultados de recuperación. La comparación con otros encoders sigue pendiente.
 
 \section{Milvus (D)}
 La pila usa Milvus standalone v2.6.25 con etcd embebido y almacenamiento local, sin MinIO. Esta configuración está validada. La colección prevista es \texttt{rag\_e5s\_tok256\_v1}; la carga de vectores está pendiente.
 
 \section{Diseño experimental (5)}
-El plan propuesto empieza con un piloto de 500 documentos y escala a 10.000 y luego al corpus completo solo si el hardware lo permite. El piloto se seleccionó con semilla 42, estratificado por fuente (\texttt{source}) e idioma (\texttt{lang}). La Tabla~\ref{tab:piloto} solo informa conteos.
+El plan propuesto empieza con un piloto de 500 documentos y escala a 10.000 y luego al corpus completo solo si el hardware lo permite. El piloto se seleccionó con semilla 42, estratificado por fuente (\texttt{source}) e idioma (\texttt{lang}). La Tabla~\ref{tab:piloto} solo informa conteos; la Figura~\ref{fig:piloto} compara sus proporciones con las de la población.
 
 \begin{table}[ht]
 \centering
@@ -80,6 +107,13 @@ Total & 220 & 280 & 500 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_piloto_vs_poblacion.png}
+\caption{Proporción de cada estrato fuente $\times$ idioma en el piloto (500 documentos: 220 en español y 280 en inglés) y en la población (146.923 documentos). Entre paréntesis, los conteos.}
+\label{fig:piloto}
+\end{figure}
 
 Entre condiciones experimentales solo cambia el LLM; corpus, segmentación, encoder, índice, \texttt{top-k} y prompt se mantienen fijos. Según \path{docs/EVALUACION.md}, cada condición se repetirá al menos tres veces, registrando el arranque en frío y en caliente. Los modelos locales previstos se servirán con Ollama \cite{qwen2024,llama2024,gemma2024}. Todavía no se han medido la viabilidad en hardware, el tiempo de indexación ni ninguna métrica. Las referencias de evaluación automática son candidatas por verificar \cite{thakur2021beir,es2023ragas,saadfalcon2023ares}.
 
@@ -103,7 +137,7 @@ Total & 22 & 18 & 40 \\
 \end{tabular}
 \end{table}
 
-La partición vigente, registrada en \path{docs/protocolo_evaluacion.md}, divide las 40 preguntas en 20 de desarrollo y 20 de prueba. Usa los IDs de \path{docs/gold_standard_plantilla.csv}, semilla 42 y estratificación por fuente esperada e idioma de la pregunta, con cuotas asignadas por mayor resto (Tabla~\ref{tab:particion}). El único caso GDELT en español va a prueba, porque un estrato de un solo caso no puede quedar en ambas particiones. Los parámetros se ajustan solo con desarrollo y se congelan antes de evaluar con prueba.
+La partición vigente, registrada en \path{docs/protocolo_evaluacion.md}, divide las 40 preguntas en 20 de desarrollo y 20 de prueba. Usa los IDs de \path{docs/gold_standard_plantilla.csv}, semilla 42 y estratificación por fuente esperada e idioma de la pregunta, con cuotas asignadas por mayor resto (Tabla~\ref{tab:particion} y Figura~\ref{fig:particion}). El único caso GDELT en español va a prueba, porque un estrato de un solo caso no puede quedar en ambas particiones. Los parámetros se ajustan solo con desarrollo y se congelan antes de evaluar con prueba.
 
 \begin{table}[ht]
 \centering
@@ -125,13 +159,72 @@ Total & & 20 & 20 & 40 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_particion_gold.png}
+\caption{Partición del gold standard por fuente esperada e idioma: 20 preguntas de desarrollo y 20 de prueba (40 en total).}
+\label{fig:particion}
+\end{figure}
+
 La evaluación humana independiente, la rúbrica y la resolución de desacuerdos están pendientes.
 
 \section{Decisiones de arquitectura}
-La configuración prevista combina los documentos preparados, la segmentación 256/48, embeddings E5 con prefijo de pasaje, Milvus como almacén vectorial, una API FastAPI, una interfaz Streamlit y LLM locales servidos con Ollama. La elección del encoder no se considera justificada hasta completar una comparación controlada. Las referencias sobre recuperación híbrida y embeddings son candidatas por verificar \cite{robertson2009,cormack2009,karpukhin2020,formal2021,chen2024bge,muennighoff2022mteb}.
+La configuración prevista combina los documentos preparados, la segmentación 256/48, embeddings E5 con prefijo de pasaje, Milvus como almacén vectorial, una API FastAPI, una interfaz Streamlit y LLM locales servidos con Ollama. La Figura~\ref{fig:arquitectura} muestra el flujo, con la evaluación como bloque aparte.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize, node distance=3.2mm and 2.4mm,
+  box/.style={draw, rounded corners=1.5pt, align=center, minimum height=7mm, text width=19mm, inner sep=2pt},
+  data/.style={box, fill=gray!12},
+  group/.style={draw, dashed, rounded corners=3pt, inner sep=2.2mm},
+  lbl/.style={font=\scriptsize\bfseries, anchor=south west, inner sep=1pt},
+  arr/.style={-{Stealth[length=1.6mm]}, semithick},
+]
+\node[data, text width=40mm] (corpus) {Corpus Parquet\\146.923 documentos (es, en)};
+\node[box, below left=7mm and -16mm of corpus] (chunk) {Chunking por tokens\\256/48};
+\node[box, right=of chunk] (emb) {Embeddings e5-small\\(\texttt{passage:})};
+\node[box, right=of emb] (milvus) {Milvus\\HNSW, IP};
+\node[box, below=10mm of chunk] (ret) {Recuperación top-$k$\\(\texttt{query:})};
+\node[box, right=of ret] (prompt) {Prompt versionado\\\texttt{prompt\_v1}, citas [n]};
+\node[box, right=of prompt] (llm) {LLM local\\vía Ollama};
+\node[data, below=10mm of prompt, text width=40mm] (ui) {Interfaz Streamlit};
+\begin{scope}[on background layer]
+  \node[group, fit=(chunk)(emb)(milvus)] (ing) {};
+  \node[group, fit=(ret)(prompt)(llm)] (api) {};
+\end{scope}
+\node[lbl] at (ing.north west) {Ingesta};
+\node[lbl] at (api.north west) {API FastAPI};
+\node[box, draw, densely dotted, below=4mm of ui, text width=62mm, fill=gray!5] (eval) {\textbf{Evaluación} (aparte): gold standard desarrollo/prueba, Recall@$k$, MRR, nDCG, abstención, fidelidad de citas, evaluación humana};
+\draw[arr] (corpus.south) -- ++(0,-2.5mm) -| (chunk.north);
+\draw[arr] (chunk) -- (emb);
+\draw[arr] (emb) -- (milvus);
+\draw[arr] (milvus.south) -- ++(0,-4mm) -| (ret.north);
+\draw[arr] (ret) -- (prompt);
+\draw[arr] (prompt) -- (llm);
+\draw[arr] (llm.south) |- (ui.east);
+\draw[arr] (ui.west) -| node[pos=0.75, left, align=right, font=\tiny] {pregunta,\\modelo, $k$} (ret.south);
+\end{tikzpicture}
+\caption{Arquitectura prevista. La ingesta segmenta el corpus, calcula embeddings E5 y los indexa en Milvus; la API recupera fragmentos, arma el prompt versionado y consulta el LLM local; la interfaz solo habla con la API. La evaluación es un bloque aparte que consume las respuestas registradas.}
+\label{fig:arquitectura}
+\end{figure}
+
+\textit{Encoder.} Se usa \texttt{multilingual-e5-small}, un encoder multilingüe entrenado con los prefijos \texttt{query:} y \texttt{passage:} para distinguir consultas de pasajes \cite{wang2024multilingual}; el código aplica cada prefijo en la consulta y en la indexación. BGE-M3 es una alternativa multilingüe que además combina varias funciones de recuperación \cite{chen2024bge}. La comparación controlada entre ambos sigue pendiente, por lo que la elección del encoder todavía no se considera justificada empíricamente.
+
+\textit{Índice.} Los vectores se normalizan con L2, de modo que el producto interno (IP) equivale al coseno. La colección usa un índice HNSW con métrica IP ($M=16$, \texttt{efConstruction}~$=200$ y \texttt{ef}~$=64$ en búsqueda). HNSW organiza los vectores en grafos jerárquicos de mundo pequeño navegables y permite una búsqueda aproximada de vecinos más cercanos eficiente y robusta \cite{malkov2018}, lo que evita comparar cada consulta con los 577.324 vectores del corpus completo.
+
+\textit{Abstención.} Un sistema de preguntas y respuestas debe reconocer cuándo la evidencia no permite responder \cite{rajpurkar2018}, y la abstención es un comportamiento que se estudia de forma específica en los LLM \cite{wen2024}. Self-RAG propone que el modelo decida cuándo recuperar y critique lo recuperado \cite{asai2023}. Además, los modelos de lenguaje aumentados por recuperación deben ser robustos ante contexto irrelevante \cite{yoran2023}, lo que motiva no entregar al LLM fragmentos con baja puntuación. Aquí se usa una regla más simple: si la mejor puntuación de recuperación queda por debajo de un umbral, el sistema responde que no hay evidencia suficiente y no llama al LLM. El umbral de 0,80 es provisional: las puntuaciones de E5 no se han calibrado en este corpus para decidir la abstención, y el valor se fijará con las 20 preguntas de desarrollo antes de evaluar con prueba.
+
+\textit{Contexto.} Los LLM aprovechan peor la información situada en el medio de contextos largos \cite{liu2024}. Por eso los fragmentos entran ordenados por puntuación y completos, hasta un presupuesto configurable de tokens (2.048 por defecto); nunca se corta un fragmento. La plantilla \texttt{prompt\_v1} numera cada fragmento como [n] y pide citarlo, y la API comprueba que cada cita corresponda a un fragmento entregado.
+
+\textit{Evaluación de fidelidad.} La fidelidad de las respuestas y de las citas se evaluará con anotación humana. RAGAS \cite{es2023ragas} y ARES \cite{saadfalcon2023ares} proponen marcos automáticos para evaluar sistemas RAG, y el uso de un LLM como juez \cite{zheng2023} servirá solo como complemento, contrastado con la evaluación humana.
+
+\textit{Inyección de prompt.} Los documentos recuperados pueden contener instrucciones que manipulen al LLM (inyección indirecta de prompt) \cite{greshake2023}, y un atacante podría insertar textos diseñados para alterar las respuestas de un sistema RAG \cite{zou2024}. El prompt ordena ignorar las instrucciones contenidas en los fragmentos; es una mitigación parcial y no se ha evaluado.
+
+Las referencias sobre recuperación híbrida y embeddings son candidatas por verificar \cite{robertson2009,cormack2009,karpukhin2020,formal2021,chen2024bge,muennighoff2022mteb}.
 
 \section{Limitaciones y amenazas a la validez}
-El gold standard es pequeño y está desequilibrado: Bluesky en español tiene cinco preguntas y GDELT una. Con la partición, la prueba queda con tres preguntas de Bluesky en español y una de GDELT, así que esos estratos tendrán alta incertidumbre. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. Todas las referencias permanecen por verificar.
+El gold standard es pequeño y está desequilibrado: Bluesky en español tiene cinco preguntas y GDELT una. Con la partición, la prueba queda con tres preguntas de Bluesky en español y una de GDELT, así que esos estratos tendrán alta incertidumbre. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. El umbral de abstención de 0,80 es provisional y no está calibrado; se fijará con las preguntas de desarrollo después de la revisión del gold standard por el equipo. Todas las referencias permanecen por verificar.
 
 \section{Pendientes}
 \begin{itemize}
@@ -154,6 +247,7 @@ El gold standard es pequeño y está desequilibrado: Bluesky en español tiene c
 \bibitem{wang2024multilingual} L. Wang et al., ``Multilingual E5 Text Embeddings: A Technical Report,'' 2024, arXiv:2402.05672. \textit{Por verificar}.
 \bibitem{chen2024bge} J. Chen et al., ``BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation,'' 2024, arXiv:2402.03216. \textit{Por verificar}.
 \bibitem{muennighoff2022mteb} N. Muennighoff et al., ``MTEB: Massive Text Embedding Benchmark,'' 2022, arXiv:2210.07316. \textit{Por verificar}.
+\bibitem{malkov2018} Y. Malkov y D. Yashunin, ``Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs,'' \textit{IEEE TPAMI}, 2018. \textit{Por verificar}.
 \bibitem{zhang2023miracl} X. Zhang et al., ``MIRACL: A Multilingual Retrieval Dataset Covering 18 Diverse Languages,'' 2023, arXiv:2210.09984. \textit{Por verificar}.
 \bibitem{nogueira2019} R. Nogueira y K. Cho, ``Passage Re-ranking with BERT,'' 2019, arXiv:1901.04085. \textit{Por verificar}.
 \bibitem{khattab2020} O. Khattab y M. Zaharia, ``ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT,'' 2020, arXiv:2004.12832. \textit{Por verificar}.
@@ -161,7 +255,8 @@ El gold standard es pequeño y está desequilibrado: Bluesky en español tiene c
 \bibitem{anthropic2024} Anthropic, ``Introducing Contextual Retrieval,'' 2024, \url{https://www.anthropic.com/news/contextual-retrieval}. \textit{Por verificar}.
 \bibitem{gunther2024} M. G\"unther et al., ``Late Chunking: Contextual Chunk Embeddings Using Long-Context Embedding Models,'' 2024, arXiv:2409.04701. \textit{Por verificar}.
 \bibitem{sarthi2024} P. Sarthi et al., ``RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval,'' 2024, arXiv:2401.18059. \textit{Por verificar}.
-\bibitem{liu2023} N. F. Liu et al., ``Lost in the Middle: How Language Models Use Long Contexts,'' 2023, arXiv:2307.03172. \textit{Por verificar}.
+\bibitem{liu2024} N. Liu et al., ``Lost in the Middle: How Language Models Use Long Contexts,'' \textit{TACL}, 2024. \textit{Por verificar}.
+\bibitem{yoran2023} O. Yoran et al., ``Making Retrieval-Augmented Language Models Robust to Irrelevant Context,'' 2023, arXiv:2310.01558. \textit{Por verificar}.
 \bibitem{yan2024} S.-Q. Yan et al., ``Corrective Retrieval Augmented Generation (CRAG),'' 2024, arXiv:2401.15884. \textit{Por verificar}.
 \bibitem{asai2023} A. Asai et al., ``Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection,'' 2023, arXiv:2310.11511. \textit{Por verificar}.
 \bibitem{rajpurkar2018} P. Rajpurkar, R. Jia y P. Liang, ``Know What You Don't Know: Unanswerable Questions for SQuAD,'' 2018, arXiv:1806.03822. \textit{Por verificar}.
