@@ -85,8 +85,10 @@ python scripts/inspect_corpus.py <ruta-al-parquet-descargado>   # el JSON debe t
 | 7 | Pruebas sin servicios | ver §7 | segundos |
 | 8 | API e interfaz | `docker compose up -d --build api frontend` | 1–2 min |
 | 9 | Prueba de humo de la API | `python -m scripts.smoke_api` | ≈ 2 min |
-| 10 | Validar el gold standard | `python -m scripts.validar_gold_standard --gold docs/gold_standard.csv --cuotas docs/cuotas_gold.json` | segundos |
-| 11 | Experimento sobre la partición de prueba (4 modelos × 20 preguntas) | **Pendiente:** el script del experimento no está en el repositorio (ver más abajo) | ≈ 34 min |
+| 10a | Reconstruir el gold standard (opcional: `docs/gold_standard.csv` ya está versionado) | `python -m scripts.construir_gold candidatos` y luego `python -m scripts.construir_gold construir` | ≈ 1 min |
+| 10b | Validar el gold standard | `python -m scripts.validar_gold_standard --gold docs/gold_standard.csv --cuotas docs/cuotas_gold.json` | segundos |
+| 10c | Calibrar el umbral, solo con la partición de desarrollo | `python -m scripts.calibrar_umbral --api http://localhost:8000` | ≈ 1 min |
+| 11 | Experimento sobre la partición de prueba (4 modelos × 20 preguntas) | `python -m scripts.ejecutar_experimento --api http://localhost:8000` | ≈ 34 min |
 | 12 | Análisis de resultados | `python -m scripts.analisis_resultados --runs data/experimento_prueba.jsonl --gold docs/gold_standard.csv --salida data/resultados_prueba.json` | segundos |
 | 13 | Figuras del informe (opcional) | `python scripts/figuras_informe.py` o, solo la del gold, `python scripts/figuras_informe.py --solo-gold` | — |
 
@@ -94,7 +96,9 @@ Notas:
 - El paso 1 escribe sus cifras en `data/` (no versionado). `docs/prepare_stats_es_en.json` es la copia de referencia versionada, con la ruta de entrada expresada como `~/`. No la sobrescribas, porque el script guarda la ruta absoluta de tu equipo.
 - En el paso 5, `MILVUS_URI` se fija en la línea de comandos porque el script corre fuera de Docker; dentro de los contenedores se usa el valor de `.env`.
 - El paso 3 reanuda desde el último bloque escrito si se interrumpe. Para el piloto de 500 documentos existe `python -m scripts.embed_chunks --documents data/piloto_documentos_500.parquet --output data/embeddings_piloto_500.parquet`, pero el script que generó `data/piloto_documentos_500.parquet` no está en el repositorio.
-- **Pendientes de versionar:** el experimento del paso 11, la calibración del umbral con la partición de desarrollo y la construcción de `docs/gold_standard.csv` se ejecutaron con scripts locales que no forman parte del repositorio. El formato que espera el paso 12 está documentado en `scripts/analisis_resultados.py`.
+- Paso 10a: `construir_gold` reproduce `docs/gold_standard.csv` y `docs/cuotas_gold.json` a partir de los mismos datos y la semilla 42. No sobrescribe archivos existentes salvo con `--sobrescribir`. Las preguntas y respuestas de referencia son **sintéticas**: se redactaron con asistencia de IA a partir del texto de cada chunk y están **pendientes de revisión humana**.
+- Paso 10c: `calibrar_umbral` solo lee la partición de desarrollo y escribe `data/calibracion_dev.json`. Propone un umbral, pero no cambia `RAG_SCORE_THRESHOLD`.
+- Paso 11: `ejecutar_experimento` solo usa la partición de prueba, registra cada error como fallo sin reintentar y no reemplaza `data/experimento_prueba.jsonl` si ya existe (use `--anexar` u otra `--salida`). El paso 12 lee ese archivo.
 
 ## 6. Servicios
 
@@ -128,10 +132,11 @@ Para equipos con GPU NVIDIA existe `docker-compose.gpu.yml`; en Mac no aplica. `
 | Validador del gold standard | `.venv/bin/pytest tests/test_validar_gold.py` | 14 passed |
 | Métricas | `.venv/bin/pytest tests/test_metricas_rag.py` | 5 passed |
 | Análisis de resultados | `.venv/bin/pytest tests/test_analisis_resultados.py` | 5 passed |
+| Calibración del umbral | `.venv/bin/pytest tests/test_calibracion.py` | 4 passed |
 | Chunking inicial por caracteres (legado) | `.venv/bin/pytest tests/test_chunking.py` | 1 passed |
-| En vivo (necesita API, Milvus y Ollama) | `RAG_LIVE=1 .venv/bin/pytest tests/test_api_live.py -v` | sin `RAG_LIVE`, 10 skipped |
+| En vivo (necesita API, Milvus y Ollama) | `RAG_LIVE=1 .venv/bin/pytest tests/test_api_live.py -v` | 9 passed y 1 xfailed (sin `RAG_LIVE`, 10 skipped) |
 
-En la última corrida en vivo con la colección completa, el resultado fue 6 passed, 3 skipped y 1 xfailed. Las 3 omitidas leen preguntas de `docs/gold_standard_plantilla.csv`, que está vacía. La marcada como xfail es la abstención ante texto sin sentido, pendiente de calibración del umbral.
+Las tres pruebas en vivo de desarrollo leen las respondibles con `split=desarrollo` de `docs/gold_standard.csv`; nunca usan la partición de prueba. La marcada como xfail es la abstención ante texto sin sentido, pendiente de calibración del umbral.
 
 ## 8. Configuración congelada
 
@@ -153,7 +158,7 @@ Las tablas de recuperación y generación, el análisis de la calibración y las
 
 ## 10. Limitaciones
 
-- El gold standard es **sintético** (34 respondibles basadas en un único chunk cada una y 6 no respondibles) y **no tiene validación humana**.
+- El gold standard es **sintético**: 34 respondibles basadas en un único chunk cada una y 6 no respondibles, redactadas con asistencia de IA. **No tiene validación humana**.
 - Hay **una sola repetición** por modelo, sin intervalos de confianza.
 - El umbral de abstención de **0,80 no está calibrado con anotaciones humanas**. Con él, el sistema no se abstiene en las preguntas fuera del corpus, y la calibración con desarrollo no encontró un valor que cumpla los dos criterios.
 - `gemma2:2b` tuvo **un error en G34**: el proceso `llama-server` de Ollama recibió SIGKILL. No se reintentó y cuenta como fallo.
