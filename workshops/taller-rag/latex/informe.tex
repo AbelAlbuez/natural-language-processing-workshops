@@ -26,7 +26,7 @@ Repositorio: \url{https://github.com/AbelAlbuez/natural-language-processing-work
 \maketitle
 
 \begin{abstract}
-Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila prevista usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. El protocolo divide un gold standard de 40 preguntas en 20 de desarrollo y 20 de prueba. Los embeddings del corpus completo están pendientes; los del piloto ya están calculados. La carga en Milvus, la API, la interfaz, los experimentos y la evaluación humana también están pendientes; este documento no presenta resultados experimentales. Las referencias bibliográficas están por verificar.
+Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila prevista usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. El protocolo divide un gold standard de 40 preguntas en 20 de desarrollo y 20 de prueba. Los embeddings de los 577.324 chunks están calculados y cargados en Milvus con una ingesta por lotes idempotente, y la API responde con citas a los fragmentos recuperados. La configuración de generación quedó congelada con temperatura 0 y \texttt{repeat\_penalty} 1,1. El gold standard, la calibración del umbral de abstención, los experimentos y la evaluación humana están pendientes; este documento no presenta resultados experimentales. Las referencias bibliográficas están por verificar.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -83,10 +83,24 @@ La segmentación por tokens usa ventanas de 256 tokens con solapamiento de 48 y 
 \section{Embeddings (C)}
 El proyecto usa \texttt{intfloat/multilingual-e5-small} con el prefijo \texttt{passage:} para documentos y \texttt{query:} para consultas \cite{wang2022e5,wang2024multilingual}. Los pesos se descargaron en la caché local de Hugging Face, fijados a la revisión \texttt{614241f}. Se bajaron solo los archivos necesarios para PyTorch y sentence-transformers: unos 493~MB, o 470~MiB en disco. La carga sin conexión con \texttt{AutoTokenizer} y \texttt{AutoModel} (\texttt{local\_files\_only=True}) funcionó: el modelo tiene una dimensión oculta de 384 y 117.653.760 parámetros.
 
-Los embeddings del piloto ya están calculados: 500 documentos y 1.904 chunks, con el prefijo \texttt{passage:}, lotes de 32 y normalización L2, en CPU. El cálculo tardó 22,4~s (11,8~ms por chunk) con un pico de memoria de 1,9~GB. Con la misma tasa, los 577.324 chunks del corpus completo tomarían unas 1,9~h. Son mediciones operativas de un solo equipo, no resultados de recuperación. La comparación con otros encoders sigue pendiente.
+Los embeddings del piloto ya están calculados: 500 documentos y 1.904 chunks, con el prefijo \texttt{passage:}, lotes de 32 y normalización L2, en CPU. El cálculo tardó 22,4~s (11,8~ms por chunk) con un pico de memoria de 1,9~GB. Con la misma tasa, los 577.324 chunks del corpus completo tomarían unas 1,9~h. Son mediciones operativas de un solo equipo, no resultados de recuperación. Después se calcularon los embeddings del corpus completo: 577.324 vectores de dimensión 384, procesados en 29 bloques reanudables de 20.000 chunks. Se verificó que los \texttt{chunk\_id} son únicos y coinciden con los de la segmentación, que no hay valores NaN y que todas las normas están a menos de $10^{-6}$ de 1. La comparación con otros encoders sigue pendiente.
 
 \section{Milvus (D)}
-La pila usa Milvus standalone v2.6.25 con etcd embebido y almacenamiento local, sin MinIO. Esta configuración está validada. La colección prevista es \texttt{rag\_e5s\_tok256\_v1}; la carga de vectores está pendiente.
+La pila usa Milvus standalone v2.6.25 con etcd embebido y almacenamiento local, sin MinIO. Esta configuración está validada. La colección \texttt{rag\_e5s\_tok256\_v1} contiene los 577.324 chunks del corpus completo (Sección~\ref{sec:implementacion}).
+
+\section{Implementación y configuración congelada}
+\label{sec:implementacion}
+\textit{Ingesta por lotes.} La primera versión de la ingesta leía todos los vectores a la vez y el proceso llegaba a 9,07~GB de memoria. La versión actual lee el Parquet de embeddings en lotes de 20.000 filas, toma de la segmentación solo los metadatos de esos chunks y hace \textit{upsert} por \texttt{chunk\_id}. Con ella, la carga completa tardó 115~s y la memoria máxima del proceso bajó a 2,41~GB. Una segunda carga idéntica dejó la colección en las mismas 577.324 filas, contadas con \texttt{count(*)}, lo que confirma que la ingesta es idempotente.
+
+\textit{Memoria de Milvus.} Con el límite inicial de 4~GiB, Milvus se detuvo por falta de memoria al recibir la segunda carga completa, porque el \textit{upsert} conserva las versiones reemplazadas hasta la compactación. Con el límite en 8~GiB las dos cargas terminaron sin reinicios.
+
+\textit{API.} FastAPI expone \texttt{/health}, \texttt{/retrieve} y \texttt{/ask}. El conteo de filas de \texttt{/health} usa \texttt{count(*)}, porque las estadísticas de Milvus incluyen las filas reemplazadas hasta la compactación. Cuando Ollama corta una generación por repetición, \texttt{/ask} responde con un error específico (HTTP 502) en lugar de uno genérico.
+
+\textit{Configuración congelada.} Los valores fijos para todas las condiciones están en la sección~9 de \path{docs/protocolo_evaluacion.md}: \texttt{prompt\_v1} con su huella sha256, $k=5$, chunks de 256/48, el encoder E5 en una revisión fija, HNSW con IP, la partición 20/20 y, para la generación, temperatura 0 y \texttt{repeat\_penalty} 1,1 en los cuatro modelos. La penalización se añadió porque, con temperatura 0 y sin ella, \texttt{gemma2:2b} entró en un bucle de repetición con un prompt real y Ollama cortó la generación (``token repeat limit reached''). Con 1,1, \texttt{gemma2:2b} responde con citas que apuntan a fragmentos recuperados. El umbral de abstención no forma parte de lo congelado: sigue pendiente de calibración.
+
+\textit{Hallazgos de la prueba técnica.} En la prueba de \texttt{repeat\_penalty}, con un solo prompt real y las dos configuraciones, \texttt{qwen2.5:1.5b} no citó ningún fragmento y \texttt{llama3.2:1b} generó respuestas muy cortas, de 7 a 9 tokens. Son observaciones de una comprobación técnica, no resultados experimentales, pero anticipan diferencias que la evaluación deberá medir.
+
+\textit{Estado de la evaluación.} El gold standard sigue pendiente de redacción y revisión por el equipo, y sin él no se puede calibrar el umbral de abstención. Los experimentos con los cuatro modelos y la evaluación humana también están pendientes. Las funciones de métricas (Recall@$k$, MRR, nDCG@$k$ y precisión y recall de la abstención) y el validador del gold standard están implementados y probados con datos sintéticos, pero aún no se han aplicado al gold standard.
 
 \section{Diseño experimental (5)}
 El plan propuesto empieza con un piloto de 500 documentos y escala a 10.000 y luego al corpus completo solo si el hardware lo permite. El piloto se seleccionó con semilla 42, estratificado por fuente (\texttt{source}) e idioma (\texttt{lang}). La Tabla~\ref{tab:piloto} solo informa conteos; la Figura~\ref{fig:piloto} compara sus proporciones con las de la población.
@@ -185,16 +199,17 @@ La configuración prevista combina los documentos preparados, la segmentación 2
 \node[box, below left=7mm and -16mm of corpus] (chunk) {Chunking por tokens\\256/48};
 \node[box, right=of chunk] (emb) {Embeddings e5-small\\(\texttt{passage:})};
 \node[box, right=of emb] (milvus) {Milvus\\HNSW, IP};
-\node[box, below=10mm of chunk] (ret) {Recuperación top-$k$\\(\texttt{query:})};
+\node[box, below=16mm of chunk] (ret) {Recuperación top-$k$\\(\texttt{query:})};
 \node[box, right=of ret] (prompt) {Prompt versionado\\\texttt{prompt\_v1}, citas [n]};
 \node[box, right=of prompt] (llm) {LLM local\\vía Ollama};
 \node[data, below=10mm of prompt, text width=40mm] (ui) {Interfaz Streamlit};
 \begin{scope}[on background layer]
   \node[group, fit=(chunk)(emb)(milvus)] (ing) {};
-  \node[group, fit=(ret)(prompt)(llm)] (api) {};
+  \node[group, fit=(ret)(prompt)(llm), inner ysep=5mm] (api) {};
 \end{scope}
 \node[lbl] at (ing.north west) {Ingesta};
-\node[lbl] at (api.north west) {API FastAPI};
+\node[font=\scriptsize\bfseries, anchor=north west, inner sep=1pt, fill=white]
+  at ([xshift=1.2mm,yshift=-1.2mm]api.north west) {API FastAPI};
 \node[box, draw, densely dotted, below=4mm of ui, text width=62mm, fill=gray!5] (eval) {\textbf{Evaluación} (aparte): gold standard desarrollo/prueba, Recall@$k$, MRR, nDCG, abstención, fidelidad de citas, evaluación humana};
 \draw[arr] (corpus.south) -- ++(0,-2.5mm) -| (chunk.north);
 \draw[arr] (chunk) -- (emb);
@@ -203,7 +218,7 @@ La configuración prevista combina los documentos preparados, la segmentación 2
 \draw[arr] (ret) -- (prompt);
 \draw[arr] (prompt) -- (llm);
 \draw[arr] (llm.south) |- (ui.east);
-\draw[arr] (ui.west) -| node[pos=0.75, left, align=right, font=\tiny] {pregunta,\\modelo, $k$} (ret.south);
+\draw[arr] (ui.west) -| node[pos=0.75, left=2mm, anchor=east, align=right, font=\tiny, fill=white, inner sep=1pt] {pregunta,\\modelo, $k$} (ret.south);
 \end{tikzpicture}
 \caption{Arquitectura prevista. La ingesta segmenta el corpus, calcula embeddings E5 y los indexa en Milvus; la API recupera fragmentos, arma el prompt versionado y consulta el LLM local; la interfaz solo habla con la API. La evaluación es un bloque aparte que consume las respuestas registradas.}
 \label{fig:arquitectura}
@@ -228,9 +243,9 @@ El gold standard es pequeño y está desequilibrado: Bluesky en español tiene c
 
 \section{Pendientes}
 \begin{itemize}
-  \item Revisión del gold standard por el equipo.
-  \item Cálculo de embeddings y carga de la colección en Milvus.
-  \item Puesta en marcha de la API, la interfaz Streamlit y Ollama con los modelos elegidos.
+  \item Redacción y revisión del gold standard por el equipo.
+  \item Calibración del umbral de abstención con la partición de desarrollo.
+  \item Verificación de la interfaz Streamlit en ejecución.
   \item Experimentos: piloto, 10.000 documentos y corpus completo si los recursos lo permiten, con métricas, tiempos, recursos y repeticiones por condición.
   \item Evaluación humana, medición del acuerdo y resolución de desacuerdos.
   \item Justificación del encoder frente a alternativas.

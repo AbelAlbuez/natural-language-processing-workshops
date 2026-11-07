@@ -86,3 +86,22 @@ Método: bootstrap pareado y estratificado por fuente e idioma de la pregunta, r
 Número de remuestreos: 10.000, como propuesta sujeta a revisión. Semilla: 42. Se registra en este protocolo y en el registro por corrida.
 
 Con estratos de 5 o 1 preguntas, el bootstrap no elimina la incertidumbre derivada del tamaño muestral. Sus intervalos se interpretarán con cautela y esos resultados seguirán siendo estimaciones, no conclusiones firmes.
+
+## 9. Configuración congelada
+
+Valores fijos para todas las condiciones experimentales. Solo cambia el LLM. Cualquier cambio exige una nueva versión de esta sección y repetir las corridas afectadas.
+
+| Componente | Valor |
+|---|---|
+| LLM (Ollama 0.40.13, ID local) | `gemma2:2b` (8ccf136fdd52), `qwen2.5:1.5b` (65ec06548149), `llama3.2:1b` (baf6a787fdff), `llama3.2:3b` (a80c4f17acd5) |
+| Prompt | `prompt_v1` v1.0.0, sha256 `3f7e4017547095f3fe10ccb05be306d2be9ef5ba32d95352287b7c2273efa545` |
+| Muestreo | `temperature` 0; `repeat_penalty` 1.1, igual para los cuatro modelos |
+| Recuperación | `top-k` 5; presupuesto de contexto 2.048 tokens del tokenizador de E5, por fragmento completo |
+| Chunking | Ventanas de 256 tokens con solapamiento de 48 (`tok256_overlap48_v1`), 577.324 chunks |
+| Encoder | `intfloat/multilingual-e5-small`, revisión `614241f`, dimensión 384, prefijos `query:` y `passage:`, normalización L2 |
+| Índice | Milvus v2.6.25, colección `rag_e5s_tok256_v1`, HNSW con `M` 16, `efConstruction` 200 y `ef` 64 en búsqueda |
+| Métrica | Producto interno (IP), equivalente al coseno con vectores normalizados |
+| Umbral de abstención | `RAG_SCORE_THRESHOLD` 0,80. **Pendiente de calibración** con la partición de desarrollo; no se usa la partición de prueba |
+| Partición | 20 preguntas de desarrollo y 20 de prueba, semilla 42 (sección 4) |
+
+`repeat_penalty` 1.1 se fijó porque, con `temperature` 0 y sin penalización, `gemma2:2b` entró en un bucle de repetición con el prompt real y Ollama cortó la generación ("token repeat limit reached"). Con 1.1, los cuatro modelos terminaron con `done_reason` "stop" en la misma prueba.
