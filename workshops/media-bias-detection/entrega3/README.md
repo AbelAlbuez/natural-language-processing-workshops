@@ -444,3 +444,116 @@ si son recíprocamente las más parecidas entre sus medios en ±2 días y su
 similitud coseno es ≥ 0,80. En una muestra estratificada de 210 parejas anotada
 por dos personas (κ = 0,77 sobre 60 parejas dobles), la precisión ponderada a
 ese umbral es del 81 % (IC 95 % 72–90 %).»*
+
+## Cobertura u omisión por tema × gobierno
+
+Código: `omision.py`. Resultados, método completo y borrador para el artículo en
+[`resultados_publico/omision/LEEME.md`](resultados_publico/omision/LEEME.md)
+(figuras 23–25).
+
+**Pregunta:** en los eventos que cubren varios medios, ¿en qué temas falta cada
+medio, y cambia eso de Duque a Petro más allá del cambio general?
+
+**Decisiones:**
+- **RCN.** No tiene titulares con fecha al día entre 2018-09 y 2019-09, y la
+  tiene en ≥80 % de sus titulares todos los meses desde **2020-09**. El análisis
+  principal compara Duque **desde 2020-09 hasta 2022-08 para los cinco medios**
+  (1.117 eventos con ≥3 medios) con Petro completo (3.951). Con ese recorte, la
+  participación de RCN es igual en los dos gobiernos: 47 % con Duque y 48 % con
+  Petro. El 50 % → 69 % de la sección anterior venía de la falta de fechas.
+  Robustez: sin RCN, sin restringir el periodo y con Duque desde 2021-05.
+- **Sesgo de selección.** Un medio no puede «faltar» en un evento que ayudó a
+  formar. Por eso, para cada medio sólo cuentan los eventos con **≥3 de los
+  otros 4** presentes; como sensibilidad, ≥2 de los otros 4. Con el
+  denominador ingenuo, El Tiempo salía en el 86 % de los eventos de Duque; con
+  el corregido sale en el 66 %.
+- **Omisión específica** = participación del medio en el tema − su
+  participación general en ese gobierno. **Δ relativo** = cambio Petro − Duque
+  del medio menos la media de los otros cuatro. IC por bootstrap de bloques de
+  3 meses (20.000 réplicas) y corrección de Holm.
+
+**Resultados:**
+- **Perfiles estables:**
+  - La República está unos 20 pp por debajo de su media en policía, justicia,
+    conflicto y combates, y por encima en impuestos (+16) y economía (+14). Es
+    el perfil de un diario económico, no una omisión.
+  - El Tiempo y RCN están por debajo de su media en policía, y El Tiempo y
+    Caracol en justicia.
+- **Cambios entre gobiernos: casi ninguno.**
+
+  | Cruce | Δ relativo Petro − Duque (IC 95 %) | ¿Robusto? |
+  |---|---|---|
+  | RCN · Justicia | +7,5 pp (2,9 a 12,7), ≥2 de los otros 4 | Sí: el IC no incluye el 0 en ninguna variante |
+  | Caracol · Venezuela | +14,4 pp (6,2 a 21,3), ≥3 de los otros 4 | Sólo el signo: sin el recorte del periodo o con la cota de recall deja de ser significativo |
+
+**Limitación principal: el recall.** Entre el 27 % y el 54 % de las ausencias
+de los cuatro medios generalistas tenían un titular con similitud ≥ 0,75 con el
+evento, que podría ser el mismo hecho con otra redacción. Los niveles de
+participación no equivalen a cobertura real; los Δ relativos resisten mejor.
+
+```bash
+SCRIPT=omision.py ./run.sh - --output resultados_publico   # ~10 s
+```
+
+## Elección léxica dentro del mismo hecho
+
+Código: `lexico.py`. Resultados, método completo, ejemplos y borrador para el
+artículo en [`resultados_publico/lexico/LEEME.md`](resultados_publico/lexico/LEEME.md)
+y `ejemplos_lexico.md` (figuras 26–29).
+
+**Pregunta:** cuando varios medios titulan el mismo hecho, ¿qué palabras usa
+cada uno y cómo nombra al gobierno?
+
+**Decisiones:**
+- **Diseño emparejado:** cada medio se compara con los otros medios **en los
+  mismos eventos**, con un peso por evento. *Log-odds* con prior de Dirichlet
+  informativo (Monroe et al., 2008) sobre la presencia de cada término por
+  titular, y no sobre conteos de tokens, porque con tokens la longitud del
+  titular creaba diferencias falsas. Bootstrap por eventos y por meses, y FDR
+  de Benjamini-Hochberg.
+- **RCN en Duque sólo desde 2020-09** (802 eventos con ≥3 medios). Su perfil
+  de Duque viene de la pandemia, el paro de 2021 y la campaña de 2022. Las
+  comparaciones entre medios se repiten sin RCN.
+- **Formato y secciones fijas** («videos», «en vivo», «Mañanas Blu»,
+  «cotización TRM») se marcan y no se interpretan como encuadre. La lista se
+  amplió después de ver los resultados, y así queda documentado.
+
+**Resultados:**
+1. **Palabras distintivas: pocas y casi todas de estilo de la casa.**
+   - El Tiempo escribe nombres completos de cualquier actor: «Donald Trump» en
+     el 75 % de sus titulares sobre Trump, «Gustavo Petro» en el 39 % de los
+     que mencionan a Petro.
+   - Blu Radio usa formas cortas.
+   - La República usa léxico económico y legislativo.
+   - El análisis por tema no muestra encuadres nuevos.
+2. **Personalización del gobierno.** «Gobierno Petro/Duque» entre los titulares
+   que dicen «gobierno» **sube en los cinco medios** de Duque a Petro:
+
+   | Medio | Duque | Petro | Cambio (IC 95 %) |
+   |---|---:|---:|---|
+   | El Tiempo | 5,1 % | 26,9 % | +21,8 pp (16,8 a 25,9) |
+   | Noticias Caracol | 7,6 % | 28,4 % | +20,8 pp |
+   | Blu Radio | 5,4 % | 17,0 % | +11,6 pp |
+   | Noticias RCN | 3,9 % | 12,1 % | +8,1 pp (0,5 a 12,6) |
+   | La República | 6,6 % | 10,7 % | El IC incluye el 0 |
+
+   Se mantiene con la ventana común desde 2020-09, así que es un rasgo del
+   periodo. Hay 191 eventos de Petro en los que un medio escribe «Gobierno
+   Petro» y otro sólo «Gobierno», frente a 9 de Duque.
+3. **Frente a los otros medios en los mismos eventos:**
+   - **Duque:** ningún medio se distingue.
+   - **Petro:** El Tiempo personaliza más (+11,2 pp, IC 7,5 a 15,0), y RCN
+     (−12,7), La República (−7,9) y Blu Radio (−5,1) menos. Todo esto se
+     mantiene sin RCN entre los otros medios.
+   - Caracol (+7,3) no es robusto.
+
+**Lectura prudente.** Que se personalice más al gobierno de Petro en todos los
+medios es un hallazgo del periodo, no de un medio. Las diferencias entre medios
+en Petro son de forma (cómo se nombra), no de juicio, y El Tiempo tiene la
+costumbre general de usar nombres completos. Los eventos se forman con
+titulares parecidos (≥ 0,80), así que las diferencias léxicas medidas son una
+cota inferior. No se usa sentimiento.
+
+```bash
+SCRIPT=lexico.py ./run.sh - --output resultados_publico   # ~1 min
+```

@@ -117,10 +117,36 @@ RCN es el que más cambia respecto a sí mismo (0,139).
   de Petro) y 342 con los cinco medios.
 - Detalle en el [`README.md`](README.md#emparejamiento-de-titulares-entre-medios-pasos-1-y-3).
 
+## Omisión y elección léxica sobre los eventos (hecho)
+
+Para estas comparaciones, el periodo de Duque empieza en 2020-09: antes, los
+titulares de RCN sólo tienen el mes de publicación y quedan fuera de los
+eventos.
+
+- **Omisión por tema × gobierno** ([detalle](resultados_publico/omision/LEEME.md)):
+  - Los perfiles de cada medio son estables. El más claro es La República, con
+    unos 20 pp menos en policía, justicia y conflicto, y más en economía e
+    impuestos.
+  - **Casi nada cambia de Duque a Petro.** Sólo RCN cubre más justicia
+    (+7,5 pp frente a los otros medios), y es robusto. Caracol en Venezuela
+    (+14 pp) no resiste todas las pruebas.
+  - Entre un cuarto y la mitad de las «ausencias» podrían ser titulares que el
+    emparejamiento no reconoció.
+- **Elección léxica dentro del mismo hecho** ([detalle](resultados_publico/lexico/LEEME.md)):
+  - Las palabras distintivas de cada medio son sobre todo de estilo: El Tiempo
+    usa nombres completos y Blu Radio formas cortas.
+  - **El hallazgo más claro es de periodo:** todos los medios personalizan más
+    al gobierno con Petro («Gobierno Petro» en vez de «el Gobierno»). Por
+    ejemplo, El Tiempo pasa del 5 % al 27 % y Caracol del 8 % al 28 %.
+  - Dentro de Petro, El Tiempo personaliza más que los otros medios en los
+    mismos hechos (+11 pp), y RCN (−13), La República (−8) y Blu Radio (−5)
+    menos. Sólo con Duque no se distingue ningún medio.
+
 ## Siguientes pasos recomendados
 
-1. Sobre los eventos: **cobertura u omisión** de cada medio y **elección
-   léxica** (*log-odds* con prior informativo) dentro del mismo hecho.
+1. Revisar con el equipo los ejemplos de `resultados_publico/lexico/ejemplos_lexico.md`
+   antes de citar las diferencias léxicas, y estimar el **recall** del
+   emparejamiento (anotar ausencias), que hoy limita la lectura de la omisión.
 2. Calibrar también el umbral del **seguimiento** (notas extra del mismo medio
    en un evento), que hoy usa el mismo 0,80 sin medición propia.
 3. **Validar los tópicos de BERTopic con el equipo** (prueba de intrusión de
@@ -136,3 +162,5 @@ RCN es el que más cambia respecto a sí mismo (0,139).
   `deltas.csv` (con columnas `secc_*` del control por sección), `topic_robustness.csv`,
   `participacion_medio_gobierno.csv` y `figuras/` (la central es `12_delta_relativo.png`;
   el efecto del control, `16_control_seccion.png`)
+- Omisión y elección léxica: `resultados_publico/omision/` y `resultados_publico/lexico/`
+  (cada uno con su `LEEME.md` y figuras 23–29)
