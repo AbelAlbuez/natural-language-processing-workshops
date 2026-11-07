@@ -72,11 +72,31 @@ def upsert_all(client, collection, records, batch_size=256):
     return sent
 
 
-def count_present(client, collection, chunk_ids, batch_size=1000):
+RETRYABLE = ("lag(", "tsafe", "timeout", "deadline", "not ready")
+
+
+def query_with_retry(client, attempts=8, wait=15.0, **kwargs):
+    """client.query con reintentos ante errores transitorios.
+
+    Tras una carga grande, Milvus puede rechazar lecturas fuertes mientras procesa lo
+    recibido ("lag(20.8s) max(3s)"). Se reintenta solo ante esos errores.
+    """
+    for attempt in range(1, attempts + 1):
+        try:
+            return client.query(**kwargs)
+        except Exception as exc:  # pymilvus.MilvusException y errores de transporte
+            if attempt == attempts or not any(k in str(exc).lower() for k in RETRYABLE):
+                raise
+            time.sleep(wait)
+
+
+def count_present(client, collection, chunk_ids, batch_size=1000, wait=15.0):
     """Cuántos de los chunk_id dados existen en la colección (lectura fuerte)."""
     found = 0
     for batch in batched(chunk_ids, batch_size):
-        rows = client.query(
+        rows = query_with_retry(
+            client,
+            wait=wait,
             collection_name=collection,
             ids=batch,
             output_fields=["chunk_id"],
@@ -86,8 +106,10 @@ def count_present(client, collection, chunk_ids, batch_size=1000):
     return found
 
 
-def count_total(client, collection):
-    rows = client.query(
+def count_total(client, collection, wait=15.0):
+    rows = query_with_retry(
+        client,
+        wait=wait,
         collection_name=collection,
         filter="",
         output_fields=["count(*)"],
@@ -96,28 +118,34 @@ def count_total(client, collection):
     return int(rows[0]["count(*)"])
 
 
-def records_from_embeddings(embeddings_path, chunks_path):
-    emb = pq.read_table(embeddings_path)
-    if emb.schema.field("vector").type.list_size != DIM:
+def records_from_embeddings(embeddings_path, chunks_path, read_batch=20000):
+    """Genera entidades leyendo el Parquet de embeddings por lotes de read_batch filas.
+
+    Para cada lote se leen de chunks_path solo los chunk_id de ese lote (texto, URL,
+    fecha...). Así la memoria depende del tamaño del lote y no del corpus completo.
+    """
+    parquet = pq.ParquetFile(embeddings_path)
+    if parquet.schema_arrow.field("vector").type.list_size != DIM:
         raise SystemExit("El Parquet de embeddings no tiene vectores de dimensión 384.")
-    ids = emb["chunk_id"]
-    chunks = pq.read_table(
-        chunks_path,
-        columns=CHUNK_COLUMNS,
-        filters=pc.is_in(pc.field("chunk_id"), value_set=ids.combine_chunks()),
-    )
-    by_id = {row["chunk_id"]: row for row in chunks.to_pylist()}
-    missing = [cid for cid in ids.to_pylist() if cid not in by_id]
-    if missing:
-        raise SystemExit(f"{len(missing)} chunk_id del Parquet de embeddings no están en {chunks_path}.")
-    langs = emb["lang"].to_pylist()
-    vectors = emb["vector"].to_pylist()
 
     def generate():
-        for cid, lang, vector in zip(ids.to_pylist(), langs, vectors):
-            yield to_record(by_id[cid], vector, lang)
+        for batch in parquet.iter_batches(batch_size=read_batch, columns=["chunk_id", "lang", "vector"]):
+            ids = batch.column("chunk_id")
+            chunks = pq.read_table(
+                chunks_path,
+                columns=CHUNK_COLUMNS,
+                filters=pc.is_in(pc.field("chunk_id"), value_set=ids),
+            )
+            by_id = {row["chunk_id"]: row for row in chunks.to_pylist()}
+            id_list = ids.to_pylist()
+            missing = sum(1 for cid in id_list if cid not in by_id)
+            if missing:
+                raise SystemExit(f"{missing} chunk_id del Parquet de embeddings no están en {chunks_path}.")
+            vectors = batch.column("vector").flatten().to_numpy(zero_copy_only=False).reshape(-1, DIM)
+            for cid, lang, vector in zip(id_list, batch.column("lang").to_pylist(), vectors):
+                yield to_record(by_id[cid], vector, lang)
 
-    return generate(), emb.num_rows
+    return generate(), parquet.metadata.num_rows
 
 
 def records_with_encoder(chunks_path, documents_path, encode_batch):
@@ -155,6 +183,8 @@ def main():
     parser.add_argument("--collection", default=os.getenv("MILVUS_COLLECTION", COLLECTION_NAME))
     parser.add_argument("--batch-size", type=int, default=256, help="Entidades por upsert.")
     parser.add_argument("--encode-batch", type=int, default=32)
+    parser.add_argument("--read-batch", type=int, default=20000,
+                        help="Filas del Parquet de embeddings leídas por lote.")
     args = parser.parse_args()
 
     from pymilvus import MilvusClient
@@ -167,7 +197,7 @@ def main():
 
     start = time.perf_counter()
     if args.embeddings:
-        records, expected = records_from_embeddings(args.embeddings, args.chunks)
+        records, expected = records_from_embeddings(args.embeddings, args.chunks, args.read_batch)
     else:
         records, expected = records_with_encoder(args.chunks, args.documents, args.encode_batch)
     sent = upsert_all(client, args.collection, records, args.batch_size)
