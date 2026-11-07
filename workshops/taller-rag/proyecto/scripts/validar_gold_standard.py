@@ -4,12 +4,16 @@ Uso:
     python -m scripts.validar_gold_standard \
         --gold docs/gold_standard.csv \
         --documentos data/documentos_rag.parquet \
-        --cuotas cuotas.json --temas temas.json
+        --cuotas docs/cuotas_gold.json [--temas docs/temas_gold.json]
 
 --cuotas: JSON {"estratos": [{"fuente_esperada": "bluesky", "idioma": "en",
-          "desarrollo": 5, "prueba": 4}, ...]}
+          "desarrollo": 4, "prueba": 4}, ...]}. Se aplica solo a las respondibles.
 --temas:  JSON con una lista de etiquetas, o texto con una etiqueta por línea
-          (las 18 de collection_keyword_label).
+          (las 18 de collection_keyword_label). Por defecto, docs/temas_gold.json.
+
+Reglas por tipo: en las respondibles, fuente_esperada es obligatoria y tema es
+obligatorio solo si la fuente es Bluesky (Media Cloud y GDELT no tienen etiqueta). En
+las no respondibles, fuente_esperada, tema, respuesta y evidencia van vacíos.
 
 Cada verificación imprime OK o FALLA con conteos; nunca imprime texto de preguntas ni
 respuestas. El resumen se guarda en data/validacion_gold.json (solo conteos y
@@ -97,16 +101,39 @@ def validar(columnas, filas, document_ids, cuotas, temas, filas_esperadas=40, mi
                             and not ausentes, filas=len(filas), esperadas=filas_esperadas,
                             ids_duplicados=duplicados, ids_fuera_de_rango=fuera, ids_ausentes=ausentes))
 
-    for col, validos in (("idioma", IDIOMAS), ("tipo", TIPOS), ("fuente_esperada", FUENTES),
-                         ("split", SPLITS), ("tema", set(temas))):
+    for col, validos in (("idioma", IDIOMAS), ("tipo", TIPOS), ("split", SPLITS)):
         vacios = sum(1 for f in filas if not get(f, col))
         invalidos = sum(1 for f in filas if get(f, col) and get(f, col) not in validos)
         resultados.append(check(f"valores_{col}", not vacios and not invalidos, vacios=vacios, invalidos=invalidos))
 
+    es_no_resp = lambda f: get(f, "tipo") == "no_respondible"  # noqa: E731
+    respondibles = [f for f in filas if not es_no_resp(f)]
+    no_respondibles = [f for f in filas if es_no_resp(f)]
+
+    # fuente_esperada: obligatoria y válida en respondibles; vacía en no respondibles.
+    vacios = sum(1 for f in respondibles if not get(f, "fuente_esperada"))
+    invalidos = sum(1 for f in respondibles if get(f, "fuente_esperada") and get(f, "fuente_esperada") not in FUENTES)
+    llenas_no_resp = sum(1 for f in no_respondibles if get(f, "fuente_esperada"))
+    resultados.append(check("valores_fuente_esperada", not vacios and not invalidos and not llenas_no_resp,
+                            vacios_en_respondibles=vacios, invalidos=invalidos,
+                            llenas_en_no_respondibles=llenas_no_resp))
+
+    # tema: solo Bluesky tiene collection_keyword_label. Obligatorio en respondibles de
+    # Bluesky; vacío en Media Cloud, GDELT y no respondibles. Si está lleno, debe ser válido.
+    validos = set(temas)
+    bluesky = [f for f in respondibles if get(f, "fuente_esperada") == "bluesky"]
+    sin_tema_bluesky = sum(1 for f in bluesky if not get(f, "tema"))
+    invalidos = sum(1 for f in filas if get(f, "tema") and get(f, "tema") not in validos)
+    con_tema_sin_etiqueta = sum(1 for f in filas if get(f, "tema")
+                                and (es_no_resp(f) or get(f, "fuente_esperada") != "bluesky"))
+    resultados.append(check("valores_tema", not sin_tema_bluesky and not invalidos and not con_tema_sin_etiqueta,
+                            bluesky_sin_tema=sin_tema_bluesky, invalidos=invalidos,
+                            lleno_fuera_de_bluesky=con_tema_sin_etiqueta,
+                            temas_distintos=len({get(f, 'tema') for f in filas if get(f, 'tema')})))
+
     vacias = sum(1 for f in filas if not get(f, "pregunta"))
     resultados.append(check("pregunta_no_vacia", not vacias, vacias=vacias))
 
-    respondibles = [f for f in filas if get(f, "tipo") != "no_respondible"]
     sin_respuesta = sum(1 for f in respondibles if not get(f, "respuesta_referencia"))
     resultados.append(check("respuesta_en_respondibles", not sin_respuesta,
                             respondibles=len(respondibles), sin_respuesta=sin_respuesta))
@@ -125,7 +152,8 @@ def validar(columnas, filas, document_ids, cuotas, temas, filas_esperadas=40, mi
     resultados.append(check("preguntas_sin_duplicados", not dup_preguntas, duplicadas=dup_preguntas,
                             evaluadas=len(normalizadas)))
 
-    reales = Counter((get(f, "fuente_esperada"), get(f, "idioma"), get(f, "split")) for f in filas)
+    # Las cuotas por fuente e idioma se aplican solo a las respondibles.
+    reales = Counter((get(f, "fuente_esperada"), get(f, "idioma"), get(f, "split")) for f in respondibles)
     estratos_mal = 0
     for (fuente, idioma), esperado in cuotas.items():
         for split in SPLITS:
@@ -139,11 +167,8 @@ def validar(columnas, filas, document_ids, cuotas, temas, filas_esperadas=40, mi
     n_no_resp = sum(1 for f in filas if get(f, "tipo") == "no_respondible")
     resultados.append(check("minimo_no_respondible", n_no_resp >= min_no_respondible,
                             no_respondibles=n_no_resp, minimo=min_no_respondible))
-
-    presentes = {get(f, "tema") for f in filas}
-    temas_ausentes = sum(1 for t in temas if t not in presentes)
-    resultados.append(check("cobertura_temas", not temas_ausentes, temas=len(temas),
-                            temas_ausentes=temas_ausentes))
+    # No se exige cobertura de los 18 temas (solo Bluesky tiene etiqueta); el número de
+    # temas distintos se informa en valores_tema.
     return resultados
 
 
@@ -160,7 +185,8 @@ def main(argv=None):
     parser.add_argument("--gold", default="docs/gold_standard.csv")
     parser.add_argument("--documentos", default="data/documentos_rag.parquet")
     parser.add_argument("--cuotas", required=True, help="JSON con las cuotas de split por fuente e idioma.")
-    parser.add_argument("--temas", required=True, help="Lista de las etiquetas de tema (JSON o una por línea).")
+    parser.add_argument("--temas", default="docs/temas_gold.json",
+                        help="Lista de las etiquetas de tema (JSON o una por línea).")
     parser.add_argument("--filas-esperadas", type=int, default=40)
     parser.add_argument("--min-no-respondible", type=int, default=5)
     parser.add_argument("--salida", default="data/validacion_gold.json")

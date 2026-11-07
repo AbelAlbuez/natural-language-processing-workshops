@@ -1,0 +1,35 @@
+{
+ "nota": "Cuotas de respondibles por fuente esperada e idioma de la pregunta. Las 6 no respondibles (3 y 3) van aparte.",
+ "estratos": [
+  {
+   "fuente_esperada": "bluesky",
+   "idioma": "en",
+   "desarrollo": 4,
+   "prueba": 4
+  },
+  {
+   "fuente_esperada": "bluesky",
+   "idioma": "es",
+   "desarrollo": 2,
+   "prueba": 2
+  },
+  {
+   "fuente_esperada": "gdelt",
+   "idioma": "es",
+   "desarrollo": 0,
+   "prueba": 1
+  },
+  {
+   "fuente_esperada": "media_cloud",
+   "idioma": "en",
+   "desarrollo": 4,
+   "prueba": 4
+  },
+  {
+   "fuente_esperada": "media_cloud",
+   "idioma": "es",
+   "desarrollo": 7,
+   "prueba": 6
+  }
+ ]
+}
