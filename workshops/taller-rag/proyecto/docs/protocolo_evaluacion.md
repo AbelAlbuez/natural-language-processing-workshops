@@ -33,12 +33,16 @@ Las 40 preguntas del gold standard se dividen en 20 preguntas de desarrollo y 20
 
 | Fuente esperada | Idioma | Desarrollo | Prueba | Total |
 |---|---|---:|---:|---:|
-| `bluesky` | en | 5 | 4 | 9 |
-| `bluesky` | es | 2 | 3 | 5 |
+| `bluesky` | en | 4 | 4 | 8 |
+| `bluesky` | es | 2 | 2 | 4 |
 | `gdelt` | es | 0 | 1 | 1 |
-| `media_cloud` | en | 5 | 4 | 9 |
-| `media_cloud` | es | 8 | 8 | 16 |
+| `media_cloud` | en | 4 | 4 | 8 |
+| `media_cloud` | es | 7 | 6 | 13 |
+| Respondibles | | 17 | 17 | 34 |
+| No respondibles | | 3 | 3 | 6 |
 | **Total** | | **20** | **20** | **40** |
+
+**Desviación respecto a la tabla original (7 de noviembre de 2026).** La tabla anterior repartía las 40 preguntas solo por fuente e idioma. En `docs/gold_standard.csv` se añadieron 6 preguntas no respondibles (3 por partición), sobre temas claramente ajenos al corpus, y las cuotas de fuente e idioma se aplican solo a las 34 respondibles (`docs/cuotas_gold.json`). Las no respondibles no tienen fuente, tema, respuesta ni evidencia. El campo `tema` solo se llena en las preguntas de Bluesky, porque `collection_keyword_label` no existe en Media Cloud ni en GDELT (lista de etiquetas en `docs/temas_gold.json`). Los IDs de cada partición no cambian. Las 34 respondibles son sintéticas, cada una basada en un único chunk, y todas están pendientes de revisión humana.
 
 IDs de desarrollo: G01, G02, G04, G09, G10, G12, G14, G16, G17, G18, G20, G21, G25, G27, G30, G31, G32, G33, G36, G39.
 
@@ -101,7 +105,7 @@ Valores fijos para todas las condiciones experimentales. Solo cambia el LLM. Cua
 | Encoder | `intfloat/multilingual-e5-small`, revisión `614241f`, dimensión 384, prefijos `query:` y `passage:`, normalización L2 |
 | Índice | Milvus v2.6.25, colección `rag_e5s_tok256_v1`, HNSW con `M` 16, `efConstruction` 200 y `ef` 64 en búsqueda |
 | Métrica | Producto interno (IP), equivalente al coseno con vectores normalizados |
-| Umbral de abstención | `RAG_SCORE_THRESHOLD` 0,80. **Pendiente de calibración** con la partición de desarrollo; no se usa la partición de prueba |
+| Umbral de abstención | `RAG_SCORE_THRESHOLD` 0,80, mantenido por decisión del autor; pendiente de calibración con anotaciones humanas |
 | Partición | 20 preguntas de desarrollo y 20 de prueba, semilla 42 (sección 4) |
 
 `repeat_penalty` 1.1 se fijó porque, con `temperature` 0 y sin penalización, `gemma2:2b` entró en un bucle de repetición con el prompt real y Ollama cortó la generación ("token repeat limit reached"). Con 1.1, los cuatro modelos terminaron con `done_reason` "stop" en la misma prueba.
