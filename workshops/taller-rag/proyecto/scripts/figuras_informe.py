@@ -6,7 +6,8 @@ Salidas:
   ../latex/figuras/*.png          cinco figuras a 300 dpi
 
 Uso (desde proyecto/):
-  .venv/bin/python scripts/figuras_informe.py
+  .venv/bin/python scripts/figuras_informe.py              # todo
+  .venv/bin/python scripts/figuras_informe.py --solo-gold  # solo la partición del gold
 """
 
 from __future__ import annotations
@@ -236,28 +237,38 @@ def pilot_vs_population(prep_counts: dict) -> dict:
 
 
 def gold_partition() -> dict:
-    g = pd.read_csv(DOCS / "gold_standard_plantilla.csv", usecols=["id_pregunta", "idioma_pregunta", "fuente_esperada"])
-    ids = set(g["id_pregunta"])
-    assert set(DEV_IDS) | set(TEST_IDS) == ids and not set(DEV_IDS) & set(TEST_IDS)
-    g["particion"] = np.where(g["id_pregunta"].isin(DEV_IDS), "desarrollo", "prueba")
-    strata = []
-    for (s, l), sub in g.groupby(["fuente_esperada", "idioma_pregunta"]):
-        strata.append(
-            {
-                "fuente_esperada": s,
-                "idioma": l,
-                "desarrollo": int((sub["particion"] == "desarrollo").sum()),
-                "prueba": int((sub["particion"] == "prueba").sum()),
-                "total": len(sub),
-                "ids_desarrollo": sorted(sub.loc[sub["particion"] == "desarrollo", "id_pregunta"]),
-                "ids_prueba": sorted(sub.loc[sub["particion"] == "prueba", "id_pregunta"]),
-            }
-        )
+    """Distribución observada del gold standard vigente (docs/gold_standard.csv).
+
+    Estratos de respondibles por fuente esperada e idioma, más un estrato único de no
+    respondibles (no tienen fuente). El orden coincide con la Tabla IV del informe.
+    """
+    g = pd.read_csv(DOCS / "gold_standard.csv", usecols=["id", "idioma", "tipo", "fuente_esperada", "split"],
+                    keep_default_na=False)
+    dev_ids = set(g.loc[g["split"] == "desarrollo", "id"])
+    test_ids = set(g.loc[g["split"] == "prueba", "id"])
+    assert dev_ids == set(DEV_IDS) and test_ids == set(TEST_IDS), "La partición no coincide con §4 del protocolo."
+
+    def stratum(sub: pd.DataFrame, fuente: str, idioma: str) -> dict:
+        return {
+            "fuente_esperada": fuente,
+            "idioma": idioma,
+            "desarrollo": int((sub["split"] == "desarrollo").sum()),
+            "prueba": int((sub["split"] == "prueba").sum()),
+            "total": len(sub),
+            "ids_desarrollo": sorted(sub.loc[sub["split"] == "desarrollo", "id"]),
+            "ids_prueba": sorted(sub.loc[sub["split"] == "prueba", "id"]),
+        }
+
+    resp = g[g["tipo"] != "no_respondible"]
+    strata = [stratum(sub, s, l) for (s, l), sub in resp.groupby(["fuente_esperada", "idioma"])]
+    strata.append(stratum(g[g["tipo"] == "no_respondible"], "no_respondible", ""))
     return {
         "total": len(g),
-        "desarrollo": int((g["particion"] == "desarrollo").sum()),
-        "prueba": int((g["particion"] == "prueba").sum()),
-        "fuente_ids": "docs/protocolo_evaluacion.md §4",
+        "desarrollo": int((g["split"] == "desarrollo").sum()),
+        "prueba": int((g["split"] == "prueba").sum()),
+        "respondibles": len(resp),
+        "no_respondibles": int((g["tipo"] == "no_respondible").sum()),
+        "fuente_ids": "docs/gold_standard.csv (columna split); listas de IDs en docs/protocolo_evaluacion.md §4",
         "estratos": strata,
     }
 
@@ -384,7 +395,11 @@ def fig_pilot(data: dict) -> None:
 def fig_gold(data: dict) -> None:
     gp = data["particion_gold"]
     st = gp["estratos"]
-    labels = [f"{SOURCE_LABEL[s['fuente_esperada']].replace(' ', chr(10))}\n{s['idioma']}" for s in st]
+    labels = [
+        "No\nresp." if s["fuente_esperada"] == "no_respondible"
+        else f"{SOURCE_LABEL[s['fuente_esperada']].replace(' ', chr(10))}\n{s['idioma']}"
+        for s in st
+    ]
     x = np.arange(len(st))
     dev = np.array([s["desarrollo"] for s in st])
     test = np.array([s["prueba"] for s in st])
@@ -400,14 +415,35 @@ def fig_gold(data: dict) -> None:
     ax.set_xticks(x, labels, fontsize=6.5)
     ax.set_ylabel("Preguntas (n)")
     ax.set_xlabel("Estrato (fuente esperada × idioma)")
-    ax.set_title(f"Partición del gold standard ({gp['desarrollo']}/{gp['prueba']}, n = {gp['total']})")
+    ax.set_title(f"Gold standard observado ({gp['desarrollo']}/{gp['prueba']}, n = {gp['total']})")
     ax.set_ylim(0, max(dev + test) * 1.25)
     ax.grid(axis="x", visible=False)
     ax.legend(loc="upper left")
     save(fig, "fig_particion_gold.png")
 
 
+def main_solo_gold() -> int:
+    """Actualiza solo la partición del gold: la sección particion_gold de figuras_datos.json
+    y fig_particion_gold.png. No recalcula el corpus ni toca las otras figuras."""
+    FIG_DIR.mkdir(parents=True, exist_ok=True)
+    path = DOCS / "figuras_datos.json"
+    data = json.loads(path.read_text())
+    data["particion_gold"] = gold_partition()
+    errors: list[str] = []
+    check("gold_dev", data["particion_gold"]["desarrollo"], errors)
+    check("gold_test", data["particion_gold"]["prueba"], errors)
+    if errors:
+        print("ERROR: la partición no coincide; no se genera la figura.")
+        return 1
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+    fig_gold(data)
+    print("Figura en", FIG_DIR / "fig_particion_gold.png")
+    return 0
+
+
 def main() -> int:
+    if "--solo-gold" in sys.argv[1:]:
+        return main_solo_gold()
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     print("Calculando agregados...")
     corpus = corpus_counts()

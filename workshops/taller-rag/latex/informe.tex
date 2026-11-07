@@ -26,7 +26,7 @@ Repositorio: \url{https://github.com/AbelAlbuez/natural-language-processing-work
 \maketitle
 
 \begin{abstract}
-Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila prevista usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. El protocolo divide un gold standard de 40 preguntas en 20 de desarrollo y 20 de prueba. Los embeddings de los 577.324 chunks están calculados y cargados en Milvus con una ingesta por lotes idempotente, y la API responde con citas a los fragmentos recuperados. La configuración de generación quedó congelada con temperatura 0 y \texttt{repeat\_penalty} 1,1. El gold standard, la calibración del umbral de abstención, los experimentos y la evaluación humana están pendientes; este documento no presenta resultados experimentales. Las referencias bibliográficas están por verificar.
+Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. Los embeddings de los 577.324 chunks están calculados y cargados en Milvus con una ingesta por lotes idempotente, y la API responde con citas a los fragmentos recuperados. La configuración de generación quedó congelada con temperatura 0 y \texttt{repeat\_penalty} 1,1. El gold standard tiene 40 preguntas (34 respondibles sintéticas y 6 no respondibles), divididas en 20 de desarrollo y 20 de prueba y pendientes de revisión humana. Se presentan resultados preliminares en la partición de prueba con una repetición por modelo: Recall@5 de 0,647 a nivel de documento, y modelos que citan fragmentos válidos en entre 5 y 16 de las 17 preguntas respondibles. Con el umbral de 0,80 no hubo abstención en las preguntas fuera del corpus, y la calibración con desarrollo no encontró un umbral que cumpla los criterios fijados. El umbral se mantiene en 0,80 por decisión del autor, con la limitación de que el sistema no se abstiene en las preguntas fuera del corpus. La evaluación humana queda pendiente. Las referencias bibliográficas están por verificar.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -34,6 +34,7 @@ RAG, recuperación de información, corpus bilingüe, segmentación, embeddings,
 \end{IEEEkeywords}
 
 \section{Problema e hipótesis}
+\label{sec:problema}
 El proyecto estudia la recuperación de evidencia en un corpus de prensa y publicaciones sociales colombianas en español e inglés. La hipótesis de trabajo PI6 propone que Recall@5 es menor para Bluesky que para Media Cloud al comparar preguntas del mismo idioma por separado, y que la abstención correcta es menor para preguntas en inglés que para preguntas en español. Es una hipótesis pendiente de evaluación.
 
 El protocolo prevé reportar Recall@k ($k\in\{1,3,5,10\}$), MRR, nDCG@10, abstención correcta y fidelidad de citas, desglosados por fuente esperada e idioma. Las métricas siguen referencias candidatas aún no verificadas \cite{jarvelin2002,es2023ragas}.
@@ -96,11 +97,11 @@ La pila usa Milvus standalone v2.6.25 con etcd embebido y almacenamiento local, 
 
 \textit{API.} FastAPI expone \texttt{/health}, \texttt{/retrieve} y \texttt{/ask}. El conteo de filas de \texttt{/health} usa \texttt{count(*)}, porque las estadísticas de Milvus incluyen las filas reemplazadas hasta la compactación. Cuando Ollama corta una generación por repetición, \texttt{/ask} responde con un error específico (HTTP 502) en lugar de uno genérico.
 
-\textit{Configuración congelada.} Los valores fijos para todas las condiciones están en la sección~9 de \path{docs/protocolo_evaluacion.md}: \texttt{prompt\_v1} con su huella sha256, $k=5$, chunks de 256/48, el encoder E5 en una revisión fija, HNSW con IP, la partición 20/20 y, para la generación, temperatura 0 y \texttt{repeat\_penalty} 1,1 en los cuatro modelos. La penalización se añadió porque, con temperatura 0 y sin ella, \texttt{gemma2:2b} entró en un bucle de repetición con un prompt real y Ollama cortó la generación (``token repeat limit reached''). Con 1,1, \texttt{gemma2:2b} responde con citas que apuntan a fragmentos recuperados. El umbral de abstención no forma parte de lo congelado: sigue pendiente de calibración.
+\textit{Configuración congelada.} Los valores fijos para todas las condiciones están en la sección~9 de \path{docs/protocolo_evaluacion.md}: \texttt{prompt\_v1} con su huella sha256, $k=5$, chunks de 256/48, el encoder E5 en una revisión fija, HNSW con IP, la partición 20/20 y, para la generación, temperatura 0 y \texttt{repeat\_penalty} 1,1 en los cuatro modelos. La penalización se añadió porque, con temperatura 0 y sin ella, \texttt{gemma2:2b} entró en un bucle de repetición con un prompt real y Ollama cortó la generación (``token repeat limit reached''). Con 1,1, \texttt{gemma2:2b} responde con citas que apuntan a fragmentos recuperados. El umbral de abstención se mantiene en 0,80 por decisión del autor, porque la calibración con desarrollo no encontró un valor que cumpla los criterios (Sección~\ref{sec:resultados}).
 
 \textit{Hallazgos de la prueba técnica.} En la prueba de \texttt{repeat\_penalty}, con un solo prompt real y las dos configuraciones, \texttt{qwen2.5:1.5b} no citó ningún fragmento y \texttt{llama3.2:1b} generó respuestas muy cortas, de 7 a 9 tokens. Son observaciones de una comprobación técnica, no resultados experimentales, pero anticipan diferencias que la evaluación deberá medir.
 
-\textit{Estado de la evaluación.} El gold standard sigue pendiente de redacción y revisión por el equipo, y sin él no se puede calibrar el umbral de abstención. Los experimentos con los cuatro modelos y la evaluación humana también están pendientes. Las funciones de métricas (Recall@$k$, MRR, nDCG@$k$ y precisión y recall de la abstención) y el validador del gold standard están implementados y probados con datos sintéticos, pero aún no se han aplicado al gold standard.
+\textit{Estado de la evaluación.} El gold standard sintético, el validador, las funciones de métricas y el script de análisis están implementados y probados. El experimento con los cuatro modelos sobre la partición de prueba se presenta en la Sección~\ref{sec:resultados}. La revisión humana del gold standard, la decisión del umbral de abstención, la evaluación de la corrección de las respuestas y las repeticiones siguen pendientes.
 
 \section{Diseño experimental (5)}
 El plan propuesto empieza con un piloto de 500 documentos y escala a 10.000 y luego al corpus completo solo si el hardware lo permite. El piloto se seleccionó con semilla 42, estratificado por fuente (\texttt{source}) e idioma (\texttt{lang}). La Tabla~\ref{tab:piloto} solo informa conteos; la Figura~\ref{fig:piloto} compara sus proporciones con las de la población.
@@ -129,44 +130,46 @@ Total & 220 & 280 & 500 \\
 \label{fig:piloto}
 \end{figure}
 
-Entre condiciones experimentales solo cambia el LLM; corpus, segmentación, encoder, índice, \texttt{top-k} y prompt se mantienen fijos. Según \path{docs/EVALUACION.md}, cada condición se repetirá al menos tres veces, registrando el arranque en frío y en caliente. Los modelos locales previstos se servirán con Ollama \cite{qwen2024,llama2024,gemma2024}. Todavía no se han medido la viabilidad en hardware, el tiempo de indexación ni ninguna métrica. Las referencias de evaluación automática son candidatas por verificar \cite{thakur2021beir,es2023ragas,saadfalcon2023ares}.
+Entre condiciones experimentales solo cambia el LLM; corpus, segmentación, encoder, índice, \texttt{top-k} y prompt se mantienen fijos. Según \path{docs/EVALUACION.md}, cada condición se repetirá al menos tres veces, registrando el arranque en frío y en caliente. Los modelos locales previstos se servirán con Ollama \cite{qwen2024,llama2024,gemma2024}. Los tiempos de cálculo de embeddings e ingesta están en la Sección~\ref{sec:implementacion}, y las métricas de la partición de prueba, con una sola repetición, en la Sección~\ref{sec:resultados}. Las repeticiones y el registro de arranque en frío y en caliente siguen pendientes. Las referencias de evaluación automática son candidatas por verificar \cite{thakur2021beir,es2023ragas,saadfalcon2023ares}.
 
 \section{Gold standard y partición (6)}
-El gold standard contiene 40 preguntas: 22 en español y 18 en inglés. Su contenido está pendiente de revisión por el equipo. La Tabla~\ref{tab:gold} muestra la distribución por fuente esperada e idioma.
+El gold standard vigente (\path{docs/gold_standard.csv}) contiene 40 preguntas: 34 respondibles sintéticas y 6 no respondibles. Cada respondible se basa en un único chunk de la segmentación, y su respuesta de referencia se deduce solo de ese chunk. El documento de ese chunk es la evidencia. Las no respondibles tratan temas ajenos al corpus (recetas, deportes, programación) y no tienen fuente, tema, respuesta ni evidencia. El tema (una de las 18 etiquetas de \texttt{collection\_keyword\_label}) solo se asigna en Bluesky, porque Media Cloud y GDELT no tienen esa etiqueta. Las 40 preguntas están \textbf{pendientes de revisión humana}. El validador (\path{scripts/validar_gold_standard.py}) aprueba las 13 verificaciones. La Tabla~\ref{tab:gold} resume la distribución.
 
 \begin{table}[ht]
 \centering
-\caption{Distribución del gold standard.}
+\caption{Distribución del gold standard vigente.}
 \label{tab:gold}
 \begin{tabular}{lrrr}
 \toprule
-Fuente esperada & es & en & Total \\
+Tipo y fuente & es & en & Total \\
 \midrule
-Media Cloud & 16 & 9 & 25 \\
-Bluesky & 5 & 9 & 14 \\
+Media Cloud & 13 & 8 & 21 \\
+Bluesky & 4 & 8 & 12 \\
 GDELT & 1 & 0 & 1 \\
+No respondibles & 3 & 3 & 6 \\
 \midrule
-Total & 22 & 18 & 40 \\
+Total & 21 & 19 & 40 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-La partición vigente, registrada en \path{docs/protocolo_evaluacion.md}, divide las 40 preguntas en 20 de desarrollo y 20 de prueba. Usa los IDs de \path{docs/gold_standard_plantilla.csv}, semilla 42 y estratificación por fuente esperada e idioma de la pregunta, con cuotas asignadas por mayor resto (Tabla~\ref{tab:particion} y Figura~\ref{fig:particion}). El único caso GDELT en español va a prueba, porque un estrato de un solo caso no puede quedar en ambas particiones. Los parámetros se ajustan solo con desarrollo y se congelan antes de evaluar con prueba.
+La partición, registrada en \path{docs/protocolo_evaluacion.md}, divide las 40 preguntas en 20 de desarrollo y 20 de prueba con las listas de IDs fijadas con semilla 42. Las cuotas por fuente e idioma se aplican solo a las respondibles, y las no respondibles se reparten 3 y 3 (Tabla~\ref{tab:particion}). El único caso GDELT en español va a prueba, porque un estrato de un solo caso no puede quedar en ambas particiones. Los parámetros se ajustan solo con desarrollo y se congelan antes de evaluar con prueba.
 
 \begin{table}[ht]
 \centering
-\caption{Partición desarrollo/prueba del gold standard.}
+\caption{Partición desarrollo/prueba del gold standard vigente.}
 \label{tab:particion}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{llrrr}
 \toprule
 Fuente esperada & Idioma & Desarrollo & Prueba & Total \\
 \midrule
-Bluesky & en & 5 & 4 & 9 \\
-Bluesky & es & 2 & 3 & 5 \\
+Bluesky & en & 4 & 4 & 8 \\
+Bluesky & es & 2 & 2 & 4 \\
 GDELT & es & 0 & 1 & 1 \\
-Media Cloud & en & 5 & 4 & 9 \\
-Media Cloud & es & 8 & 8 & 16 \\
+Media Cloud & en & 4 & 4 & 8 \\
+Media Cloud & es & 7 & 6 & 13 \\
+No respondibles & & 3 & 3 & 6 \\
 \midrule
 Total & & 20 & 20 & 40 \\
 \bottomrule
@@ -176,14 +179,66 @@ Total & & 20 & 20 & 40 \\
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{fig_particion_gold.png}
-\caption{Partición del gold standard por fuente esperada e idioma: 20 preguntas de desarrollo y 20 de prueba (40 en total).}
+\caption{Distribución observada del gold standard vigente: 34 respondibles por fuente esperada e idioma y 6 no respondibles, con 20 preguntas de desarrollo y 20 de prueba. Coincide con la Tabla~\ref{tab:particion}.}
 \label{fig:particion}
 \end{figure}
 
 La evaluación humana independiente, la rúbrica y la resolución de desacuerdos están pendientes.
 
+\section{Resultados preliminares (partición de prueba)}
+\label{sec:resultados}
+Se evaluaron las 20 preguntas de prueba con los cuatro modelos, una repetición por modelo (80 corridas), con la configuración congelada: temperatura 0, \texttt{repeat\_penalty} 1,1, $k=5$ y umbral de abstención 0,80, el mismo para todos los modelos. Todas las corridas registradas usaron esos valores. Las métricas se calcularon con \path{scripts/analisis_resultados.py}, que usa las funciones de \path{scripts/metricas_rag.py}. Una corrida con error cuenta como fallo y permanece en el denominador.
+
+\textit{Recuperación.} La recuperación no depende del modelo. Se mide a nivel de documento sobre las 17 respondibles, con el documento de evidencia como único relevante (Tabla~\ref{tab:recuperacion}). Como el sistema recupera $k=5$ fragmentos, se reportan las métricas en 5; las variantes en 1, 3 y 10 y nDCG@10 previstas en la Sección~\ref{sec:problema} quedan pendientes.
+
+\begin{table}[ht]
+\centering
+\caption{Recuperación en la partición de prueba (top-5, nivel de documento).}
+\label{tab:recuperacion}
+\begin{tabular}{lrrrr}
+\toprule
+Grupo & $n$ & Recall@5 & MRR & nDCG@5 \\
+\midrule
+Todas & 17 & 0,647 & 0,578 & 0,596 \\
+Media Cloud & 10 & 0,700 & 0,583 & 0,613 \\
+Bluesky & 6 & 0,500 & 0,500 & 0,500 \\
+GDELT & 1 & 1,000 & 1,000 & 1,000 \\
+Inglés & 8 & 0,750 & 0,667 & 0,688 \\
+Español & 9 & 0,556 & 0,500 & 0,515 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Generación.} La Tabla~\ref{tab:generacion} resume las 20 corridas de cada modelo. ``Cita válida'' significa que la cita $[n]$ apunta a un fragmento entregado al modelo; las 85 citas válidas apuntan a \texttt{chunk\_id} recuperados para su pregunta, y no hubo citas fuera de rango. ``Cita a la evidencia'' significa que al menos una cita apunta al documento de evidencia. La corrección de las respuestas frente a la referencia no se evaluó.
+
+\begin{table}[ht]
+\centering
+\caption{Generación por modelo en la partición de prueba (17 respondibles y 3 no respondibles; una repetición). Err.: corridas con error; Cita: respondibles con al menos una cita válida; Evid.: respondibles que citan el documento de evidencia; Inv.: citas inválidas sobre el total; NR: abstenciones correctas en no respondibles; $t$: tiempo medio en segundos.}
+\label{tab:generacion}
+\setlength{\tabcolsep}{3pt}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Modelo & Err. & Cita & Evid. & Inv. & NR & $t$ \\
+\midrule
+gemma2:2b & 1 & 14/17 & 10/17 & 0/24 & 0/3 & 23,0 \\
+qwen2.5:1.5b & 0 & 5/17 & 4/17 & 0/6 & 0/3 & 24,5 \\
+llama3.2:1b & 0 & 16/17 & 9/17 & 0/46 & 0/3 & 16,7 \\
+llama3.2:3b & 0 & 6/17 & 5/17 & 0/9 & 0/3 & 39,5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ningún modelo se abstuvo en las respondibles, y ninguno se abstuvo en las 3 no respondibles: con el umbral 0,80 todas superaron el umbral y llegaron al LLM. Las medianas de tiempo fueron 23,8; 23,2; 13,0 y 37,8~s, en el orden de la tabla.
+
+\textit{Error de gemma2:2b en G34.} La corrida de G34 con \texttt{gemma2:2b} devolvió HTTP 503 en 0,51~s. El registro de Ollama muestra que el proceso \texttt{llama-server} recibió \texttt{SIGKILL} y la generación terminó con \texttt{EOF}. La corrida no se reintentó y cuenta como fallo en sus métricas, que por eso se calculan sobre 20 corridas.
+
+\textit{Calibración del umbral (solo desarrollo).} Con los scores máximos de recuperación de las 20 preguntas de desarrollo, \textbf{ningún umbral cumple a la vez} abstenerse en las 3 no respondibles y responder al menos el 90~\% de las respondibles. Con $t \geq 0{,}876$ se abstiene en las 3 no respondibles, pero responde solo 13 de 17 respondibles (76,5~\%). Con $t \leq 0{,}8465$ responde 16 de 17, pero se abstiene solo en 1 de 3. Con $t = 0{,}80$ responde las 17 y no se abstiene en ninguna. \textbf{Decisión del autor:} el umbral del sistema se mantiene en 0,80. No se ajustó ningún parámetro con la partición de prueba.
+
+\textit{Análisis complementario (no usado para decidir).} Con los scores de la partición de prueba, $t = 0{,}80$ responde 17 de 17 respondibles y abstiene 0 de 3 no respondibles; $t = 0{,}8465$, 15 de 17 y 3 de 3; y $t = 0{,}876$, 9 de 17 y 3 de 3. Se reporta solo como información: elegir el umbral con estos números contaminaría la evaluación de prueba.
+
 \section{Decisiones de arquitectura}
-La configuración prevista combina los documentos preparados, la segmentación 256/48, embeddings E5 con prefijo de pasaje, Milvus como almacén vectorial, una API FastAPI, una interfaz Streamlit y LLM locales servidos con Ollama. La Figura~\ref{fig:arquitectura} muestra el flujo, con la evaluación como bloque aparte.
+La configuración implementada combina los documentos preparados, la segmentación 256/48, embeddings E5 con prefijo de pasaje, Milvus como almacén vectorial, una API FastAPI, una interfaz Streamlit (escrita, pero aún sin verificar en ejecución) y LLM locales servidos con Ollama. La Figura~\ref{fig:arquitectura} muestra el flujo, con la evaluación como bloque aparte.
 
 \begin{figure}[!t]
 \centering
@@ -220,7 +275,7 @@ La configuración prevista combina los documentos preparados, la segmentación 2
 \draw[arr] (llm.south) |- (ui.east);
 \draw[arr] (ui.west) -| node[pos=0.75, left=2mm, anchor=east, align=right, font=\tiny, fill=white, inner sep=1pt] {pregunta,\\modelo, $k$} (ret.south);
 \end{tikzpicture}
-\caption{Arquitectura prevista. La ingesta segmenta el corpus, calcula embeddings E5 y los indexa en Milvus; la API recupera fragmentos, arma el prompt versionado y consulta el LLM local; la interfaz solo habla con la API. La evaluación es un bloque aparte que consume las respuestas registradas.}
+\caption{Arquitectura implementada (interfaz Streamlit sin verificar). La ingesta segmenta el corpus, calcula embeddings E5 y los indexa en Milvus; la API recupera fragmentos, arma el prompt versionado y consulta el LLM local; la interfaz solo habla con la API. La evaluación es un bloque aparte que consume las respuestas registradas.}
 \label{fig:arquitectura}
 \end{figure}
 
@@ -238,15 +293,20 @@ La configuración prevista combina los documentos preparados, la segmentación 2
 
 Las referencias sobre recuperación híbrida y embeddings son candidatas por verificar \cite{robertson2009,cormack2009,karpukhin2020,formal2021,chen2024bge,muennighoff2022mteb}.
 
+\section{Conclusiones preliminares}
+Con el corpus completo indexado, la recuperación encuentra el documento de evidencia entre los cinco primeros en 11 de 17 preguntas de prueba (Recall@5 0,647), En el agregado, lo hace mejor en Media Cloud (0,700) que en Bluesky (0,500). PI6, sin embargo, compara fuentes dentro de cada idioma: en inglés, Bluesky obtiene 0,500 y Media Cloud 1,000 ($n=4$ y $4$); en español, ambas obtienen 0,500 ($n=2$ y $6$). Solo la comparación en inglés va en la dirección de PI6, y con estos tamaños y una sola repetición no permite concluir nada. La parte de PI6 sobre abstención no se puede evaluar, porque no hubo abstenciones. Entre los modelos, \texttt{llama3.2:1b} y \texttt{gemma2:2b} citan fragmentos válidos en la mayoría de las respondibles, mientras que \texttt{qwen2.5:1.5b} y \texttt{llama3.2:3b} citan en menos de la mitad. Ningún modelo produjo citas fuera de rango. La abstención por umbral sobre el score máximo de E5 no separa las preguntas fuera del corpus de las respondibles: con 0,80 ninguna no respondible se abstuvo, y en desarrollo ningún umbral cumple las dos condiciones fijadas. La abstención necesita otra señal o una calibración con preguntas anotadas por personas.
+
 \section{Limitaciones y amenazas a la validez}
-El gold standard es pequeño y está desequilibrado: Bluesky en español tiene cinco preguntas y GDELT una. Con la partición, la prueba queda con tres preguntas de Bluesky en español y una de GDELT, así que esos estratos tendrán alta incertidumbre. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. El umbral de abstención de 0,80 es provisional y no está calibrado; se fijará con las preguntas de desarrollo después de la revisión del gold standard por el equipo. Todas las referencias permanecen por verificar.
+Las preguntas del gold standard son sintéticas, se basan en un único chunk cada una y no tienen validación humana. Hay una sola repetición por modelo, sin intervalos de confianza. El tema solo existe en Bluesky, así que no se puede desglosar por tema en Media Cloud ni en GDELT. Los estratos son pequeños: 6 preguntas de Bluesky, 1 de GDELT y 3 no respondibles en prueba. El umbral de abstención de 0,80 no está calibrado con anotaciones humanas, y la calibración con desarrollo no encontró ningún valor que cumpla a la vez los dos criterios (abstenerse en todas las no respondibles y responder al menos el 90~\% de las respondibles). Con el umbral que se mantiene, 0,80, \textbf{el sistema no se abstiene en ninguna de las preguntas fuera del corpus}: las 3 de prueba llegan al LLM con los cuatro modelos. La ``cita válida'' solo comprueba que la cita apunta a un fragmento entregado, no que respalde la afirmación. La corrección de las respuestas no se evaluó. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. Todas las referencias permanecen por verificar.
 
 \section{Pendientes}
 \begin{itemize}
-  \item Redacción y revisión del gold standard por el equipo.
-  \item Calibración del umbral de abstención con la partición de desarrollo.
+  \item Revisión humana de las 40 preguntas del gold standard.
+  \item Una señal de abstención distinta del score máximo de recuperación, o una calibración con preguntas anotadas por personas (el umbral 0,80 se mantiene mientras tanto).
+  \item Evaluación de la corrección de las respuestas (rúbrica humana y, como complemento, un LLM como juez).
+  \item Repeticiones por condición (al menos tres) e intervalos de confianza.
   \item Verificación de la interfaz Streamlit en ejecución.
-  \item Experimentos: piloto, 10.000 documentos y corpus completo si los recursos lo permiten, con métricas, tiempos, recursos y repeticiones por condición.
+  \item Experimentos a mayor escala si los recursos lo permiten, con métricas, tiempos y recursos por condición.
   \item Evaluación humana, medición del acuerdo y resolución de desacuerdos.
   \item Justificación del encoder frente a alternativas.
   \item Verificación de cada referencia contra su fuente original.
