@@ -94,7 +94,7 @@ services:
     container_name: rag-frontend
     # Misma imagen que la API; la caché de Docker hace que no se construya dos veces.
     build: {context: ., dockerfile: Dockerfile}
-    command: streamlit run app/frontend.py --server.address=0.0.0.0 --server.port=8501
+    command: streamlit run app/ui.py --server.address=0.0.0.0 --server.port=8501
     env_file: .env
     environment:
       API_URL: http://api:8000
