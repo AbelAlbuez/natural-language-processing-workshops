@@ -1,0 +1,277 @@
+% Entrega 3 (informe final) — borrador armado a partir de entrega3/INFORME_FINAL.md
+% Las cifras salen de los CSV de entrega3/resultados_publico/ (ver GUIA_ENTREGA3.md).
+% Marcas para el equipo:  \todo{...}  = texto por revisar o completar (sale en rojo).
+% Para la versión final:  descomentar la línea \renewcommand{\todo}[1]{} y verificar que no queda ninguno.
+\documentclass[10pt,twocolumn]{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry,graphicx,booktabs,hyperref,amsmath,xcolor}
+\DeclareUnicodeCharacter{0394}{\ensuremath{\Delta}}
+\DeclareUnicodeCharacter{03BA}{\ensuremath{\kappa}}
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}
+\DeclareUnicodeCharacter{2260}{\ensuremath{\neq}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\rightarrow}}
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+\geometry{top=1.9cm,bottom=2cm,left=1.7cm,right=1.7cm,columnsep=.65cm}
+\graphicspath{{../entrega3/resultados_publico/}}
+\newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+% \renewcommand{\todo}[1]{}
+\newcommand{\pp}{\,pp}
+
+\title{Entrega 3: agenda, selección y encuadre de cinco medios colombianos\\bajo los gobiernos Duque y Petro}
+\author{Abel Albuez Sanchez, Kelly Joane Leon Torres,\\Juan Camilo Torres Pena, Jesus David Romero Melo\\\small Maestría en Ingeniería de Sistemas y Computación, Pontificia Universidad Javeriana}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Estudiamos si cambió la cobertura de El Tiempo, Blu Radio, Noticias RCN, Noticias
+Caracol y La República entre los gobiernos de Iván Duque y Gustavo Petro, con
+1.573.421 titulares reconstruidos desde la URL. Comparamos tres niveles:
+\emph{agenda} (modelos de tópicos con Δ relativo y control por sección),
+\emph{selección} (20.905 eventos de titulares del mismo hecho entre medios, con un
+umbral calibrado a mano de precisión 81\,\%) y \emph{encuadre} (léxico distintivo,
+personalización del gobierno, léxico de carga y un silver standard de 300
+titulares). Las diferencias entre medios son pequeñas y sobre todo de perfil y
+estilo; lo que cambia con Petro es común a todos: más asuntos públicos, más
+«Gobierno Petro» y más carga negativa en los titulares sobre el gobierno. Ningún
+medio trata de forma robusta más desfavorablemente a un gobierno que al otro. El
+silver standard muestra que la carga léxica no equivale a sesgo juzgado.
+\todo{Ajustar a 150--200 palabras si el formato lo pide.}
+\end{abstract}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Introducción y pregunta}
+El framing exige comparar selección, énfasis y contexto de un mismo acontecimiento,
+no sólo frecuencias de palabras o sentimiento \cite{entman}. La entrega 2
+caracterizó el corpus de Duque con textometría y LDA; esta entrega compara los dos
+gobiernos y pasa de la agenda al mismo hecho entre medios, como sugiere la
+literatura de detección de sesgo mediático \cite{hamborg2019}.
+
+\textbf{Pregunta.} ¿Cambió la forma en que los cinco medios cubren la actualidad
+entre Duque (2018-08 a 2022-08) y Petro (2022-08 a 2026-08)? ¿Algún medio cambió
+más que los otros, y en particular trata con más dureza a uno de los dos gobiernos?
+
+\begin{center}\small\begin{tabular}{p{1.4cm}p{2.6cm}p{3.0cm}}\toprule
+Nivel & Pregunta & Método\\\midrule
+Agenda & ¿De qué habla? & LDA, LDA de consenso, BERTopic; Δ relativo\\
+Selección & ¿Quién cubre el mismo hecho? & Eventos entre medios; omisión\\
+Encuadre & ¿Con qué palabras? & Log-odds, personalización, carga, silver standard\\
+\bottomrule\end{tabular}\end{center}
+
+Todo el análisis es descriptivo: una palabra cargada o un tema distinto no son,
+por sí solos, sesgo.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Datos}
+El corpus \texttt{news\_corpus} (dump 2026-10-04) contiene las URLs de los sitemaps
+de cada medio. El titular se reconstruye del slug (sin tildes, cifras ni
+puntuación) y se marcan 78.859 piezas que no son noticias (emisiones, loterías,
+pico y placa, caricaturas, publirreportajes).
+
+\begin{center}\small\begin{tabular}{lr}\toprule
+Paso & Titulares\\\midrule
+Export 2018-08 a 2026-08 & 1.716.219\\
+Gobierno Duque o Petro & 1.698.581\\
+5 medios con los dos gobiernos & 1.653.170\\
+Noticias (sin \texttt{non\_news\_reason}) & \textbf{1.573.421}\\
+Subcorpus de asuntos públicos & 313.170\\
+\bottomrule\end{tabular}\end{center}
+
+Cuidados: el volumen depende de los sitemaps, por lo que se comparan proporciones
+dentro de cada medio; RCN sólo tiene fecha exacta desde 2020-09, así que las
+comparaciones por eventos usan Duque desde esa fecha; y el archivo de RCN cambia
+de composición (deportes pasa de $\sim$1\,\% a 43--45\,\% de sus URLs), lo
+que motiva el control por sección.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\columnwidth]{figuras/01_embudo_corpus.png}
+\caption{Del export a las noticias analizadas.}\label{fig:embudo}
+\end{figure}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Métodos}
+\subsection{Agenda: tópicos y Δ relativo}
+Un LDA \cite{lda} conjunto (K=15) se entrena con 400.000 titulares balanceados
+(40.000 por medio × gobierno) y se aplica a todo el corpus. Sobre el subcorpus de
+asuntos públicos se ajustan además un LDA, un LDA de consenso y BERTopic
+\cite{bertopic} con embeddings multilingües \cite{reimers2019}. La medida central
+es el \textbf{Δ relativo}: el cambio Duque→Petro de un medio menos el cambio
+promedio de los otros cuatro, con IC por bootstrap de bloques mensuales y Holm. El
+\textbf{control por sección} repondera cada medio a la misma mezcla de sus propias
+secciones en los dos gobiernos. La robustez se mide reentrenando con otras
+semillas (Jaccard entre tópicos emparejados).
+
+\subsection{Eventos y calibración}
+Dos titulares de medios distintos forman pareja si son recíprocamente los más
+parecidos en ±2 días (coseno de \texttt{paraphrase-multilingual-MiniLM-L12-v2});
+las parejas se agrupan en eventos. Dos personas anotaron 210 parejas
+estratificadas en 7 tramos de similitud (60 dobles, κ=0,77); la precisión se
+pondera por la población de cada tramo. Con el umbral \textbf{0,80} la precisión es
+81\,\% (IC 95\,\% 72--90\,\%).
+
+\subsection{Omisión, léxico y carga}
+\textbf{Omisión}: para cada evento que cubren al menos 3 de los otros 4 medios, si
+el medio lo cubre; se compara por tema × gobierno con Δ relativo, Holm y BH.
+\textbf{Léxico}: log-odds con prior de Dirichlet informativo \cite{monroe2008}
+sobre presencia por titular, emparejado por evento, e índice de personalización
+(«Gobierno Petro/Duque»). \textbf{Carga}: léxico evaluativo curado con polaridad,
+tipo y exclusiones de contexto, validado con concordancias; no es análisis de
+sentimiento. Se repite el análisis léxico en la banda de similitud 0,65--0,80 con
+un filtro de $\sim$72\,\% de precisión.
+
+\subsection{Silver standard}
+300 titulares de asuntos públicos, 30 por medio × gobierno, estratificados (al
+azar en evento o sueltos, y candidatos con léxico cargado, personalización o
+divergencia del evento) y ponderados por $N_h/n_h$. Se anotan a ciegas del medio
+con hasta 4 titulares de otros medios como contexto: ¿sesgado?, y si lo es, tipo,
+dirección respecto al gobierno de turno e intensidad. Dos planillas de 180 con 60
+dobles. La planilla 1 la anotó una persona del equipo y la 2 un modelo de lenguaje;
+por eso se reporta por anotador y con dos combinaciones (laxa: un desacuerdo cuenta
+como sesgado; estricta: como no sesgado). IC de Wilson con n efectivo de Kish
+\cite{kish} y bootstrap estratificado para las diferencias.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Resultados}
+\subsection{Agenda}
+BERTopic es el único modelo estable: repite 19 de 20 tópicos con otras semillas
+(Jaccard 0,79), frente a 0--3 tópicos robustos del LDA (Fig.~\ref{fig:metodos}).
+El control por sección se lleva la mayoría de los cambios: en el LDA del corpus
+completo quedan 5 de 13 Δ fiables (Fútbol en RCN pasa de +11,5 a +5,5\pp, no
+significativo). Con BERTopic y control por sección sobreviven, entre otros:
+Caracol, Venezuela, Cuba y Maduro +3,8\pp{} y Policía y delitos $-2{,}8$\pp; La
+República, guerras +1,6\pp{} (Fig.~\ref{fig:delta}). Con Petro hay más asuntos
+públicos en cuatro de cinco medios y las agendas se separan un poco (JS media
+0,180→0,204).
+
+\begin{figure}[t]\centering
+\includegraphics[width=\columnwidth]{figuras/17_comparacion_metodos.png}
+\caption{Estabilidad y Δ fiables por modelo.}\label{fig:metodos}
+\end{figure}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=.92\textwidth]{bertopic/figuras/12_delta_relativo.png}
+\caption{Δ relativo por medio y tópico (BERTopic, asuntos públicos), IC 95\,\%.}\label{fig:delta}
+\end{figure*}
+
+\subsection{Selección}
+20.905 eventos, 5.867 con ≥3 medios (1.916 de Duque desde 2020-09 y 3.951 de
+Petro). Los perfiles de cada medio son estables: La República tiene $\sim$20\pp{}
+menos en policía, justicia y conflicto, un perfil de medio económico. Casi nada
+cambia entre gobiernos: el único cambio robusto es RCN en Justicia, +7,5\pp{} (IC
+2,9--12,7) (Fig.~\ref{fig:omision}). Entre 27\,\% y 54\,\% de las ausencias podrían
+ser titulares no emparejados, así que la omisión es una cota superior.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\columnwidth]{omision/figuras/24_omision_delta_relativo.png}
+\caption{Cambio en la omisión por tema (Δ relativo).}\label{fig:omision}
+\end{figure}
+
+\subsection{Encuadre}
+Las palabras distintivas son sobre todo estilo de casa (nombres completos en El
+Tiempo, formas cortas en Blu Radio). El hallazgo más claro es de periodo: todos
+personalizan más al gobierno con Petro (El Tiempo 5,1→26,9\,\%, Caracol
+7,6→28,4\,\%, Blu 5,4→17,0\,\%, RCN 3,9→12,1\,\%; Fig.~\ref{fig:personal}). En los
+mismos hechos con Petro, El Tiempo personaliza +11,2\pp{} más que los otros; con
+Duque ningún medio se distingue.
+
+En carga, las diferencias entre medios ante el mismo hecho son de 3\pp{} como mucho
+(Caracol +2,4\pp{} de carga negativa con Duque; La República $-3{,}1$\pp{} con Petro;
+Blu Radio $\sim$+12\pp{} de verbos de atribución cargados en los dos
+gobiernos). En los titulares sobre el gobierno ningún medio carga más que los
+otros, y la carga negativa sube en conjunto de 5,2\,\% a 9,7\,\% con Petro
+(Fig.~\ref{fig:carga}). La banda 0,65--0,80 no muestra encuadre nuevo.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\columnwidth]{lexico/figuras/29_personalizacion_gobierno.png}
+\caption{«Gobierno Petro/Duque» por medio y gobierno.}\label{fig:personal}
+\end{figure}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\columnwidth]{carga/figuras/31_carga_dirigida_gobierno.png}
+\caption{Carga en titulares que mencionan al gobierno.}\label{fig:carga}
+\end{figure}
+
+\subsection{Silver standard}
+El acuerdo es bajo pero estructurado: κ=0,30 en sesgado (≈0 en tipo y
+dirección). En los 60 dobles el anotador 2 marcó 10 sesgados y el 1, 32; los 10
+están contenidos en los 32: es un umbral distinto, no ruido. La tasa ponderada es
+39\,\% (Duque) y 21\,\% (Petro) para el anotador 1, y 14\,\% y 12\,\% para el 2: el
+sesgo juzgado \emph{no} sube con Petro, aunque la carga sí. Ninguna diferencia
+Petro − Duque por medio es significativa (Fig.~\ref{fig:silver}); La República
+muestra un indicio de menos sesgo desfavorable con Petro ($-25$\pp, $p=0{,}05$, sin
+corrección múltiple).
+
+Los estratos con léxico concentran sesgo (65--69\,\% frente a 28\,\% según el
+anotador 1), pero el léxico cubre menos del 15\,\% de los titulares sesgados de la
+población; los verbos de atribución cargados y «Gobierno Petro» no son indicadores
+de sesgo (Fig.~\ref{fig:valid}). Un clasificador TF-IDF con regresión logística
+(validación cruzada 5×10) logra AUC 0,56--0,62, sin superar a una marca del léxico.
+
+\begin{figure*}[t]\centering
+\includegraphics[width=.92\textwidth]{silver/analisis/figuras/36_silver_tasa_sesgo.png}
+\caption{Tasa de titulares juzgados sesgados por medio y gobierno, ponderada, IC 95\,\%.}\label{fig:silver}
+\end{figure*}
+
+\begin{figure*}[t]\centering
+\includegraphics[width=.92\textwidth]{silver/analisis/figuras/38_silver_validacion_indicadores.png}
+\caption{Precisión y cobertura de los indicadores automáticos frente a las etiquetas.}\label{fig:valid}
+\end{figure*}
+
+\subsection{¿Coinciden los análisis?}
+\begin{center}\small\begin{tabular}{p{3.2cm}p{4.2cm}}\toprule
+Análisis previo & Silver standard\\\midrule
+Carga negativa sube con Petro & El sesgo juzgado no sube: carga ≠ sesgo\\
+Personalización sube & Casi nunca se juzga sesgo: es estilo/periodo\\
+Blu: verbos cargados & Precisión $\sim$10\,\%: estilo de casa\\
+Caracol: más carga con Duque & Tasa más alta (anotador 2), consistente y débil\\
+La República: menos carga con Petro & Menos sesgo desfavorable (indicio)\\
+\bottomrule\end{tabular}\end{center}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Limitaciones}
+\begin{itemize}
+\item El anotador 2 del silver standard es un modelo de lenguaje; el κ mide acuerdo persona--modelo y quedan 32 desacuerdos sin adjudicar.
+\item $\sim$18 titulares por medio × gobierno y anotador, con n efectivo $\sim$10: IC por medio muy anchos.
+\item Tipo y dirección del sesgo no son fiables (κ≈0).
+\item Titulares reconstruidos desde la URL: sin tildes, cifras, comillas ni signos.
+\item El emparejamiento acierta $\sim$81\,\% y su recall no está medido.
+\item RCN con fecha exacta sólo desde 2020-09.
+\item Carga ≠ sesgo y tópico ≠ encuadre.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Conclusiones}
+Las diferencias entre los cinco medios son pequeñas y sobre todo de perfil y
+estilo, y esos perfiles se mantienen entre gobiernos. Lo que cambia con Petro es
+común a todos (más asuntos públicos, más personalización y más carga negativa sobre
+el gobierno), lo que sugiere un cambio del periodo más que decisiones editoriales
+de un medio. Los cambios propios son pocos y modestos (Caracol más Venezuela y
+menos policía; RCN más justicia; El Tiempo más personalización) y ninguno equivale
+a un trato sistemáticamente más duro con un gobierno. El silver standard deja una
+lección de método: la carga léxica no equivale a sesgo juzgado, y el juicio de
+sesgo a nivel de titular depende mucho de quien anota.
+
+\textbf{Trabajo futuro}: una segunda persona para el silver standard y un muestreo
+centrado en titulares sobre el gobierno; recall del emparejamiento; BERTopic sobre
+el corpus completo; titulares publicados o texto completo en una submuestra.
+
+\section{Reproducibilidad}
+Todo el código está en \texttt{entrega3/} (Docker \texttt{duque-petro-lda}), con
+tests (101) y semilla 42. El detalle de cada paso y sus archivos está en
+\texttt{entrega3/README.md} e \texttt{INFORME\_FINAL.md}.
+
+\begin{thebibliography}{9}
+\bibitem{entman} R. Entman. Framing: Toward Clarification of a Fractured Paradigm. \emph{Journal of Communication}, 43(4), 51--58, 1993.
+\bibitem{hamborg2019} F. Hamborg, K. Donnay y B. Gipp. Automated identification of media bias in news articles: an interdisciplinary literature review. \emph{International Journal on Digital Libraries}, 20, 391--415, 2019.
+\bibitem{lda} D. Blei, A. Ng y M. Jordan. Latent Dirichlet Allocation. \emph{Journal of Machine Learning Research}, 3, 993--1022, 2003.
+\bibitem{bertopic} M. Grootendorst. BERTopic: Neural topic modeling with a class-based TF-IDF procedure. arXiv:2203.05794, 2022.
+\bibitem{reimers2019} N. Reimers e I. Gurevych. Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks. \emph{EMNLP-IJCNLP}, 2019.
+\bibitem{monroe2008} B. Monroe, M. Colaresi y K. Quinn. Fightin' Words: Lexical Feature Selection and Evaluation for Identifying the Content of Political Conflict. \emph{Political Analysis}, 16(4), 372--403, 2008.
+\bibitem{kish} L. Kish. \emph{Survey Sampling}. Wiley, 1965.
+\end{thebibliography}
+\end{document}
