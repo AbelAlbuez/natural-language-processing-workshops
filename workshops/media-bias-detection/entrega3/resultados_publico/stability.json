@@ -1,0 +1,15 @@
+{
+  "k": 25,
+  "seeds": [
+    7,
+    123
+  ],
+  "criterio": "Jaccard medio de las 10 palabras principales: robusto ≥ 0.5, parcial ≥ 0.3",
+  "conteo": {
+    "inestable": 21,
+    "parcial": 3,
+    "robusto": 1
+  },
+  "jaccard_medio_global": 0.18542302211032857,
+  "similitud_js_media": 0.233099063268057
+}

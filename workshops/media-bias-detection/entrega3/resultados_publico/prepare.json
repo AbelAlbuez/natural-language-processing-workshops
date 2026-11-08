@@ -1,0 +1,55 @@
+{
+  "funnel": [
+    [
+      "Export 2018-08 → 2026-08 (todos los medios)",
+      1716219
+    ],
+    [
+      "Gobierno Duque o Petro",
+      1698581
+    ],
+    [
+      "5 medios con los dos gobiernos",
+      1653170
+    ],
+    [
+      "Con titular",
+      1650907
+    ],
+    [
+      "Noticias (sin marca de no-noticia)",
+      1573421
+    ],
+    [
+      "Asuntos públicos (tesauro en el titular)",
+      313170
+    ],
+    [
+      "Muestra de entrenamiento (14.000 × 10 celdas)",
+      140000
+    ]
+  ],
+  "vocabulario": 6678,
+  "bigramas_en_vocabulario": 454,
+  "ejemplos_bigramas": [
+    "estados_unidos",
+    "presidente_petro",
+    "corte_suprema",
+    "presidente_gustavo",
+    "clan_golfo",
+    "donald_trump",
+    "gustavo_petro",
+    "nicolas_maduro",
+    "disidencias_farc",
+    "reforma_salud",
+    "reforma_tributaria",
+    "corte_constitucional",
+    "elecciones_presidenciales",
+    "salario_minimo",
+    "consejo_estado"
+  ],
+  "sin_tokens": 0,
+  "tokens_por_titular_media": 6.778407893476387,
+  "por_celda": 14000,
+  "heldout_por_celda": 500
+}

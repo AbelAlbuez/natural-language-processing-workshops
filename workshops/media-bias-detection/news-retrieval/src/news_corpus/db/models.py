@@ -105,6 +105,27 @@ class TitleSource(enum.StrEnum):
     EXTRACTED = "extracted"  # leído de la página (fase de extracción)
 
 
+class NonNewsReason(enum.StrEnum):
+    """Por qué una URL del corpus no es una pieza informativa.
+
+    Los sitemaps listan todo lo que publica el medio, no sólo noticias: en el
+    corpus de octubre de 2026 había ~42k URLs de emisiones, caricaturas,
+    horóscopos, publirreportajes y "precio del dólar hoy". Con el titular derivado del slug son
+    texto repetitivo que distorsiona frecuencias y volúmenes por tema.
+
+    No se borran (decisión 2 del módulo): se marcan, y el análisis filtra
+    `non_news_reason IS NULL`. NULL significa "no se detectó como no-noticia".
+    """
+
+    EMISION = "emision"          # emisiones y programas completos
+    MULTIMEDIA = "multimedia"    # podcast y resúmenes de titulares en video
+    CARICATURA = "caricatura"
+    SERVICIO = "servicio"        # horóscopo, loterías, chance
+    INDICADOR = "indicador"      # "precio del dólar/oro hoy"
+    COMERCIAL = "comercial"      # contenido patrocinado o publicidad
+    OBITUARIO = "obituario"      # avisos de condolencia (no notas necrológicas)
+
+
 class ExtractionStatus(enum.StrEnum):
     """Resultado de intentar leer la página del artículo.
 
@@ -331,6 +352,9 @@ class Article(Base):
     description: Mapped[str | None] = mapped_column(Text)
     author: Mapped[str | None] = mapped_column(Text)
     section: Mapped[str | None] = mapped_column(String(160))
+    non_news_reason: Mapped[NonNewsReason | None] = mapped_column(
+        _enum_col(NonNewsReason, "non_news_reason", 16), index=True
+    )
     image_url: Mapped[str | None] = mapped_column(Text)
 
     published_at: Mapped[datetime | None] = mapped_column(

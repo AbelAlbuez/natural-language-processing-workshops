@@ -82,7 +82,8 @@ news-corpus retry-failed          # reintenta los bloques en FAILED
 ## Analizar
 
 ```bash
-news-corpus enrich                # deriva título y sección desde la URL
+news-corpus enrich                # deriva título, sección y no-noticia desde la URL
+news-corpus enrich --all          # re-aplica las reglas a todo el corpus (tras cambiarlas)
 news-corpus extract               # abre la página: titular, fecha y cuerpo reales
 news-corpus extract --all         # también los que ya tenían título de slug
 news-corpus clean-content         # re-limpia el cuerpo con las reglas actuales

@@ -1,0 +1,7 @@
+K,config,c_v,sim_js_media,jaccard10_media,topicos_jaccard_ge_0_5
+10,"base (α=1/K, η=1/K, 10 pasadas)",0.3554,0.303,0.302,2
+10,"dispersos (α=0,05, η=0,01, 10 pasadas)",0.3527,0.319,0.273,1
+10,dispersos + 20 pasadas,0.3404,0.3,0.254,2
+15,"base (α=1/K, η=1/K, 10 pasadas)",0.3804,0.264,0.275,3
+15,"dispersos (α=0,05, η=0,01, 10 pasadas)",0.3746,0.268,0.259,3
+15,dispersos + 20 pasadas,0.3734,0.252,0.287,2

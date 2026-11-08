@@ -6,13 +6,14 @@ Los umbrales de cada hipótesis son propuestas. Hay que fijarlos con el conjunto
 
 ## Resumen
 
-| # | Pregunta | Hallazgo de origen | Puntos del enunciado |
-|---|---|---|---|
-| PI1 | ¿e5-small recupera evidencia en inglés para consultas en español con la misma calidad? | H1 | 1, 4, 6 |
-| PI2 | ¿La mezcla de posts cortos y fragmentos de artículos sesga la recuperación por plataforma, y la recuperación híbrida o el reranking lo corrigen? | H2, H3 | 3, 4, 6 |
-| PI3 | ¿Cómo definir la propagación noticia → red: similitud de texto o URL compartida? | H4, H5 | 6, 8 |
-| PI4 | ¿Una compuerta de abstención basada en la recuperación mejora las respuestas a preguntas sin evidencia y temporales? | H3, H4 | 1, 4 |
-| PI5 | Con la recuperación fija, ¿qué modelo pequeño da la mejor relación entre fidelidad y costo en un corpus bilingüe? | H1 | 3, 4, 5, 8 |
+| # | Estado | Pregunta | Hallazgo de origen | Puntos del enunciado |
+|---|---|---|---|---|
+| PI1 | alternativa | ¿e5-small recupera evidencia en inglés para consultas en español con la misma calidad? | H1 | 1, 4, 6 |
+| PI2 | alternativa | ¿La mezcla de posts cortos y fragmentos de artículos sesga la recuperación por plataforma, y la recuperación híbrida o el reranking lo corrigen? | H2, H3 | 3, 4, 6 |
+| PI3 | alternativa | ¿Cómo definir la propagación noticia → red: similitud de texto o URL compartida? | H4, H5 | 6, 8 |
+| PI4 | alternativa | ¿Una compuerta de abstención basada en la recuperación mejora las respuestas a preguntas sin evidencia y temporales? | H3, H4 | 1, 4 |
+| PI5 | alternativa | Con la recuperación fija, ¿qué modelo pequeño da la mejor relación entre fidelidad y costo en un corpus bilingüe? | H1 | 3, 4, 5, 8 |
+| PI6 | seleccionada | ¿La recuperación y la respuesta varían según la fuente y el idioma del documento y de la pregunta? | H1–H7 | 5, 6 |
 
 ## PI1. Recuperación cruzada español → inglés
 
@@ -28,7 +29,7 @@ Los umbrales de cada hipótesis son propuestas. Hay que fijarlos con el conjunto
 
 ## PI2. Sesgo por plataforma: posts cortos frente a fragmentos de artículos
 
-**Contexto.** Bluesky no pasa de 67 palabras. *Hipótesis (pendiente de medir con el tokenizador de e5-small):* con un máximo de 67 palabras, se espera que cada post quepa en un chunk de 256 tokens. Un artículo de `media_cloud` tiene una mediana de 636 palabras, así que se espera que ocupe varios chunks (H2). Prensa y Bluesky solo coinciden en el tiempo en 2025–2026 (H3).
+**Contexto.** Bluesky no pasa de 67 palabras. La medición con el tokenizador de e5-small encontró que 1 de 51.876 posts supera 256 tokens; los otros 51.875 caben en un chunk. El post `bluesky_posts:bluesky_3lb2v7rdork2z` tiene 319 tokens y produce 2 chunks. Un artículo de `media_cloud` tiene una mediana de 636 palabras, así que se espera que ocupe varios chunks (H2). Prensa y Bluesky solo coinciden en el tiempo en 2025–2026 (H3).
 
 | Elemento | Propuesta |
 |---|---|
@@ -80,6 +81,20 @@ La pregunta es metodológica: **¿conviene medir la propagación con similitud d
 | Puntos del enunciado | 3 (comparación controlada de LLM), 4, 5 (repeticiones, intervalos), 8 (compromisos de calidad y recursos) |
 | Riesgo principal | Un juez LLM sesgado (por longitud, por idioma o por preferir su propia familia de modelos) puede invertir la conclusión. |
 | Mitigación | Rúbrica humana en una submuestra con dos anotadores y kappa (punto 2). Usar el juez solo cuando su acuerdo con los humanos sea aceptable, y reportar ese acuerdo. |
+
+## PI6. Rendimiento estratificado por fuente e idioma [seleccionada]
+
+**Pregunta.** ¿La recuperación y la respuesta varían según la fuente (`media_cloud`, `bluesky`, `gdelt`) y el idioma (`es`, `en`) del documento y de la pregunta?
+
+| Elemento | Propuesta |
+|---|---|
+| Hipótesis refutable | Recall@5 es menor en Bluesky que en Media Cloud para preguntas del mismo idioma, comparando cada idioma por separado; además, la abstención correcta es menor para preguntas en inglés que para preguntas en español. |
+| Criterio que la refuta | Se considerará refutada si el intervalo de confianza del 95 % de las diferencias incluye cero o apunta en sentido contrario. Los intervalos se estimarán con remuestreo de las preguntas del gold standard. |
+| Métricas | Recall@k (k = 1, 3, 5, 10), MRR, nDCG@10, abstención correcta y fidelidad de citas; reportar por estrato de fuente, idioma de la pregunta e idioma de los documentos relevantes. |
+| Gold standard | 40 preguntas: 18 en inglés (45 %, superior al mínimo del 15 %) y 22 en español. |
+| Secciones del enunciado | 5 (experimentos) y 6 (evaluación). |
+| Riesgo y limitación | La comparación en español para Bluesky cuenta con solo 5 preguntas, por lo que su intervalo de confianza será muy amplio. Reportar ese resultado como estimación con intervalo, no como conclusión firme. GDELT cuenta con una sola pregunta; informar su estimación e intervalo sin extraer conclusiones. |
+| Corridas | Al menos 3 por condición, con semilla fija. |
 
 ## Estado del arte
 

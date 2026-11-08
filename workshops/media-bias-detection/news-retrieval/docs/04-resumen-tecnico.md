@@ -90,7 +90,7 @@ Tres invariantes, y las tres tienen una razón concreta:
 
 ---
 
-## 4. Las tres columnas que salvan el análisis
+## 4. Las columnas que salvan el análisis
 
 Son la parte del diseño que más veces evita una conclusión falsa. Cada una nació
 de un problema real encontrado con los datos.
@@ -125,6 +125,18 @@ léxico mide de dónde salió el título, no qué palabras usó el medio.
 
 Detalle que costó encontrar: El Tiempo usa el sufijo `+articulo+ID` en sus URLs.
 Sin quitarlo, **"articulo" salía como la palabra más frecuente del medio**.
+
+Lo mismo pasaba con Blu Radio y Caracol: cierran el slug con un código del CMS
+(`-rg10`, `-so35`, `-cb20`) que llevaba el 58 % y el 49 % de sus URLs; `rg10`
+era la palabra más frecuente de los dos medios. Ver
+[`07-tratamiento-del-slug.md`](07-tratamiento-del-slug.md).
+
+### `article.non_news_reason`
+
+Marca las URLs que no son piezas informativas (emisiones, caricaturas,
+resultados de lotería, pico y placa, "precio del dólar hoy", publirreportajes).
+No se borran: el análisis filtra `non_news_reason IS NULL`. Reglas, cifras y
+validación en [`07-tratamiento-del-slug.md`](07-tratamiento-del-slug.md).
 
 ### tabla `archive_density`
 
@@ -288,6 +300,8 @@ Cifras vigentes: [`dumps/MANIFEST.md`](../dumps/MANIFEST.md) y `news-corpus prof
 - **No tratar `lastmod` como fecha de publicación.**
 - **No comparar volúmenes entre medios sin mirar `archive_density`.**
 - **No mezclar títulos `slug` y `extracted` en un análisis léxico.**
+- **No contar frecuencias sin filtrar `non_news_reason`.** Los boletines de
+  lotería y las emisiones repiten el mismo titular miles de veces.
 - **No suponer que hay cuerpo porque hay artículo.**
 - **No usar análisis de sentimiento como medida de parcialización.** Es, como
   mucho, una característica más.

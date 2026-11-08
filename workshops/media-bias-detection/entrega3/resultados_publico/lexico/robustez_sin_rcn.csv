@@ -1,0 +1,11 @@
+medio,gobierno,terminos,distintivas,robustas,distintivas_contenido,pct_distintivas_z_mes_196,pct_distintivas_z_seg_196,pct_distintivas_z_sinrcn_196,spearman_delta_sinrcn,spearman_delta_seg,spearman_delta_ventana
+el_tiempo,duque,1349,8,8,4,100.0,100.0,100.0,0.94,0.956,0.781
+blu_radio,duque,1262,5,5,3,100.0,100.0,100.0,0.932,0.96,0.732
+noticias_rcn,duque,472,1,1,0,100.0,100.0,,,0.96,1.0
+noticias_caracol,duque,878,2,1,1,50.0,100.0,100.0,0.961,0.967,0.682
+la_republica,duque,362,7,7,6,100.0,100.0,100.0,0.962,0.961,0.745
+el_tiempo,petro,3193,41,39,31,100.0,100.0,95.1,0.887,0.955,
+blu_radio,petro,2543,14,13,6,100.0,100.0,92.9,0.913,0.956,
+noticias_rcn,petro,1913,7,7,3,100.0,100.0,,,0.954,
+noticias_caracol,petro,1753,3,3,3,100.0,100.0,100.0,0.931,0.954,
+la_republica,petro,853,6,6,4,100.0,100.0,100.0,0.959,0.972,

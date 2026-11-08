@@ -50,6 +50,8 @@ df = pd.read_sql("SELECT * FROM article LIMIT 100", engine)
 |---|---|
 | `title` | Puede venir de tres sitios distintos — mira `title_source`. |
 | `title_source` | `extracted` = titular real publicado · `slug` = reconstruido de la URL, **sin tildes ni puntuación** · `sitemap` = declarado por el medio. |
+| `section` | Primer segmento del path, sin tildes. Taxonomía propia de cada medio: **no está armonizada** entre medios. |
+| `non_news_reason` | `NULL` = noticia. Si no, por qué no lo es: `emision`, `servicio`, `comercial`, `indicador`, `caricatura`, `multimedia`, `obituario`. Ver [`07-tratamiento-del-slug.md`](07-tratamiento-del-slug.md). |
 | `published_date` | Su fiabilidad la da `date_precision`, no la columna. |
 | `date_precision` | `day` = fecha real · `month` = sólo se conoce el mes (el `lastmod` era un artefacto de migración del CMS). |
 | `government_id` | `NULL` cuando la fecha no basta para decidirlo — p. ej. precisión de mes en agosto de posesión. |
@@ -128,6 +130,33 @@ WHERE a.date_precision = 'day'          -- si no, el corte por gobierno no es s�
 GROUP BY g.president, a.source_id, g.start_date
 ORDER BY g.start_date, articulos DESC;
 ```
+
+### Corpus analizable por año y medio
+
+"Analizable" = con titular y sin marca de no-noticia. Cifras de 2026-11-04 en
+[`07-tratamiento-del-slug.md`](07-tratamiento-del-slug.md#6-distribución-del-corpus-analizable).
+
+```sql
+WITH n AS (
+  SELECT extract(year FROM published_date)::int AS anio, source_id AS s
+  FROM article
+  WHERE non_news_reason IS NULL AND title IS NOT NULL
+)
+SELECT coalesce(anio::text, 'TOTAL') AS anio,
+       count(*) FILTER (WHERE s = 'el_tiempo')        AS el_tiempo,
+       count(*) FILTER (WHERE s = 'blu_radio')        AS blu_radio,
+       count(*) FILTER (WHERE s = 'noticias_rcn')     AS rcn,
+       count(*) FILTER (WHERE s = 'noticias_caracol') AS caracol,
+       count(*) FILTER (WHERE s = 'la_republica')     AS la_republica,
+       count(*) FILTER (WHERE s = 'cambio')           AS cambio,
+       count(*) FILTER (WHERE s = 'el_espectador')    AS espectador,
+       count(*)                                       AS total
+FROM n GROUP BY ROLLUP (anio) ORDER BY anio NULLS LAST;
+```
+
+Para el corte por gobierno, la misma consulta agrupando por `government_id`
+(`NULL` = fecha posterior al último gobierno cargado o precisión de mes en un
+agosto de posesión).
 
 ### Antes de comparar volúmenes: mira la densidad de archivo
 

@@ -1,0 +1,476 @@
+{
+  "umbral_eventos": 0.8,
+  "inicio_ventana_duque": "2020-09-01",
+  "inicio_volumen_normal_rcn": "2021-05-01",
+  "temas_mixtos_excluidos_de_hallazgos": {
+    "8": "mixto: no citar"
+  },
+  "bootstrap_reps": 20000,
+  "bloque_meses": 3,
+  "min_eventos_por_celda": 30,
+  "eventos_3_o_mas_medios_ventana": {
+    "duque": 1117,
+    "petro": 3951
+  },
+  "temas_con_inferencia": [
+    2,
+    3,
+    5,
+    9
+  ],
+  "pruebas_holm": 20,
+  "p_min_ajustado_holm": 0.001,
+  "participacion_general_pct": {
+    "duque/el_tiempo": 65.9,
+    "duque/blu_radio": 62.3,
+    "duque/noticias_rcn": 47.2,
+    "duque/noticias_caracol": 40.1,
+    "duque/la_republica": 14.3,
+    "petro/el_tiempo": 74.8,
+    "petro/blu_radio": 59.8,
+    "petro/noticias_rcn": 48.4,
+    "petro/noticias_caracol": 45.4,
+    "petro/la_republica": 21.4
+  },
+  "participacion_general_pct_denominador_ingenuo": {
+    "duque/el_tiempo": 86.4,
+    "duque/blu_radio": 84.2,
+    "duque/noticias_rcn": 71.8,
+    "duque/noticias_caracol": 63.9,
+    "duque/la_republica": 26.5,
+    "petro/el_tiempo": 89.4,
+    "petro/blu_radio": 79.9,
+    "petro/noticias_rcn": 69.2,
+    "petro/noticias_caracol": 65.9,
+    "petro/la_republica": 34.9
+  },
+  "participacion_general_pct_sin_restriccion": {
+    "duque/el_tiempo": 66.4,
+    "duque/blu_radio": 60.7,
+    "duque/noticias_rcn": 26.2,
+    "duque/noticias_caracol": 42.0,
+    "duque/la_republica": 18.0,
+    "petro/el_tiempo": 74.8,
+    "petro/blu_radio": 59.8,
+    "petro/noticias_rcn": 48.4,
+    "petro/noticias_caracol": 45.4,
+    "petro/la_republica": 21.4
+  },
+  "delta_general_pp_principal": {
+    "el_tiempo": {
+      "delta": 8.8,
+      "ic95": [
+        2.5,
+        15.5
+      ]
+    },
+    "blu_radio": {
+      "delta": -2.5,
+      "ic95": [
+        -7.9,
+        3.6
+      ]
+    },
+    "noticias_rcn": {
+      "delta": 1.2,
+      "ic95": [
+        -6.1,
+        9.1
+      ]
+    },
+    "noticias_caracol": {
+      "delta": 5.3,
+      "ic95": [
+        0.5,
+        10.7
+      ]
+    },
+    "la_republica": {
+      "delta": 7.1,
+      "ic95": [
+        1.7,
+        12.2
+      ]
+    }
+  },
+  "delta_rel_significativos_holm_0_05": 1,
+  "delta_esp_significativos_holm_0_05": 0,
+  "hallazgos_delta_rel_significativos_citables": [
+    {
+      "medio": "noticias_caracol",
+      "topic": 5,
+      "tema": "Venezuela, Cuba y Maduro",
+      "denominador": "principal",
+      "delta_rel_pp": 14.4,
+      "ic95_pp": [
+        6.2,
+        21.3
+      ],
+      "p_holm": 0.008,
+      "pct_duque": 38.2,
+      "pct_petro": 56.8,
+      "variantes": {
+        "principal": {
+          "delta_rel_pp": 14.4,
+          "ic95_pp": [
+            6.2,
+            21.3
+          ],
+          "significativo_holm": true
+        },
+        "principal_k2": {
+          "delta_rel_pp": 11.1,
+          "ic95_pp": [
+            5.5,
+            16.1
+          ],
+          "significativo_holm": true
+        },
+        "sin_restriccion": {
+          "delta_rel_pp": 6.2,
+          "ic95_pp": [
+            -1.1,
+            15.6
+          ],
+          "significativo_holm": false
+        },
+        "sin_restriccion_k2": {
+          "delta_rel_pp": 5.2,
+          "ic95_pp": [
+            0.1,
+            10.9
+          ],
+          "significativo_holm": false
+        },
+        "desde_2021_05": {
+          "delta_rel_pp": 14.2,
+          "ic95_pp": [
+            4.9,
+            21.9
+          ],
+          "significativo_holm": false
+        },
+        "desde_2021_05_k2": {
+          "delta_rel_pp": 10.2,
+          "ic95_pp": [
+            3.4,
+            16.7
+          ],
+          "significativo_holm": false
+        },
+        "sin_rcn": {
+          "delta_rel_pp": 9.2,
+          "ic95_pp": [
+            4.2,
+            13.7
+          ],
+          "significativo_holm": true
+        },
+        "sin_rcn_ventana": {
+          "delta_rel_pp": 9.6,
+          "ic95_pp": [
+            3.5,
+            14.8
+          ],
+          "significativo_holm": false
+        },
+        "recall_0.75": {
+          "delta_rel_pp": 10.1,
+          "ic95_pp": [
+            -1.5,
+            20.7
+          ],
+          "significativo_holm": false
+        },
+        "recall_0.70": {
+          "delta_rel_pp": 10.2,
+          "ic95_pp": [
+            -1.1,
+            21.8
+          ],
+          "significativo_holm": false
+        },
+        "recall_0.75_k2": {
+          "delta_rel_pp": 5.0,
+          "ic95_pp": [
+            -1.2,
+            10.8
+          ],
+          "significativo_holm": false
+        },
+        "recall_0.70_k2": {
+          "delta_rel_pp": 5.5,
+          "ic95_pp": [
+            -2.1,
+            13.2
+          ],
+          "significativo_holm": false
+        }
+      }
+    }
+  ],
+  "sensibilidad_k2": {
+    "temas_con_inferencia": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      15,
+      16
+    ],
+    "pruebas_holm": 75,
+    "significativos_holm_0_05_citables": [
+      {
+        "medio": "noticias_caracol",
+        "topic": 5,
+        "tema": "Venezuela, Cuba y Maduro",
+        "denominador": "principal_k2",
+        "delta_rel_pp": 11.1,
+        "ic95_pp": [
+          5.5,
+          16.1
+        ],
+        "p_holm": 0.03,
+        "pct_duque": 26.1,
+        "pct_petro": 38.3,
+        "variantes": {
+          "principal": {
+            "delta_rel_pp": 14.4,
+            "ic95_pp": [
+              6.2,
+              21.3
+            ],
+            "significativo_holm": true
+          },
+          "principal_k2": {
+            "delta_rel_pp": 11.1,
+            "ic95_pp": [
+              5.5,
+              16.1
+            ],
+            "significativo_holm": true
+          },
+          "sin_restriccion": {
+            "delta_rel_pp": 6.2,
+            "ic95_pp": [
+              -1.1,
+              15.6
+            ],
+            "significativo_holm": false
+          },
+          "sin_restriccion_k2": {
+            "delta_rel_pp": 5.2,
+            "ic95_pp": [
+              0.1,
+              10.9
+            ],
+            "significativo_holm": false
+          },
+          "desde_2021_05": {
+            "delta_rel_pp": 14.2,
+            "ic95_pp": [
+              4.9,
+              21.9
+            ],
+            "significativo_holm": false
+          },
+          "desde_2021_05_k2": {
+            "delta_rel_pp": 10.2,
+            "ic95_pp": [
+              3.4,
+              16.7
+            ],
+            "significativo_holm": false
+          },
+          "sin_rcn": {
+            "delta_rel_pp": 9.2,
+            "ic95_pp": [
+              4.2,
+              13.7
+            ],
+            "significativo_holm": true
+          },
+          "sin_rcn_ventana": {
+            "delta_rel_pp": 9.6,
+            "ic95_pp": [
+              3.5,
+              14.8
+            ],
+            "significativo_holm": false
+          },
+          "recall_0.75": {
+            "delta_rel_pp": 10.1,
+            "ic95_pp": [
+              -1.5,
+              20.7
+            ],
+            "significativo_holm": false
+          },
+          "recall_0.70": {
+            "delta_rel_pp": 10.2,
+            "ic95_pp": [
+              -1.1,
+              21.8
+            ],
+            "significativo_holm": false
+          },
+          "recall_0.75_k2": {
+            "delta_rel_pp": 5.0,
+            "ic95_pp": [
+              -1.2,
+              10.8
+            ],
+            "significativo_holm": false
+          },
+          "recall_0.70_k2": {
+            "delta_rel_pp": 5.5,
+            "ic95_pp": [
+              -2.1,
+              13.2
+            ],
+            "significativo_holm": false
+          }
+        }
+      },
+      {
+        "medio": "noticias_rcn",
+        "topic": 6,
+        "tema": "Justicia: cortes, Fiscalía y corrupción",
+        "denominador": "principal_k2",
+        "delta_rel_pp": 7.5,
+        "ic95_pp": [
+          2.9,
+          12.7
+        ],
+        "p_holm": 0.037,
+        "pct_duque": 22.3,
+        "pct_petro": 30.5,
+        "variantes": {
+          "principal_k2": {
+            "delta_rel_pp": 7.5,
+            "ic95_pp": [
+              2.9,
+              12.7
+            ],
+            "significativo_holm": true
+          },
+          "sin_restriccion": {
+            "delta_rel_pp": 12.7,
+            "ic95_pp": [
+              1.1,
+              24.3
+            ],
+            "significativo_holm": false
+          },
+          "sin_restriccion_k2": {
+            "delta_rel_pp": 9.4,
+            "ic95_pp": [
+              4.7,
+              13.4
+            ],
+            "significativo_holm": true
+          },
+          "desde_2021_05": {
+            "delta_rel_pp": 26.0,
+            "ic95_pp": [
+              14.0,
+              46.1
+            ],
+            "significativo_holm": true
+          },
+          "desde_2021_05_k2": {
+            "delta_rel_pp": 9.3,
+            "ic95_pp": [
+              4.0,
+              16.0
+            ],
+            "significativo_holm": true
+          },
+          "recall_0.75": {
+            "delta_rel_pp": 35.1,
+            "ic95_pp": [
+              18.3,
+              50.4
+            ],
+            "significativo_holm": true
+          },
+          "recall_0.70": {
+            "delta_rel_pp": 34.9,
+            "ic95_pp": [
+              18.5,
+              50.6
+            ],
+            "significativo_holm": true
+          },
+          "recall_0.75_k2": {
+            "delta_rel_pp": 10.1,
+            "ic95_pp": [
+              4.1,
+              16.6
+            ],
+            "significativo_holm": false
+          },
+          "recall_0.70_k2": {
+            "delta_rel_pp": 12.4,
+            "ic95_pp": [
+              5.5,
+              19.4
+            ],
+            "significativo_holm": false
+          }
+        }
+      }
+    ]
+  },
+  "cota_recall_pct_ausencias_casi_presentes": {
+    "duque/el_tiempo": {
+      "0.75": 44.1,
+      "0.70": 65.8
+    },
+    "duque/blu_radio": {
+      "0.75": 44.6,
+      "0.70": 63.3
+    },
+    "duque/noticias_rcn": {
+      "0.75": 33.3,
+      "0.70": 48.9
+    },
+    "duque/noticias_caracol": {
+      "0.75": 27.3,
+      "0.70": 41.4
+    },
+    "duque/la_republica": {
+      "0.75": 12.2,
+      "0.70": 20.0
+    },
+    "petro/el_tiempo": {
+      "0.75": 54.2,
+      "0.70": 72.8
+    },
+    "petro/blu_radio": {
+      "0.75": 45.4,
+      "0.70": 61.8
+    },
+    "petro/noticias_rcn": {
+      "0.75": 36.8,
+      "0.70": 51.9
+    },
+    "petro/noticias_caracol": {
+      "0.75": 31.5,
+      "0.70": 45.8
+    },
+    "petro/la_republica": {
+      "0.75": 19.4,
+      "0.70": 30.1
+    }
+  }
+}

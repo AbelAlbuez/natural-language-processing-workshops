@@ -42,7 +42,7 @@ Presupuesto por chunk: 512 − 2 (especiales) − tokens de `passage: ` (unos 3;
 |---|---:|---:|
 | `chunk_tokens` | 256 | 384 / 500 |
 | `overlap_tokens` | 48 (≈ 19 %) | 64 |
-| `min_tokens` del último chunk | 64. Si es menor, se une al anterior, siempre que la suma no pase de 500. | — |
+| `min_tokens` del último chunk | Regla de unión descartada. El último chunk puede tener menos de 64 tokens. El máximo por chunk es 256 tokens, para mantener el tamaño fijo que usa el modelo de embeddings y la verificación del Parquet. Conteo de referencia: 577.324 chunks. | — |
 | `strategy` | `fixed_tok` | — |
 
 **Algoritmo.**
@@ -86,6 +86,10 @@ Igual en las dos estrategias:
 | `n_tokens` | int32 | Tokens de contenido según el tokenizador de e5 |
 
 `char_start` reemplaza a `position` en Milvus, o se guarda en ese mismo campo. Se agrega `char_end`. Se amplía `tests/test_chunking.py` para que cubra las dos estrategias, texto con tildes y emojis (índices en caracteres, no en bytes), y documentos de un solo chunk.
+
+### Verificación
+
+Al retokenizar el texto guardado de cada chunk, algunos superan 256 tokens por efectos de frontera (subpalabras que cambian de tamaño en los bordes). La ventana de diseño sigue siendo de 256 tokens en token_count. La verificación exige un máximo de 512 tokens, el límite de multilingual-e5-small. Medición del corpus completo: 40.474 chunks superan 256 al retokenizar; el máximo es 258 y la diferencia con token_count es de 1 a 2.
 
 ## 6. ID estable
 

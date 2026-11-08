@@ -3,3 +3,4 @@
 *.py text eol=lf
 *.dump binary
 news-retrieval/dumps/kelly/news_corpus.dump filter=lfs diff=lfs merge=lfs -text
+news-retrieval/dumps/news_corpus_procesado_2026-11-05.dump filter=lfs diff=lfs merge=lfs -text

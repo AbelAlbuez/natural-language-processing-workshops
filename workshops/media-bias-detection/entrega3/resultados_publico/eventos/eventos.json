@@ -1,0 +1,40 @@
+{
+  "componentes": 20408,
+  "componente_mas_grande": 49,
+  "componentes_partidas": 1311,
+  "umbral": 0.8,
+  "eventos": 20905,
+  "eventos_2_o_mas_medios": 20905,
+  "eventos_3_o_mas_medios": 5867,
+  "eventos_4_o_mas_medios": 1740,
+  "eventos_5_medios": 342,
+  "pct_titulares_en_nucleo": 16.36599252069636,
+  "pct_titulares_en_eventos": 20.489147773805335,
+  "titulares_seguimiento": 12536,
+  "evento_mas_grande_titulares": 57,
+  "eventos_largos_mas_de_max_dias": 12,
+  "parejas_reciprocas": 35843,
+  "calibracion": {
+    "calibrado": true,
+    "precision": 0.8088,
+    "ic95": [
+      0.7221,
+      0.8956
+    ],
+    "n_muestra": 89,
+    "kappa_mismo_hecho": 0.7661
+  },
+  "ventana_dias": 2,
+  "max_dias": 5,
+  "margen_particion": 0.1,
+  "eventos_3_o_mas_medios_por_gobierno": {
+    "duque": 1916,
+    "petro": 3951
+  },
+  "eventos_por_n_medios": {
+    "2": 15038,
+    "3": 4127,
+    "4": 1398,
+    "5": 342
+  }
+}

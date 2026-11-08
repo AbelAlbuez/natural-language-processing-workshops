@@ -1,0 +1,30 @@
+{
+  "k": 12,
+  "coherence_cv": 0.3190313350273494,
+  "eps": 0.3,
+  "modelos_por_ensamble": 16,
+  "k_por_modelo": 25,
+  "entrenamiento": [
+    {
+      "seed": 42,
+      "eps": 0.3,
+      "topicos_estables": 12,
+      "topicos_entrenados": 400,
+      "segundos": 0.8
+    },
+    {
+      "seed": 7,
+      "eps": 0.3,
+      "topicos_estables": 12,
+      "topicos_entrenados": 400,
+      "segundos": 0.8
+    },
+    {
+      "seed": 123,
+      "eps": 0.3,
+      "topicos_estables": 12,
+      "topicos_entrenados": 400,
+      "segundos": 0.8
+    }
+  ]
+}

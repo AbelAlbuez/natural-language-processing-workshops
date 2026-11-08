@@ -1,0 +1,2808 @@
+{
+  "parametros": {
+    "reps": 2000,
+    "seed": 42,
+    "min_eventos_tema": 150,
+    "rcn_desde": "2020-09",
+    "entradas_activas": 74,
+    "entradas_desactivadas": 3,
+    "entradas_tras_datos": 28,
+    "top10_quitadas_en_robustez": [
+      "denuncia",
+      "crisis",
+      "escandalo",
+      "revela",
+      "rechaza",
+      "polemica",
+      "advierte",
+      "tension",
+      "triunfo",
+      "acusa"
+    ],
+    "temas_exterior_excluidos_en_gobierno": [
+      2,
+      5,
+      13,
+      16
+    ]
+  },
+  "niveles_nucleo": {
+    "duque": {
+      "el_tiempo": {
+        "negativa": 0.0619,
+        "positiva": 0.0076,
+        "carga": 0.0836
+      },
+      "blu_radio": {
+        "negativa": 0.081,
+        "positiva": 0.009,
+        "carga": 0.1127
+      },
+      "noticias_rcn": {
+        "negativa": 0.0659,
+        "positiva": 0.0142,
+        "carga": 0.1015
+      },
+      "noticias_caracol": {
+        "negativa": 0.1008,
+        "positiva": 0.0076,
+        "carga": 0.1404
+      },
+      "la_republica": {
+        "negativa": 0.0628,
+        "positiva": 0.016,
+        "carga": 0.0999
+      }
+    },
+    "petro": {
+      "el_tiempo": {
+        "negativa": 0.0953,
+        "positiva": 0.0115,
+        "carga": 0.1365
+      },
+      "blu_radio": {
+        "negativa": 0.0895,
+        "positiva": 0.0104,
+        "carga": 0.1308
+      },
+      "noticias_rcn": {
+        "negativa": 0.0828,
+        "positiva": 0.008,
+        "carga": 0.1159
+      },
+      "noticias_caracol": {
+        "negativa": 0.0951,
+        "positiva": 0.0107,
+        "carga": 0.1342
+      },
+      "la_republica": {
+        "negativa": 0.0545,
+        "positiva": 0.013,
+        "carga": 0.0914
+      }
+    }
+  },
+  "general": {
+    "el_tiempo": {
+      "duque": {
+        "negativa": {
+          "medio": 0.0619,
+          "otros": 0.0824,
+          "diferencia": -0.0205,
+          "ic95": [
+            -0.0284,
+            -0.0127
+          ],
+          "dif_relativa": -0.249,
+          "eventos": 5253
+        },
+        "positiva": {
+          "medio": 0.0076,
+          "otros": 0.0122,
+          "diferencia": -0.0046,
+          "ic95": [
+            -0.008,
+            -0.0014
+          ],
+          "dif_relativa": -0.3766,
+          "eventos": 5253
+        },
+        "carga": {
+          "medio": 0.0836,
+          "otros": 0.1162,
+          "diferencia": -0.0327,
+          "ic95": [
+            -0.0421,
+            -0.0236
+          ],
+          "dif_relativa": -0.281,
+          "eventos": 5253
+        },
+        "neto": {
+          "medio": 0.0543,
+          "otros": 0.0702,
+          "diferencia": -0.0159,
+          "ic95": [
+            -0.0242,
+            -0.0076
+          ],
+          "dif_relativa": -0.2268,
+          "eventos": 5253
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.4755,
+          "otros": 0.6114,
+          "diferencia": -0.136,
+          "ic95": [
+            -0.1982,
+            -0.0731
+          ],
+          "dif_relativa": -0.2224,
+          "eventos": 5253
+        }
+      },
+      "petro": {
+        "negativa": {
+          "medio": 0.0953,
+          "otros": 0.0863,
+          "diferencia": 0.009,
+          "ic95": [
+            0.0033,
+            0.0149
+          ],
+          "dif_relativa": 0.1047,
+          "eventos": 10215
+        },
+        "positiva": {
+          "medio": 0.0115,
+          "otros": 0.0097,
+          "diferencia": 0.0018,
+          "ic95": [
+            -0.0002,
+            0.0039
+          ],
+          "dif_relativa": 0.1848,
+          "eventos": 10215
+        },
+        "carga": {
+          "medio": 0.1365,
+          "otros": 0.1223,
+          "diferencia": 0.0142,
+          "ic95": [
+            0.0069,
+            0.0216
+          ],
+          "dif_relativa": 0.1158,
+          "eventos": 10215
+        },
+        "neto": {
+          "medio": 0.0839,
+          "otros": 0.0766,
+          "diferencia": 0.0073,
+          "ic95": [
+            0.001,
+            0.0132
+          ],
+          "dif_relativa": 0.0946,
+          "eventos": 10215
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.5342,
+          "otros": 0.5864,
+          "diferencia": -0.0521,
+          "ic95": [
+            -0.0887,
+            -0.0176
+          ],
+          "dif_relativa": -0.0889,
+          "eventos": 10215
+        }
+      }
+    },
+    "blu_radio": {
+      "duque": {
+        "negativa": {
+          "medio": 0.081,
+          "otros": 0.0744,
+          "diferencia": 0.0066,
+          "ic95": [
+            -0.0015,
+            0.0142
+          ],
+          "dif_relativa": 0.0881,
+          "eventos": 4864
+        },
+        "positiva": {
+          "medio": 0.009,
+          "otros": 0.0074,
+          "diferencia": 0.0017,
+          "ic95": [
+            -0.0013,
+            0.0046
+          ],
+          "dif_relativa": 0.2279,
+          "eventos": 4864
+        },
+        "carga": {
+          "medio": 0.1127,
+          "otros": 0.1021,
+          "diferencia": 0.0105,
+          "ic95": [
+            0.0004,
+            0.0202
+          ],
+          "dif_relativa": 0.1032,
+          "eventos": 4864
+        },
+        "neto": {
+          "medio": 0.072,
+          "otros": 0.0671,
+          "diferencia": 0.0049,
+          "ic95": [
+            -0.0036,
+            0.0136
+          ],
+          "dif_relativa": 0.0728,
+          "eventos": 4864
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.6465,
+          "otros": 0.5212,
+          "diferencia": 0.1253,
+          "ic95": [
+            0.0633,
+            0.1851
+          ],
+          "dif_relativa": 0.2404,
+          "eventos": 4864
+        }
+      },
+      "petro": {
+        "negativa": {
+          "medio": 0.0895,
+          "otros": 0.09,
+          "diferencia": -0.0005,
+          "ic95": [
+            -0.007,
+            0.0059
+          ],
+          "dif_relativa": -0.0053,
+          "eventos": 8089
+        },
+        "positiva": {
+          "medio": 0.0104,
+          "otros": 0.0099,
+          "diferencia": 0.0005,
+          "ic95": [
+            -0.0017,
+            0.0027
+          ],
+          "dif_relativa": 0.0456,
+          "eventos": 8089
+        },
+        "carga": {
+          "medio": 0.1308,
+          "otros": 0.1299,
+          "diferencia": 0.0009,
+          "ic95": [
+            -0.0076,
+            0.0086
+          ],
+          "dif_relativa": 0.0067,
+          "eventos": 8089
+        },
+        "neto": {
+          "medio": 0.0791,
+          "otros": 0.08,
+          "diferencia": -0.0009,
+          "ic95": [
+            -0.0076,
+            0.0057
+          ],
+          "dif_relativa": -0.0116,
+          "eventos": 8089
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.6562,
+          "otros": 0.5418,
+          "diferencia": 0.1144,
+          "ic95": [
+            0.0746,
+            0.1532
+          ],
+          "dif_relativa": 0.2112,
+          "eventos": 8089
+        }
+      }
+    },
+    "noticias_rcn": {
+      "duque": {
+        "negativa": {
+          "medio": 0.0599,
+          "otros": 0.0628,
+          "diferencia": -0.0029,
+          "ic95": [
+            -0.0142,
+            0.0085
+          ],
+          "dif_relativa": -0.0459,
+          "eventos": 1935
+        },
+        "positiva": {
+          "medio": 0.015,
+          "otros": 0.009,
+          "diferencia": 0.006,
+          "ic95": [
+            0.0002,
+            0.0117
+          ],
+          "dif_relativa": 0.6651,
+          "eventos": 1935
+        },
+        "carga": {
+          "medio": 0.0982,
+          "otros": 0.0972,
+          "diferencia": 0.001,
+          "ic95": [
+            -0.0135,
+            0.0153
+          ],
+          "dif_relativa": 0.0106,
+          "eventos": 1935
+        },
+        "neto": {
+          "medio": 0.045,
+          "otros": 0.0538,
+          "diferencia": -0.0089,
+          "ic95": [
+            -0.0216,
+            0.004
+          ],
+          "dif_relativa": -0.1648,
+          "eventos": 1935
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.6261,
+          "otros": 0.6144,
+          "diferencia": 0.0117,
+          "ic95": [
+            -0.0859,
+            0.1097
+          ],
+          "dif_relativa": 0.0191,
+          "eventos": 1935
+        }
+      },
+      "petro": {
+        "negativa": {
+          "medio": 0.0828,
+          "otros": 0.0882,
+          "diferencia": -0.0054,
+          "ic95": [
+            -0.0125,
+            0.0016
+          ],
+          "dif_relativa": -0.0616,
+          "eventos": 5978
+        },
+        "positiva": {
+          "medio": 0.008,
+          "otros": 0.0101,
+          "diferencia": -0.002,
+          "ic95": [
+            -0.0046,
+            0.0005
+          ],
+          "dif_relativa": -0.2022,
+          "eventos": 5978
+        },
+        "carga": {
+          "medio": 0.1159,
+          "otros": 0.1264,
+          "diferencia": -0.0105,
+          "ic95": [
+            -0.0192,
+            -0.0022
+          ],
+          "dif_relativa": -0.083,
+          "eventos": 5978
+        },
+        "neto": {
+          "medio": 0.0748,
+          "otros": 0.0782,
+          "diferencia": -0.0034,
+          "ic95": [
+            -0.0108,
+            0.0042
+          ],
+          "dif_relativa": -0.0435,
+          "eventos": 5978
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.6475,
+          "otros": 0.5601,
+          "diferencia": 0.0874,
+          "ic95": [
+            0.0366,
+            0.1379
+          ],
+          "dif_relativa": 0.1561,
+          "eventos": 5978
+        }
+      }
+    },
+    "noticias_caracol": {
+      "duque": {
+        "negativa": {
+          "medio": 0.1008,
+          "otros": 0.0769,
+          "diferencia": 0.0239,
+          "ic95": [
+            0.0134,
+            0.0339
+          ],
+          "dif_relativa": 0.3102,
+          "eventos": 3304
+        },
+        "positiva": {
+          "medio": 0.0076,
+          "otros": 0.0093,
+          "diferencia": -0.0018,
+          "ic95": [
+            -0.0051,
+            0.0018
+          ],
+          "dif_relativa": -0.1892,
+          "eventos": 3304
+        },
+        "carga": {
+          "medio": 0.1404,
+          "otros": 0.1055,
+          "diferencia": 0.0349,
+          "ic95": [
+            0.0226,
+            0.0475
+          ],
+          "dif_relativa": 0.3311,
+          "eventos": 3304
+        },
+        "neto": {
+          "medio": 0.0932,
+          "otros": 0.0676,
+          "diferencia": 0.0256,
+          "ic95": [
+            0.0144,
+            0.0367
+          ],
+          "dif_relativa": 0.3791,
+          "eventos": 3304
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.5588,
+          "otros": 0.5538,
+          "diferencia": 0.005,
+          "ic95": [
+            -0.063,
+            0.0729
+          ],
+          "dif_relativa": 0.009,
+          "eventos": 3304
+        }
+      },
+      "petro": {
+        "negativa": {
+          "medio": 0.0951,
+          "otros": 0.0892,
+          "diferencia": 0.0059,
+          "ic95": [
+            -0.0014,
+            0.0138
+          ],
+          "dif_relativa": 0.066,
+          "eventos": 5404
+        },
+        "positiva": {
+          "medio": 0.0107,
+          "otros": 0.0125,
+          "diferencia": -0.0018,
+          "ic95": [
+            -0.0045,
+            0.0009
+          ],
+          "dif_relativa": -0.1429,
+          "eventos": 5404
+        },
+        "carga": {
+          "medio": 0.1342,
+          "otros": 0.1307,
+          "diferencia": 0.0034,
+          "ic95": [
+            -0.0057,
+            0.0127
+          ],
+          "dif_relativa": 0.0263,
+          "eventos": 5404
+        },
+        "neto": {
+          "medio": 0.0844,
+          "otros": 0.0767,
+          "diferencia": 0.0077,
+          "ic95": [
+            0.0,
+            0.0158
+          ],
+          "dif_relativa": 0.1001,
+          "eventos": 5404
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.4617,
+          "otros": 0.5303,
+          "diferencia": -0.0686,
+          "ic95": [
+            -0.1151,
+            -0.0221
+          ],
+          "dif_relativa": -0.1294,
+          "eventos": 5404
+        }
+      }
+    },
+    "la_republica": {
+      "duque": {
+        "negativa": {
+          "medio": 0.0628,
+          "otros": 0.0682,
+          "diferencia": -0.0054,
+          "ic95": [
+            -0.0179,
+            0.0075
+          ],
+          "dif_relativa": -0.0791,
+          "eventos": 1561
+        },
+        "positiva": {
+          "medio": 0.016,
+          "otros": 0.0099,
+          "diferencia": 0.0061,
+          "ic95": [
+            -0.0007,
+            0.0131
+          ],
+          "dif_relativa": 0.6216,
+          "eventos": 1561
+        },
+        "carga": {
+          "medio": 0.0999,
+          "otros": 0.1043,
+          "diferencia": -0.0043,
+          "ic95": [
+            -0.0196,
+            0.013
+          ],
+          "dif_relativa": -0.0415,
+          "eventos": 1561
+        },
+        "neto": {
+          "medio": 0.0468,
+          "otros": 0.0583,
+          "diferencia": -0.0115,
+          "ic95": [
+            -0.0261,
+            0.0031
+          ],
+          "dif_relativa": -0.1978,
+          "eventos": 1561
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.4727,
+          "otros": 0.5164,
+          "diferencia": -0.0436,
+          "ic95": [
+            -0.1578,
+            0.0733
+          ],
+          "dif_relativa": -0.0845,
+          "eventos": 1561
+        }
+      },
+      "petro": {
+        "negativa": {
+          "medio": 0.0545,
+          "otros": 0.0854,
+          "diferencia": -0.0309,
+          "ic95": [
+            -0.0413,
+            -0.0211
+          ],
+          "dif_relativa": -0.3617,
+          "eventos": 2844
+        },
+        "positiva": {
+          "medio": 0.013,
+          "otros": 0.013,
+          "diferencia": -0.0,
+          "ic95": [
+            -0.0046,
+            0.0045
+          ],
+          "dif_relativa": -0.0022,
+          "eventos": 2844
+        },
+        "carga": {
+          "medio": 0.0914,
+          "otros": 0.1292,
+          "diferencia": -0.0378,
+          "ic95": [
+            -0.0499,
+            -0.0255
+          ],
+          "dif_relativa": -0.2927,
+          "eventos": 2844
+        },
+        "neto": {
+          "medio": 0.0415,
+          "otros": 0.0723,
+          "diferencia": -0.0309,
+          "ic95": [
+            -0.0423,
+            -0.0201
+          ],
+          "dif_relativa": -0.4265,
+          "eventos": 2844
+        },
+        "cargada_entre_atribucion": {
+          "medio": 0.4276,
+          "otros": 0.5243,
+          "diferencia": -0.0968,
+          "ic95": [
+            -0.1625,
+            -0.0274
+          ],
+          "dif_relativa": -0.1845,
+          "eventos": 2844
+        }
+      }
+    }
+  },
+  "gobierno_ambos_nombran": {
+    "el_tiempo": {
+      "duque": {
+        "gob_negativa": {
+          "medio": 0.0482,
+          "otros": 0.0693,
+          "diferencia": -0.0211,
+          "ic95": [
+            -0.0497,
+            0.0045
+          ],
+          "dif_relativa": -0.3043,
+          "eventos": 332
+        },
+        "gob_positiva": {
+          "medio": 0.0241,
+          "otros": 0.0136,
+          "diferencia": 0.0105,
+          "ic95": [
+            -0.0075,
+            0.0301
+          ],
+          "dif_relativa": 0.7778,
+          "eventos": 332
+        },
+        "gob_carga": {
+          "medio": 0.0813,
+          "otros": 0.1024,
+          "diferencia": -0.0211,
+          "ic95": [
+            -0.0587,
+            0.0136
+          ],
+          "dif_relativa": -0.2059,
+          "eventos": 332
+        },
+        "gob_neto": {
+          "medio": 0.0241,
+          "otros": 0.0557,
+          "diferencia": -0.0316,
+          "ic95": [
+            -0.0648,
+            0.0015
+          ],
+          "dif_relativa": -0.5676,
+          "eventos": 332
+        }
+      },
+      "petro": {
+        "gob_negativa": {
+          "medio": 0.1075,
+          "otros": 0.1013,
+          "diferencia": 0.0062,
+          "ic95": [
+            -0.0102,
+            0.0232
+          ],
+          "dif_relativa": 0.0608,
+          "eventos": 1163
+        },
+        "gob_positiva": {
+          "medio": 0.0103,
+          "otros": 0.0086,
+          "diferencia": 0.0017,
+          "ic95": [
+            -0.0017,
+            0.006
+          ],
+          "dif_relativa": 0.2,
+          "eventos": 1163
+        },
+        "gob_carga": {
+          "medio": 0.135,
+          "otros": 0.1337,
+          "diferencia": 0.0013,
+          "ic95": [
+            -0.0178,
+            0.0211
+          ],
+          "dif_relativa": 0.0096,
+          "eventos": 1163
+        },
+        "gob_neto": {
+          "medio": 0.0972,
+          "otros": 0.0927,
+          "diferencia": 0.0044,
+          "ic95": [
+            -0.0123,
+            0.0221
+          ],
+          "dif_relativa": 0.0479,
+          "eventos": 1163
+        }
+      }
+    },
+    "blu_radio": {
+      "duque": {
+        "gob_negativa": {
+          "medio": 0.0525,
+          "otros": 0.0408,
+          "diferencia": 0.0117,
+          "ic95": [
+            -0.0102,
+            0.0335
+          ],
+          "dif_relativa": 0.2857,
+          "eventos": 343
+        },
+        "gob_positiva": {
+          "medio": 0.0117,
+          "otros": 0.0117,
+          "diferencia": 0.0,
+          "ic95": [
+            -0.0102,
+            0.0102
+          ],
+          "dif_relativa": 0.0,
+          "eventos": 343
+        },
+        "gob_carga": {
+          "medio": 0.105,
+          "otros": 0.0826,
+          "diferencia": 0.0224,
+          "ic95": [
+            -0.0117,
+            0.0539
+          ],
+          "dif_relativa": 0.2706,
+          "eventos": 343
+        },
+        "gob_neto": {
+          "medio": 0.0408,
+          "otros": 0.0292,
+          "diferencia": 0.0117,
+          "ic95": [
+            -0.0131,
+            0.0364
+          ],
+          "dif_relativa": 0.4,
+          "eventos": 343
+        }
+      },
+      "petro": {
+        "gob_negativa": {
+          "medio": 0.0969,
+          "otros": 0.0944,
+          "diferencia": 0.0025,
+          "ic95": [
+            -0.0153,
+            0.0198
+          ],
+          "dif_relativa": 0.0265,
+          "eventos": 1032
+        },
+        "gob_positiva": {
+          "medio": 0.0068,
+          "otros": 0.0068,
+          "diferencia": 0.0,
+          "ic95": [
+            -0.0048,
+            0.0048
+          ],
+          "dif_relativa": 0.0,
+          "eventos": 1032
+        },
+        "gob_carga": {
+          "medio": 0.1405,
+          "otros": 0.1236,
+          "diferencia": 0.0169,
+          "ic95": [
+            -0.0048,
+            0.037
+          ],
+          "dif_relativa": 0.1365,
+          "eventos": 1032
+        },
+        "gob_neto": {
+          "medio": 0.0901,
+          "otros": 0.0876,
+          "diferencia": 0.0025,
+          "ic95": [
+            -0.0158,
+            0.0204
+          ],
+          "dif_relativa": 0.0286,
+          "eventos": 1032
+        }
+      }
+    },
+    "noticias_rcn": {
+      "duque": {
+        "gob_negativa": {
+          "medio": 0.0,
+          "otros": 0.0133,
+          "diferencia": -0.0133,
+          "ic95": [
+            -0.0398,
+            0.0
+          ],
+          "dif_relativa": -1.0,
+          "eventos": 113
+        },
+        "gob_positiva": {
+          "medio": 0.0354,
+          "otros": 0.0354,
+          "diferencia": 0.0,
+          "ic95": [
+            -0.0265,
+            0.0265
+          ],
+          "dif_relativa": 0.0,
+          "eventos": 113
+        },
+        "gob_carga": {
+          "medio": 0.0619,
+          "otros": 0.087,
+          "diferencia": -0.0251,
+          "ic95": [
+            -0.0782,
+            0.0221
+          ],
+          "dif_relativa": -0.2881,
+          "eventos": 113
+        },
+        "gob_neto": {
+          "medio": -0.0354,
+          "otros": -0.0221,
+          "diferencia": -0.0133,
+          "ic95": [
+            -0.0487,
+            0.0221
+          ],
+          "dif_relativa": -0.6,
+          "eventos": 113
+        }
+      },
+      "petro": {
+        "gob_negativa": {
+          "medio": 0.1058,
+          "otros": 0.101,
+          "diferencia": 0.0048,
+          "ic95": [
+            -0.0191,
+            0.0288
+          ],
+          "dif_relativa": 0.048,
+          "eventos": 671
+        },
+        "gob_positiva": {
+          "medio": 0.0075,
+          "otros": 0.0112,
+          "diferencia": -0.0037,
+          "ic95": [
+            -0.0097,
+            0.0022
+          ],
+          "dif_relativa": -0.3333,
+          "eventos": 671
+        },
+        "gob_carga": {
+          "medio": 0.1326,
+          "otros": 0.137,
+          "diferencia": -0.0043,
+          "ic95": [
+            -0.0307,
+            0.0225
+          ],
+          "dif_relativa": -0.0317,
+          "eventos": 671
+        },
+        "gob_neto": {
+          "medio": 0.0984,
+          "otros": 0.0898,
+          "diferencia": 0.0086,
+          "ic95": [
+            -0.0163,
+            0.0328
+          ],
+          "dif_relativa": 0.0954,
+          "eventos": 671
+        }
+      }
+    },
+    "noticias_caracol": {
+      "duque": {
+        "gob_negativa": {
+          "medio": 0.0837,
+          "otros": 0.0523,
+          "diferencia": 0.0314,
+          "ic95": [
+            -0.0021,
+            0.0649
+          ],
+          "dif_relativa": 0.6,
+          "eventos": 239
+        },
+        "gob_positiva": {
+          "medio": 0.0126,
+          "otros": 0.0167,
+          "diferencia": -0.0042,
+          "ic95": [
+            -0.0188,
+            0.0105
+          ],
+          "dif_relativa": -0.25,
+          "eventos": 239
+        },
+        "gob_carga": {
+          "medio": 0.1339,
+          "otros": 0.0962,
+          "diferencia": 0.0377,
+          "ic95": [
+            -0.0063,
+            0.0816
+          ],
+          "dif_relativa": 0.3913,
+          "eventos": 239
+        },
+        "gob_neto": {
+          "medio": 0.0711,
+          "otros": 0.0356,
+          "diferencia": 0.0356,
+          "ic95": [
+            0.0,
+            0.0732
+          ],
+          "dif_relativa": 1.0,
+          "eventos": 239
+        }
+      },
+      "petro": {
+        "gob_negativa": {
+          "medio": 0.0746,
+          "otros": 0.0913,
+          "diferencia": -0.0167,
+          "ic95": [
+            -0.0358,
+            0.0022
+          ],
+          "dif_relativa": -0.1826,
+          "eventos": 670
+        },
+        "gob_positiva": {
+          "medio": 0.009,
+          "otros": 0.0067,
+          "diferencia": 0.0022,
+          "ic95": [
+            -0.003,
+            0.0082
+          ],
+          "dif_relativa": 0.3333,
+          "eventos": 670
+        },
+        "gob_carga": {
+          "medio": 0.1,
+          "otros": 0.1239,
+          "diferencia": -0.0239,
+          "ic95": [
+            -0.0473,
+            -0.0007
+          ],
+          "dif_relativa": -0.1928,
+          "eventos": 670
+        },
+        "gob_neto": {
+          "medio": 0.0657,
+          "otros": 0.0846,
+          "diferencia": -0.0189,
+          "ic95": [
+            -0.0378,
+            0.0005
+          ],
+          "dif_relativa": -0.2235,
+          "eventos": 670
+        }
+      }
+    },
+    "la_republica": {
+      "duque": {
+        "gob_negativa": {
+          "medio": 0.0261,
+          "otros": 0.0294,
+          "diferencia": -0.0033,
+          "ic95": [
+            -0.0229,
+            0.0163
+          ],
+          "dif_relativa": -0.1111,
+          "eventos": 153
+        },
+        "gob_positiva": {
+          "medio": 0.0261,
+          "otros": 0.0425,
+          "diferencia": -0.0163,
+          "ic95": [
+            -0.049,
+            0.0131
+          ],
+          "dif_relativa": -0.3846,
+          "eventos": 153
+        },
+        "gob_carga": {
+          "medio": 0.0588,
+          "otros": 0.0871,
+          "diferencia": -0.0283,
+          "ic95": [
+            -0.0708,
+            0.012
+          ],
+          "dif_relativa": -0.325,
+          "eventos": 153
+        },
+        "gob_neto": {
+          "medio": 0.0,
+          "otros": -0.0131,
+          "diferencia": 0.0131,
+          "ic95": [
+            -0.0229,
+            0.049
+          ],
+          "dif_relativa": 1.0,
+          "eventos": 153
+        }
+      },
+      "petro": {
+        "gob_negativa": {
+          "medio": 0.0483,
+          "otros": 0.0539,
+          "diferencia": -0.0055,
+          "ic95": [
+            -0.0302,
+            0.0181
+          ],
+          "dif_relativa": -0.1028,
+          "eventos": 331
+        },
+        "gob_positiva": {
+          "medio": 0.0091,
+          "otros": 0.0121,
+          "diferencia": -0.003,
+          "ic95": [
+            -0.0121,
+            0.006
+          ],
+          "dif_relativa": -0.25,
+          "eventos": 331
+        },
+        "gob_carga": {
+          "medio": 0.0785,
+          "otros": 0.0785,
+          "diferencia": 0.0,
+          "ic95": [
+            -0.0322,
+            0.0327
+          ],
+          "dif_relativa": 0.0,
+          "eventos": 331
+        },
+        "gob_neto": {
+          "medio": 0.0393,
+          "otros": 0.0418,
+          "diferencia": -0.0025,
+          "ic95": [
+            -0.0272,
+            0.0227
+          ],
+          "dif_relativa": -0.0602,
+          "eventos": 331
+        }
+      }
+    }
+  },
+  "niveles_gobierno_todos_los_medios": [
+    {
+      "gobierno": "duque",
+      "ventana_duque": "completa",
+      "indicador": "negativa",
+      "titulares_gobierno": 1394,
+      "con_carga": 72,
+      "prop": 0.0516,
+      "ic_bajo": 0.0412,
+      "ic_alto": 0.0645
+    },
+    {
+      "gobierno": "duque",
+      "ventana_duque": "completa",
+      "indicador": "positiva",
+      "titulares_gobierno": 1394,
+      "con_carga": 29,
+      "prop": 0.0208,
+      "ic_bajo": 0.0145,
+      "ic_alto": 0.0297
+    },
+    {
+      "gobierno": "duque",
+      "ventana_duque": "completa",
+      "indicador": "carga",
+      "titulares_gobierno": 1394,
+      "con_carga": 133,
+      "prop": 0.0954,
+      "ic_bajo": 0.0811,
+      "ic_alto": 0.112
+    },
+    {
+      "gobierno": "duque",
+      "ventana_duque": "comun",
+      "indicador": "negativa",
+      "titulares_gobierno": 767,
+      "con_carga": 29,
+      "prop": 0.0378,
+      "ic_bajo": 0.0265,
+      "ic_alto": 0.0538
+    },
+    {
+      "gobierno": "duque",
+      "ventana_duque": "comun",
+      "indicador": "positiva",
+      "titulares_gobierno": 767,
+      "con_carga": 19,
+      "prop": 0.0248,
+      "ic_bajo": 0.0159,
+      "ic_alto": 0.0384
+    },
+    {
+      "gobierno": "duque",
+      "ventana_duque": "comun",
+      "indicador": "carga",
+      "titulares_gobierno": 767,
+      "con_carga": 72,
+      "prop": 0.0939,
+      "ic_bajo": 0.0752,
+      "ic_alto": 0.1166
+    },
+    {
+      "gobierno": "petro",
+      "ventana_duque": "completa",
+      "indicador": "negativa",
+      "titulares_gobierno": 4538,
+      "con_carga": 442,
+      "prop": 0.0974,
+      "ic_bajo": 0.0891,
+      "ic_alto": 0.1064
+    },
+    {
+      "gobierno": "petro",
+      "ventana_duque": "completa",
+      "indicador": "positiva",
+      "titulares_gobierno": 4538,
+      "con_carga": 40,
+      "prop": 0.0088,
+      "ic_bajo": 0.0065,
+      "ic_alto": 0.012
+    },
+    {
+      "gobierno": "petro",
+      "ventana_duque": "completa",
+      "indicador": "carga",
+      "titulares_gobierno": 4538,
+      "con_carga": 585,
+      "prop": 0.1289,
+      "ic_bajo": 0.1195,
+      "ic_alto": 0.139
+    }
+  ],
+  "cambio_duque_petro": [
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "negativa",
+      "dif_duque": -0.0205,
+      "dif_petro": 0.009,
+      "cambio": 0.0296,
+      "ic_bajo": 0.0201,
+      "ic_alto": 0.039,
+      "p": 0.0005,
+      "dif_rel_duque": -0.249,
+      "dif_rel_petro": 0.1047,
+      "cambio_relativo": 0.3537,
+      "prop_medio_duque": 0.0619,
+      "prop_medio_petro": 0.0953,
+      "prop_otros_duque": 0.0824,
+      "prop_otros_petro": 0.0863
+    },
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "positiva",
+      "dif_duque": -0.0046,
+      "dif_petro": 0.0018,
+      "cambio": 0.0064,
+      "ic_bajo": 0.0027,
+      "ic_alto": 0.0104,
+      "p": 0.0015,
+      "dif_rel_duque": -0.3766,
+      "dif_rel_petro": 0.1848,
+      "cambio_relativo": 0.5614,
+      "prop_medio_duque": 0.0076,
+      "prop_medio_petro": 0.0115,
+      "prop_otros_duque": 0.0122,
+      "prop_otros_petro": 0.0097
+    },
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "carga",
+      "dif_duque": -0.0327,
+      "dif_petro": 0.0142,
+      "cambio": 0.0468,
+      "ic_bajo": 0.0356,
+      "ic_alto": 0.0588,
+      "p": 0.0005,
+      "dif_rel_duque": -0.281,
+      "dif_rel_petro": 0.1158,
+      "cambio_relativo": 0.3968,
+      "prop_medio_duque": 0.0836,
+      "prop_medio_petro": 0.1365,
+      "prop_otros_duque": 0.1162,
+      "prop_otros_petro": 0.1223
+    },
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "neto",
+      "dif_duque": -0.0159,
+      "dif_petro": 0.0073,
+      "cambio": 0.0232,
+      "ic_bajo": 0.0129,
+      "ic_alto": 0.0335,
+      "p": 0.0005,
+      "dif_rel_duque": -0.2268,
+      "dif_rel_petro": 0.0946,
+      "cambio_relativo": 0.3214,
+      "prop_medio_duque": 0.0543,
+      "prop_medio_petro": 0.0839,
+      "prop_otros_duque": 0.0702,
+      "prop_otros_petro": 0.0766
+    },
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "atrib_cargada",
+      "dif_duque": -0.0128,
+      "dif_petro": 0.0022,
+      "cambio": 0.015,
+      "ic_bajo": 0.0079,
+      "ic_alto": 0.0219,
+      "p": 0.0005,
+      "dif_rel_duque": -0.3026,
+      "dif_rel_petro": 0.0412,
+      "cambio_relativo": 0.3438,
+      "prop_medio_duque": 0.0295,
+      "prop_medio_petro": 0.055,
+      "prop_otros_duque": 0.0423,
+      "prop_otros_petro": 0.0528
+    },
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "atrib_neutra",
+      "dif_duque": 0.0055,
+      "dif_petro": 0.011,
+      "cambio": 0.0055,
+      "ic_bajo": -0.0017,
+      "ic_alto": 0.0128,
+      "p": 0.1375,
+      "dif_rel_duque": 0.2035,
+      "dif_rel_petro": 0.2862,
+      "cambio_relativo": 0.0826,
+      "prop_medio_duque": 0.0326,
+      "prop_medio_petro": 0.0495,
+      "prop_otros_duque": 0.027,
+      "prop_otros_petro": 0.0385
+    },
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "atrib_alguna",
+      "dif_duque": -0.0071,
+      "dif_petro": 0.0129,
+      "cambio": 0.02,
+      "ic_bajo": 0.0105,
+      "ic_alto": 0.0297,
+      "p": 0.0005,
+      "dif_rel_duque": -0.1032,
+      "dif_rel_petro": 0.1429,
+      "cambio_relativo": 0.246,
+      "prop_medio_duque": 0.0621,
+      "prop_medio_petro": 0.103,
+      "prop_otros_duque": 0.0692,
+      "prop_otros_petro": 0.0901
+    },
+    {
+      "analisis": "general",
+      "medio": "el_tiempo",
+      "indicador": "cargada_entre_atribucion",
+      "dif_duque": -0.136,
+      "dif_petro": -0.0521,
+      "cambio": 0.0838,
+      "ic_bajo": 0.0134,
+      "ic_alto": 0.1533,
+      "p": 0.0275,
+      "dif_rel_duque": -0.2224,
+      "dif_rel_petro": -0.0889,
+      "cambio_relativo": 0.1334,
+      "prop_medio_duque": 0.4755,
+      "prop_medio_petro": 0.5342,
+      "prop_otros_duque": 0.6114,
+      "prop_otros_petro": 0.5864
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "negativa",
+      "dif_duque": 0.0066,
+      "dif_petro": -0.0005,
+      "cambio": -0.007,
+      "ic_bajo": -0.0171,
+      "ic_alto": 0.0033,
+      "p": 0.1805,
+      "dif_rel_duque": 0.0881,
+      "dif_rel_petro": -0.0053,
+      "cambio_relativo": -0.0934,
+      "prop_medio_duque": 0.081,
+      "prop_medio_petro": 0.0895,
+      "prop_otros_duque": 0.0744,
+      "prop_otros_petro": 0.09
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "positiva",
+      "dif_duque": 0.0017,
+      "dif_petro": 0.0005,
+      "cambio": -0.0012,
+      "ic_bajo": -0.0048,
+      "ic_alto": 0.0026,
+      "p": 0.5595,
+      "dif_rel_duque": 0.2279,
+      "dif_rel_petro": 0.0456,
+      "cambio_relativo": -0.1823,
+      "prop_medio_duque": 0.009,
+      "prop_medio_petro": 0.0104,
+      "prop_otros_duque": 0.0074,
+      "prop_otros_petro": 0.0099
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "carga",
+      "dif_duque": 0.0105,
+      "dif_petro": 0.0009,
+      "cambio": -0.0097,
+      "ic_bajo": -0.0222,
+      "ic_alto": 0.0028,
+      "p": 0.1315,
+      "dif_rel_duque": 0.1032,
+      "dif_rel_petro": 0.0067,
+      "cambio_relativo": -0.0964,
+      "prop_medio_duque": 0.1127,
+      "prop_medio_petro": 0.1308,
+      "prop_otros_duque": 0.1021,
+      "prop_otros_petro": 0.1299
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "neto",
+      "dif_duque": 0.0049,
+      "dif_petro": -0.0009,
+      "cambio": -0.0058,
+      "ic_bajo": -0.0168,
+      "ic_alto": 0.0051,
+      "p": 0.2955,
+      "dif_rel_duque": 0.0728,
+      "dif_rel_petro": -0.0116,
+      "cambio_relativo": -0.0844,
+      "prop_medio_duque": 0.072,
+      "prop_medio_petro": 0.0791,
+      "prop_otros_duque": 0.0671,
+      "prop_otros_petro": 0.08
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "atrib_cargada",
+      "dif_duque": 0.0045,
+      "dif_petro": 0.0005,
+      "cambio": -0.0039,
+      "ic_bajo": -0.0121,
+      "ic_alto": 0.0043,
+      "p": 0.3365,
+      "dif_rel_duque": 0.1131,
+      "dif_rel_petro": 0.0097,
+      "cambio_relativo": -0.1035,
+      "prop_medio_duque": 0.044,
+      "prop_medio_petro": 0.0571,
+      "prop_otros_duque": 0.0395,
+      "prop_otros_petro": 0.0566
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "atrib_neutra",
+      "dif_duque": -0.0127,
+      "dif_petro": -0.0186,
+      "cambio": -0.0059,
+      "ic_bajo": -0.0137,
+      "ic_alto": 0.0015,
+      "p": 0.1075,
+      "dif_rel_duque": -0.3461,
+      "dif_rel_petro": -0.3778,
+      "cambio_relativo": -0.0317,
+      "prop_medio_duque": 0.0241,
+      "prop_medio_petro": 0.0307,
+      "prop_otros_duque": 0.0368,
+      "prop_otros_petro": 0.0493
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "atrib_alguna",
+      "dif_duque": -0.0078,
+      "dif_petro": -0.0174,
+      "cambio": -0.0096,
+      "ic_bajo": -0.0203,
+      "ic_alto": 0.0004,
+      "p": 0.0625,
+      "dif_rel_duque": -0.1026,
+      "dif_rel_petro": -0.1664,
+      "cambio_relativo": -0.0638,
+      "prop_medio_duque": 0.0681,
+      "prop_medio_petro": 0.087,
+      "prop_otros_duque": 0.0758,
+      "prop_otros_petro": 0.1044
+    },
+    {
+      "analisis": "general",
+      "medio": "blu_radio",
+      "indicador": "cargada_entre_atribucion",
+      "dif_duque": 0.1253,
+      "dif_petro": 0.1144,
+      "cambio": -0.0109,
+      "ic_bajo": -0.0786,
+      "ic_alto": 0.0642,
+      "p": 0.7715,
+      "dif_rel_duque": 0.2404,
+      "dif_rel_petro": 0.2112,
+      "cambio_relativo": -0.0292,
+      "prop_medio_duque": 0.6465,
+      "prop_medio_petro": 0.6562,
+      "prop_otros_duque": 0.5212,
+      "prop_otros_petro": 0.5418
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "negativa",
+      "dif_duque": -0.0029,
+      "dif_petro": -0.0054,
+      "cambio": -0.0026,
+      "ic_bajo": -0.0158,
+      "ic_alto": 0.0104,
+      "p": 0.7005,
+      "dif_rel_duque": -0.0459,
+      "dif_rel_petro": -0.0616,
+      "cambio_relativo": -0.0157,
+      "prop_medio_duque": 0.0599,
+      "prop_medio_petro": 0.0828,
+      "prop_otros_duque": 0.0628,
+      "prop_otros_petro": 0.0882
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "positiva",
+      "dif_duque": 0.006,
+      "dif_petro": -0.002,
+      "cambio": -0.008,
+      "ic_bajo": -0.0144,
+      "ic_alto": -0.0019,
+      "p": 0.0115,
+      "dif_rel_duque": 0.6651,
+      "dif_rel_petro": -0.2022,
+      "cambio_relativo": -0.8673,
+      "prop_medio_duque": 0.015,
+      "prop_medio_petro": 0.008,
+      "prop_otros_duque": 0.009,
+      "prop_otros_petro": 0.0101
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "carga",
+      "dif_duque": 0.001,
+      "dif_petro": -0.0105,
+      "cambio": -0.0115,
+      "ic_bajo": -0.0284,
+      "ic_alto": 0.0046,
+      "p": 0.1885,
+      "dif_rel_duque": 0.0106,
+      "dif_rel_petro": -0.083,
+      "cambio_relativo": -0.0937,
+      "prop_medio_duque": 0.0982,
+      "prop_medio_petro": 0.1159,
+      "prop_otros_duque": 0.0972,
+      "prop_otros_petro": 0.1264
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "neto",
+      "dif_duque": -0.0089,
+      "dif_petro": -0.0034,
+      "cambio": 0.0055,
+      "ic_bajo": -0.0104,
+      "ic_alto": 0.0197,
+      "p": 0.4765,
+      "dif_rel_duque": -0.1648,
+      "dif_rel_petro": -0.0435,
+      "cambio_relativo": 0.1213,
+      "prop_medio_duque": 0.045,
+      "prop_medio_petro": 0.0748,
+      "prop_otros_duque": 0.0538,
+      "prop_otros_petro": 0.0782
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "atrib_cargada",
+      "dif_duque": -0.0029,
+      "dif_petro": -0.0002,
+      "cambio": 0.0028,
+      "ic_bajo": -0.0077,
+      "ic_alto": 0.0133,
+      "p": 0.6045,
+      "dif_rel_duque": -0.073,
+      "dif_rel_petro": -0.0034,
+      "cambio_relativo": 0.0695,
+      "prop_medio_duque": 0.0372,
+      "prop_medio_petro": 0.0488,
+      "prop_otros_duque": 0.0401,
+      "prop_otros_petro": 0.049
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "atrib_neutra",
+      "dif_duque": -0.0022,
+      "dif_petro": -0.0118,
+      "cambio": -0.0096,
+      "ic_bajo": -0.0189,
+      "ic_alto": -0.0003,
+      "p": 0.0435,
+      "dif_rel_duque": -0.0863,
+      "dif_rel_petro": -0.3006,
+      "cambio_relativo": -0.2143,
+      "prop_medio_duque": 0.0233,
+      "prop_medio_petro": 0.0274,
+      "prop_otros_duque": 0.0255,
+      "prop_otros_petro": 0.0392
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "atrib_alguna",
+      "dif_duque": -0.0059,
+      "dif_petro": -0.0121,
+      "cambio": -0.0062,
+      "ic_bajo": -0.0196,
+      "ic_alto": 0.0067,
+      "p": 0.3485,
+      "dif_rel_duque": -0.0903,
+      "dif_rel_petro": -0.1379,
+      "cambio_relativo": -0.0476,
+      "prop_medio_duque": 0.0594,
+      "prop_medio_petro": 0.0754,
+      "prop_otros_duque": 0.0653,
+      "prop_otros_petro": 0.0875
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_rcn",
+      "indicador": "cargada_entre_atribucion",
+      "dif_duque": 0.0117,
+      "dif_petro": 0.0874,
+      "cambio": 0.0757,
+      "ic_bajo": -0.0381,
+      "ic_alto": 0.1872,
+      "p": 0.1845,
+      "dif_rel_duque": 0.0191,
+      "dif_rel_petro": 0.1561,
+      "cambio_relativo": 0.137,
+      "prop_medio_duque": 0.6261,
+      "prop_medio_petro": 0.6475,
+      "prop_otros_duque": 0.6144,
+      "prop_otros_petro": 0.5601
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "negativa",
+      "dif_duque": 0.0239,
+      "dif_petro": 0.0059,
+      "cambio": -0.018,
+      "ic_bajo": -0.0305,
+      "ic_alto": -0.0051,
+      "p": 0.0075,
+      "dif_rel_duque": 0.3102,
+      "dif_rel_petro": 0.066,
+      "cambio_relativo": -0.2441,
+      "prop_medio_duque": 0.1008,
+      "prop_medio_petro": 0.0951,
+      "prop_otros_duque": 0.0769,
+      "prop_otros_petro": 0.0892
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "positiva",
+      "dif_duque": -0.0018,
+      "dif_petro": -0.0018,
+      "cambio": -0.0,
+      "ic_bajo": -0.0046,
+      "ic_alto": 0.0043,
+      "p": 0.9915,
+      "dif_rel_duque": -0.1892,
+      "dif_rel_petro": -0.1429,
+      "cambio_relativo": 0.0463,
+      "prop_medio_duque": 0.0076,
+      "prop_medio_petro": 0.0107,
+      "prop_otros_duque": 0.0093,
+      "prop_otros_petro": 0.0125
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "carga",
+      "dif_duque": 0.0349,
+      "dif_petro": 0.0034,
+      "cambio": -0.0315,
+      "ic_bajo": -0.0465,
+      "ic_alto": -0.0163,
+      "p": 0.0005,
+      "dif_rel_duque": 0.3311,
+      "dif_rel_petro": 0.0263,
+      "cambio_relativo": -0.3048,
+      "prop_medio_duque": 0.1404,
+      "prop_medio_petro": 0.1342,
+      "prop_otros_duque": 0.1055,
+      "prop_otros_petro": 0.1307
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "neto",
+      "dif_duque": 0.0256,
+      "dif_petro": 0.0077,
+      "cambio": -0.0179,
+      "ic_bajo": -0.0314,
+      "ic_alto": -0.004,
+      "p": 0.0135,
+      "dif_rel_duque": 0.3791,
+      "dif_rel_petro": 0.1001,
+      "cambio_relativo": -0.279,
+      "prop_medio_duque": 0.0932,
+      "prop_medio_petro": 0.0844,
+      "prop_otros_duque": 0.0676,
+      "prop_otros_petro": 0.0767
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "atrib_cargada",
+      "dif_duque": 0.011,
+      "dif_petro": -0.0024,
+      "cambio": -0.0134,
+      "ic_bajo": -0.0233,
+      "ic_alto": -0.0033,
+      "p": 0.0115,
+      "dif_rel_duque": 0.2706,
+      "dif_rel_petro": -0.0443,
+      "cambio_relativo": -0.3149,
+      "prop_medio_duque": 0.0518,
+      "prop_medio_petro": 0.0513,
+      "prop_otros_duque": 0.0407,
+      "prop_otros_petro": 0.0536
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "atrib_neutra",
+      "dif_duque": 0.0087,
+      "dif_petro": 0.0131,
+      "cambio": 0.0044,
+      "ic_bajo": -0.0061,
+      "ic_alto": 0.0148,
+      "p": 0.3885,
+      "dif_rel_duque": 0.2636,
+      "dif_rel_petro": 0.27,
+      "cambio_relativo": 0.0064,
+      "prop_medio_duque": 0.0415,
+      "prop_medio_petro": 0.0614,
+      "prop_otros_duque": 0.0328,
+      "prop_otros_petro": 0.0484
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "atrib_alguna",
+      "dif_duque": 0.0191,
+      "dif_petro": 0.0099,
+      "cambio": -0.0092,
+      "ic_bajo": -0.0222,
+      "ic_alto": 0.0043,
+      "p": 0.1875,
+      "dif_rel_duque": 0.2593,
+      "dif_rel_petro": 0.0977,
+      "cambio_relativo": -0.1615,
+      "prop_medio_duque": 0.0926,
+      "prop_medio_petro": 0.111,
+      "prop_otros_duque": 0.0735,
+      "prop_otros_petro": 0.1011
+    },
+    {
+      "analisis": "general",
+      "medio": "noticias_caracol",
+      "indicador": "cargada_entre_atribucion",
+      "dif_duque": 0.005,
+      "dif_petro": -0.0686,
+      "cambio": -0.0736,
+      "ic_bajo": -0.1548,
+      "ic_alto": 0.0103,
+      "p": 0.0895,
+      "dif_rel_duque": 0.009,
+      "dif_rel_petro": -0.1294,
+      "cambio_relativo": -0.1384,
+      "prop_medio_duque": 0.5588,
+      "prop_medio_petro": 0.4617,
+      "prop_otros_duque": 0.5538,
+      "prop_otros_petro": 0.5303
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "negativa",
+      "dif_duque": -0.0054,
+      "dif_petro": -0.0309,
+      "cambio": -0.0255,
+      "ic_bajo": -0.0419,
+      "ic_alto": -0.0093,
+      "p": 0.0005,
+      "dif_rel_duque": -0.0791,
+      "dif_rel_petro": -0.3617,
+      "cambio_relativo": -0.2826,
+      "prop_medio_duque": 0.0628,
+      "prop_medio_petro": 0.0545,
+      "prop_otros_duque": 0.0682,
+      "prop_otros_petro": 0.0854
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "positiva",
+      "dif_duque": 0.0061,
+      "dif_petro": -0.0,
+      "cambio": -0.0062,
+      "ic_bajo": -0.0147,
+      "ic_alto": 0.0017,
+      "p": 0.1385,
+      "dif_rel_duque": 0.6216,
+      "dif_rel_petro": -0.0022,
+      "cambio_relativo": -0.6239,
+      "prop_medio_duque": 0.016,
+      "prop_medio_petro": 0.013,
+      "prop_otros_duque": 0.0099,
+      "prop_otros_petro": 0.013
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "carga",
+      "dif_duque": -0.0043,
+      "dif_petro": -0.0378,
+      "cambio": -0.0335,
+      "ic_bajo": -0.0541,
+      "ic_alto": -0.0129,
+      "p": 0.0005,
+      "dif_rel_duque": -0.0415,
+      "dif_rel_petro": -0.2927,
+      "cambio_relativo": -0.2512,
+      "prop_medio_duque": 0.0999,
+      "prop_medio_petro": 0.0914,
+      "prop_otros_duque": 0.1043,
+      "prop_otros_petro": 0.1292
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "neto",
+      "dif_duque": -0.0115,
+      "dif_petro": -0.0309,
+      "cambio": -0.0193,
+      "ic_bajo": -0.0377,
+      "ic_alto": -0.0005,
+      "p": 0.0415,
+      "dif_rel_duque": -0.1978,
+      "dif_rel_petro": -0.4265,
+      "cambio_relativo": -0.2287,
+      "prop_medio_duque": 0.0468,
+      "prop_medio_petro": 0.0415,
+      "prop_otros_duque": 0.0583,
+      "prop_otros_petro": 0.0723
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "atrib_cargada",
+      "dif_duque": 0.0055,
+      "dif_petro": -0.0045,
+      "cambio": -0.01,
+      "ic_bajo": -0.0231,
+      "ic_alto": 0.0025,
+      "p": 0.0995,
+      "dif_rel_duque": 0.1977,
+      "dif_rel_petro": -0.0959,
+      "cambio_relativo": -0.2936,
+      "prop_medio_duque": 0.0333,
+      "prop_medio_petro": 0.0425,
+      "prop_otros_duque": 0.0278,
+      "prop_otros_petro": 0.0471
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "atrib_neutra",
+      "dif_duque": 0.0109,
+      "dif_petro": 0.0133,
+      "cambio": 0.0024,
+      "ic_bajo": -0.0119,
+      "ic_alto": 0.0164,
+      "p": 0.7255,
+      "dif_rel_duque": 0.4146,
+      "dif_rel_petro": 0.3056,
+      "cambio_relativo": -0.1091,
+      "prop_medio_duque": 0.0372,
+      "prop_medio_petro": 0.057,
+      "prop_otros_duque": 0.0263,
+      "prop_otros_petro": 0.0436
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "atrib_alguna",
+      "dif_duque": 0.0166,
+      "dif_petro": 0.0098,
+      "cambio": -0.0068,
+      "ic_bajo": -0.025,
+      "ic_alto": 0.0108,
+      "p": 0.4405,
+      "dif_rel_duque": 0.3082,
+      "dif_rel_petro": 0.1087,
+      "cambio_relativo": -0.1995,
+      "prop_medio_duque": 0.0705,
+      "prop_medio_petro": 0.0995,
+      "prop_otros_duque": 0.0539,
+      "prop_otros_petro": 0.0898
+    },
+    {
+      "analisis": "general",
+      "medio": "la_republica",
+      "indicador": "cargada_entre_atribucion",
+      "dif_duque": -0.0436,
+      "dif_petro": -0.0968,
+      "cambio": -0.0531,
+      "ic_bajo": -0.1893,
+      "ic_alto": 0.082,
+      "p": 0.4025,
+      "dif_rel_duque": -0.0845,
+      "dif_rel_petro": -0.1845,
+      "cambio_relativo": -0.1001,
+      "prop_medio_duque": 0.4727,
+      "prop_medio_petro": 0.4276,
+      "prop_otros_duque": 0.5164,
+      "prop_otros_petro": 0.5243
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "todos:gob_negativa",
+      "dif_duque": -0.0022,
+      "dif_petro": 0.0015,
+      "cambio": 0.0037,
+      "ic_bajo": -0.0007,
+      "ic_alto": 0.0085,
+      "p": 0.1085,
+      "dif_rel_duque": -0.2793,
+      "dif_rel_petro": 0.0748,
+      "cambio_relativo": 0.3541,
+      "prop_medio_duque": 0.0056,
+      "prop_medio_petro": 0.0219,
+      "prop_otros_duque": 0.0078,
+      "prop_otros_petro": 0.0204
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "todos:gob_positiva",
+      "dif_duque": 0.0006,
+      "dif_petro": 0.0005,
+      "cambio": -0.0001,
+      "ic_bajo": -0.0024,
+      "ic_alto": 0.002,
+      "p": 0.9285,
+      "dif_rel_duque": 0.2857,
+      "dif_rel_petro": 0.2766,
+      "cambio_relativo": -0.0091,
+      "prop_medio_duque": 0.0025,
+      "prop_medio_petro": 0.0022,
+      "prop_otros_duque": 0.002,
+      "prop_otros_petro": 0.0017
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "todos:gob_carga",
+      "dif_duque": -0.0023,
+      "dif_petro": 0.0013,
+      "cambio": 0.0036,
+      "ic_bajo": -0.0018,
+      "ic_alto": 0.0092,
+      "p": 0.2075,
+      "dif_rel_duque": -0.2,
+      "dif_rel_petro": 0.048,
+      "cambio_relativo": 0.248,
+      "prop_medio_duque": 0.0093,
+      "prop_medio_petro": 0.0279,
+      "prop_otros_duque": 0.0117,
+      "prop_otros_petro": 0.0266
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "todos:gob_neto",
+      "dif_duque": -0.0028,
+      "dif_petro": 0.0011,
+      "cambio": 0.0038,
+      "ic_bajo": -0.0011,
+      "ic_alto": 0.009,
+      "p": 0.1325,
+      "dif_rel_duque": -0.4699,
+      "dif_rel_petro": 0.0566,
+      "cambio_relativo": 0.5264,
+      "prop_medio_duque": 0.0031,
+      "prop_medio_petro": 0.0198,
+      "prop_otros_duque": 0.0059,
+      "prop_otros_petro": 0.0187
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "ambos_nombran:gob_negativa",
+      "dif_duque": -0.0211,
+      "dif_petro": 0.0062,
+      "cambio": 0.0272,
+      "ic_bajo": -0.0024,
+      "ic_alto": 0.0613,
+      "p": 0.0805,
+      "dif_rel_duque": -0.3043,
+      "dif_rel_petro": 0.0608,
+      "cambio_relativo": 0.3652,
+      "prop_medio_duque": 0.0482,
+      "prop_medio_petro": 0.1075,
+      "prop_otros_duque": 0.0693,
+      "prop_otros_petro": 0.1013
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "ambos_nombran:gob_positiva",
+      "dif_duque": 0.0105,
+      "dif_petro": 0.0017,
+      "cambio": -0.0088,
+      "ic_bajo": -0.0284,
+      "ic_alto": 0.0101,
+      "p": 0.3545,
+      "dif_rel_duque": 0.7778,
+      "dif_rel_petro": 0.2,
+      "cambio_relativo": -0.5778,
+      "prop_medio_duque": 0.0241,
+      "prop_medio_petro": 0.0103,
+      "prop_otros_duque": 0.0136,
+      "prop_otros_petro": 0.0086
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "ambos_nombran:gob_carga",
+      "dif_duque": -0.0211,
+      "dif_petro": 0.0013,
+      "cambio": 0.0224,
+      "ic_bajo": -0.0182,
+      "ic_alto": 0.0647,
+      "p": 0.2535,
+      "dif_rel_duque": -0.2059,
+      "dif_rel_petro": 0.0096,
+      "cambio_relativo": 0.2155,
+      "prop_medio_duque": 0.0813,
+      "prop_medio_petro": 0.135,
+      "prop_otros_duque": 0.1024,
+      "prop_otros_petro": 0.1337
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "el_tiempo",
+      "indicador": "ambos_nombran:gob_neto",
+      "dif_duque": -0.0316,
+      "dif_petro": 0.0044,
+      "cambio": 0.0361,
+      "ic_bajo": 0.0001,
+      "ic_alto": 0.0744,
+      "p": 0.0495,
+      "dif_rel_duque": -0.5676,
+      "dif_rel_petro": 0.0479,
+      "cambio_relativo": 0.6155,
+      "prop_medio_duque": 0.0241,
+      "prop_medio_petro": 0.0972,
+      "prop_otros_duque": 0.0557,
+      "prop_otros_petro": 0.0927
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "todos:gob_negativa",
+      "dif_duque": 0.0008,
+      "dif_petro": 0.0028,
+      "cambio": 0.0019,
+      "ic_bajo": -0.0028,
+      "ic_alto": 0.0069,
+      "p": 0.4365,
+      "dif_rel_duque": 0.1507,
+      "dif_rel_petro": 0.1391,
+      "cambio_relativo": -0.0116,
+      "prop_medio_duque": 0.0062,
+      "prop_medio_petro": 0.0225,
+      "prop_otros_duque": 0.0054,
+      "prop_otros_petro": 0.0198
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "todos:gob_positiva",
+      "dif_duque": 0.0009,
+      "dif_petro": 0.0002,
+      "cambio": -0.0007,
+      "ic_bajo": -0.0027,
+      "ic_alto": 0.0011,
+      "p": 0.4705,
+      "dif_rel_duque": 0.75,
+      "dif_rel_petro": 0.125,
+      "cambio_relativo": -0.625,
+      "prop_medio_duque": 0.0021,
+      "prop_medio_petro": 0.0016,
+      "prop_otros_duque": 0.0012,
+      "prop_otros_petro": 0.0014
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "todos:gob_carga",
+      "dif_duque": 0.0028,
+      "dif_petro": 0.006,
+      "cambio": 0.0032,
+      "ic_bajo": -0.0028,
+      "ic_alto": 0.0093,
+      "p": 0.2925,
+      "dif_rel_duque": 0.289,
+      "dif_rel_petro": 0.2366,
+      "cambio_relativo": -0.0524,
+      "prop_medio_duque": 0.0124,
+      "prop_medio_petro": 0.0313,
+      "prop_otros_duque": 0.0096,
+      "prop_otros_petro": 0.0253
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "todos:gob_neto",
+      "dif_duque": -0.0001,
+      "dif_petro": 0.0026,
+      "cambio": 0.0026,
+      "ic_bajo": -0.0029,
+      "ic_alto": 0.008,
+      "p": 0.3245,
+      "dif_rel_duque": -0.0175,
+      "dif_rel_petro": 0.1401,
+      "cambio_relativo": 0.1577,
+      "prop_medio_duque": 0.0041,
+      "prop_medio_petro": 0.021,
+      "prop_otros_duque": 0.0042,
+      "prop_otros_petro": 0.0184
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "ambos_nombran:gob_negativa",
+      "dif_duque": 0.0117,
+      "dif_petro": 0.0025,
+      "cambio": -0.0092,
+      "ic_bajo": -0.0372,
+      "ic_alto": 0.0179,
+      "p": 0.5515,
+      "dif_rel_duque": 0.2857,
+      "dif_rel_petro": 0.0265,
+      "cambio_relativo": -0.2592,
+      "prop_medio_duque": 0.0525,
+      "prop_medio_petro": 0.0969,
+      "prop_otros_duque": 0.0408,
+      "prop_otros_petro": 0.0944
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "ambos_nombran:gob_positiva",
+      "dif_duque": 0.0,
+      "dif_petro": 0.0,
+      "cambio": 0.0,
+      "ic_bajo": -0.0117,
+      "ic_alto": 0.0121,
+      "p": 1.0,
+      "dif_rel_duque": 0.0,
+      "dif_rel_petro": 0.0,
+      "cambio_relativo": 0.0,
+      "prop_medio_duque": 0.0117,
+      "prop_medio_petro": 0.0068,
+      "prop_otros_duque": 0.0117,
+      "prop_otros_petro": 0.0068
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "ambos_nombran:gob_carga",
+      "dif_duque": 0.0224,
+      "dif_petro": 0.0169,
+      "cambio": -0.0055,
+      "ic_bajo": -0.0437,
+      "ic_alto": 0.0349,
+      "p": 0.7935,
+      "dif_rel_duque": 0.2706,
+      "dif_rel_petro": 0.1365,
+      "cambio_relativo": -0.1341,
+      "prop_medio_duque": 0.105,
+      "prop_medio_petro": 0.1405,
+      "prop_otros_duque": 0.0826,
+      "prop_otros_petro": 0.1236
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "blu_radio",
+      "indicador": "ambos_nombran:gob_neto",
+      "dif_duque": 0.0117,
+      "dif_petro": 0.0025,
+      "cambio": -0.0092,
+      "ic_bajo": -0.0402,
+      "ic_alto": 0.0207,
+      "p": 0.5645,
+      "dif_rel_duque": 0.4,
+      "dif_rel_petro": 0.0286,
+      "cambio_relativo": -0.3714,
+      "prop_medio_duque": 0.0408,
+      "prop_medio_petro": 0.0901,
+      "prop_otros_duque": 0.0292,
+      "prop_otros_petro": 0.0876
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "todos:gob_negativa",
+      "dif_duque": -0.002,
+      "dif_petro": -0.0018,
+      "cambio": 0.0002,
+      "ic_bajo": -0.0048,
+      "ic_alto": 0.0054,
+      "p": 0.9225,
+      "dif_rel_duque": -1.0,
+      "dif_rel_petro": -0.0858,
+      "cambio_relativo": 0.9142,
+      "prop_medio_duque": 0.0,
+      "prop_medio_petro": 0.0192,
+      "prop_otros_duque": 0.002,
+      "prop_otros_petro": 0.021
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "todos:gob_positiva",
+      "dif_duque": 0.0,
+      "dif_petro": -0.001,
+      "cambio": -0.001,
+      "ic_bajo": -0.0042,
+      "ic_alto": 0.0022,
+      "p": 0.5585,
+      "dif_rel_duque": 0.0,
+      "dif_rel_petro": -0.4393,
+      "cambio_relativo": -0.4393,
+      "prop_medio_duque": 0.0037,
+      "prop_medio_petro": 0.0012,
+      "prop_otros_duque": 0.0037,
+      "prop_otros_petro": 0.0022
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "todos:gob_carga",
+      "dif_duque": -0.003,
+      "dif_petro": -0.005,
+      "cambio": -0.002,
+      "ic_bajo": -0.0088,
+      "ic_alto": 0.0052,
+      "p": 0.6205,
+      "dif_rel_duque": -0.3379,
+      "dif_rel_petro": -0.173,
+      "cambio_relativo": 0.1649,
+      "prop_medio_duque": 0.0059,
+      "prop_medio_petro": 0.0238,
+      "prop_otros_duque": 0.0089,
+      "prop_otros_petro": 0.0287
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "todos:gob_neto",
+      "dif_duque": -0.002,
+      "dif_petro": -0.0008,
+      "cambio": 0.0012,
+      "ic_bajo": -0.0048,
+      "ic_alto": 0.0072,
+      "p": 0.6905,
+      "dif_rel_duque": -1.2222,
+      "dif_rel_petro": -0.0452,
+      "cambio_relativo": 1.1771,
+      "prop_medio_duque": -0.0037,
+      "prop_medio_petro": 0.018,
+      "prop_otros_duque": -0.0017,
+      "prop_otros_petro": 0.0188
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "ambos_nombran:gob_negativa",
+      "dif_duque": -0.0133,
+      "dif_petro": 0.0048,
+      "cambio": 0.0181,
+      "ic_bajo": -0.0112,
+      "ic_alto": 0.0511,
+      "p": 0.2375,
+      "dif_rel_duque": -1.0,
+      "dif_rel_petro": 0.048,
+      "cambio_relativo": 1.048,
+      "prop_medio_duque": 0.0,
+      "prop_medio_petro": 0.1058,
+      "prop_otros_duque": 0.0133,
+      "prop_otros_petro": 0.101
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "ambos_nombran:gob_positiva",
+      "dif_duque": 0.0,
+      "dif_petro": -0.0037,
+      "cambio": -0.0037,
+      "ic_bajo": -0.0325,
+      "ic_alto": 0.0258,
+      "p": 0.8255,
+      "dif_rel_duque": 0.0,
+      "dif_rel_petro": -0.3333,
+      "cambio_relativo": -0.3333,
+      "prop_medio_duque": 0.0354,
+      "prop_medio_petro": 0.0075,
+      "prop_otros_duque": 0.0354,
+      "prop_otros_petro": 0.0112
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "ambos_nombran:gob_carga",
+      "dif_duque": -0.0251,
+      "dif_petro": -0.0043,
+      "cambio": 0.0207,
+      "ic_bajo": -0.0331,
+      "ic_alto": 0.0798,
+      "p": 0.4705,
+      "dif_rel_duque": -0.2881,
+      "dif_rel_petro": -0.0317,
+      "cambio_relativo": 0.2564,
+      "prop_medio_duque": 0.0619,
+      "prop_medio_petro": 0.1326,
+      "prop_otros_duque": 0.087,
+      "prop_otros_petro": 0.137
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_rcn",
+      "indicador": "ambos_nombran:gob_neto",
+      "dif_duque": -0.0133,
+      "dif_petro": 0.0086,
+      "cambio": 0.0218,
+      "ic_bajo": -0.0183,
+      "ic_alto": 0.0638,
+      "p": 0.3215,
+      "dif_rel_duque": -0.6,
+      "dif_rel_petro": 0.0954,
+      "cambio_relativo": 0.6954,
+      "prop_medio_duque": -0.0354,
+      "prop_medio_petro": 0.0984,
+      "prop_otros_duque": -0.0221,
+      "prop_otros_petro": 0.0898
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "todos:gob_negativa",
+      "dif_duque": 0.0045,
+      "dif_petro": -0.0016,
+      "cambio": -0.0061,
+      "ic_bajo": -0.0123,
+      "ic_alto": -0.0002,
+      "p": 0.0375,
+      "dif_rel_duque": 0.7241,
+      "dif_rel_petro": -0.086,
+      "cambio_relativo": -0.8101,
+      "prop_medio_duque": 0.0107,
+      "prop_medio_petro": 0.0172,
+      "prop_otros_duque": 0.0062,
+      "prop_otros_petro": 0.0188
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "todos:gob_positiva",
+      "dif_duque": -0.0011,
+      "dif_petro": -0.0,
+      "cambio": 0.001,
+      "ic_bajo": -0.0013,
+      "ic_alto": 0.0033,
+      "p": 0.3885,
+      "dif_rel_duque": -0.4545,
+      "dif_rel_petro": -0.0118,
+      "cambio_relativo": 0.4428,
+      "prop_medio_duque": 0.0013,
+      "prop_medio_petro": 0.0019,
+      "prop_otros_duque": 0.0024,
+      "prop_otros_petro": 0.002
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "todos:gob_carga",
+      "dif_duque": 0.0041,
+      "dif_petro": -0.0027,
+      "cambio": -0.0068,
+      "ic_bajo": -0.0142,
+      "ic_alto": 0.0,
+      "p": 0.0515,
+      "dif_rel_duque": 0.3455,
+      "dif_rel_petro": -0.1051,
+      "cambio_relativo": -0.4506,
+      "prop_medio_duque": 0.0159,
+      "prop_medio_petro": 0.023,
+      "prop_otros_duque": 0.0118,
+      "prop_otros_petro": 0.0257
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "todos:gob_neto",
+      "dif_duque": 0.0056,
+      "dif_petro": -0.0016,
+      "cambio": -0.0072,
+      "ic_bajo": -0.0136,
+      "ic_alto": -0.0008,
+      "p": 0.0255,
+      "dif_rel_duque": 1.4444,
+      "dif_rel_petro": -0.0947,
+      "cambio_relativo": -1.5391,
+      "prop_medio_duque": 0.0094,
+      "prop_medio_petro": 0.0152,
+      "prop_otros_duque": 0.0039,
+      "prop_otros_petro": 0.0168
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "ambos_nombran:gob_negativa",
+      "dif_duque": 0.0314,
+      "dif_petro": -0.0167,
+      "cambio": -0.048,
+      "ic_bajo": -0.0874,
+      "ic_alto": -0.009,
+      "p": 0.0115,
+      "dif_rel_duque": 0.6,
+      "dif_rel_petro": -0.1826,
+      "cambio_relativo": -0.7826,
+      "prop_medio_duque": 0.0837,
+      "prop_medio_petro": 0.0746,
+      "prop_otros_duque": 0.0523,
+      "prop_otros_petro": 0.0913
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "ambos_nombran:gob_positiva",
+      "dif_duque": -0.0042,
+      "dif_petro": 0.0022,
+      "cambio": 0.0064,
+      "ic_bajo": -0.009,
+      "ic_alto": 0.0227,
+      "p": 0.4375,
+      "dif_rel_duque": -0.25,
+      "dif_rel_petro": 0.3333,
+      "cambio_relativo": 0.5833,
+      "prop_medio_duque": 0.0126,
+      "prop_medio_petro": 0.009,
+      "prop_otros_duque": 0.0167,
+      "prop_otros_petro": 0.0067
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "ambos_nombran:gob_carga",
+      "dif_duque": 0.0377,
+      "dif_petro": -0.0239,
+      "cambio": -0.0615,
+      "ic_bajo": -0.113,
+      "ic_alto": -0.0111,
+      "p": 0.0165,
+      "dif_rel_duque": 0.3913,
+      "dif_rel_petro": -0.1928,
+      "cambio_relativo": -0.5841,
+      "prop_medio_duque": 0.1339,
+      "prop_medio_petro": 0.1,
+      "prop_otros_duque": 0.0962,
+      "prop_otros_petro": 0.1239
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "noticias_caracol",
+      "indicador": "ambos_nombran:gob_neto",
+      "dif_duque": 0.0356,
+      "dif_petro": -0.0189,
+      "cambio": -0.0545,
+      "ic_bajo": -0.0964,
+      "ic_alto": -0.014,
+      "p": 0.0085,
+      "dif_rel_duque": 1.0,
+      "dif_rel_petro": -0.2235,
+      "cambio_relativo": -1.2235,
+      "prop_medio_duque": 0.0711,
+      "prop_medio_petro": 0.0657,
+      "prop_otros_duque": 0.0356,
+      "prop_otros_petro": 0.0846
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "todos:gob_negativa",
+      "dif_duque": -0.0003,
+      "dif_petro": -0.0075,
+      "cambio": -0.0072,
+      "ic_bajo": -0.0153,
+      "ic_alto": -0.0,
+      "p": 0.0505,
+      "dif_rel_duque": -0.0476,
+      "dif_rel_petro": -0.3955,
+      "cambio_relativo": -0.3478,
+      "prop_medio_duque": 0.0054,
+      "prop_medio_petro": 0.0114,
+      "prop_otros_duque": 0.0057,
+      "prop_otros_petro": 0.0189
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "todos:gob_positiva",
+      "dif_duque": -0.0038,
+      "dif_petro": -0.0001,
+      "cambio": 0.0037,
+      "ic_bajo": -0.0023,
+      "ic_alto": 0.0102,
+      "p": 0.2195,
+      "dif_rel_duque": -0.4667,
+      "dif_rel_petro": -0.0588,
+      "cambio_relativo": 0.4078,
+      "prop_medio_duque": 0.0044,
+      "prop_medio_petro": 0.0023,
+      "prop_otros_duque": 0.0082,
+      "prop_otros_petro": 0.0024
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "todos:gob_carga",
+      "dif_duque": -0.0055,
+      "dif_petro": -0.0073,
+      "cambio": -0.0018,
+      "ic_bajo": -0.0132,
+      "ic_alto": 0.0094,
+      "p": 0.7645,
+      "dif_rel_duque": -0.337,
+      "dif_rel_petro": -0.2862,
+      "cambio_relativo": 0.0508,
+      "prop_medio_duque": 0.0109,
+      "prop_medio_petro": 0.0183,
+      "prop_otros_duque": 0.0164,
+      "prop_otros_petro": 0.0256
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "todos:gob_neto",
+      "dif_duque": 0.0035,
+      "dif_petro": -0.0073,
+      "cambio": -0.0109,
+      "ic_bajo": -0.0209,
+      "ic_alto": -0.0016,
+      "p": 0.0225,
+      "dif_rel_duque": 1.4444,
+      "dif_rel_petro": -0.4451,
+      "cambio_relativo": -1.8895,
+      "prop_medio_duque": 0.0011,
+      "prop_medio_petro": 0.0091,
+      "prop_otros_duque": -0.0025,
+      "prop_otros_petro": 0.0165
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "ambos_nombran:gob_negativa",
+      "dif_duque": -0.0033,
+      "dif_petro": -0.0055,
+      "cambio": -0.0023,
+      "ic_bajo": -0.0332,
+      "ic_alto": 0.0292,
+      "p": 0.9325,
+      "dif_rel_duque": -0.1111,
+      "dif_rel_petro": -0.1028,
+      "cambio_relativo": 0.0083,
+      "prop_medio_duque": 0.0261,
+      "prop_medio_petro": 0.0483,
+      "prop_otros_duque": 0.0294,
+      "prop_otros_petro": 0.0539
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "ambos_nombran:gob_positiva",
+      "dif_duque": -0.0163,
+      "dif_petro": -0.003,
+      "cambio": 0.0133,
+      "ic_bajo": -0.0186,
+      "ic_alto": 0.0458,
+      "p": 0.3795,
+      "dif_rel_duque": -0.3846,
+      "dif_rel_petro": -0.25,
+      "cambio_relativo": 0.1346,
+      "prop_medio_duque": 0.0261,
+      "prop_medio_petro": 0.0091,
+      "prop_otros_duque": 0.0425,
+      "prop_otros_petro": 0.0121
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "ambos_nombran:gob_carga",
+      "dif_duque": -0.0283,
+      "dif_petro": 0.0,
+      "cambio": 0.0283,
+      "ic_bajo": -0.0226,
+      "ic_alto": 0.0813,
+      "p": 0.2745,
+      "dif_rel_duque": -0.325,
+      "dif_rel_petro": 0.0,
+      "cambio_relativo": 0.325,
+      "prop_medio_duque": 0.0588,
+      "prop_medio_petro": 0.0785,
+      "prop_otros_duque": 0.0871,
+      "prop_otros_petro": 0.0785
+    },
+    {
+      "analisis": "gobierno",
+      "medio": "la_republica",
+      "indicador": "ambos_nombran:gob_neto",
+      "dif_duque": 0.0131,
+      "dif_petro": -0.0025,
+      "cambio": -0.0156,
+      "ic_bajo": -0.0619,
+      "ic_alto": 0.0292,
+      "p": 0.5175,
+      "dif_rel_duque": 1.0,
+      "dif_rel_petro": -0.0602,
+      "cambio_relativo": -1.0602,
+      "prop_medio_duque": 0.0,
+      "prop_medio_petro": 0.0393,
+      "prop_otros_duque": -0.0131,
+      "prop_otros_petro": 0.0418
+    }
+  ],
+  "temas_ic_excluye_0_q05": [
+    {
+      "medio": "el_tiempo",
+      "gobierno": "duque",
+      "topic": 0,
+      "etiqueta_topic": "Conflicto, víctimas y justicia transicional",
+      "indicador": "carga",
+      "diferencia": -0.0384,
+      "ic_bajo": -0.0678,
+      "ic_alto": -0.0122,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "el_tiempo",
+      "gobierno": "duque",
+      "topic": 2,
+      "etiqueta_topic": "Mixto: países vecinos y relaciones exteriores",
+      "indicador": "carga",
+      "diferencia": -0.0634,
+      "ic_bajo": -0.088,
+      "ic_alto": -0.0395,
+      "q_bh": 0.0313
+    },
+    {
+      "medio": "el_tiempo",
+      "gobierno": "duque",
+      "topic": 6,
+      "etiqueta_topic": "Justicia: cortes, Fiscalía y corrupción",
+      "indicador": "carga",
+      "diferencia": -0.0322,
+      "ic_bajo": -0.055,
+      "ic_alto": -0.0078,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "el_tiempo",
+      "gobierno": "duque",
+      "topic": 7,
+      "etiqueta_topic": "Combates, Ejército y grupos armados",
+      "indicador": "carga",
+      "diferencia": -0.0892,
+      "ic_bajo": -0.1274,
+      "ic_alto": -0.0533,
+      "q_bh": 0.0313
+    },
+    {
+      "medio": "blu_radio",
+      "gobierno": "duque",
+      "topic": 2,
+      "etiqueta_topic": "Mixto: países vecinos y relaciones exteriores",
+      "indicador": "carga",
+      "diferencia": 0.0458,
+      "ic_bajo": 0.0186,
+      "ic_alto": 0.0726,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "noticias_caracol",
+      "gobierno": "duque",
+      "topic": 7,
+      "etiqueta_topic": "Combates, Ejército y grupos armados",
+      "indicador": "carga",
+      "diferencia": 0.0827,
+      "ic_bajo": 0.0376,
+      "ic_alto": 0.1317,
+      "q_bh": 0.0313
+    },
+    {
+      "medio": "el_tiempo",
+      "gobierno": "petro",
+      "topic": 5,
+      "etiqueta_topic": "Venezuela, Cuba y Maduro",
+      "indicador": "carga",
+      "diferencia": 0.0313,
+      "ic_bajo": 0.009,
+      "ic_alto": 0.0541,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "el_tiempo",
+      "gobierno": "petro",
+      "topic": 10,
+      "etiqueta_topic": "Economía colombiana: dólar, salario y renta",
+      "indicador": "carga",
+      "diferencia": 0.0522,
+      "ic_bajo": 0.0226,
+      "ic_alto": 0.0815,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "el_tiempo",
+      "gobierno": "petro",
+      "topic": 15,
+      "etiqueta_topic": "Narcotráfico",
+      "indicador": "carga",
+      "diferencia": 0.0541,
+      "ic_bajo": 0.0182,
+      "ic_alto": 0.0882,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "blu_radio",
+      "gobierno": "petro",
+      "topic": 10,
+      "etiqueta_topic": "Economía colombiana: dólar, salario y renta",
+      "indicador": "carga",
+      "diferencia": -0.0489,
+      "ic_bajo": -0.0848,
+      "ic_alto": -0.0122,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "la_republica",
+      "gobierno": "petro",
+      "topic": 2,
+      "etiqueta_topic": "Mixto: países vecinos y relaciones exteriores",
+      "indicador": "carga",
+      "diferencia": -0.0677,
+      "ic_bajo": -0.1069,
+      "ic_alto": -0.0275,
+      "q_bh": 0.0392
+    },
+    {
+      "medio": "la_republica",
+      "gobierno": "petro",
+      "topic": 5,
+      "etiqueta_topic": "Venezuela, Cuba y Maduro",
+      "indicador": "carga",
+      "diferencia": -0.0508,
+      "ic_bajo": -0.0845,
+      "ic_alto": -0.0177,
+      "q_bh": 0.0392
+    }
+  ],
+  "segundos": 91
+}

@@ -28,3 +28,6 @@ workshops/Kaggle-tweet-toxic/tweet-toxic-2026-puj/
 workshops/Kaggle-tweet-toxic/experimentos/oof/
 # boilerplate del curso: clon de puj-nlp/boilerplate_rag, no se versiona aquí
 workshops/taller-rag/boilerplate/
+
+# configuración local de la herramienta Serena
+.serena/

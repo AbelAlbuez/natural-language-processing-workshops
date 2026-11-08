@@ -27,7 +27,8 @@ from news_corpus.db.models import (
 # estorba a quien sólo quiere la metadata.
 METADATA_COLUMNS = [
     "article_id", "url", "source_id", "source_name", "government_id",
-    "title", "title_source", "section", "published_date", "date_precision",
+    "title", "title_source", "section", "non_news_reason",
+    "published_date", "date_precision",
     "topics", "provider", "first_seen_at", "archive_density_month",
     "author", "description", "extraction_status", "content_chars",
 ]
@@ -65,7 +66,7 @@ def _rows(session: Session, *, source_id: str | None, desde: date | None, hasta:
             topics_sq.c.topics, Article.first_seen_provider, Article.first_seen_at,
             density_sq.c.n_urls_offered,
             Article.author, Article.description, Article.extraction_status,
-            Article.content, Article.content_hash,
+            Article.content, Article.content_hash, Article.non_news_reason,
         )
         .join(Source, Source.id == Article.source_id)
         .outerjoin(topics_sq, topics_sq.c.article_id == Article.id)
@@ -113,6 +114,7 @@ def export_corpus(
             "title": r[5],
             "title_source": str(r[6]) if r[6] else None,
             "section": r[7],
+            "non_news_reason": str(r[19]) if r[19] else None,
             "published_date": r[8].isoformat() if r[8] else None,
             "date_precision": str(r[9]) if r[9] else None,
             "topics": r[10] or "",

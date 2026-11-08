@@ -1,0 +1,78 @@
+id,polaridad,tipo,formas,excluir,activa,origen,nota
+polemica,negativa,juicio,polemic(?:a|as|o|os),,si,a_priori,califica el hecho como disputado
+controversia,negativa,juicio,controversi(?:a|as|al|ales),,si,a_priori,
+escandalo,negativa,sensacionalismo,escandal(?:o|os|osa|oso|osas|osos),,si,a_priori,
+fracaso,negativa,juicio,fracas(?:o|os|a|an|aron|ado|ada)|fallid(?:o|a|os|as),,si,a_priori,fracaso/fracasó y fallido
+caos,negativa,sensacionalismo,caos|caotic(?:o|a|os|as),,si,a_priori,
+desastre,negativa,juicio,desastr(?:e|es|oso|osa|osos|osas),estado de desastre|desastres? naturale?s?|desastre nacional|declar\w+ (?:el |la )?desastre|riesgo de desastres?,si,tras_datos,"KWIC: se excluye la declaratoria oficial («estado de desastre», «desastre natural/nacional»)"
+debacle,negativa,juicio,debacle|descalabro|varapalo|papelon|bochorno|bochornos(?:o|a),,si,tras_datos,KWIC: fuera «revolcón» (reestructuración: «revolcón en la titular»)
+reves,negativa,juicio,reves|traspie|tropiezo|tropiezos,,si,a_priori,revés (de reveses judiciales o políticos)
+golpe,neutra,conflicto,golpe|golpes|golpea|golpean|golpeo|golpeado|golpeada,golpe de (?:estado|calor|suerte)|golpe blando|de golpe|golpead[oa] por (?:un )?rayo,si,tras_datos,"metáfora de daño; golpe de Estado es un hecho con nombre propio; KWIC: pasa a polaridad neutra: «duro golpe al Clan del Golfo» es lenguaje de éxito policial, no negativo; se excluyen «de golpe» y el rayo literal"
+hunde,negativa,sensacionalismo,hunde|hunden|hundio|hundieron|hundimiento|hundid(?:a|o|as|os),(?:barco|buque|embarcacion|lancha|bote|submarino|semisumergible|ferry|yate|crucero|narcosubmarino|tierra|terreno|via|carretera|vivienda|casa|puente|piso|banca)e?s? (?:se )?hund\w+|hundimiento (?:de|del) (?:la |el |un |una )?(?:barco|buque|embarcacion|lancha|bote|submarino|semisumergible|terreno|tierra|banca|via|carretera|vivienda|puente),si,tras_datos,"«se hunde la reforma»; también literal (barcos); KWIC: se excluyen hundimientos literales (embarcaciones, terreno, vías); ejemplos: se añaden los plurales «hundidos/hundidas»"
+desplome,negativa,sensacionalismo,desplom(?:e|a|an|o|aron|ado|ada),,si,a_priori,
+colapso,negativa,sensacionalismo,colaps(?:o|a|an|aron|ado|ada),,si,a_priori,
+crisis,negativa,juicio,crisis,,si,a_priori,
+amenaza,negativa,conflicto,amenaz(?:a|an|o|aron) con,,si,tras_datos,"KWIC: sólo «amenaza con» (amenaza verbal atribuida); el resto son amenazas literales (de muerte, a líderes), un hecho y no un juicio"
+alarma,negativa,sensacionalismo,alarma|alarmas|alarmante|alarmantes|enciende las alarmas,estado de alarma|alarmas? antiaereas?,si,tras_datos,KWIC: se excluyen «estado de alarma» y «alarmas antiaéreas»
+preocupante,negativa,juicio,preocupant(?:e|es)|preocupacion,,si,a_priori,
+grave,negativa,juicio,grave|graves|gravisim(?:o|a|os|as),(?:estado|herid\w+|condicion|pronostico|lesionad\w+|salud) (?:de )?(?:muy )?graves?|graves? (?:accidente|accidentes|heridas?|herido|heridos|lesion|lesiones|estado|condicion|quemaduras?|incendio),si,tras_datos,"KWIC: se excluyen contextos médicos y de accidentes («grave accidente», «herido de gravedad»)"
+lamentable,negativa,juicio,lamentabl(?:e|es)|vergonzos(?:o|a|os|as)|verguenza|indignant(?:e|es)|indignacion,,si,a_priori,
+inaceptable,negativa,juicio,inaceptabl(?:e|es)|inadmisibl(?:e|es)|absurd(?:o|a|os|as)|ridicul(?:o|a|os|as),,si,a_priori,
+nefasto,negativa,juicio,nefast(?:o|a|os|as)|pesim(?:o|a|os|as)|terribl(?:e|es)|horribl(?:e|es)|funest(?:o|a|os|as),,si,a_priori,
+irresponsable,negativa,juicio,irresponsabl(?:e|es)|irresponsabilidad|improvisacion|incompetencia|inept(?:o|a|os|as)|torpeza,,si,tras_datos,KWIC: fuera «improvisado»: «explosivos improvisados»
+despilfarro,negativa,juicio,despilfarro|derroche|mermelada,,si,a_priori,mermelada = clientelismo en jerga política
+mentira,negativa,juicio,mentir(?:a|as|oso|osa|osos|osas)|miente|mienten|mintio|engano|enganos|enganoso|enganosa,,si,a_priori,
+regimen,negativa,juicio,regimen (?:de maduro|de nicolas maduro|venezolano|chavista|cubano|de ortega|nicaraguense|irani|de putin|taliban|norcoreano|de kim|de assad|sirio),,si,a_priori,«régimen» como etiqueta de un gobierno (no «régimen pensional»)
+dictadura,negativa,juicio,dictadur(?:a|as)|dictador|dictadores|tirano|tirania|castrochavism(?:o|a)|castrochavista,,si,a_priori,
+derrota,negativa,juicio,derrota|derrotas|derrotado|derrotada,,si,a_priori,
+critica_sust,negativa,conflicto,llueven criticas|lluvia de criticas|ola de criticas|duras criticas|fuertes criticas|criticas? contra|criticas (?:a|al),,si,tras_datos,crítica como sustantivo en construcción de conflicto; KWIC/ejemplos: se añade «críticas a/al» («críticas a Duque por objeciones a la JEP»)
+arremete,negativa,atribucion_cargada,arremet(?:e|en|io|ieron),,si,a_priori,
+pulla,negativa,conflicto,pulla|pullas|dardo|dardos|rifirrafe|encontronazo|agarron|trifulca|zafarrancho|cruce de trinos|cruce de mensajes,,si,a_priori,
+choque,negativa,conflicto,choque|choques|chocan,"choques? (?:de|entre) (?:\w+ ){0,2}(?:vehiculos?|carros?|buses|bus|motos?|trenes|tren|camion(?:es)?|tractomulas?|avion(?:es)?|avionetas?|bicicletas?|taxis?|busetas?|camionetas?)|choques? (?:vehicular|de transito|multiple|frontal)|plan(?:es)? de choque",si,tras_datos,KWIC: fuera «choco/choca»: «Chocó» (departamento) era el 68 % de los casos; se excluyen accidentes de tránsito; «plan de choque» (medida de urgencia)
+pelea,negativa,conflicto,pelea|peleas|pelean|peleo,,si,a_priori,
+guerra,negativa,conflicto,guerra|guerras,,no,tras_datos,"KWIC: desactivada: casi siempre guerras literales (Ucrania, Gaza), «guerra comercial» y el apellido Guerra"
+batalla,negativa,conflicto,batalla|batallas,,si,a_priori,
+ataca,negativa,conflicto,ataca|atacan|ataco|atacaron,,no,tras_datos,KWIC: desactivada: casi siempre ataques armados literales («atacan estación de policía»)
+tension,negativa,conflicto,tension|tensiones|tenso|tensa,alta tension,si,a_priori,
+furia,negativa,sensacionalismo,furia|furios(?:o|a|os|as)|rabia|indignad(?:o|a|os|as)|enfurec(?:e|ido|ida),,si,tras_datos,KWIC: fuera «ira»: es el futuro de «ir» («irá a la Procuraduría»)
+tragedia,negativa,sensacionalismo,tragedia|tragedias|tragic(?:o|a|os|as)|pesadilla|infierno|drama|dramatic(?:o|a|os|as),,si,a_priori,
+terror,negativa,sensacionalismo,terror|horror|panico|zozobra|escalofriant(?:e|es)|estremecedor(?:a|es|as)?|aterrador(?:a|es|as)?|espeluznant(?:e|es)|macabr(?:o|a|os|as)|brutal|brutales|atroz|salvaje|salvajes,,si,a_priori,
+dispara,neutra,sensacionalismo,se disparan?|se disparo|se dispararon,,si,a_priori,subida rápida (precios; homicidios)
+logro,positiva,juicio,logro|logros|logra|logran|lograron,no (?:se )?logr\w+,si,tras_datos,KWIC: se excluye la negación («no logró»)
+exito,positiva,juicio,exito|exitos|exitos(?:o|a|os|as),,si,a_priori,
+triunfo,positiva,juicio,triunf(?:o|os|a|an|aron)|victoria|victorias,aida victoria|victoria merlano|victoria (?:eugenia|davila|sandino),si,tras_datos,KWIC: se excluyen nombres propios (Aida Victoria Merlano)
+hito,positiva,juicio,hito|hitos|proeza|hazana|hazanas,,si,a_priori,
+avance,positiva,juicio,avance|avances,,si,a_priori,
+buena_noticia,positiva,juicio,buenas? noticias?|buen balance|buenos resultados,,si,a_priori,
+alivio,positiva,juicio,alivio|alivia|esperanza|esperanzador(?:a|as|es)?|alentador(?:a|as|es)?|optimism(?:o)|optimista|optimistas|prometedor(?:a|as|es)?,(?:centro|coalicion de la|coalicion|la) esperanza|esperanza (?:gomez|andrade|aguirre)|esperanza de vida,si,tras_datos,KWIC: se excluyen nombres propios: «Centro Esperanza» (coalición) y Esperanza Gómez
+espaldarazo,positiva,juicio,espaldarazo|salvavidas|acierto|aciertos|favorabl(?:e|es),,si,a_priori,
+positivo,positiva,juicio,positiv(?:o|a|os|as),,no,tras_datos,KWIC: desactivada: «falsos positivos» (74 %) y «dio positivo» (COVID)
+celebra,positiva,atribucion_cargada,celebr(?:a|an|o|aron),,si,a_priori,
+aplaude,positiva,atribucion_cargada,aplaud(?:e|en|io|ieron)|elogi(?:a|an|o|aron|os)|destac(?:a|an|o|aron),,si,a_priori,
+historico,neutra,intensificador,historic(?:o|a|os|as),centro historico|pacto historico|memoria historica|(?:maximo|minimo|maximos|minimos) historicos?,si,a_priori,"«histórico» puede ser logro o récord negativo, así que va sin polaridad"
+record,neutra,intensificador,record|records,,si,a_priori,
+contundente,neutra,intensificador,contundent(?:e|es)|tajant(?:e|es)|rotund(?:o|a|os|as)|categoric(?:o|a|os|as)|enfatic(?:o|a|os|as),(?:objetos?|armas?|elementos?) contundentes?,si,tras_datos,KWIC: se excluyen «objetos/armas contundentes»
+duro,neutra,intensificador,dur(?:o|a|os|as)|durisim(?:o|a|os|as),no dur\w+|(?:que|cuanto|cuanta|lo que) dur\w+|dur[oa] (?:mas|menos|hasta|un|una|dos|tres|poco|apenas|solo|casi|cerca|horas|dias|anos|meses|semanas|minutos),si,tras_datos,"KWIC: se excluye el verbo durar («no duró un día», «duró más de»)"
+fuerte,neutra,intensificador,fuertes? (?:critica|criticas|mensaje|mensajes|respuesta|reclamo|advertencia|rechazo|cruce|choque|discusion|pulla|pullas|regano|llamado),,si,a_priori,sólo en construcción evaluativa (no «fuerte sismo»)
+severo,neutra,intensificador,sever(?:o|a|os|as),,si,a_priori,
+insolito,neutra,sensacionalismo,insolit(?:o|a|os|as)|increibl(?:e|es)|impresionant(?:e|es)|impactant(?:e|es)|sorprendent(?:e|es)|asombros(?:o|a|os|as)|inedit(?:o|a|os|as)|sin precedentes|nunca antes vist(?:o|a|os|as),,si,a_priori,
+admite,negativa,atribucion_cargada,admit(?:e|en|io|ieron) (?:que|el error|error|errores|su error|responsabilidad|su responsabilidad|fallas),,si,tras_datos,"admitir sugiere concesión; KWIC: sólo la concesión («admite que», «admite error»); «Consejo de Estado admite demanda/tutela» es trámite judicial"
+reconoce,negativa,atribucion_cargada,reconoc(?:e|en|io|ieron) (?:que|el error|error|errores|su error|sus errores|responsabilidad|su responsabilidad|fallas|la derrota|su derrota),,si,tras_datos,"reconocer sugiere concesión; KWIC: sólo la concesión («reconoce que», «reconoce error»); «reconoce a Guaidó» es reconocimiento diplomático"
+confiesa,negativa,atribucion_cargada,confies(?:a|an)|confeso|confesaron,,si,a_priori,
+acusa,negativa,atribucion_cargada,acus(?:a|an|o|aron),(?:fiscalia|fiscal|fiscales|procuraduria|jep|corte|juez|jueza|tribunal|contraloria) (?:\w+ )?acus\w+,si,tras_datos,KWIC: se excluye la acusación formal de la Fiscalía u otros órganos (trámite judicial)
+denuncia,negativa,atribucion_cargada,denunci(?:a|an|o|aron),(?:la|una|su|por|de|del|esta|esa|tras|nueva|otra|archiva|archivan|archivo|radica|radico|interpone|interpuso|presenta|presento|ante|sin|con) denuncias?|denuncias? (?:penal|penales|formal|anonima|ciudadana|ante),si,tras_datos,"KWIC: se excluye el sustantivo («la denuncia», «por denuncia», «denuncia penal»), que nombra un trámite"
+critica_verbo,negativa,atribucion_cargada,critic(?:a|an|aron) (?:a|al|el|la|los|las|que|duramente)|critico (?:a|al|el|la|los|las|que|duramente),,si,a_priori,sólo como verbo
+cuestiona,negativa,atribucion_cargada,cuestion(?:a|an|o|aron),,si,a_priori,
+rechaza,negativa,atribucion_cargada,rechaz(?:a|an|o|aron),rechaz\w+ (?:la |el |una |un )?(?:tutela|tutelas|demanda|demandas|recurso|recursos|solicitud|solicitudes|apelacion|habeas|nulidad|acci\w+ de tutela)|(?:el|su|en|de|un|como|total|amplio|masivo) rechazo,si,tras_datos,KWIC: se excluyen decisiones judiciales («rechaza tutela») y el sustantivo («en rechazo a»)
+fustiga,negativa,atribucion_cargada,fustig(?:a|an|o|aron)|despotric(?:a|an|o|aron)|estall(?:a|an|o|aron) contra|explot(?:a|o) contra|le canto la tabla,,si,tras_datos,"KWIC: fuera «carga/cargo contra» («nuevo cargo contra», imputación)"
+advierte,neutra,atribucion_cargada,adviert(?:e|en)|advirtio|advirtieron,,si,tras_datos,KWIC: pasa a polaridad neutra: «Contraloría/ONU advierte» es aviso institucional más que juicio negativo
+exige,neutra,atribucion_cargada,exig(?:e|en|io|ieron),,si,tras_datos,"KWIC: pasa a polaridad neutra (exigencia, no juicio negativo)"
+lamenta,negativa,atribucion_cargada,lament(?:a|an|o|aron),,si,a_priori,
+revela,neutra,atribucion_cargada,revel(?:a|an|o|aron),,si,a_priori,sensacionalismo de atribución
+insiste,neutra,atribucion_cargada,insist(?:e|en|io|ieron),,si,a_priori,
+dice,neutra,atribucion_neutra,dice|dicen|dijo|dijeron,,si,a_priori,referencia: verbos de atribución neutros
+afirma,neutra,atribucion_neutra,afirm(?:a|an|o|aron),,si,a_priori,
+asegura,neutra,atribucion_neutra,asegur(?:a|an|o|aron),,si,a_priori,
+senala,neutra,atribucion_neutra,senal(?:a|an|o|aron),,si,a_priori,
+explica,neutra,atribucion_neutra,explic(?:a|an|o|aron),,si,a_priori,
+indica,neutra,atribucion_neutra,indic(?:a|an|o|aron)|coment(?:a|an|o|aron)|sostien(?:e|en)|sostuvo|expres(?:a|an|o|aron)|manifest(?:a|an|o|aron),,si,tras_datos,"KWIC: fuera «declara/declaró»: casi siempre «se declara culpable» o «declara estado de emergencia», no atribución"

@@ -18,10 +18,12 @@ console = Console()
 
 def enrich(
     all_articles: bool = typer.Option(
-        False, "--all", help="Reprocesar también los que ya tienen título."
+        False, "--all",
+        help="Reprocesar todo el corpus: re-deriva los títulos de slug y "
+        "recalcula non_news_reason. Necesario tras cambiar las reglas.",
     ),
 ) -> None:
-    """Deriva título y sección a partir de la URL."""
+    """Deriva título, sección y marca de no-noticia a partir de la URL."""
     from news_corpus.pipeline.enrich import enrich_articles
 
     with session_scope() as session:
@@ -30,7 +32,9 @@ def enrich(
     console.print(
         f"[green]✓[/] revisados {stats['revisados']} · "
         f"títulos derivados [bold]{stats['titulos']}[/] · "
-        f"secciones {stats['secciones']}"
+        f"re-derivados {stats['rederivados']} · "
+        f"secciones {stats['secciones']} · "
+        f"no-noticia {stats['no_noticia']}"
     )
     if stats["sin_titulo"]:
         console.print(

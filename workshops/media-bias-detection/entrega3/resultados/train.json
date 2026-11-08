@@ -1,0 +1,9 @@
+{
+  "best_k": 15,
+  "criterio": "máximo c_v (top 10, 100k textos de la muestra)",
+  "documentos_entrenamiento": 398954,
+  "documentos_heldout": 19948,
+  "passes": 10,
+  "iterations": 100,
+  "seed": 42
+}

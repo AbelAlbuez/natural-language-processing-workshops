@@ -1,0 +1,43 @@
+dias_max,df_raro,n_raro_min,mismo_topico,regla,pasan,mismo_hecho,precision,ic_bajo,ic_alto,elegida
+0,1000,1,False,misma fecha + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus,16,13,0.8125,0.5699111903802586,0.9340840092857187,True
+0,300,1,False,misma fecha + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus,12,10,0.8333333333333334,0.5519691377470266,0.9530348578161463,False
+0,300,1,True,misma fecha + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus + mismo tópico de BERTopic,12,10,0.8333333333333334,0.5519691377470266,0.9530348578161463,False
+0,1000,1,True,misma fecha + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus + mismo tópico de BERTopic,15,12,0.8,0.5481455128483065,0.9295245065301844,False
+2,1000,1,True,≤ 2 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus + mismo tópico de BERTopic,26,18,0.6923076923076923,0.5001174167780164,0.8349868440453624,False
+1,1000,1,False,≤ 1 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus,26,18,0.6923076923076923,0.5001174167780164,0.8349868440453624,False
+0,1000,2,False,misma fecha + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus,13,10,0.7692307692307693,0.49743624053272495,0.9182047128150143,False
+2,1000,1,False,≤ 2 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus,33,22,0.6666666666666666,0.4960789442780561,0.8024977232077931,False
+1,300,1,False,≤ 1 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus,20,14,0.7,0.4810271816464765,0.8545227551323956,False
+2,300,1,True,≤ 2 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus + mismo tópico de BERTopic,20,14,0.7,0.4810271816464765,0.8545227551323956,False
+1,1000,1,True,≤ 1 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus + mismo tópico de BERTopic,22,15,0.6818181818181818,0.47318597741042745,0.8363940681864375,False
+2,1000,2,False,≤ 2 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus,22,15,0.6818181818181818,0.47318597741042745,0.8363940681864375,False
+0,1000,2,True,misma fecha + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus + mismo tópico de BERTopic,12,9,0.75,0.46769466506643426,0.9110583316059453,False
+2,300,1,False,≤ 2 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus,24,16,0.6666666666666666,0.4670631683813174,0.8202780967270225,False
+2,3000,2,False,≤ 2 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus,30,19,0.6333333333333333,0.4551356365479487,0.7812607919389929,False
+0,3000,2,False,misma fecha + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus,16,11,0.6875,0.44404355834740666,0.8583535614521796,False
+2,1000,2,True,≤ 2 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus + mismo tópico de BERTopic,16,11,0.6875,0.44404355834740666,0.8583535614521796,False
+1,300,1,True,≤ 1 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus + mismo tópico de BERTopic,18,12,0.6666666666666666,0.43749467295945105,0.837212252491663,False
+1,1000,2,False,≤ 1 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus,18,12,0.6666666666666666,0.43749467295945105,0.837212252491663,False
+1,3000,2,False,≤ 1 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus,24,15,0.625,0.42709962442674276,0.7884063244045122,False
+2,3000,2,True,≤ 2 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus + mismo tópico de BERTopic,24,15,0.625,0.42709962442674276,0.7884063244045122,False
+0,3000,2,True,misma fecha + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus + mismo tópico de BERTopic,15,10,0.6666666666666666,0.41713547738519774,0.8482367556028526,False
+0,3000,1,False,misma fecha + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus,21,13,0.6190476190476191,0.4087865377511576,0.7924898863143551,False
+0,300,0,False,misma fecha,29,17,0.5862068965517241,0.4073783598787858,0.744868226586776,False
+1,1000,2,True,≤ 1 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 1.000 titulares del corpus + mismo tópico de BERTopic,14,9,0.6428571428571429,0.38764423103907397,0.8365526824644587,False
+0,3000,1,True,misma fecha + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus + mismo tópico de BERTopic,20,12,0.6,0.3865815007622531,0.781193467627183,False
+1,3000,2,True,≤ 1 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus + mismo tópico de BERTopic,20,12,0.6,0.3865815007622531,0.781193467627183,False
+2,3000,1,False,≤ 2 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus,48,25,0.5208333333333334,0.3832923230334281,0.6552868382304838,False
+0,300,0,True,misma fecha + mismo tópico de BERTopic,27,15,0.5555555555555556,0.3731302451322448,0.72414141822977,False
+1,3000,1,False,≤ 1 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus,38,20,0.5263157894736842,0.3725897138449667,0.6752097667747392,False
+2,3000,1,True,≤ 2 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus + mismo tópico de BERTopic,41,21,0.5121951219512195,0.3648450865154381,0.6574557044556734,False
+1,3000,1,True,≤ 1 día(s) de diferencia + ≥ 1 término(s) compartido(s) que aparece(n) en ≤ 3.000 titulares del corpus + mismo tópico de BERTopic,34,17,0.5,0.34069325645682497,0.659306743543175,False
+1,300,0,False,≤ 1 día(s) de diferencia,66,25,0.3787878787878788,0.2714944699373794,0.499415240853782,False
+1,300,0,True,≤ 1 día(s) de diferencia + mismo tópico de BERTopic,54,21,0.3888888888888889,0.270419338291165,0.5221170146179233,False
+2,300,0,False,≤ 2 día(s) de diferencia,85,31,0.36470588235294116,0.27029319054247747,0.4708186697836776,False
+2,300,0,True,≤ 2 día(s) de diferencia + mismo tópico de BERTopic,70,26,0.37142857142857144,0.26770651334691126,0.4885279884157288,False
+2,300,2,False,≤ 2 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus,6,3,0.5,0.1876163064826506,0.8123836935173494,False
+2,300,2,True,≤ 2 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus + mismo tópico de BERTopic,4,2,0.5,0.15003898915214947,0.8499610108478506,False
+1,300,2,False,≤ 1 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus,4,2,0.5,0.15003898915214947,0.8499610108478506,False
+0,300,2,True,misma fecha + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus + mismo tópico de BERTopic,2,1,0.5,0.09453120573423074,0.9054687942657693,False
+0,300,2,False,misma fecha + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus,2,1,0.5,0.09453120573423074,0.9054687942657693,False
+1,300,2,True,≤ 1 día(s) de diferencia + ≥ 2 término(s) compartido(s) que aparece(n) en ≤ 300 titulares del corpus + mismo tópico de BERTopic,3,1,0.3333333333333333,0.06149194472039621,0.7923403991979522,False

@@ -1,0 +1,381 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\graphicspath{{figuras/}}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,backgrounds,arrows.meta}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage{url}
+
+\title{Asistente RAG reproducible sobre prensa y Bluesky colombianos con Milvus y LLM locales}
+
+\author{\begin{minipage}{\textwidth}\centering\small
+{\mbox{Abel Albuez Sánchez}, \mbox{Kelly Joane León Torres}, \mbox{Juan Camilo Torres Peña} y \mbox{Jesús David Romero Melo}}\\[2pt]
+Maestría en Inteligencia Artificial, Pontificia Universidad Javeriana\\
+Profesor: Ing. Luis Gabriel Moreno Sandoval, PhD\\
+Repositorio: \url{https://github.com/AbelAlbuez/natural-language-processing-workshops}
+\end{minipage}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. Los embeddings de los 577.324 chunks están calculados y cargados en Milvus con una ingesta por lotes idempotente, y la API responde con citas a los fragmentos recuperados. La configuración de generación quedó congelada con temperatura 0 y \texttt{repeat\_penalty} 1,1. El gold standard tiene 40 preguntas (34 respondibles sintéticas y 6 no respondibles), divididas en 20 de desarrollo y 20 de prueba y pendientes de revisión humana. Se presentan resultados preliminares en la partición de prueba con una repetición por modelo: Recall@5 de 0,647 a nivel de documento, y modelos que citan fragmentos válidos en entre 5 y 16 de las 17 preguntas respondibles. Con el umbral de 0,80 no hubo abstención en las preguntas fuera del corpus, y la calibración con desarrollo no encontró un umbral que cumpla los criterios fijados. El umbral se mantiene en 0,80 por decisión del autor, con la limitación de que el sistema no se abstiene en las preguntas fuera del corpus. Se verificaron los datos bibliográficos de las referencias contra arXiv, Crossref o la fuente original.
+\end{abstract}
+
+\begin{IEEEkeywords}
+RAG, recuperación de información, corpus bilingüe, segmentación, embeddings, Milvus, LLM locales, evaluación
+\end{IEEEkeywords}
+
+\section{Problema e hipótesis}
+\label{sec:problema}
+El proyecto estudia la recuperación de evidencia en un corpus de prensa y publicaciones sociales colombianas en español e inglés. La hipótesis de trabajo PI6 propone que Recall@5 es menor para Bluesky que para Media Cloud al comparar preguntas del mismo idioma por separado, y que la abstención correcta es menor para preguntas en inglés que para preguntas en español. Es una hipótesis pendiente de evaluación.
+
+El protocolo prevé reportar Recall@k ($k\in\{1,3,5,10\}$), MRR, nDCG@10, abstención correcta y fidelidad de citas, desglosados por fuente esperada e idioma. Recall@k, MRR, la abstención correcta y la fidelidad de citas se calculan con las definiciones del protocolo. nDCG sigue la definición de Järvelin y Kekäläinen \cite{jarvelin2002}; para la fidelidad de las respuestas se toma como referencia conceptual RAGAS \cite{es2023ragas}.
+
+\section{Corpus y perfilado (A)}
+El diagnóstico del proyecto registra 169.248 documentos originales y 146.923 después de la preparación bilingüe: 64.666 en español y 82.257 en inglés. El recuento de 146.923 filas del Parquet preparado se comprobó por metadatos. La diferencia de 22.325 documentos sale de tres filtros de la preparación: 14.771 copias con el mismo \texttt{text\_sha256}, 7.050 documentos en otros idiomas o con idioma indeterminado (fastText con probabilidad menor que 0,5) y 504 con menos de 5 palabras. El Parquet original coincide en tamaño y SHA-256 con la referencia del catálogo (\texttt{f4a669f1\ldots}); sus 169.248 \texttt{document\_id} son únicos, y \texttt{text}, \texttt{url} y \texttt{document\_id} no tienen nulos. Los nulos se concentran en \texttt{title} (64.670, todos de Bluesky), \texttt{language} (13.137, Bluesky) y \texttt{created\_at} (23, Media Cloud). Las cifras se documentan en \path{docs/diagnostico_corpus.md} y \path{docs/prepare_stats_es_en.json}; no se incluye texto de documentos. La Figura~\ref{fig:corpus} desglosa el corpus preparado por fuente e idioma.
+
+\begin{table}[ht]
+\centering
+\caption{Tamaño del corpus preparado.}
+\begin{tabular}{lr}
+\toprule
+Etapa o idioma & Documentos \\
+\midrule
+Originales & 169.248 \\
+Preparados, total & 146.923 \\
+Español & 64.666 \\
+Inglés & 82.257 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_corpus_estratos.png}
+\caption{Documentos del corpus preparado (146.923) por fuente e idioma. Las barras de GDELT (381 en español y 365 en inglés) son casi invisibles a esta escala.}
+\label{fig:corpus}
+\end{figure}
+
+\section{Segmentación (B)}
+La segmentación por tokens usa ventanas de 256 tokens con solapamiento de 48 y produce 577.324 chunks en \path{data/chunks_tok256.parquet}. Al retokenizar, 40.474 chunks superan 256 tokens, con un máximo de 258. Por documento, la mediana es de 3 chunks, el percentil 95 de 10 y el máximo de 426. Estas cifras están verificadas. La Figura~\ref{fig:chunksdoc} muestra la distribución de chunks por documento y la Figura~\ref{fig:tokens}, la de tokens por chunk al retokenizar.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_chunks_por_documento.png}
+\caption{Histograma de chunks por documento (146.923 documentos, 577.324 chunks), con eje vertical logarítmico. Las líneas marcan la mediana (3), el percentil 95 (10) y el máximo (426).}
+\label{fig:chunksdoc}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_tokens_retokenizacion.png}
+\caption{Tokens por chunk al retokenizar los 577.324 chunks sin tokens especiales. Las líneas marcan la ventana de diseño (256) y el límite del modelo (512). El recuadro amplía la cola: 40.474 chunks superan 256 tokens y el máximo es 258.}
+\label{fig:tokens}
+\end{figure}
+
+\section{Embeddings (C)}
+El proyecto usa \texttt{intfloat/multilingual-e5-small} con el prefijo \texttt{passage:} para documentos y \texttt{query:} para consultas \cite{wang2022e5,wang2024multilingual}. Los pesos se descargaron en la caché local de Hugging Face, fijados a la revisión \texttt{614241f}. Se bajaron solo los archivos necesarios para PyTorch y sentence-transformers: unos 493~MB, o 470~MiB en disco. La carga sin conexión con \texttt{AutoTokenizer} y \texttt{AutoModel} (\texttt{local\_files\_only=True}) funcionó: el modelo tiene una dimensión oculta de 384 y 117.653.760 parámetros.
+
+Los embeddings del piloto ya están calculados: 500 documentos y 1.904 chunks, con el prefijo \texttt{passage:}, lotes de 32 y normalización L2, en CPU. El cálculo tardó 22,4~s (11,8~ms por chunk) con un pico de memoria de 1,9~GB. Con la misma tasa, los 577.324 chunks del corpus completo tomarían unas 1,9~h. Son mediciones operativas de un solo equipo, no resultados de recuperación. Después se calcularon los embeddings del corpus completo: 577.324 vectores de dimensión 384, procesados en 29 bloques reanudables de 20.000 chunks. Se verificó que los \texttt{chunk\_id} son únicos y coinciden con los de la segmentación, que no hay valores NaN y que todas las normas están a menos de $10^{-6}$ de 1. La comparación con otros encoders sigue pendiente.
+
+\section{Milvus (D)}
+La pila usa Milvus standalone v2.6.25 con etcd embebido y almacenamiento local, sin MinIO. Esta configuración está validada. La colección \texttt{rag\_e5s\_tok256\_v1} contiene los 577.324 chunks del corpus completo (Sección~\ref{sec:implementacion}).
+
+\section{Implementación y configuración congelada}
+\label{sec:implementacion}
+\textit{Ingesta por lotes.} La primera versión de la ingesta leía todos los vectores a la vez y el proceso llegaba a 9,07~GB de memoria. La versión actual lee el Parquet de embeddings en lotes de 20.000 filas, toma de la segmentación solo los metadatos de esos chunks y hace \textit{upsert} por \texttt{chunk\_id}. Con ella, la carga completa tardó 115~s y la memoria máxima del proceso bajó a 2,41~GB. Una segunda carga idéntica dejó la colección en las mismas 577.324 filas, contadas con \texttt{count(*)}, lo que confirma que la ingesta es idempotente.
+
+\textit{Memoria de Milvus.} Con el límite inicial de 4~GiB, Milvus se detuvo por falta de memoria al recibir la segunda carga completa, porque el \textit{upsert} conserva las versiones reemplazadas hasta la compactación. Con el límite en 8~GiB las dos cargas terminaron sin reinicios.
+
+\textit{Hardware y recursos.} Todo corre en un solo equipo: Apple M5 Pro con 18 núcleos y 48~GiB de RAM, macOS 26.5.2 y Docker 29.6.2 (Docker Desktop, con una máquina virtual de 18 CPU y unos 30,8~GiB). Los contenedores tienen estos límites: Milvus 8~GiB y 2 CPU, Ollama 6~GiB y 4 CPU, la API 3~GiB y 2 CPU, y la interfaz 1~GiB y 1 CPU. Ollama corre dentro de Docker sin GPU, así que la generación usa CPU.
+
+\textit{API.} FastAPI expone \texttt{/health}, \texttt{/retrieve} y \texttt{/ask}. El conteo de filas de \texttt{/health} usa \texttt{count(*)}, porque las estadísticas de Milvus incluyen las filas reemplazadas hasta la compactación. Cuando Ollama corta una generación por repetición, \texttt{/ask} responde con un error específico (HTTP 502) en lugar de uno genérico.
+
+\textit{Configuración congelada.} Los valores fijos para todas las condiciones están en la sección~9 de \path{docs/protocolo_evaluacion.md}: \texttt{prompt\_v1} con su huella sha256, $k=5$, chunks de 256/48, el encoder E5 en una revisión fija, HNSW con IP, la partición 20/20 y, para la generación, temperatura 0 y \texttt{repeat\_penalty} 1,1 en los cuatro modelos. La penalización se añadió porque, con temperatura 0 y sin ella, \texttt{gemma2:2b} entró en un bucle de repetición con un prompt real y Ollama cortó la generación (``token repeat limit reached''). Con 1,1, \texttt{gemma2:2b} responde con citas que apuntan a fragmentos recuperados. El umbral de abstención se mantiene en 0,80 por decisión del autor, porque la calibración con desarrollo no encontró un valor que cumpla los criterios (Sección~\ref{sec:resultados}).
+
+\textit{Hallazgos de la prueba técnica.} En la prueba de \texttt{repeat\_penalty}, con un solo prompt real y las dos configuraciones, \texttt{qwen2.5:1.5b} no citó ningún fragmento (0 citas; en el experimento, con las 17 respondibles de prueba, citó en 5) y \texttt{llama3.2:1b} generó respuestas muy cortas, de 7 a 9 tokens. Son observaciones de una comprobación técnica, no resultados experimentales, pero anticipan diferencias que la evaluación deberá medir.
+
+\textit{Estado de la evaluación.} El gold standard sintético y su constructor, el validador, las funciones de métricas, el script del experimento, la calibración del umbral con desarrollo y el análisis de resultados están en el repositorio y probados. El experimento con los cuatro modelos sobre la partición de prueba se presenta en la Sección~\ref{sec:resultados}. Siguen pendientes la revisión humana del gold standard, un segundo anotador, la calibración del umbral con anotaciones humanas (0,80 se mantiene por decisión del autor), la evaluación de la corrección de las respuestas y las repeticiones.
+
+\section{Diseño experimental (5)}
+El plan propuesto empieza con un piloto de 500 documentos y escala a 10.000 y luego al corpus completo solo si el hardware lo permite. El piloto se seleccionó con semilla 42, estratificado por fuente (\texttt{source}) e idioma (\texttt{lang}). La Tabla~\ref{tab:piloto} solo informa conteos; la Figura~\ref{fig:piloto} compara sus proporciones con las de la población.
+
+\begin{table}[ht]
+\centering
+\caption{Conteos del piloto de 500 documentos por fuente e idioma.}
+\label{tab:piloto}
+\begin{tabular}{lrrr}
+\toprule
+Fuente & es & en & Total \\
+\midrule
+Bluesky & 18 & 159 & 177 \\
+GDELT & 1 & 1 & 2 \\
+Media Cloud & 201 & 120 & 321 \\
+\midrule
+Total & 220 & 280 & 500 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_piloto_vs_poblacion.png}
+\caption{Proporción de cada estrato fuente $\times$ idioma en el piloto (500 documentos: 220 en español y 280 en inglés) y en la población (146.923 documentos). Entre paréntesis, los conteos.}
+\label{fig:piloto}
+\end{figure}
+
+Entre condiciones experimentales solo cambia el LLM; corpus, segmentación, encoder, índice, \texttt{top-k} y prompt se mantienen fijos. Según \path{docs/EVALUACION.md}, cada condición se repetirá al menos tres veces, registrando el arranque en frío y en caliente. Los modelos locales, \texttt{qwen2.5:1.5b} \cite{qwen2024}, \texttt{gemma2:2b} \cite{gemma2024} y los de la familia Llama 3, \texttt{llama3.2:1b} y \texttt{llama3.2:3b} \cite{llama2024}, se sirven con Ollama y se usaron en el experimento. Los tiempos de cálculo de embeddings e ingesta están en la Sección~\ref{sec:implementacion}, y las métricas de la partición de prueba, con una sola repetición, en la Sección~\ref{sec:resultados}. Las repeticiones y el registro de arranque en frío y en caliente siguen pendientes. Como referencias de evaluación automática se consideran \cite{thakur2021beir,es2023ragas,saadfalcon2023ares}.
+
+\section{Gold standard y partición (6)}
+El gold standard vigente (\path{docs/gold_standard.csv}) contiene 40 preguntas: 34 respondibles sintéticas y 6 no respondibles. Cada respondible se basa en un único chunk de la segmentación, y su respuesta de referencia se deduce solo de ese chunk. El documento de ese chunk es la evidencia. Las no respondibles tratan temas ajenos al corpus (recetas, deportes, programación) y no tienen fuente, tema, respuesta ni evidencia. El tema (una de las 18 etiquetas de \texttt{collection\_keyword\_label}) solo se asigna en Bluesky, porque Media Cloud y GDELT no tienen esa etiqueta. Las 40 preguntas están \textbf{pendientes de revisión humana}. El validador (\path{scripts/validar_gold_standard.py}) aprueba las 13 verificaciones. La Tabla~\ref{tab:gold} resume la distribución.
+
+\begin{table}[ht]
+\centering
+\caption{Distribución del gold standard vigente.}
+\label{tab:gold}
+\begin{tabular}{lrrr}
+\toprule
+Tipo y fuente & es & en & Total \\
+\midrule
+Media Cloud & 13 & 8 & 21 \\
+Bluesky & 4 & 8 & 12 \\
+GDELT & 1 & 0 & 1 \\
+No respondibles & 3 & 3 & 6 \\
+\midrule
+Total & 21 & 19 & 40 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La partición, registrada en \path{docs/protocolo_evaluacion.md}, divide las 40 preguntas en 20 de desarrollo y 20 de prueba con las listas de IDs fijadas con semilla 42. Las cuotas por fuente e idioma se aplican solo a las respondibles, y las no respondibles se reparten 3 y 3 (Tabla~\ref{tab:particion}). El único caso GDELT en español va a prueba, porque un estrato de un solo caso no puede quedar en ambas particiones. Los parámetros se ajustan solo con desarrollo y se congelan antes de evaluar con prueba.
+
+\begin{table}[ht]
+\centering
+\caption{Partición desarrollo/prueba del gold standard vigente.}
+\label{tab:particion}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrr}
+\toprule
+Fuente esperada & Idioma & Desarrollo & Prueba & Total \\
+\midrule
+Bluesky & en & 4 & 4 & 8 \\
+Bluesky & es & 2 & 2 & 4 \\
+GDELT & es & 0 & 1 & 1 \\
+Media Cloud & en & 4 & 4 & 8 \\
+Media Cloud & es & 7 & 6 & 13 \\
+No respondibles & & 3 & 3 & 6 \\
+\midrule
+Total & & 20 & 20 & 40 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig_particion_gold.png}
+\caption{Distribución observada del gold standard vigente: 34 respondibles por fuente esperada e idioma y 6 no respondibles, con 20 preguntas de desarrollo y 20 de prueba. Coincide con la Tabla~\ref{tab:particion}.}
+\label{fig:particion}
+\end{figure}
+
+La evaluación humana independiente, la rúbrica y la resolución de desacuerdos están pendientes.
+
+\section{Resultados preliminares (partición de prueba)}
+\label{sec:resultados}
+Se evaluaron las 20 preguntas de prueba con los cuatro modelos, una repetición por modelo (80 corridas), con la configuración congelada: temperatura 0, \texttt{repeat\_penalty} 1,1, $k=5$ y umbral de abstención 0,80, el mismo para todos los modelos. Todas las corridas registradas usaron esos valores. Las métricas se calcularon con \path{scripts/analisis_resultados.py}, que usa las funciones de \path{scripts/metricas_rag.py}. Una corrida con error cuenta como fallo y permanece en el denominador.
+
+\textit{Recuperación.} La recuperación no depende del modelo. Se mide a nivel de documento sobre las 17 respondibles, con el documento de evidencia como único relevante (Tabla~\ref{tab:recuperacion}). Como el sistema recupera $k=5$ fragmentos, se reportan las métricas en 5, y la Tabla~\ref{tab:recuperacion_k} añade los cortes en 1 y 3. Recall@10 y nDCG@10, previstos en la Sección~\ref{sec:problema}, no se pueden calcular con el registro actual, que guarda solo los 5 fragmentos recuperados por pregunta.
+
+\begin{table}[ht]
+\centering
+\caption{Recuperación en la partición de prueba (top-5, nivel de documento).}
+\label{tab:recuperacion}
+\begin{tabular}{lrrrr}
+\toprule
+Grupo & $n$ & Recall@5 & MRR & nDCG@5 \\
+\midrule
+Todas & 17 & 0,647 & 0,578 & 0,596 \\
+Media Cloud & 10 & 0,700 & 0,583 & 0,613 \\
+Bluesky & 6 & 0,500 & 0,500 & 0,500 \\
+GDELT & 1 & 1,000 & 1,000 & 1,000 \\
+Inglés & 8 & 0,750 & 0,667 & 0,688 \\
+Español & 9 & 0,556 & 0,500 & 0,515 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Recuperación por corte en las 17 respondibles de prueba (nivel de documento). Con un solo documento relevante por pregunta, hit@5 coincide con Recall@5.}
+\label{tab:recuperacion_k}
+\begin{tabular}{lrr}
+\toprule
+Métrica & $n$ & Valor \\
+\midrule
+Recall@1 & 17 & 0,529 \\
+Recall@3 & 17 & 0,647 \\
+Recall@5 & 17 & 0,647 \\
+hit@5 & 17 & 11/17 \\
+Recall@10 & --- & no calculable ($k=5$) \\
+nDCG@10 & --- & no calculable ($k=5$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Generación.} La Tabla~\ref{tab:generacion} resume las 20 corridas de cada modelo. ``Cita válida'' significa que la cita $[n]$ apunta a un fragmento entregado al modelo; las 85 citas válidas apuntan a \texttt{chunk\_id} recuperados para su pregunta, y no hubo citas fuera de rango. ``Cita a la evidencia'' significa que al menos una cita apunta al documento de evidencia. La corrección de las respuestas frente a la referencia no se evaluó.
+
+\begin{table}[ht]
+\centering
+\caption{Generación por modelo en la partición de prueba (17 respondibles y 3 no respondibles; una repetición). Err.: corridas con error; Cita: respondibles con al menos una cita válida; Evid.: respondibles que citan el documento de evidencia; Inv.: citas inválidas sobre el total; NR: abstenciones correctas en no respondibles; $t$: tiempo medio en segundos.}
+\label{tab:generacion}
+\setlength{\tabcolsep}{3pt}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Modelo & Err. & Cita & Evid. & Inv. & NR & $t$ \\
+\midrule
+gemma2:2b & 1 & 14/17 & 10/17 & 0/24 & 0/3 & 23,0 \\
+qwen2.5:1.5b & 0 & 5/17 & 4/17 & 0/6 & 0/3 & 24,5 \\
+llama3.2:1b & 0 & 16/17 & 9/17 & 0/46 & 0/3 & 16,7 \\
+llama3.2:3b & 0 & 6/17 & 5/17 & 0/9 & 0/3 & 39,5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ningún modelo se abstuvo en las respondibles, y ninguno se abstuvo en las 3 no respondibles: con el umbral 0,80 todas superaron el umbral y llegaron al LLM. Las medianas de tiempo fueron 23,8; 23,2; 13,0 y 37,8~s, en el orden de la tabla.
+
+\textit{Rendimiento.} La Tabla~\ref{tab:rendimiento} usa los tiempos internos que registra la API en cada corrida exitosa (79 de 80). El tiempo de generación incluye el procesamiento del prompt (mediana de 1.678 a 1.782 tokens de entrada por modelo), así que los tokens por segundo se calculan como tokens de salida sobre ese tiempo y no equivalen a la velocidad de decodificación. La RAM y la VRAM no se midieron por corrida.
+
+\begin{table}[ht]
+\centering
+\caption{Latencia por modelo en la partición de prueba (corridas exitosas). Rec.: recuperación; Gen.: generación; p95 por rango más cercano; tok/s: tokens de salida sobre el tiempo de generación, agregado por modelo.}
+\label{tab:rendimiento}
+\setlength{\tabcolsep}{3pt}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Modelo & $n$ & Rec. p50 & Rec. p95 & Gen. p50 & Gen. p95 & tok/s \\
+\midrule
+gemma2:2b & 19 & 0,23 & 0,36 & 23,5 & 30,5 & 1,44 \\
+qwen2.5:1.5b & 20 & 0,23 & 0,33 & 23,0 & 43,2 & 2,84 \\
+llama3.2:1b & 20 & 0,23 & 0,36 & 12,6 & 35,7 & 3,92 \\
+llama3.2:3b & 20 & 0,24 & 0,39 & 37,6 & 54,7 & 1,80 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Tiempos de generación.} Hay dos mediciones distintas, y no deben confundirse. (1) En el experimento de 80 corridas (Tabla~\ref{tab:generacion}), el tiempo medio por respuesta fue de 16,7 a 39,5~s según el modelo, con un máximo de 56,8~s (\texttt{llama3.2:3b}); sale del registro del experimento. (2) En una prueba manual de la interfaz con \texttt{gemma2:2b}, una sola consulta (una pregunta sobre deforestación, en CPU) tardó 69,5~s de generación. La fuente es \path{reports/rag_runs.jsonl} (\texttt{gemma2:2b}, consulta sobre deforestación): generación de 69,46~s y total de 69,8~s. Es una observación aislada, no una cifra general del sistema.
+
+\textit{Error de gemma2:2b en G34.} La corrida de G34 con \texttt{gemma2:2b} devolvió HTTP 503 en 0,51~s. El registro de Ollama muestra que el proceso \texttt{llama-server} recibió \texttt{SIGKILL} y la generación terminó con \texttt{EOF}. La corrida no se reintentó: \texttt{gemma2:2b} tuvo 19 corridas exitosas de 20, y el fallo cuenta en el denominador de sus métricas, que se calculan sobre las 20.
+
+\textit{Calibración del umbral (solo desarrollo).} Con los scores máximos de recuperación de las 20 preguntas de desarrollo, \textbf{ningún umbral cumple a la vez} abstenerse en las 3 no respondibles y responder al menos el 90~\% de las respondibles. Con $t \geq 0{,}876$ se abstiene en las 3 no respondibles, pero responde solo 13 de 17 respondibles (76,5~\%). Con $t \leq 0{,}8465$ responde 16 de 17, pero se abstiene solo en 1 de 3. Con $t = 0{,}80$ responde las 17 y no se abstiene en ninguna. \textbf{Decisión del autor:} el umbral del sistema se mantiene en 0,80. No se ajustó ningún parámetro con la partición de prueba.
+
+\textit{Análisis complementario (no usado para decidir).} Con los scores de la partición de prueba, $t = 0{,}80$ responde 17 de 17 respondibles y abstiene 0 de 3 no respondibles; $t = 0{,}8465$, 15 de 17 y 3 de 3; y $t = 0{,}876$, 9 de 17 y 3 de 3. Se reporta solo como información: elegir el umbral con estos números contaminaría la evaluación de prueba.
+
+\section{Decisiones de arquitectura}
+La configuración implementada combina los documentos preparados, la segmentación 256/48, embeddings E5 con prefijo de pasaje, Milvus como almacén vectorial, una API FastAPI, una interfaz Streamlit (verificada en ejecución con \texttt{gemma2:2b}) y LLM locales servidos con Ollama. La Figura~\ref{fig:arquitectura} muestra el flujo, con la evaluación como bloque aparte.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize, node distance=3.2mm and 2.4mm,
+  box/.style={draw, rounded corners=1.5pt, align=center, minimum height=7mm, text width=19mm, inner sep=2pt},
+  data/.style={box, fill=gray!12},
+  group/.style={draw, dashed, rounded corners=3pt, inner sep=2.2mm},
+  lbl/.style={font=\scriptsize\bfseries, anchor=south west, inner sep=1pt},
+  arr/.style={-{Stealth[length=1.6mm]}, semithick},
+]
+\node[data, text width=40mm] (corpus) {Corpus Parquet\\146.923 documentos (es, en)};
+\node[box, below left=7mm and -16mm of corpus] (chunk) {Chunking por tokens\\256/48};
+\node[box, right=of chunk] (emb) {Embeddings e5-small\\(\texttt{passage:})};
+\node[box, right=of emb] (milvus) {Milvus\\HNSW, IP};
+\node[box, below=16mm of chunk] (ret) {Recuperación top-$k$\\(\texttt{query:})};
+\node[box, right=of ret] (prompt) {Prompt versionado\\\texttt{prompt\_v1}, citas [n]};
+\node[box, right=of prompt] (llm) {LLM local\\vía Ollama};
+\node[data, below=10mm of prompt, text width=40mm] (ui) {Interfaz Streamlit};
+\begin{scope}[on background layer]
+  \node[group, fit=(chunk)(emb)(milvus)] (ing) {};
+  \node[group, fit=(ret)(prompt)(llm), inner ysep=5mm] (api) {};
+\end{scope}
+\node[lbl] at (ing.north west) {Ingesta};
+\node[font=\scriptsize\bfseries, anchor=north west, inner sep=1pt, fill=white]
+  at ([xshift=1.2mm,yshift=-1.2mm]api.north west) {API FastAPI};
+\node[box, draw, densely dotted, below=4mm of ui, text width=62mm, fill=gray!5] (eval) {\textbf{Evaluación} (aparte): gold standard desarrollo/prueba, Recall@$k$, MRR, nDCG, abstención, fidelidad de citas, evaluación humana};
+\draw[arr] (corpus.south) -- ++(0,-2.5mm) -| (chunk.north);
+\draw[arr] (chunk) -- (emb);
+\draw[arr] (emb) -- (milvus);
+\draw[arr] (milvus.south) -- ++(0,-4mm) -| (ret.north);
+\draw[arr] (ret) -- (prompt);
+\draw[arr] (prompt) -- (llm);
+\draw[arr] (llm.south) |- (ui.east);
+\draw[arr] (ui.west) -| node[pos=0.75, left=2mm, anchor=east, align=right, font=\tiny, fill=white, inner sep=1pt] {pregunta,\\modelo, $k$} (ret.south);
+\end{tikzpicture}
+\caption{Arquitectura implementada. La interfaz Streamlit se verificó en ejecución con \texttt{gemma2:2b}: el servicio respondió a su chequeo de salud y sirvió la página, alcanzó la API dentro de Docker, y \texttt{/ask} con una pregunta de desarrollo respondió en 21,2~s con una cita válida a un fragmento recuperado. La ingesta segmenta el corpus, calcula embeddings E5 y los indexa en Milvus; la API recupera fragmentos, arma el prompt versionado y consulta el LLM local; la interfaz solo habla con la API. La evaluación es un bloque aparte que consume las respuestas registradas.}
+\label{fig:arquitectura}
+\end{figure}
+
+\textit{Encoder.} Se usa \texttt{multilingual-e5-small}, un encoder multilingüe entrenado con los prefijos \texttt{query:} y \texttt{passage:} para distinguir consultas de pasajes \cite{wang2022e5}, receta que la versión multilingüe conserva \cite{wang2024multilingual}; el código aplica cada prefijo en la consulta y en la indexación. BGE-M3 es una alternativa multilingüe que además combina varias funciones de recuperación \cite{chen2024bge}. La comparación controlada entre ambos sigue pendiente, por lo que la elección del encoder todavía no se considera justificada empíricamente.
+
+\textit{Índice.} Los vectores se normalizan con L2, de modo que el producto interno (IP) equivale al coseno. La colección usa un índice HNSW con métrica IP ($M=16$, \texttt{efConstruction}~$=200$ y \texttt{ef}~$=64$ en búsqueda). HNSW organiza los vectores en grafos jerárquicos de mundo pequeño navegables y permite una búsqueda aproximada de vecinos más cercanos eficiente y robusta \cite{malkov2018}, lo que evita comparar cada consulta con los 577.324 vectores del corpus completo.
+
+\textit{Abstención.} Un sistema de preguntas y respuestas debe reconocer cuándo la evidencia no permite responder \cite{rajpurkar2018}, y la abstención es un comportamiento que se estudia de forma específica en los LLM \cite{wen2024}. Self-RAG propone que el modelo decida cuándo recuperar y critique lo recuperado \cite{asai2023}. Además, los modelos de lenguaje aumentados por recuperación deben ser robustos ante contexto irrelevante \cite{yoran2023}, lo que motiva no entregar al LLM fragmentos con baja puntuación. Aquí se usa una regla más simple: si la mejor puntuación de recuperación queda por debajo de un umbral, el sistema responde que no hay evidencia suficiente y no llama al LLM. El umbral de 0,80 es provisional: las puntuaciones de E5 no se han calibrado en este corpus para decidir la abstención, y el valor se fijará con las 20 preguntas de desarrollo antes de evaluar con prueba.
+
+\textit{Contexto.} Los LLM aprovechan peor la información situada en el medio de contextos largos \cite{liu2024}. Por eso los fragmentos entran ordenados por puntuación y completos, hasta un presupuesto configurable de tokens (2.048 por defecto); nunca se corta un fragmento. La plantilla \texttt{prompt\_v1} numera cada fragmento como [n] y pide citarlo, y la API comprueba que cada cita corresponda a un fragmento entregado.
+
+\textit{Evaluación de fidelidad.} La fidelidad de las respuestas y de las citas se evaluará con anotación humana. RAGAS \cite{es2023ragas} y ARES \cite{saadfalcon2023ares} proponen marcos automáticos para evaluar sistemas RAG, y el uso de un LLM como juez \cite{zheng2023} servirá solo como complemento, contrastado con la evaluación humana.
+
+\textit{Inyección de prompt.} Los documentos recuperados pueden contener instrucciones que manipulen al LLM (inyección indirecta de prompt) \cite{greshake2023}, y un atacante podría insertar textos diseñados para alterar las respuestas de un sistema RAG \cite{zou2024}. El prompt ordena ignorar las instrucciones contenidas en los fragmentos; es una mitigación parcial y no se ha evaluado.
+
+Como referencias sobre recuperación híbrida y embeddings se consideran \cite{robertson2009,cormack2009,karpukhin2020,formal2021,chen2024bge,muennighoff2022mteb}.
+
+\section{Conclusiones preliminares}
+Con el corpus completo indexado, la recuperación encuentra el documento de evidencia entre los cinco primeros en 11 de 17 preguntas de prueba (Recall@5 0,647), En el agregado, lo hace mejor en Media Cloud (0,700) que en Bluesky (0,500). PI6, sin embargo, compara fuentes dentro de cada idioma: en inglés, Bluesky obtiene 0,500 y Media Cloud 1,000 ($n=4$ y $4$); en español, ambas obtienen 0,500 ($n=2$ y $6$). Solo la comparación en inglés va en la dirección de PI6, y con estos tamaños y una sola repetición no permite concluir nada. La parte de PI6 sobre abstención no se puede evaluar, porque no hubo abstenciones. Entre los modelos, \texttt{llama3.2:1b} y \texttt{gemma2:2b} citan fragmentos válidos en la mayoría de las respondibles, mientras que \texttt{qwen2.5:1.5b} y \texttt{llama3.2:3b} citan en menos de la mitad. Ningún modelo produjo citas fuera de rango. La abstención por umbral sobre el score máximo de E5 no separa las preguntas fuera del corpus de las respondibles: con 0,80 ninguna no respondible se abstuvo, y en desarrollo ningún umbral cumple las dos condiciones fijadas. La abstención necesita otra señal o una calibración con preguntas anotadas por personas.
+
+Sobre qué modelo local conviene usar, con los datos actuales \texttt{llama3.2:1b} ofrece el mejor equilibrio: cita un fragmento válido en 16 de 17 respondibles y tiene el menor tiempo medio (16,7~s). \texttt{gemma2:2b} queda cerca, con 14 de 17 y 23,0~s, y es el que más cita el documento de evidencia (10 de 17, frente a 9 de 17). \texttt{llama3.2:3b} es el más lento (39,5~s) y cita en 6 de 17, y \texttt{qwen2.5:1.5b} cita en 5 de 17. El resultado es preliminar: hay una sola repetición, solo 17 respondibles y 3 no respondibles, ningún modelo se abstuvo, y una cita válida no garantiza una respuesta correcta, porque la corrección de las respuestas no se evaluó.
+
+\section{Limitaciones y amenazas a la validez}
+Las preguntas del gold standard son sintéticas, redactadas con asistencia de IA a partir de un único chunk cada una, y no tienen validación humana. Hay una sola repetición por modelo, sin intervalos de confianza. El tema solo existe en Bluesky, así que no se puede desglosar por tema en Media Cloud ni en GDELT. La generación en CPU es lenta: en el experimento de 80 corridas, el tiempo medio por respuesta fue de 16,7 a 39,5~s según el modelo, con un máximo de 56,8~s (\texttt{llama3.2:3b}); en una prueba aislada de la interfaz con \texttt{gemma2:2b}, una consulta tardó 69,5~s de generación. \texttt{qwen2.5:1.5b} cita poco: con un solo prompt de depuración no citó ningún fragmento, y en el experimento solo 5 de sus 17 respuestas respondibles incluyen una cita válida. Los estratos son pequeños: 6 preguntas de Bluesky, 1 de GDELT y 3 no respondibles en prueba. El umbral de abstención de 0,80 no está calibrado con anotaciones humanas, y la calibración con desarrollo no encontró ningún valor que cumpla a la vez los dos criterios (abstenerse en todas las no respondibles y responder al menos el 90~\% de las respondibles). Con el umbral que se mantiene, 0,80, \textbf{el sistema no se abstiene en ninguna de las preguntas fuera del corpus}: las 3 de prueba llegan al LLM con los cuatro modelos. La ``cita válida'' solo comprueba que la cita apunta a un fragmento entregado, no que respalde la afirmación. La corrección de las respuestas no se evaluó. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. De las referencias se verificaron los datos bibliográficos, no que cada una respalde la afirmación en la que se cita.
+
+\section{Pendientes}
+Cada ítem indica por qué no se cierra con los datos actuales.
+\begin{itemize}
+  \item \textit{Requieren corridas de cómputo nuevas:} repeticiones por condición, con intervalos de confianza y registro de arranque en frío y en caliente; ablaciones de $k$, umbral y prompt; un segundo esquema de segmentación; un encoder alternativo, como BGE-M3, para justificar empíricamente la elección del encoder; una recuperación con $k=10$ para Recall@10 y nDCG@10; y experimentos a mayor escala.
+  \item \textit{Requieren trabajo humano:} revisión de las 40 preguntas del gold standard; un segundo anotador, con medición del acuerdo y resolución de desacuerdos; evaluación de la corrección de las respuestas frente a la referencia; calibración del umbral de abstención con anotaciones humanas (mientras tanto se mantiene 0,80 por decisión del autor); y revisión de que cada referencia respalde la afirmación en la que se cita.
+  \item \textit{Requieren una evaluación de robustez:} medición de alucinaciones y pruebas de inyección de prompt con documentos manipulados, para las que hace falta diseñar conjuntos de prueba propios.
+\end{itemize}
+
+\begin{thebibliography}{99}
+\bibitem{robertson2009} S. Robertson y H. Zaragoza, ``The Probabilistic Relevance Framework: BM25 and Beyond,'' 2009, doi:10.1561/1500000019.
+\bibitem{cormack2009} G. V. Cormack, C. L. A. Clarke y S. B\"uttcher, ``Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods,'' 2009, doi:10.1145/1571941.1572114.
+\bibitem{karpukhin2020} V. Karpukhin et al., ``Dense Passage Retrieval for Open-Domain Question Answering,'' 2020, arXiv:2004.04906.
+\bibitem{formal2021} T. Formal, B. Piwowarski y S. Clinchant, ``SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking,'' 2021, arXiv:2107.05720.
+\bibitem{thakur2021beir} N. Thakur et al., ``BEIR: A Heterogenous Benchmark for Zero-shot Evaluation of Information Retrieval Models,'' 2021, arXiv:2104.08663.
+\bibitem{wang2022e5} L. Wang et al., ``Text Embeddings by Weakly-Supervised Contrastive Pre-training,'' 2022, arXiv:2212.03533.
+\bibitem{wang2024multilingual} L. Wang et al., ``Multilingual E5 Text Embeddings: A Technical Report,'' 2024, arXiv:2402.05672.
+\bibitem{chen2024bge} J. Chen et al., ``BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation,'' 2024, arXiv:2402.03216.
+\bibitem{muennighoff2022mteb} N. Muennighoff et al., ``MTEB: Massive Text Embedding Benchmark,'' 2022, arXiv:2210.07316.
+\bibitem{malkov2018} Y. Malkov y D. Yashunin, ``Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs,'' \textit{IEEE TPAMI}, vol.~42, núm.~4, pp.~824--836, 2020, doi:10.1109/TPAMI.2018.2889473.
+\bibitem{liu2024} N. Liu et al., ``Lost in the Middle: How Language Models Use Long Contexts,'' \textit{TACL}, 2024.
+\bibitem{yoran2023} O. Yoran et al., ``Making Retrieval-Augmented Language Models Robust to Irrelevant Context,'' 2023, arXiv:2310.01558.
+\bibitem{asai2023} A. Asai et al., ``Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection,'' 2023, arXiv:2310.11511.
+\bibitem{rajpurkar2018} P. Rajpurkar, R. Jia y P. Liang, ``Know What You Don't Know: Unanswerable Questions for SQuAD,'' 2018, arXiv:1806.03822.
+\bibitem{wen2024} B. Wen et al., ``Know Your Limits: A Survey of Abstention in Large Language Models,'' 2024, arXiv:2407.18418.
+\bibitem{es2023ragas} S. Es et al., ``Ragas: Automated Evaluation of Retrieval Augmented Generation,'' 2023, arXiv:2309.15217.
+\bibitem{saadfalcon2023ares} J. Saad-Falcon et al., ``ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems,'' 2023, arXiv:2311.09476.
+\bibitem{zheng2023} L. Zheng et al., ``Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena,'' 2023, arXiv:2306.05685.
+\bibitem{jarvelin2002} K. J\"arvelin y J. Kek\"al\"ainen, ``Cumulated Gain-Based Evaluation of IR Techniques,'' 2002, doi:10.1145/582415.582418.
+\bibitem{qwen2024} Qwen Team, ``Qwen2.5 Technical Report,'' 2024, arXiv:2412.15115.
+\bibitem{gemma2024} Gemma Team, ``Gemma 2: Improving Open Language Models at a Practical Size,'' 2024, arXiv:2408.00118.
+\bibitem{llama2024} A. Grattafiori et al. (Llama Team), ``The Llama 3 Herd of Models,'' 2024, arXiv:2407.21783.
+\bibitem{greshake2023} K. Greshake et al., ``Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection,'' 2023, arXiv:2302.12173.
+\bibitem{zou2024} W. Zou et al., ``PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models,'' 2024, arXiv:2402.07867.
+\end{thebibliography}
+
+\end{document}

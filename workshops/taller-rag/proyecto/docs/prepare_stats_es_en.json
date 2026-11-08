@@ -1,0 +1,47 @@
+{
+ "input": "~/.open_corpus_co_es/data/dragons_rag/dragons_rag.parquet",
+ "languages": [
+  "es",
+  "en"
+ ],
+ "lid_threshold": 0.5,
+ "min_words": 5,
+ "rows_input": 169248,
+ "rows_after_dedup": 154477,
+ "removed_dedup": 14771,
+ "lid_candidates": 12005,
+ "lid_es": 1930,
+ "lid_und": 1673,
+ "lid_other": 8402,
+ "lid_by_source": {
+  "bluesky": {
+   "es": 1930,
+   "otro": 8402,
+   "und": 1673
+  }
+ },
+ "removed_language": 7050,
+ "rows_after_language": 147427,
+ "created_at_utc_null": 23,
+ "removed_short": 504,
+ "rows_output": 146923,
+ "output": "data/documentos_rag.parquet",
+ "columns_output": 41,
+ "by_source": {
+  "media_cloud": 94301,
+  "bluesky": 51876,
+  "gdelt": 746
+ },
+ "by_lang_source": {
+  "language_base": 136768,
+  "fasttext": 10155
+ },
+ "by_source_lang_source": {
+  "bluesky|fasttext": 10155,
+  "bluesky|language_base": 41721,
+  "gdelt|language_base": 746,
+  "media_cloud|language_base": 94301
+ },
+ "created_at_utc_min": "2006-08-24 00:00:00+00:00",
+ "created_at_utc_max": "2026-09-21 18:03:56.341143+00:00"
+}
