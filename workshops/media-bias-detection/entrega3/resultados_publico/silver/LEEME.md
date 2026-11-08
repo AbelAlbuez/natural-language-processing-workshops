@@ -278,3 +278,27 @@ Semilla 42. Se regenera con `SCRIPT=silver.py ./run.sh - muestra` y
 `SCRIPT=silver.py ./run.sh - dividir` (~2 min). Las fórmulas de las planillas se
 recalcularon con LibreOffice (`recalc.py` del skill xlsx: 200 fórmulas por
 planilla, 0 errores).
+
+## Resultado (8 de noviembre de 2026)
+
+> **La planilla 2 la anotó un modelo de lenguaje («Claude (IA)»), no una segunda
+> persona.** El acuerdo que sigue es entre persona e IA.
+
+- **Acuerdo en los 60 dobles:**
+  - κ = 0,30 en sesgado sí/no; en tipo y dirección es ≈ 0.
+  - La IA marca sesgo en 10, la persona en 32, y los 10 de la IA están entre
+    los 32 de la persona: es un umbral más exigente, no ruido.
+  - Quedan **32 desacuerdos sin adjudicar** en `adjudicacion.xlsx`.
+- **Tasa ponderada:**
+  - Persona: 39 % con Duque y 21 % con Petro.
+  - IA: 14 % y 12 %.
+  - Ninguna diferencia por medio entre gobiernos es significativa.
+- **Léxico de carga:** enriquece la muestra (65–69 % de sesgados en los estratos
+  con léxico según la persona, frente a 28 % en el resto), pero cubre menos del
+  15 % de los titulares sesgados de la población.
+- **«Gobierno Petro/Duque» no es un indicador de sesgo:** la IA juzga sesgado 1
+  de 13 de esos titulares.
+- **El clasificador TF-IDF no supera al léxico:** AUC 0,56–0,62.
+
+El análisis completo está en `analisis/` (lo genera `silver_analisis.py`;
+figuras 36–38) y en [`../../INFORME_FINAL.md`](../../INFORME_FINAL.md).

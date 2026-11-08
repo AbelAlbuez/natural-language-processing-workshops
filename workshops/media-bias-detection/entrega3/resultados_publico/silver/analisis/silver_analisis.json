@@ -1,0 +1,249 @@
+{
+  "anotadores": {
+    "planilla_1": [
+      "Jesús Romero"
+    ],
+    "planilla_2": [
+      "Claude (IA)"
+    ]
+  },
+  "dobles_tabla": {
+    "No": {
+      "No": 27,
+      "No se puede saber": 1,
+      "Sí": 22
+    },
+    "Sí": {
+      "No": 0,
+      "No se puede saber": 0,
+      "Sí": 10
+    }
+  },
+  "si_ia_y_no_persona": 0,
+  "tipos_ponderados": {
+    "humano": {
+      "duque|Atribución selectiva": 0.17784637080863244,
+      "duque|Encuadre parcial / omisión de contexto": 0.05694531677449834,
+      "duque|Lenguaje cargado": 0.6024610992681767,
+      "duque|Opinión como hecho": 0.1266864507231454,
+      "duque|Sensacionalismo": 0.036060762425547115,
+      "petro|Atribución selectiva": 0.025386083827002328,
+      "petro|Encuadre parcial / omisión de contexto": 0.04641036029623789,
+      "petro|Lenguaje cargado": 0.3815157919326639,
+      "petro|Opinión como hecho": 0.18489683139333285,
+      "petro|Sensacionalismo": 0.36179093255076306
+    },
+    "ia": {
+      "duque|Lenguaje cargado": 0.5662399841541504,
+      "duque|Opinión como hecho": 0.14662826936706355,
+      "duque|Sensacionalismo": 0.2871317464787861,
+      "petro|Lenguaje cargado": 0.008150886171926832,
+      "petro|Opinión como hecho": 0.1542244547646879,
+      "petro|Sensacionalismo": 0.8376246590633852
+    },
+    "combinado_laxo": {
+      "duque|Atribución selectiva": 0.15150394720409116,
+      "duque|Encuadre parcial / omisión de contexto": 0.04337109634333117,
+      "duque|Lenguaje cargado": 0.6498690290732452,
+      "duque|Opinión como hecho": 0.11215186711627326,
+      "duque|Sensacionalismo": 0.043104060263059296,
+      "petro|Atribución selectiva": 0.024052565093105927,
+      "petro|Encuadre parcial / omisión de contexto": 0.045623155843753836,
+      "petro|Lenguaje cargado": 0.33348372538188975,
+      "petro|Opinión como hecho": 0.2183437441133607,
+      "petro|Sensacionalismo": 0.3784968095678897
+    },
+    "combinado_estricto": {
+      "duque|Atribución selectiva": 0.20412303545413205,
+      "duque|Encuadre parcial / omisión de contexto": 0.05877481194652329,
+      "duque|Lenguaje cargado": 0.5859120120396982,
+      "duque|Opinión como hecho": 0.11111734652747436,
+      "duque|Sensacionalismo": 0.04007279403217208,
+      "petro|Atribución selectiva": 0.013639287078946249,
+      "petro|Encuadre parcial / omisión de contexto": 0.0686081309641033,
+      "petro|Lenguaje cargado": 0.09946787178068976,
+      "petro|Opinión como hecho": 0.25411850540005404,
+      "petro|Sensacionalismo": 0.5641662047762066
+    }
+  },
+  "direccion_entre_sesgados": {
+    "humano": {
+      "duque|Desfavorable": 0.792516847968632,
+      "duque|Favorable": 0.20748315203136808,
+      "petro|Desfavorable": 0.7634403892411186,
+      "petro|Favorable": 0.22149221262259602,
+      "petro|Neutra / no aplica": 0.015067398136285493
+    },
+    "ia": {
+      "duque|Desfavorable": 0.24634106334316477,
+      "duque|Favorable": 0.03320819651329412,
+      "duque|Neutra / no aplica": 0.7204507401435412,
+      "petro|Desfavorable": 0.8084822572548855,
+      "petro|Neutra / no aplica": 0.19151774274511454
+    },
+    "combinado_laxo": {
+      "duque|Desfavorable": 0.7298455956301394,
+      "duque|Favorable": 0.18664063681121124,
+      "duque|Neutra / no aplica": 0.08351376755864934,
+      "petro|Desfavorable": 0.7083947695610642,
+      "petro|Favorable": 0.1899346576233369,
+      "petro|Neutra / no aplica": 0.10167057281559891
+    },
+    "combinado_estricto": {
+      "duque|Desfavorable": 0.8272264110858576,
+      "duque|Favorable": 0.05959900037367959,
+      "duque|Neutra / no aplica": 0.11317458854046272,
+      "petro|Desfavorable": 0.6416751471665462,
+      "petro|Favorable": 0.22796355605322893,
+      "petro|Neutra / no aplica": 0.13036129678022487
+    }
+  },
+  "clasificador": [
+    {
+      "definicion": "humano",
+      "n": 176,
+      "positivos": 82,
+      "auc_media": 0.6157907636738907,
+      "auc_sd": 0.09244563532484425,
+      "ap_media": 0.6182008349011476,
+      "prevalencia": 0.4659090909090909,
+      "auc_lexico_carga": 0.6614106037151702,
+      "palabras_sesgado": [
+        "trump",
+        "no",
+        "paz",
+        "pedro",
+        "mas",
+        "rusia",
+        "en venezuela",
+        "polemica",
+        "que la",
+        "en las",
+        "en colombia",
+        "alcalde",
+        "golpe",
+        "gustavo",
+        "gustavo petro"
+      ],
+      "palabras_no_sesgado": [
+        "para",
+        "tras",
+        "para el",
+        "de",
+        "corrupcion",
+        "procuraduria",
+        "consejo",
+        "las",
+        "mexico",
+        "social",
+        "de petro",
+        "seleccion",
+        "pide",
+        "ley",
+        "como"
+      ]
+    },
+    {
+      "definicion": "ia",
+      "n": 180,
+      "positivos": 30,
+      "auc_media": 0.5557777777777777,
+      "auc_sd": 0.08679449262837641,
+      "ap_media": 0.24424934864890133,
+      "prevalencia": 0.16666666666666666,
+      "auc_lexico_carga": 0.6166666666666667,
+      "palabras_sesgado": [
+        "maduro",
+        "el",
+        "cartel",
+        "le",
+        "ministro",
+        "no",
+        "un",
+        "por",
+        "video",
+        "arremete",
+        "arremete contra",
+        "huila",
+        "duro",
+        "duro golpe",
+        "al eln"
+      ],
+      "palabras_no_sesgado": [
+        "congreso",
+        "reforma",
+        "elecciones",
+        "como",
+        "para",
+        "procuraduria",
+        "por escandalo",
+        "la reforma",
+        "duque",
+        "los",
+        "de venezuela",
+        "dice",
+        "historico",
+        "gobierno petro",
+        "lo"
+      ]
+    },
+    {
+      "definicion": "combinado_laxo",
+      "n": 297,
+      "positivos": 102,
+      "auc_media": 0.602023199023199,
+      "auc_sd": 0.06439943352355804,
+      "ap_media": 0.4705755063318858,
+      "prevalencia": 0.3434343434343434,
+      "auc_lexico_carga": 0.6468278388278388,
+      "palabras_sesgado": [
+        "trump",
+        "no",
+        "un",
+        "por",
+        "maduro",
+        "golpe",
+        "paz",
+        "escandalo en",
+        "que la",
+        "rusia",
+        "escandalo",
+        "da",
+        "el escandalo",
+        "de los",
+        "alcalde"
+      ],
+      "palabras_no_sesgado": [
+        "para",
+        "como",
+        "nueva",
+        "corrupcion",
+        "piden",
+        "reforma",
+        "acuerdo",
+        "pide",
+        "ante",
+        "seleccion",
+        "congreso",
+        "de petro",
+        "historico",
+        "la reforma",
+        "mexico"
+      ]
+    }
+  ],
+  "tipos_sin_ponderar": {
+    "humano": {
+      "Lenguaje cargado": 28,
+      "Opinión como hecho": 25,
+      "Sensacionalismo": 16,
+      "Atribución selectiva": 9,
+      "Encuadre parcial / omisión de contexto": 5
+    },
+    "ia": {
+      "Sensacionalismo": 13,
+      "Lenguaje cargado": 10,
+      "Opinión como hecho": 7
+    }
+  }
+}

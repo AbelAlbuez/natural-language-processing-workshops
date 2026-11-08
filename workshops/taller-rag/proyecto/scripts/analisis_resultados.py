@@ -159,7 +159,7 @@ def _fmt(v, pct=False):
 def print_tables(res):
     r = res["recuperacion"]
     print(f"Recuperación (n={r['n']} respondibles de prueba, a nivel de documento): "
-          f"recall@{res['k']}={_fmt(r[f'recall@{res['k']}'])}  MRR={_fmt(r['mrr'])}  nDCG@{res['k']}={_fmt(r[f'ndcg@{res['k']}'])}")
+          f"""recall@{res['k']}={_fmt(r[f"recall@{res['k']}"])}  MRR={_fmt(r['mrr'])}  nDCG@{res['k']}={_fmt(r[f"ndcg@{res['k']}"])}""")
     for grupo in ("por_fuente", "por_idioma"):
         for key, b in r[grupo].items():
             print(f"  {key:12s} n={b['n']:2d}  recall@5={_fmt(b['recall@5'])}  MRR={_fmt(b['mrr'])}  nDCG@5={_fmt(b['ndcg@5'])}")

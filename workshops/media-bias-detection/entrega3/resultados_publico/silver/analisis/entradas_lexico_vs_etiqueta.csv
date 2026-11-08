@@ -1,0 +1,28 @@
+entrada,definicion,titulares,sesgados,tasa,ejemplo_no_sesgado
+escandalo,humano,17,9,0.5294117647058824,Controversia por decision de juez en escandalo de corrupcion en la contraloria de antioquia
+polemica,humano,9,8,0.8888888888888888,Polemica en el congreso por proyectos sobre el consumo de drogas
+fracaso,humano,6,5,0.8333333333333334,Revolcon absoluto boric modifico su gabinete ministerial tras fracaso en nueva constitucion
+dice,humano,4,3,0.75,Petro dice que convocara conferencia internacional para construir dialogo de sociedad y gobierno venezolano
+golpe,humano,3,3,1.0,
+dictadura,humano,3,3,1.0,
+arremete,humano,3,3,1.0,
+historico,humano,3,2,0.6666666666666666,Historico primera caida del euro por debajo del dolar desde
+escandalo,ia,17,4,0.23529411764705882,Controversia por decision de juez en escandalo de corrupcion en la contraloria de antioquia
+historico,ia,8,0,0.0,Edmundo gonzalez invito a los venezolanos a participar en el historico proceso electoral
+polemica,ia,7,0,0.0,Polemica por fallo de la corte suprema sobre protestas
+dice,ia,7,0,0.0,Venezuela dice que el despliegue de aviones de estados unidos amenaza a gobierno de maduro nadie en su sano juicio puede avalar esta irracionalidad
+fracaso,ia,3,0,0.0,La investigacion de odebrecht es un fracaso ha imperado el tape tape senador jorge robledo
+golpe,ia,3,2,0.6666666666666666,La derecha en espana avanza y da golpe a pedro sanchez en elecciones
+dictadura,ia,3,1,0.3333333333333333,Embajador de nicaragua califico como dictadura el gobierno de daniel ortega
+revela,ia,3,0,0.0,Como yhonier leal planeo el asesinato de su hermano y su madre esto revelo la fiscalia
+escandalo,combinado_laxo,29,13,0.4482758620689655,Personeria suspendio a funcionaria de la uaesp tras escandalo de corrupcion
+polemica,combinado_laxo,12,8,0.6666666666666666,La nueva polemica que envuelve a la reforma pensional como deberia quedar el umbral
+historico,combinado_laxo,11,2,0.18181818181818182,Acuerdo historico en el g7 sobre un impuesto minimo a las grandes empresas
+dice,combinado_laxo,9,3,0.3333333333333333,Gobierno venezolano dice culmino exitoso dialogo con oposicion en barbados
+fracaso,combinado_laxo,7,5,0.7142857142857143,La investigacion de odebrecht es un fracaso ha imperado el tape tape senador jorge robledo
+dictadura,combinado_laxo,5,4,0.8,Embajador de nicaragua califico como dictadura el gobierno de daniel ortega
+golpe,combinado_laxo,4,4,1.0,
+arremete,combinado_laxo,3,3,1.0,
+insolito,combinado_laxo,3,2,0.6666666666666666,Insolito video de stripper se filtra durante audiencia virtual del presidente de peru
+cuestiona,combinado_laxo,3,1,0.3333333333333333,Comite santurban cuestiona a oficina del gobierno por proyecto para explotar cobre en santander
+revela,combinado_laxo,3,0,0.0,Fiscalia revela primeros resultados de investigacion por escandalo de carrotanques en la guajira

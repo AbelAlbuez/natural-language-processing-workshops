@@ -26,7 +26,7 @@ services:
       - milvus_data:/var/lib/milvus
       - ./config/embedEtcd.yaml:/milvus/configs/embedEtcd.yaml:ro
       - ./config/user.yaml:/milvus/configs/user.yaml:ro
-    ports: ["19530:19530", "9091:9091"]
+    ports: ["127.0.0.1:19530:19530", "127.0.0.1:9091:9091"]
     # Corrección: Milvus tarda en quedar listo; la API espera a este healthcheck.
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
@@ -44,7 +44,7 @@ services:
     container_name: rag-ollama
     # Corrección: versión fijada en lugar de "latest".
     image: ollama/ollama:${OLLAMA_VERSION:-0.40.13}
-    ports: ["11434:11434"]
+    ports: ["127.0.0.1:11434:11434"]
     environment:
       # Un solo modelo cargado a la vez y una petición a la vez: protege la RAM
       # y hace comparables las latencias entre modelos.

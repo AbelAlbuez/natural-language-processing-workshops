@@ -1,0 +1,78 @@
+# Despliegue continuo de taller-rag en la VM de demostración (Compute Engine).
+# Autenticación sin claves con Workload Identity Federation; acceso a la VM por túnel IAP.
+# Solo reconstruye y reinicia api y frontend: no ejecuta ingesta ni borra volúmenes.
+# El entorno produccion-demo exige aprobación manual antes de cada despliegue.
+name: CD taller-rag
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "workshops/taller-rag/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: cd-taller-rag
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    environment: produccion-demo
+    env:
+      # El clon del repositorio en la VM pertenece a este usuario; el usuario SSH del
+      # runner es otro, así que git se ejecuta como el dueño y docker con sudo.
+      VM_REPO_DIR: /home/abelalbuez/natural-language-processing-workshops
+      VM_REPO_OWNER: abelalbuez
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Verificar estado de la VM
+        id: vm
+        run: |
+          estado=$(gcloud compute instances describe "${{ vars.GCP_INSTANCE }}" \
+            --zone="${{ vars.GCP_ZONE }}" --project="${{ vars.GCP_PROJECT }}" --format="value(status)")
+          echo "Estado de la VM: $estado"
+          if [ "$estado" = "RUNNING" ]; then
+            echo "desplegar=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::La VM ${{ vars.GCP_INSTANCE }} está en estado $estado; no se despliega ni se enciende."
+            echo "desplegar=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Actualizar código y reconstruir api y frontend
+        if: steps.vm.outputs.desplegar == 'true'
+        run: |
+          gcloud compute ssh "${{ vars.GCP_INSTANCE }}" \
+            --zone="${{ vars.GCP_ZONE }}" --project="${{ vars.GCP_PROJECT }}" \
+            --tunnel-through-iap --quiet --strict-host-key-checking=no \
+            --command="set -e
+              sudo -u $VM_REPO_OWNER git -C $VM_REPO_DIR pull --ff-only origin main
+              sudo -u $VM_REPO_OWNER git -C $VM_REPO_DIR log --oneline -n 1
+              cd $VM_REPO_DIR/workshops/taller-rag/proyecto
+              sudo docker compose up -d --build api frontend"
+
+      - name: Verificar /health
+        if: steps.vm.outputs.desplegar == 'true'
+        run: |
+          # shellcheck disable=SC2016  # el bucle se expande en la VM, no en el runner
+          gcloud compute ssh "${{ vars.GCP_INSTANCE }}" \
+            --zone="${{ vars.GCP_ZONE }}" --project="${{ vars.GCP_PROJECT }}" \
+            --tunnel-through-iap --quiet --strict-host-key-checking=no \
+            --command='for i in $(seq 1 30); do
+                r=$(curl -fsS --max-time 5 http://localhost:8000/health || true)
+                case "$r" in *"\"ok\""*) echo "health: $r"; exit 0;; esac
+                sleep 5
+              done
+              echo "La API no respondió ok en /health" >&2; exit 1'

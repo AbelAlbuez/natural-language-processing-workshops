@@ -1,6 +1,8 @@
 # Resumen ejecutivo — Agenda de cinco medios bajo Duque y Petro
 
-*6 de noviembre de 2026 · corpus `news_corpus` (dump 2026-10-04, slug procesado 2026-11-04)*
+**Informe final con todos los hallazgos: [`INFORME_FINAL.md`](INFORME_FINAL.md).**
+
+*6 de noviembre de 2026 (silver standard: 8 de noviembre) · corpus `news_corpus` (dump 2026-10-04, slug procesado 2026-11-04)*
 
 ## Qué se hizo
 
@@ -162,12 +164,26 @@ eventos.
 - **Silver standard** ([guía](resultados_publico/silver/LEEME.md)):
   - Dos planillas de 180 titulares (60 dobles), a ciegas del medio, con el
     contexto de otros medios.
-  - Esperan la anotación del equipo (~2 h por persona).
+  - **Anotado el 8 de noviembre.** La planilla 2 la anotó **una IA
+    («Claude (IA)»)**, no una segunda persona.
+  - **Acuerdo persona–IA: κ = 0,30.** La IA es más exigente: sus 10 «Sí» en los
+    dobles están entre los 32 de la persona.
+  - **Sesgo juzgado (ponderado):**
+    - persona: 39 % con Duque y 21 % con Petro;
+    - IA: 14 % y 12 %;
+    - **no sube con Petro,** aunque la carga negativa sí sube;
+    - **ninguna diferencia por medio entre gobiernos es significativa.**
+  - **Indicadores automáticos:**
+    - el léxico de carga cubre menos del 15 % de los sesgados;
+    - «Gobierno Petro» no es indicador de sesgo;
+    - un clasificador TF-IDF no supera al léxico (AUC 0,56–0,62).
+  - Detalle en [`INFORME_FINAL.md`](INFORME_FINAL.md#46-silver-standard-cuánto-sesgo-ve-un-anotador-y-qué-tan-de-acuerdo-están).
 
 ## Siguientes pasos recomendados
 
-1. **Anotar el silver standard** y usarlo para medir la precisión del léxico
-   de carga.
+1. **Que una segunda persona anote la planilla 2 del silver standard** (o
+   adjudique los 32 desacuerdos), para tener un κ entre humanos. Después, un
+   silver standard más grande y centrado en titulares sobre el gobierno.
 2. Revisar con el equipo los ejemplos de `resultados_publico/lexico/ejemplos_lexico.md`
    antes de citar las diferencias léxicas, y estimar el **recall** del
    emparejamiento (anotar ausencias), que hoy limita la lectura de la omisión.
@@ -189,4 +205,5 @@ eventos.
 - Omisión y elección léxica: `resultados_publico/omision/` y `resultados_publico/lexico/`
   (cada uno con su `LEEME.md` y figuras 23–29)
 - Lenguaje cargado, banda 0,65–0,80 y silver standard: `resultados_publico/carga/`,
-  `resultados_publico/lexico_banda/` y `resultados_publico/silver/` (figuras 30–35)
+  `resultados_publico/lexico_banda/` y `resultados_publico/silver/` (figuras 30–35;
+  análisis del silver en `resultados_publico/silver/analisis/`, figuras 36–38)

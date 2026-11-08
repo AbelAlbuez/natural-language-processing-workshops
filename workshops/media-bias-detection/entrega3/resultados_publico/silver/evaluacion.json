@@ -1,0 +1,39 @@
+{
+  "dobles_anotadas": 60,
+  "acuerdo_observado_3": 0.6166666666666667,
+  "kappa_sesgado_3_clases": 0.2849740932642487,
+  "kappa_sesgado_binario": 0.2978723404255319,
+  "kappa_si_no_sin_nsps": 0.2937976060935799,
+  "ambas_si": 10,
+  "kappa_tipo_si_ambas_si": -0.03896103896103896,
+  "kappa_dirección_si_ambas_si": -0.014492753623188337,
+  "kappa_intensidad_ponderada": -0.125,
+  "titulares": 300,
+  "anotados": 300,
+  "fuente": {
+    "una persona": 240,
+    "desacuerdo": 32,
+    "acuerdo de dos": 28
+  },
+  "sesgado": {
+    "No": 194,
+    "Sí": 80,
+    "Pendiente": 23,
+    "No se puede saber": 3
+  },
+  "pendientes_de_adjudicar": 32,
+  "tipo": {
+    "Opinión como hecho": 22,
+    "Lenguaje cargado": 21,
+    "Sensacionalismo": 20,
+    "Pendiente": 8,
+    "Atribución selectiva": 6,
+    "Encuadre parcial / omisión de contexto": 3
+  },
+  "direccion": {
+    "Desfavorable": 41,
+    "Favorable": 18,
+    "Neutra / no aplica": 14,
+    "Pendiente": 7
+  }
+}
