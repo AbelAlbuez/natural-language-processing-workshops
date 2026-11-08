@@ -38,6 +38,8 @@ Las cifras del informe se compararon una por una con los archivos de resultados 
 
 Los commits de octubre (entrega 2) quedan fuera del análisis. Solo se usan cuando el informe final cita cifras de esa entrega.
 
+**Fuera de alcance: «Entregable: RAG con Milvus y Solr, evaluación y gold».** Ese nombre corresponde a la ejecución 42528824869 de GitHub Actions (workflow «CD taller-rag», cancelada), no a un commit de este proyecto. La disparó el commit `30afd3d` (kellyjleon, 2026-11-08), cuyos 146 archivos están todos en `workshops/taller-rag/entregable/`. No toca `media-bias-detection` ni `workshops/taller-rag/proyecto/`, y no incluye ningún archivo `.env` (solo `.env.example`).
+
 ## 1. Qué hizo el equipo
 
 - **4–5 de noviembre: corpus y agenda.** Se limpió el slug de las URLs y se marcaron las piezas no informativas en el corpus. Se versionó el dump procesado con Git LFS. Se armó el pipeline LDA conjunto Duque + Petro, el subcorpus de asuntos públicos, el control por sección, un LDA de consenso y BERTopic.
