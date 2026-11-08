@@ -26,7 +26,7 @@ Repositorio: \url{https://github.com/AbelAlbuez/natural-language-processing-work
 \maketitle
 
 \begin{abstract}
-Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. Los embeddings de los 577.324 chunks están calculados y cargados en Milvus con una ingesta por lotes idempotente, y la API responde con citas a los fragmentos recuperados. La configuración de generación quedó congelada con temperatura 0 y \texttt{repeat\_penalty} 1,1. El gold standard tiene 40 preguntas (34 respondibles sintéticas y 6 no respondibles), divididas en 20 de desarrollo y 20 de prueba y pendientes de revisión humana. Se presentan resultados preliminares en la partición de prueba con una repetición por modelo: Recall@5 de 0,647 a nivel de documento, y modelos que citan fragmentos válidos en entre 5 y 16 de las 17 preguntas respondibles. Con el umbral de 0,80 no hubo abstención en las preguntas fuera del corpus, y la calibración con desarrollo no encontró un umbral que cumpla los criterios fijados. El umbral se mantiene en 0,80 por decisión del autor, con la limitación de que el sistema no se abstiene en las preguntas fuera del corpus. Las referencias bibliográficas están por verificar.
+Este documento describe el corpus, la segmentación, la arquitectura y el protocolo de evaluación de un asistente de generación aumentada por recuperación (RAG) sobre noticias y publicaciones de Bluesky en español e inglés. El corpus preparado contiene 146.923 documentos y la segmentación por tokens 256/48 produce 577.324 chunks, ambos verificados. La pila usa Milvus standalone v2.6.25 sin MinIO, ya validado, y modelos de lenguaje locales servidos con Ollama. Los pesos del encoder \texttt{intfloat/multilingual-e5-small} están descargados y cargan sin conexión. Los embeddings de los 577.324 chunks están calculados y cargados en Milvus con una ingesta por lotes idempotente, y la API responde con citas a los fragmentos recuperados. La configuración de generación quedó congelada con temperatura 0 y \texttt{repeat\_penalty} 1,1. El gold standard tiene 40 preguntas (34 respondibles sintéticas y 6 no respondibles), divididas en 20 de desarrollo y 20 de prueba y pendientes de revisión humana. Se presentan resultados preliminares en la partición de prueba con una repetición por modelo: Recall@5 de 0,647 a nivel de documento, y modelos que citan fragmentos válidos en entre 5 y 16 de las 17 preguntas respondibles. Con el umbral de 0,80 no hubo abstención en las preguntas fuera del corpus, y la calibración con desarrollo no encontró un umbral que cumpla los criterios fijados. El umbral se mantiene en 0,80 por decisión del autor, con la limitación de que el sistema no se abstiene en las preguntas fuera del corpus. Los datos bibliográficos de las 36 referencias se verificaron contra arXiv, Crossref o la fuente original.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -130,7 +130,7 @@ Total & 220 & 280 & 500 \\
 \label{fig:piloto}
 \end{figure}
 
-Entre condiciones experimentales solo cambia el LLM; corpus, segmentación, encoder, índice, \texttt{top-k} y prompt se mantienen fijos. Según \path{docs/EVALUACION.md}, cada condición se repetirá al menos tres veces, registrando el arranque en frío y en caliente. Los modelos locales previstos se servirán con Ollama \cite{qwen2024,llama2024,gemma2024}. Los tiempos de cálculo de embeddings e ingesta están en la Sección~\ref{sec:implementacion}, y las métricas de la partición de prueba, con una sola repetición, en la Sección~\ref{sec:resultados}. Las repeticiones y el registro de arranque en frío y en caliente siguen pendientes. Las referencias de evaluación automática son candidatas por verificar \cite{thakur2021beir,es2023ragas,saadfalcon2023ares}.
+Entre condiciones experimentales solo cambia el LLM; corpus, segmentación, encoder, índice, \texttt{top-k} y prompt se mantienen fijos. Según \path{docs/EVALUACION.md}, cada condición se repetirá al menos tres veces, registrando el arranque en frío y en caliente. Los modelos locales previstos se servirán con Ollama \cite{qwen2024,llama2024,gemma2024}. Los tiempos de cálculo de embeddings e ingesta están en la Sección~\ref{sec:implementacion}, y las métricas de la partición de prueba, con una sola repetición, en la Sección~\ref{sec:resultados}. Las repeticiones y el registro de arranque en frío y en caliente siguen pendientes. Como referencias de evaluación automática se consideran \cite{thakur2021beir,es2023ragas,saadfalcon2023ares}.
 
 \section{Gold standard y partición (6)}
 El gold standard vigente (\path{docs/gold_standard.csv}) contiene 40 preguntas: 34 respondibles sintéticas y 6 no respondibles. Cada respondible se basa en un único chunk de la segmentación, y su respuesta de referencia se deduce solo de ese chunk. El documento de ese chunk es la evidencia. Las no respondibles tratan temas ajenos al corpus (recetas, deportes, programación) y no tienen fuente, tema, respuesta ni evidencia. El tema (una de las 18 etiquetas de \texttt{collection\_keyword\_label}) solo se asigna en Bluesky, porque Media Cloud y GDELT no tienen esa etiqueta. Las 40 preguntas están \textbf{pendientes de revisión humana}. El validador (\path{scripts/validar_gold_standard.py}) aprueba las 13 verificaciones. La Tabla~\ref{tab:gold} resume la distribución.
@@ -293,19 +293,19 @@ La configuración implementada combina los documentos preparados, la segmentaci�
 
 \textit{Inyección de prompt.} Los documentos recuperados pueden contener instrucciones que manipulen al LLM (inyección indirecta de prompt) \cite{greshake2023}, y un atacante podría insertar textos diseñados para alterar las respuestas de un sistema RAG \cite{zou2024}. El prompt ordena ignorar las instrucciones contenidas en los fragmentos; es una mitigación parcial y no se ha evaluado.
 
-Las referencias sobre recuperación híbrida y embeddings son candidatas por verificar \cite{robertson2009,cormack2009,karpukhin2020,formal2021,chen2024bge,muennighoff2022mteb}.
+Como referencias sobre recuperación híbrida y embeddings se consideran \cite{robertson2009,cormack2009,karpukhin2020,formal2021,chen2024bge,muennighoff2022mteb}.
 
 \section{Conclusiones preliminares}
 Con el corpus completo indexado, la recuperación encuentra el documento de evidencia entre los cinco primeros en 11 de 17 preguntas de prueba (Recall@5 0,647), En el agregado, lo hace mejor en Media Cloud (0,700) que en Bluesky (0,500). PI6, sin embargo, compara fuentes dentro de cada idioma: en inglés, Bluesky obtiene 0,500 y Media Cloud 1,000 ($n=4$ y $4$); en español, ambas obtienen 0,500 ($n=2$ y $6$). Solo la comparación en inglés va en la dirección de PI6, y con estos tamaños y una sola repetición no permite concluir nada. La parte de PI6 sobre abstención no se puede evaluar, porque no hubo abstenciones. Entre los modelos, \texttt{llama3.2:1b} y \texttt{gemma2:2b} citan fragmentos válidos en la mayoría de las respondibles, mientras que \texttt{qwen2.5:1.5b} y \texttt{llama3.2:3b} citan en menos de la mitad. Ningún modelo produjo citas fuera de rango. La abstención por umbral sobre el score máximo de E5 no separa las preguntas fuera del corpus de las respondibles: con 0,80 ninguna no respondible se abstuvo, y en desarrollo ningún umbral cumple las dos condiciones fijadas. La abstención necesita otra señal o una calibración con preguntas anotadas por personas.
 
 \section{Limitaciones y amenazas a la validez}
-Las preguntas del gold standard son sintéticas, redactadas con asistencia de IA a partir de un único chunk cada una, y no tienen validación humana. Hay una sola repetición por modelo, sin intervalos de confianza. El tema solo existe en Bluesky, así que no se puede desglosar por tema en Media Cloud ni en GDELT. La generación en CPU es lenta: en el experimento de 80 corridas, el tiempo medio por respuesta fue de 16,7 a 39,5~s según el modelo, con un máximo de 56,8~s (\texttt{llama3.2:3b}); en una prueba aislada de la interfaz con \texttt{gemma2:2b}, una consulta tardó 69,5~s de generación. \texttt{qwen2.5:1.5b} cita poco: con un solo prompt de depuración no citó ningún fragmento, y en el experimento solo 5 de sus 17 respuestas respondibles incluyen una cita válida. Los estratos son pequeños: 6 preguntas de Bluesky, 1 de GDELT y 3 no respondibles en prueba. El umbral de abstención de 0,80 no está calibrado con anotaciones humanas, y la calibración con desarrollo no encontró ningún valor que cumpla a la vez los dos criterios (abstenerse en todas las no respondibles y responder al menos el 90~\% de las respondibles). Con el umbral que se mantiene, 0,80, \textbf{el sistema no se abstiene en ninguna de las preguntas fuera del corpus}: las 3 de prueba llegan al LLM con los cuatro modelos. La ``cita válida'' solo comprueba que la cita apunta a un fragmento entregado, no que respalde la afirmación. La corrección de las respuestas no se evaluó. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. Todas las referencias permanecen por verificar.
+Las preguntas del gold standard son sintéticas, redactadas con asistencia de IA a partir de un único chunk cada una, y no tienen validación humana. Hay una sola repetición por modelo, sin intervalos de confianza. El tema solo existe en Bluesky, así que no se puede desglosar por tema en Media Cloud ni en GDELT. La generación en CPU es lenta: en el experimento de 80 corridas, el tiempo medio por respuesta fue de 16,7 a 39,5~s según el modelo, con un máximo de 56,8~s (\texttt{llama3.2:3b}); en una prueba aislada de la interfaz con \texttt{gemma2:2b}, una consulta tardó 69,5~s de generación. \texttt{qwen2.5:1.5b} cita poco: con un solo prompt de depuración no citó ningún fragmento, y en el experimento solo 5 de sus 17 respuestas respondibles incluyen una cita válida. Los estratos son pequeños: 6 preguntas de Bluesky, 1 de GDELT y 3 no respondibles en prueba. El umbral de abstención de 0,80 no está calibrado con anotaciones humanas, y la calibración con desarrollo no encontró ningún valor que cumpla a la vez los dos criterios (abstenerse en todas las no respondibles y responder al menos el 90~\% de las respondibles). Con el umbral que se mantiene, 0,80, \textbf{el sistema no se abstiene en ninguna de las preguntas fuera del corpus}: las 3 de prueba llegan al LLM con los cuatro modelos. La ``cita válida'' solo comprueba que la cita apunta a un fragmento entregado, no que respalde la afirmación. La corrección de las respuestas no se evaluó. La preparación, los filtros de idioma y la segmentación determinan la población evaluada; cualquier cambio exige documentar una nueva versión de los datos. De las referencias se verificaron los datos bibliográficos, no que cada una respalde la afirmación en la que se cita.
 
 \section{Pendientes}
 \begin{itemize}
   \item Revisión humana de las 40 preguntas del gold standard.
   \item Un segundo anotador, con medición del acuerdo y resolución de desacuerdos.
-  \item Verificación de las 36 referencias contra su fuente original.
+  \item Revisión de que cada referencia respalde la afirmación en la que se cita.
   \item Calibración del umbral de abstención con anotaciones humanas; mientras tanto se mantiene 0,80 por decisión del autor.
   \item Evaluación de la corrección de las respuestas frente a la referencia.
   \item Repeticiones por condición, con intervalos de confianza.
@@ -314,42 +314,42 @@ Las preguntas del gold standard son sintéticas, redactadas con asistencia de IA
 \end{itemize}
 
 \begin{thebibliography}{99}
-\bibitem{robertson2009} S. Robertson y H. Zaragoza, ``The Probabilistic Relevance Framework: BM25 and Beyond,'' 2009, doi:10.1561/1500000019. \textit{Por verificar}.
-\bibitem{cormack2009} G. V. Cormack, C. L. A. Clarke y S. B\"uttcher, ``Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods,'' 2009, doi:10.1145/1571941.1572114. \textit{Por verificar}.
-\bibitem{karpukhin2020} V. Karpukhin et al., ``Dense Passage Retrieval for Open-Domain Question Answering,'' 2020, arXiv:2004.04906. \textit{Por verificar}.
-\bibitem{formal2021} T. Formal, B. Piwowarski y S. Clinchant, ``SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking,'' 2021, arXiv:2107.05720. \textit{Por verificar}.
-\bibitem{thakur2021beir} N. Thakur et al., ``BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models,'' 2021, arXiv:2104.08663. \textit{Por verificar}.
-\bibitem{wang2022e5} L. Wang et al., ``Text Embeddings by Weakly-Supervised Contrastive Pre-training,'' 2022, arXiv:2212.03533. \textit{Por verificar}.
-\bibitem{wang2024multilingual} L. Wang et al., ``Multilingual E5 Text Embeddings: A Technical Report,'' 2024, arXiv:2402.05672. \textit{Por verificar}.
-\bibitem{chen2024bge} J. Chen et al., ``BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation,'' 2024, arXiv:2402.03216. \textit{Por verificar}.
-\bibitem{muennighoff2022mteb} N. Muennighoff et al., ``MTEB: Massive Text Embedding Benchmark,'' 2022, arXiv:2210.07316. \textit{Por verificar}.
-\bibitem{malkov2018} Y. Malkov y D. Yashunin, ``Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs,'' \textit{IEEE TPAMI}, 2018. \textit{Por verificar}.
-\bibitem{zhang2023miracl} X. Zhang et al., ``MIRACL: A Multilingual Retrieval Dataset Covering 18 Diverse Languages,'' 2023, arXiv:2210.09984. \textit{Por verificar}.
-\bibitem{nogueira2019} R. Nogueira y K. Cho, ``Passage Re-ranking with BERT,'' 2019, arXiv:1901.04085. \textit{Por verificar}.
-\bibitem{khattab2020} O. Khattab y M. Zaharia, ``ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT,'' 2020, arXiv:2004.12832. \textit{Por verificar}.
-\bibitem{sun2023} W. Sun et al., ``Is ChatGPT Good at Search? Investigating Large Language Models as Re-Ranking Agents,'' 2023, arXiv:2304.09542. \textit{Por verificar}.
-\bibitem{anthropic2024} Anthropic, ``Introducing Contextual Retrieval,'' 2024, \url{https://www.anthropic.com/news/contextual-retrieval}. \textit{Por verificar}.
-\bibitem{gunther2024} M. G\"unther et al., ``Late Chunking: Contextual Chunk Embeddings Using Long-Context Embedding Models,'' 2024, arXiv:2409.04701. \textit{Por verificar}.
-\bibitem{sarthi2024} P. Sarthi et al., ``RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval,'' 2024, arXiv:2401.18059. \textit{Por verificar}.
-\bibitem{liu2024} N. Liu et al., ``Lost in the Middle: How Language Models Use Long Contexts,'' \textit{TACL}, 2024. \textit{Por verificar}.
-\bibitem{yoran2023} O. Yoran et al., ``Making Retrieval-Augmented Language Models Robust to Irrelevant Context,'' 2023, arXiv:2310.01558. \textit{Por verificar}.
-\bibitem{yan2024} S.-Q. Yan et al., ``Corrective Retrieval Augmented Generation (CRAG),'' 2024, arXiv:2401.15884. \textit{Por verificar}.
-\bibitem{asai2023} A. Asai et al., ``Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection,'' 2023, arXiv:2310.11511. \textit{Por verificar}.
-\bibitem{rajpurkar2018} P. Rajpurkar, R. Jia y P. Liang, ``Know What You Don't Know: Unanswerable Questions for SQuAD,'' 2018, arXiv:1806.03822. \textit{Por verificar}.
-\bibitem{wen2024} B. Wen et al., ``Know Your Limits: A Survey of Abstention in Large Language Models,'' 2024, arXiv:2407.18418. \textit{Por verificar}.
-\bibitem{es2023ragas} S. Es et al., ``RAGAS: Automated Evaluation of Retrieval Augmented Generation,'' 2023, arXiv:2309.15217. \textit{Por verificar}.
-\bibitem{saadfalcon2023ares} J. Saad-Falcon et al., ``ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems,'' 2023, arXiv:2311.09476. \textit{Por verificar}.
-\bibitem{zheng2023} L. Zheng et al., ``Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena,'' 2023, arXiv:2306.05685. \textit{Por verificar}.
-\bibitem{jarvelin2002} K. J\"arvelin y J. Kek\"al\"ainen, ``Cumulated Gain-Based Evaluation of IR Techniques,'' 2002, doi:10.1145/582415.582418. \textit{Por verificar}.
-\bibitem{qwen2024} Qwen Team, ``Qwen2.5 Technical Report,'' 2024, arXiv:2412.15115. \textit{Por verificar}.
-\bibitem{gemma2024} Gemma Team, ``Gemma 2: Improving Open Language Models at a Practical Size,'' 2024, arXiv:2408.00118. \textit{Por verificar}.
-\bibitem{llama2024} A. Grattafiori et al. (Llama Team), ``The Llama 3 Herd of Models,'' 2024, arXiv:2407.21783. \textit{Por verificar}.
-\bibitem{abdin2024} M. Abdin et al., ``Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone,'' 2024, arXiv:2404.14219. \textit{Por verificar}.
-\bibitem{broder1997} A. Z. Broder, ``On the Resemblance and Containment of Documents,'' 1997, doi:10.1109/SEQUEN.1997.666900. \textit{Por verificar}.
-\bibitem{charikar2002} M. S. Charikar, ``Similarity Estimation Techniques from Rounding Algorithms,'' 2002, doi:10.1145/509907.509965. \textit{Por verificar}.
-\bibitem{leskovec2009} J. Leskovec, L. Backstrom y J. Kleinberg, ``Meme-tracking and the Dynamics of the News Cycle,'' 2009, doi:10.1145/1557019.1557077. \textit{Por verificar}.
-\bibitem{greshake2023} K. Greshake et al., ``Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection,'' 2023, arXiv:2302.12173. \textit{Por verificar}.
-\bibitem{zou2024} W. Zou et al., ``PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models,'' 2024, arXiv:2402.07867. \textit{Por verificar}.
+\bibitem{robertson2009} S. Robertson y H. Zaragoza, ``The Probabilistic Relevance Framework: BM25 and Beyond,'' 2009, doi:10.1561/1500000019.
+\bibitem{cormack2009} G. V. Cormack, C. L. A. Clarke y S. B\"uttcher, ``Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods,'' 2009, doi:10.1145/1571941.1572114.
+\bibitem{karpukhin2020} V. Karpukhin et al., ``Dense Passage Retrieval for Open-Domain Question Answering,'' 2020, arXiv:2004.04906.
+\bibitem{formal2021} T. Formal, B. Piwowarski y S. Clinchant, ``SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking,'' 2021, arXiv:2107.05720.
+\bibitem{thakur2021beir} N. Thakur et al., ``BEIR: A Heterogenous Benchmark for Zero-shot Evaluation of Information Retrieval Models,'' 2021, arXiv:2104.08663.
+\bibitem{wang2022e5} L. Wang et al., ``Text Embeddings by Weakly-Supervised Contrastive Pre-training,'' 2022, arXiv:2212.03533.
+\bibitem{wang2024multilingual} L. Wang et al., ``Multilingual E5 Text Embeddings: A Technical Report,'' 2024, arXiv:2402.05672.
+\bibitem{chen2024bge} J. Chen et al., ``BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation,'' 2024, arXiv:2402.03216.
+\bibitem{muennighoff2022mteb} N. Muennighoff et al., ``MTEB: Massive Text Embedding Benchmark,'' 2022, arXiv:2210.07316.
+\bibitem{malkov2018} Y. Malkov y D. Yashunin, ``Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs,'' \textit{IEEE TPAMI}, vol.~42, núm.~4, pp.~824--836, 2020, doi:10.1109/TPAMI.2018.2889473.
+\bibitem{zhang2023miracl} X. Zhang et al., ``MIRACL: A Multilingual Retrieval Dataset Covering 18 Diverse Languages,'' \textit{TACL}, vol.~11, 2023, doi:10.1162/tacl\_a\_00595.
+\bibitem{nogueira2019} R. Nogueira y K. Cho, ``Passage Re-ranking with BERT,'' 2019, arXiv:1901.04085.
+\bibitem{khattab2020} O. Khattab y M. Zaharia, ``ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT,'' 2020, arXiv:2004.12832.
+\bibitem{sun2023} W. Sun et al., ``Is ChatGPT Good at Search? Investigating Large Language Models as Re-Ranking Agents,'' 2023, arXiv:2304.09542.
+\bibitem{anthropic2024} Anthropic, ``Introducing Contextual Retrieval,'' 2024, \url{https://www.anthropic.com/news/contextual-retrieval}.
+\bibitem{gunther2024} M. G\"unther et al., ``Late Chunking: Contextual Chunk Embeddings Using Long-Context Embedding Models,'' 2024, arXiv:2409.04701.
+\bibitem{sarthi2024} P. Sarthi et al., ``RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval,'' 2024, arXiv:2401.18059.
+\bibitem{liu2024} N. Liu et al., ``Lost in the Middle: How Language Models Use Long Contexts,'' \textit{TACL}, 2024.
+\bibitem{yoran2023} O. Yoran et al., ``Making Retrieval-Augmented Language Models Robust to Irrelevant Context,'' 2023, arXiv:2310.01558.
+\bibitem{yan2024} S.-Q. Yan et al., ``Corrective Retrieval Augmented Generation,'' 2024, arXiv:2401.15884.
+\bibitem{asai2023} A. Asai et al., ``Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection,'' 2023, arXiv:2310.11511.
+\bibitem{rajpurkar2018} P. Rajpurkar, R. Jia y P. Liang, ``Know What You Don't Know: Unanswerable Questions for SQuAD,'' 2018, arXiv:1806.03822.
+\bibitem{wen2024} B. Wen et al., ``Know Your Limits: A Survey of Abstention in Large Language Models,'' 2024, arXiv:2407.18418.
+\bibitem{es2023ragas} S. Es et al., ``Ragas: Automated Evaluation of Retrieval Augmented Generation,'' 2023, arXiv:2309.15217.
+\bibitem{saadfalcon2023ares} J. Saad-Falcon et al., ``ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems,'' 2023, arXiv:2311.09476.
+\bibitem{zheng2023} L. Zheng et al., ``Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena,'' 2023, arXiv:2306.05685.
+\bibitem{jarvelin2002} K. J\"arvelin y J. Kek\"al\"ainen, ``Cumulated Gain-Based Evaluation of IR Techniques,'' 2002, doi:10.1145/582415.582418.
+\bibitem{qwen2024} Qwen Team, ``Qwen2.5 Technical Report,'' 2024, arXiv:2412.15115.
+\bibitem{gemma2024} Gemma Team, ``Gemma 2: Improving Open Language Models at a Practical Size,'' 2024, arXiv:2408.00118.
+\bibitem{llama2024} A. Grattafiori et al. (Llama Team), ``The Llama 3 Herd of Models,'' 2024, arXiv:2407.21783.
+\bibitem{abdin2024} M. Abdin et al., ``Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone,'' 2024, arXiv:2404.14219.
+\bibitem{broder1997} A. Z. Broder, ``On the Resemblance and Containment of Documents,'' 1997, doi:10.1109/SEQUEN.1997.666900.
+\bibitem{charikar2002} M. S. Charikar, ``Similarity Estimation Techniques from Rounding Algorithms,'' 2002, doi:10.1145/509907.509965.
+\bibitem{leskovec2009} J. Leskovec, L. Backstrom y J. Kleinberg, ``Meme-tracking and the Dynamics of the News Cycle,'' 2009, doi:10.1145/1557019.1557077.
+\bibitem{greshake2023} K. Greshake et al., ``Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection,'' 2023, arXiv:2302.12173.
+\bibitem{zou2024} W. Zou et al., ``PoisonedRAG: Knowledge Corruption Attacks to Retrieval-Augmented Generation of Large Language Models,'' 2024, arXiv:2402.07867.
 \end{thebibliography}
 
 \end{document}
