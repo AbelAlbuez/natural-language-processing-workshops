@@ -1,0 +1,71 @@
+# Integración continua del proyecto workshops/taller-rag/proyecto.
+# Pruebas sin servicios en vivo (RAG_LIVE sin definir), validación del compose y
+# construcción de las imágenes de la API y de la interfaz, sin publicarlas.
+name: CI taller-rag
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "workshops/taller-rag/**"
+      - ".github/workflows/ci-taller-rag.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "workshops/taller-rag/**"
+      - ".github/workflows/ci-taller-rag.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-taller-rag-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: workshops/taller-rag/proyecto
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: workshops/taller-rag/proyecto/requirements-api.txt
+      - name: Instalar dependencias
+        # Igual que el Dockerfile: torch para CPU primero, para no descargar la versión con CUDA.
+        run: |
+          python -m pip install --upgrade pip
+          pip install --index-url https://download.pytorch.org/whl/cpu "torch>=2.4,<3"
+          pip install -r requirements-api.txt
+      - name: Ejecutar pytest
+        run: pytest -q -rs
+
+  compose:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: workshops/taller-rag/proyecto
+    steps:
+      - uses: actions/checkout@v4
+      - name: Crear .env solo en el runner
+        run: cp .env.example .env
+      - name: Validar docker-compose.yml
+        run: docker compose -f docker-compose.yml config -q
+
+  imagenes:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: workshops/taller-rag/proyecto
+    steps:
+      - uses: actions/checkout@v4
+      # La API y la interfaz usan el mismo Dockerfile (ver docker-compose.yml); la segunda
+      # construcción reutiliza la caché de la primera. No se publica ninguna imagen.
+      - name: Construir imagen de la API
+        run: docker build -f Dockerfile -t taller-rag-api:ci .
+      - name: Construir imagen de la interfaz
+        run: docker build -f Dockerfile -t taller-rag-frontend:ci .
