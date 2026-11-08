@@ -7,7 +7,9 @@ data/*.parquet
 *.parquet
 reports/*.jsonl
 reports/*.csv
-data/
+data/*
+!data/experimento_prueba.jsonl
+!data/resultados_prueba.json
 data/backup/
 models/
 models/*.bin

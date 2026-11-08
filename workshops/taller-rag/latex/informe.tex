@@ -35,7 +35,7 @@ RAG, recuperación de información, corpus bilingüe, segmentación, embeddings,
 
 \section{Problema e hipótesis}
 \label{sec:problema}
-El proyecto estudia la recuperación de evidencia en un corpus de prensa y publicaciones sociales colombianas en español e inglés. La hipótesis de trabajo PI6 propone que Recall@5 es menor para Bluesky que para Media Cloud al comparar preguntas del mismo idioma por separado, y que la abstención correcta es menor para preguntas en inglés que para preguntas en español. Es una hipótesis pendiente de evaluación.
+El proyecto estudia la recuperación de evidencia en un corpus de prensa y publicaciones sociales colombianas en español e inglés. La hipótesis de trabajo PI6 propone que Recall@5 es menor para Bluesky que para Media Cloud al comparar preguntas del mismo idioma por separado, y que la abstención correcta es menor para preguntas en inglés que para preguntas en español. La Sección~\ref{sec:resultados} la evalúa de forma preliminar, sin resultados concluyentes.
 
 El protocolo prevé reportar Recall@k ($k\in\{1,3,5,10\}$), MRR, nDCG@10, abstención correcta y fidelidad de citas, desglosados por fuente esperada e idioma. Recall@k, MRR, la abstención correcta y la fidelidad de citas se calculan con las definiciones del protocolo. nDCG sigue la definición de Järvelin y Kekäläinen \cite{jarvelin2002}; para la fidelidad de las respuestas se toma como referencia conceptual RAGAS \cite{es2023ragas}.
 
@@ -95,7 +95,7 @@ La pila usa Milvus standalone v2.6.25 con etcd embebido y almacenamiento local, 
 
 \textit{Memoria de Milvus.} Con el límite inicial de 4~GiB, Milvus se detuvo por falta de memoria al recibir la segunda carga completa, porque el \textit{upsert} conserva las versiones reemplazadas hasta la compactación. Con el límite en 8~GiB las dos cargas terminaron sin reinicios.
 
-\textit{Hardware y recursos.} Todo corre en un solo equipo: Apple M5 Pro con 18 núcleos y 48~GiB de RAM, macOS 26.5.2 y Docker 29.6.2 (Docker Desktop, con una máquina virtual de 18 CPU y unos 30,8~GiB). Los contenedores tienen estos límites: Milvus 8~GiB y 2 CPU, Ollama 6~GiB y 4 CPU, la API 3~GiB y 2 CPU, y la interfaz 1~GiB y 1 CPU. Ollama corre dentro de Docker sin GPU, así que la generación usa CPU.
+\textit{Hardware y recursos.} Todo corre en un solo equipo: Apple M5 Pro con 18 núcleos y 48~GiB de RAM, macOS 26.5.2 y Docker 29.6.2 (Docker Desktop, con una máquina virtual de 18 CPU y unos 30,8~GiB). Los contenedores tienen estos límites: Milvus 8~GiB y 2 CPU, Ollama 6~GiB y 4 CPU, la API 3~GiB y 2 CPU, y la interfaz 1~GiB y 1 CPU. Ollama corre dentro de Docker sin GPU, así que la generación usa CPU. Es el equipo de desarrollo del autor; se asume, sin un registro que lo confirme, que el experimento de 80 corridas se ejecutó en el mismo equipo y con la misma asignación de Docker.
 
 \textit{API.} FastAPI expone \texttt{/health}, \texttt{/retrieve} y \texttt{/ask}. El conteo de filas de \texttt{/health} usa \texttt{count(*)}, porque las estadísticas de Milvus incluyen las filas reemplazadas hasta la compactación. Cuando Ollama corta una generación por repetición, \texttt{/ask} responde con un error específico (HTTP 502) en lugar de uno genérico.
 
@@ -191,7 +191,7 @@ La evaluación humana independiente, la rúbrica y la resolución de desacuerdos
 \label{sec:resultados}
 Se evaluaron las 20 preguntas de prueba con los cuatro modelos, una repetición por modelo (80 corridas), con la configuración congelada: temperatura 0, \texttt{repeat\_penalty} 1,1, $k=5$ y umbral de abstención 0,80, el mismo para todos los modelos. Todas las corridas registradas usaron esos valores. Las métricas se calcularon con \path{scripts/analisis_resultados.py}, que usa las funciones de \path{scripts/metricas_rag.py}. Una corrida con error cuenta como fallo y permanece en el denominador.
 
-\textit{Recuperación.} La recuperación no depende del modelo. Se mide a nivel de documento sobre las 17 respondibles, con el documento de evidencia como único relevante (Tabla~\ref{tab:recuperacion}). Como el sistema recupera $k=5$ fragmentos, se reportan las métricas en 5, y la Tabla~\ref{tab:recuperacion_k} añade los cortes en 1 y 3. Recall@10 y nDCG@10, previstos en la Sección~\ref{sec:problema}, no se pueden calcular con el registro actual, que guarda solo los 5 fragmentos recuperados por pregunta.
+\textit{Recuperación.} La recuperación no depende del modelo. Se mide a nivel de documento sobre las 17 respondibles, con el documento de evidencia como único relevante (Tabla~\ref{tab:recuperacion}). Como el sistema recupera $k=5$ fragmentos, se reportan las métricas en 5, y la Tabla~\ref{tab:recuperacion_k} añade los cortes en 1 y 3. Recall@10 y nDCG@10, previstos en la Sección~\ref{sec:problema}, se calcularon con una recuperación adicional con $k=10$ sobre las mismas 17 preguntas, sin LLM (\path{docs/recuperacion_k10.json}); sus cinco primeros fragmentos coinciden con los del experimento en las 17.
 
 \begin{table}[ht]
 \centering
@@ -213,7 +213,7 @@ Español & 9 & 0,556 & 0,500 & 0,515 \\
 
 \begin{table}[ht]
 \centering
-\caption{Recuperación por corte en las 17 respondibles de prueba (nivel de documento). Con un solo documento relevante por pregunta, hit@5 coincide con Recall@5.}
+\caption{Recuperación por corte en las 17 respondibles de prueba (nivel de documento). Con un solo documento relevante por pregunta, hit@5 coincide con Recall@5. Recall@10 y nDCG@10 provienen de la recuperación con $k=10$.}
 \label{tab:recuperacion_k}
 \begin{tabular}{lrr}
 \toprule
@@ -223,8 +223,8 @@ Recall@1 & 17 & 0,529 \\
 Recall@3 & 17 & 0,647 \\
 Recall@5 & 17 & 0,647 \\
 hit@5 & 17 & 11/17 \\
-Recall@10 & --- & no calculable ($k=5$) \\
-nDCG@10 & --- & no calculable ($k=5$) \\
+Recall@10 & 17 & 0,706 \\
+nDCG@10 & 17 & 0,617 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -271,7 +271,7 @@ llama3.2:3b & 20 & 0,24 & 0,39 & 37,6 & 54,7 & 1,80 \\
 \end{tabular}
 \end{table}
 
-\textit{Tiempos de generación.} Hay dos mediciones distintas, y no deben confundirse. (1) En el experimento de 80 corridas (Tabla~\ref{tab:generacion}), el tiempo medio por respuesta fue de 16,7 a 39,5~s según el modelo, con un máximo de 56,8~s (\texttt{llama3.2:3b}); sale del registro del experimento. (2) En una prueba manual de la interfaz con \texttt{gemma2:2b}, una sola consulta (una pregunta sobre deforestación, en CPU) tardó 69,5~s de generación. La fuente es \path{reports/rag_runs.jsonl} (\texttt{gemma2:2b}, consulta sobre deforestación): generación de 69,46~s y total de 69,8~s. Es una observación aislada, no una cifra general del sistema.
+\textit{Tiempos de generación.} Hay dos mediciones distintas, y no deben confundirse. (1) En el experimento de 80 corridas (Tabla~\ref{tab:generacion}), el tiempo medio por respuesta fue de 16,7 a 39,5~s según el modelo, con un máximo de 56,8~s (\texttt{llama3.2:3b}); sale del registro del experimento. (2) En una prueba manual de la interfaz con \texttt{gemma2:2b}, una sola consulta (una pregunta sobre deforestación, en CPU) tardó 69,5~s de generación. La fuente es \path{docs/tiempos_consulta_interfaz.json} (\texttt{gemma2:2b}, registro del 7 de noviembre de 2026 a las 23:31 UTC): generación de 69,46~s y total de 69,8~s. Es una observación aislada, no una cifra general del sistema.
 
 \textit{Error de gemma2:2b en G34.} La corrida de G34 con \texttt{gemma2:2b} devolvió HTTP 503 en 0,51~s. El registro de Ollama muestra que el proceso \texttt{llama-server} recibió \texttt{SIGKILL} y la generación terminó con \texttt{EOF}. La corrida no se reintentó: \texttt{gemma2:2b} tuvo 19 corridas exitosas de 20, y el fallo cuenta en el denominador de sus métricas, que se calculan sobre las 20.
 
@@ -346,7 +346,7 @@ Las preguntas del gold standard son sintéticas, redactadas con asistencia de IA
 \section{Pendientes}
 Cada ítem indica por qué no se cierra con los datos actuales.
 \begin{itemize}
-  \item \textit{Requieren corridas de cómputo nuevas:} repeticiones por condición, con intervalos de confianza y registro de arranque en frío y en caliente; ablaciones de $k$, umbral y prompt; un segundo esquema de segmentación; un encoder alternativo, como BGE-M3, para justificar empíricamente la elección del encoder; una recuperación con $k=10$ para Recall@10 y nDCG@10; y experimentos a mayor escala.
+  \item \textit{Requieren corridas de cómputo nuevas:} repeticiones por condición, con intervalos de confianza y registro de arranque en frío y en caliente; ablaciones de $k$, umbral y prompt; un segundo esquema de segmentación; un encoder alternativo, como BGE-M3, para justificar empíricamente la elección del encoder; y experimentos a mayor escala.
   \item \textit{Requieren trabajo humano:} revisión de las 40 preguntas del gold standard; un segundo anotador, con medición del acuerdo y resolución de desacuerdos; evaluación de la corrección de las respuestas frente a la referencia; calibración del umbral de abstención con anotaciones humanas (mientras tanto se mantiene 0,80 por decisión del autor); y revisión de que cada referencia respalde la afirmación en la que se cita.
   \item \textit{Requieren una evaluación de robustez:} medición de alucinaciones y pruebas de inyección de prompt con documentos manipulados, para las que hace falta diseñar conjuntos de prueba propios.
 \end{itemize}
