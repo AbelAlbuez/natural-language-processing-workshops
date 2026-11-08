@@ -282,6 +282,8 @@ llama3.2:3b & 20 & 0,24 & 0,39 & 37,6 & 54,7 & 1,80 \\
 \section{Decisiones de arquitectura}
 La configuración implementada combina los documentos preparados, la segmentación 256/48, embeddings E5 con prefijo de pasaje, Milvus como almacén vectorial, una API FastAPI, una interfaz Streamlit (verificada en ejecución con \texttt{gemma2:2b}) y LLM locales servidos con Ollama. La Figura~\ref{fig:arquitectura} muestra el flujo, con la evaluación como bloque aparte.
 
+\textit{Demostración.} La interfaz y la API están disponibles de forma temporal, mientras la máquina de demostración esté encendida (8 y 9 de noviembre de 2026): interfaz en \url{http://34.23.62.232:8501/} y API en \url{http://34.23.62.232:8000/} (endpoints \texttt{/health} y \texttt{/ask}). Las direcciones son efímeras y pueden dejar de responder después de esa fecha.
+
 \begin{figure}[!t]
 \centering
 \begin{tikzpicture}[
