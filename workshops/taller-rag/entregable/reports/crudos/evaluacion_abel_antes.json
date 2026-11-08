@@ -1,0 +1,262 @@
+{
+ "gold": "abel",
+ "split": "prueba",
+ "k": 10,
+ "umbral_api": 0.8,
+ "errores_http": 0,
+ "global_": {
+  "preguntas": 20,
+  "evaluadas": 17,
+  "recall@1": 0.6471,
+  "recall@3": 0.6471,
+  "recall@5": 0.6471,
+  "recall@10": 0.6471,
+  "mrr": 0.6471,
+  "ndcg@10": 0.6471
+ },
+ "por_tipo": {
+  "no_respondible": {
+   "preguntas": 3,
+   "evaluadas": 0,
+   "recall@1": null,
+   "recall@3": null,
+   "recall@5": null,
+   "recall@10": null,
+   "mrr": null,
+   "ndcg@10": null
+  },
+  "sintetica": {
+   "preguntas": 17,
+   "evaluadas": 17,
+   "recall@1": 0.6471,
+   "recall@3": 0.6471,
+   "recall@5": 0.6471,
+   "recall@10": 0.6471,
+   "mrr": 0.6471,
+   "ndcg@10": 0.6471
+  }
+ },
+ "idiomas": {
+  "en": {
+   "preguntas": 9,
+   "evaluadas": 8,
+   "recall@1": 0.75,
+   "recall@3": 0.75,
+   "recall@5": 0.75,
+   "recall@10": 0.75,
+   "mrr": 0.75,
+   "ndcg@10": 0.75
+  },
+  "es": {
+   "preguntas": 11,
+   "evaluadas": 9,
+   "recall@1": 0.5556,
+   "recall@3": 0.5556,
+   "recall@5": 0.5556,
+   "recall@10": 0.5556,
+   "mrr": 0.5556,
+   "ndcg@10": 0.5556
+  }
+ },
+ "sin_duplicados": {
+  "global_": {
+   "preguntas": 20,
+   "evaluadas": 17,
+   "recall@1": 0.6471,
+   "recall@3": 0.6471,
+   "recall@5": 0.6471,
+   "recall@10": 0.6471,
+   "mrr": 0.6471,
+   "ndcg@10": 0.6471
+  },
+  "por_tipo": {
+   "no_respondible": {
+    "preguntas": 3,
+    "evaluadas": 0,
+    "recall@1": null,
+    "recall@3": null,
+    "recall@5": null,
+    "recall@10": null,
+    "mrr": null,
+    "ndcg@10": null
+   },
+   "sintetica": {
+    "preguntas": 17,
+    "evaluadas": 17,
+    "recall@1": 0.6471,
+    "recall@3": 0.6471,
+    "recall@5": 0.6471,
+    "recall@10": 0.6471,
+    "mrr": 0.6471,
+    "ndcg@10": 0.6471
+   }
+  },
+  "preguntas_rescatadas": []
+ },
+ "abstencion_en_umbral": {
+  "vp": 1,
+  "fp": 3,
+  "fn": 2,
+  "precision": 0.25,
+  "recall": 0.333,
+  "f1": 0.286
+ },
+ "abstencion_barrido": {
+  "0.60": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.62": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.64": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.66": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.68": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.70": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.72": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.74": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.76": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.78": {
+   "vp": 1,
+   "fp": 1,
+   "fn": 2,
+   "precision": 0.5,
+   "recall": 0.333,
+   "f1": 0.4
+  },
+  "0.80": {
+   "vp": 1,
+   "fp": 3,
+   "fn": 2,
+   "precision": 0.25,
+   "recall": 0.333,
+   "f1": 0.286
+  },
+  "0.82": {
+   "vp": 2,
+   "fp": 5,
+   "fn": 1,
+   "precision": 0.286,
+   "recall": 0.667,
+   "f1": 0.4
+  },
+  "0.84": {
+   "vp": 3,
+   "fp": 6,
+   "fn": 0,
+   "precision": 0.333,
+   "recall": 1.0,
+   "f1": 0.5
+  },
+  "0.86": {
+   "vp": 3,
+   "fp": 8,
+   "fn": 0,
+   "precision": 0.273,
+   "recall": 1.0,
+   "f1": 0.429
+  },
+  "0.88": {
+   "vp": 3,
+   "fp": 12,
+   "fn": 0,
+   "precision": 0.2,
+   "recall": 1.0,
+   "f1": 0.333
+  },
+  "0.90": {
+   "vp": 3,
+   "fp": 13,
+   "fn": 0,
+   "precision": 0.188,
+   "recall": 1.0,
+   "f1": 0.316
+  },
+  "0.92": {
+   "vp": 3,
+   "fp": 15,
+   "fn": 0,
+   "precision": 0.167,
+   "recall": 1.0,
+   "f1": 0.286
+  },
+  "0.94": {
+   "vp": 3,
+   "fp": 17,
+   "fn": 0,
+   "precision": 0.15,
+   "recall": 1.0,
+   "f1": 0.261
+  }
+ },
+ "mejor_puntuacion_por_tipo": {
+  "no_respondible": {
+   "media": 0.802,
+   "min": 0.766,
+   "max": 0.839
+  },
+  "sintetica": {
+   "media": 0.855,
+   "min": 0.768,
+   "max": 0.925
+  }
+ }
+}

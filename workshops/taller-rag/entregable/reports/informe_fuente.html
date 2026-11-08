@@ -1,0 +1,111 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Informe técnico: evaluación del asistente RAG (Milvus y Solr)</title>
+<style>
+@page{size:Letter;margin:22mm 20mm}
+body{font-family:"DejaVu Serif",Georgia,serif;font-size:10.3pt;line-height:1.42;color:#1b1b1b}
+h1{font-family:"DejaVu Sans",Arial,sans-serif;font-size:19pt;margin:0 0 4px;line-height:1.2}
+h2{font-family:"DejaVu Sans",Arial,sans-serif;font-size:13pt;margin:20px 0 6px;border-bottom:1.5px solid #2a6f97;padding-bottom:3px;color:#17415c;break-after:avoid}
+h3{font-family:"DejaVu Sans",Arial,sans-serif;font-size:10.8pt;margin:13px 0 4px;color:#17415c;break-after:avoid}
+.sub{font-family:"DejaVu Sans",Arial,sans-serif;font-size:9pt;color:#555;margin-bottom:12px}
+table{border-collapse:collapse;margin:8px 0 10px;font-family:"DejaVu Sans",Arial,sans-serif;font-size:8.6pt;width:100%;break-inside:avoid}
+th,td{border-bottom:1px solid #ccc;padding:3px 6px;text-align:right}.l td,.l th{text-align:left}th:first-child,td:first-child{text-align:left}
+th{border-bottom:1.5px solid #333;background:#f3f6f9}
+.nota{font-family:"DejaVu Sans",Arial,sans-serif;font-size:8.6pt;color:#444;margin:2px 0 8px}
+.caja{border-left:4px solid #e07a1f;background:#fff6ec;padding:6px 10px;margin:10px 0;font-size:9.6pt;break-inside:avoid}
+code{font-family:"DejaVu Sans Mono",monospace;font-size:8.6pt;background:#f1f1f1;padding:0 2px}
+ul{margin:4px 0 6px 18px;padding:0}li{margin:2px 0}
+figure{margin:8px 0;break-inside:avoid}figcaption{font-family:"DejaVu Sans",Arial,sans-serif;font-size:8.4pt;color:#444}
+svg text{font-family:"DejaVu Sans",Arial,sans-serif}
+</style></head><body>
+<h1>Evaluación de un asistente RAG sobre prensa y Bluesky colombianos: Milvus (denso) y Solr (léxico)</h1>
+<div class="sub">Equipo: Abel Albuez Sánchez, Kelly Joane León Torres, Juan Camilo Torres Peña y Jesús David Romero Melo · Maestría en Inteligencia Artificial, Pontificia Universidad Javeriana · Noviembre de 2026<br>Este informe documenta el componente de evaluación: gold estándar ampliado, limpieza del corpus, evaluación robusta y la variante Solr.</div>
+
+<h2>1. Resumen</h2>
+<p>Se evaluó la recuperación de un asistente RAG (FastAPI, Milvus, Ollama y E5 multilingüe) con dos conjuntos de preguntas: el de Abel (40 preguntas, un tipo) y uno ampliado (60 preguntas verificadas contra el corpus, seis tipos, varios documentos relevantes, 10 sin evidencia). Con el corpus completo (577.324 chunks), el Recall@10 global en la partición de prueba es <b>0,453</b>; sube a 0,779 en un índice reducido de 4.081 documentos, lo que muestra cuánto sobreestiman los índices pequeños. Eliminar el relleno de portal (avisos de cookies y de inicio de sesión) mejoró el Recall@10 de 0,591 a 0,669 en el gold nuestro. La abstención por umbral de coseno no funciona: con 0,80 no se detecta ninguna de las 13 preguntas sin respuesta en el corpus completo. Se construyó una variante RAG–Solr (BM25) con el mismo contrato de API; está probada con pruebas unitarias y simuladores, <b>pero no se ha ejecutado contra un Solr real, así que este informe no contiene resultados de Solr</b>.</p>
+
+<h2>2. Diseño y arquitectura</h2>
+<figure>
+<svg viewBox="0 0 700 250" width="100%" role="img" aria-label="Arquitectura: ingesta común, dos índices (Milvus y Solr), API con backend seleccionable y Ollama">
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#333"/></marker></defs>
+<g font-size="10" stroke="#333" fill="none">
+<rect x="10" y="95" width="105" height="48" rx="4" fill="#eef2f6"/><rect x="150" y="95" width="125" height="48" rx="4" fill="#eef2f6"/>
+<rect x="320" y="28" width="130" height="52" rx="4" fill="#dcebf5"/><rect x="320" y="160" width="130" height="52" rx="4" fill="#fde9d3"/>
+<rect x="480" y="95" width="115" height="48" rx="4" fill="#eef2f6"/><rect x="615" y="95" width="78" height="48" rx="4" fill="#eef2f6"/>
+</g>
+<g font-size="10" fill="#1b1b1b" text-anchor="middle">
+<text x="62" y="116">Corpus Parquet</text><text x="62" y="130">146.923 docs</text>
+<text x="212" y="112">Limpieza de relleno</text><text x="212" y="126">+ chunks 256/48</text><text x="212" y="139" font-size="9">(mismo chunk_id)</text>
+<text x="385" y="48">Milvus (denso)</text><text x="385" y="62">E5-small · HNSW · IP</text><text x="385" y="74" font-size="9">umbral coseno 0,80</text>
+<text x="385" y="180">Solr (léxico)</text><text x="385" y="194">BM25 · text_es/text_en</text><text x="385" y="206" font-size="9">sin umbral por defecto</text>
+<text x="537" y="112">API FastAPI</text><text x="537" y="126" font-size="9">backend=milvus|solr</text>
+<text x="654" y="116">Ollama</text><text x="654" y="130">LLM local</text></g>
+<g stroke="#333" stroke-width="1.3" fill="none" marker-end="url(#a)">
+<path d="M115,119 L150,119"/><path d="M275,110 L320,60"/><path d="M275,128 L320,180"/>
+<path d="M450,54 L480,108"/><path d="M450,186 L480,130"/><path d="M595,119 L615,119"/></g>
+<text x="350" y="236" font-size="9" fill="#444" text-anchor="middle">Los dos índices se llenan con los mismos chunks; la API elige el motor por solicitud.</text>
+</svg>
+<figcaption>Figura 1. Arquitectura. Solr es opcional (<code>docker-compose.solr.yml</code>) y no modifica el flujo base.</figcaption></figure>
+<ul>
+<li><b>Ingesta y segmentación.</b> Ventanas de 256 tokens del tokenizador de E5 con solapamiento de 48; cada chunk es un fragmento exacto del texto. Se eliminan antes las líneas de relleno de portal (versión v2 de los datos).</li>
+<li><b>Milvus.</b> Colección con vector de 384 dimensiones, índice HNSW con producto interno sobre vectores normalizados (equivale al coseno). Abstención si la mejor puntuación es menor que 0,80 (provisional).</li>
+<li><b>Solr.</b> Core <code>rag_chunks</code> con <code>id = chunk_id</code>; el texto va en <code>text_es</code> o <code>text_en</code> según el idioma, con analizadores de cada idioma. Búsqueda <code>edismax</code> sobre ambos campos con el BM25 por defecto. Las puntuaciones BM25 no son comparables entre consultas, por lo que no se abstiene por puntuación (<code>SOLR_SCORE_THRESHOLD=0</code>).</li>
+<li><b>API.</b> <code>/retrieve</code> y <code>/ask</code> aceptan <code>backend</code> (<code>milvus</code> por defecto); <code>/health?deep=true</code> añade el estado de Solr. Con Solr caído responde 503 indicando el servicio. El prompt versionado, el presupuesto de contexto y la validación de citas son los mismos en ambos motores.</li>
+<li><b>Despliegue.</b> <code>docker compose -f docker-compose.yml -f docker-compose.solr.yml up -d --build</code>. Pruebas: <code>pytest tests</code> (6 pruebas del módulo Solr).</li></ul>
+
+<h2>3. Metodología de evaluación</h2>
+<h3>3.1 Conjuntos de preguntas</h3>
+<table class="l"><tr><th>Gold</th><th>Preguntas</th><th>Tipos</th><th>Relevantes por pregunta</th><th>Verificación</th></tr>
+<tr><td>Abel</td><td>40 (20 desarrollo, 20 prueba)</td><td>sintética (34), no respondible (6)</td><td>1 documento</td><td>Pendiente de revisión humana</td></tr>
+<tr><td>Ampliado</td><td>60 (16 desarrollo, 44 prueba)</td><td>factual, comparativa, temporal, interpretativa, adversarial, sin evidencia</td><td>1 o más</td><td>Frase de evidencia literal comprobada por un validador; revisión manual en una muestra de 15 y en las sin evidencia</td></tr></table>
+<p>La evidencia de cada pregunta ampliada es una frase literal que el validador busca en el texto de los documentos relevantes (normalizando mayúsculas, tildes y espacios). Hay 30 borradores adicionales que no se usaron. Los parámetros se calibran solo con desarrollo.</p>
+<h3>3.2 Métricas</h3>
+<p>Recall@1/3/5/10, MRR y nDCG@10 a <b>nivel de documento</b> (los fragmentos se colapsan al primer rango), con <i>k</i> = 10 fragmentos. Abstención: precisión, recall y F1 con positivo = «debe abstenerse». Con <i>k</i> fragmentos se obtienen como máximo <i>k</i> documentos distintos, por lo que Recall@10 es una cota superior del que se obtendría con 10 documentos.</p>
+<h3>3.3 Condiciones experimentales</h3>
+<ul><li><b>Índice reducido:</b> 2.081 documentos citados por los dos gold más 2.000 distractores (semilla 42), 8.275 chunks, con limpieza. Permite iterar rápido, pero sobrestima el recall.</li>
+<li><b>Corpus completo:</b> 577.324 chunks de la instancia de Abel, sin limpieza; solo recuperación.</li>
+<li><b>Solr:</b> definida pero no ejecutada (sección 4.5).</li></ul>
+<p>Los scripts (<code>evaluar_gold.py</code>, <code>ejecutar_experimento_robusto.py</code>) corrigen limitaciones del original: recuperan con <i>k</i> = 10 (el original usaba 5 y reportaba Recall@10), aceptan varios documentos relevantes, leen ambos formatos de gold, omiten modelos no instalados, se reanudan sin repetir llamadas y calibran el umbral en desarrollo. No guardan texto de preguntas ni de respuestas.</p>
+
+<h2>4. Comparación de resultados</h2>
+<h3>4.1 Efecto de la limpieza del relleno de portal</h3>
+<p>El análisis de los fallos mostró que 10 artículos de un mismo diario empiezan con el aviso de cookies y el mensaje de inicio de sesión; sus primeros fragmentos aparecían en el top-10 de 13 de 64 consultas (8 de 18 fallos de recuperación y 5 de las sin respuesta). La hipótesis de duplicados exactos se descartó: las tablas con y sin deduplicación fueron idénticas.</p>
+<table><tr><th>Gold (prueba, índice reducido)</th><th>Métrica</th><th>Antes</th><th>Después</th></tr>
+<tr><td>Ampliado (34 con respuesta)</td><td>Recall@1</td><td>0,444</td><td>0,532</td></tr>
+<tr><td>Ampliado (34)</td><td>Recall@10</td><td>0,591</td><td>0,669</td></tr>
+<tr><td>Ampliado (34)</td><td>MRR</td><td>0,549</td><td>0,637</td></tr>
+<tr><td>Abel (17 sintéticas)</td><td>Recall@10</td><td>0,647</td><td>1,000</td></tr></table>
+<h3>4.2 Índice reducido frente a corpus completo</h3>
+<figure><img src="fig_r10.png" style="width:100%"><figcaption>Figura 2. Recall@10 por tipo de pregunta. n = preguntas con respuesta en prueba.</figcaption></figure>
+<table><tr><th>Tipo</th><th>n</th><th>R@1</th><th>R@5</th><th>R@10</th><th>MRR</th><th>nDCG@10</th></tr>
+<tr><td>Todas (completo)</td><td>51</td><td>0,301</td><td>0,433</td><td>0,453</td><td>0,374</td><td>0,382</td></tr>
+<tr><td>Sintética (Abel)</td><td>17</td><td>0,529</td><td>0,706</td><td>0,706</td><td>0,608</td><td>0,633</td></tr>
+<tr><td>Factual</td><td>15</td><td>0,267</td><td>0,467</td><td>0,533</td><td>0,335</td><td>0,382</td></tr>
+<tr><td>Comparativa</td><td>8</td><td>0,042</td><td>0,073</td><td>0,073</td><td>0,150</td><td>0,078</td></tr>
+<tr><td>Temporal</td><td>4</td><td>0,250</td><td>0,375</td><td>0,375</td><td>0,375</td><td>0,347</td></tr>
+<tr><td>Adversarial</td><td>4</td><td>0,250</td><td>0,250</td><td>0,250</td><td>0,250</td><td>0,250</td></tr>
+<tr><td>Interpretativa</td><td>3</td><td>0,000</td><td>0,000</td><td>0,000</td><td>0,000</td><td>0,000</td></tr></table>
+<p class="nota">Corpus completo, sin limpieza. Control de validez: las 17 sintéticas dan R@1 = 0,529 y R@10 = 0,706, iguales a los del informe de Abel. Las cifras son una cota inferior: hay documentos válidos adicionales que el gold no marca. R@3 y R@5 aquí cuentan documentos distintos dentro de 10 fragmentos; el informe de Abel usa 5 fragmentos, por lo que solo R@1 y R@10 son comparables.</p>
+<h3>4.3 Abstención</h3>
+<table><tr><th>Condición (prueba, 13 sin respuesta)</th><th>Umbral</th><th>Precisión</th><th>Recall</th><th>F1</th></tr>
+<tr><td>Índice reducido, umbral fijo</td><td>0,80</td><td>1,000</td><td>0,077</td><td>0,143</td></tr>
+<tr><td>Índice reducido, calibrado en desarrollo</td><td>0,83</td><td>1,000</td><td>0,231</td><td>0,375</td></tr>
+<tr><td>Corpus completo, umbral fijo</td><td>0,80</td><td>–</td><td>0,000</td><td>–</td></tr>
+<tr><td>Corpus completo, calibrado en desarrollo</td><td>0,84</td><td>0,500</td><td>0,154</td><td>0,235</td></tr></table>
+<p>Las puntuaciones máximas de las preguntas sin respuesta (0,79–0,92) se solapan con las de las que sí tienen respuesta (0,85–0,93). El umbral calibrado se obtuvo con solo 3 casos a abstener en desarrollo, así que es poco fiable. En un barrido sobre prueba (descriptivo, no para elegir el umbral) el mejor F1 es 0,62 en el índice reducido y 0,39 en el completo.</p>
+<h3>4.4 Generación</h3>
+<div class="caja">La corrida con LLM de este equipo <b>no se completó</b>: <code>gemma2:2b</code> falló en las 64 preguntas y <code>qwen2.5:1.5b</code> respondió 15 de 24 (un 503 tras 241 s, igual al tiempo máximo de 240 s configurado, probablemente por una generación abandonada al interrumpir el proceso). No se reportan métricas de generación de esa corrida. En el experimento de Abel (4 modelos, 80 corridas, 17 respondibles, una repetición) <code>llama3.2:1b</code> y <code>gemma2:2b</code> citaron fragmentos válidos en 16 y 14 de 17, <code>llama3.2:3b</code> en 6 y <code>qwen2.5:1.5b</code> en 5, y ningún modelo se abstuvo en las no respondibles; la corrección de las respuestas no se evaluó.</div>
+<h3>4.5 Milvus frente a Solr</h3>
+<p>Pendiente de ejecución. Los comandos están en <code>docs/SOLR.md</code>: indexar los mismos documentos con <code>ingest_gold.py --destino ambos --limpiar</code> y correr el evaluador con <code>--backend milvus</code> y <code>--backend solr</code> sobre los dos gold. <i>Hipótesis, no resultados:</i> BM25 debería ir mejor cuando la pregunta comparte palabras exactas con el texto (cifras, nombres propios) y peor con paráfrasis o entre idiomas; E5 al contrario, lo que justificaría un híbrido por fusión de rangos.</p>
+
+<h2>5. Conclusiones y recomendaciones</h2>
+<ul>
+<li>Un índice reducido sobrestima mucho el rendimiento (0,779 frente a 0,453 de Recall@10). Los resultados de producción deben medirse con el corpus completo.</li>
+<li>El relleno de portal es un defecto de datos con efecto medible. Limpiarlo antes de segmentar mejoró la recuperación; conviene reindexar el corpus completo como nueva versión de datos.</li>
+<li>La abstención por coseno del mejor fragmento no separa preguntas sin respuesta de las respondibles. Se recomienda otra señal (margen entre el primer y el segundo resultado, reranker o verificación con el LLM) y calibrarla con más casos sin respuesta anotados.</li>
+<li>Las comparativas son el caso más débil (Recall@10 de 0,073 en el corpus completo). Conviene recuperar por documento (limitar fragmentos por documento) o consultar en varios pasos.</li>
+<li>El gold ampliado es más exigente que el de Abel (cuyas sintéticas dan 1,000 en el índice reducido); usar ambos permite separar «recupera lo fácil» de «recupera lo difícil».</li>
+<li>Siguientes pasos: correr la comparación Milvus–Solr y probar un híbrido; completar la revisión humana del gold de Abel y de los 30 borradores; repetir cada condición con intervalos de confianza.</li></ul>
+<h3>Limitaciones</h3>
+<p>Índice reducido (1,4 % del corpus) en la parte con gold ampliado; cota inferior de recall en el corpus completo; estratos pequeños (3 a 8 preguntas por tipo); gold de Abel sin revisión humana y de un solo tipo; una repetición, sin intervalos de confianza; corrección de respuestas no evaluada; Solr sin ejecutar; el pool ampliado conserva 30 borradores sin revisar.</p>
+<h3>Reproducibilidad</h3>
+<p>Código, compose, gold (<code>data/gold/gold.jsonl</code>, <code>docs/gold_standard.csv</code>, <code>data/gold/queries.csv</code>) y resultados en <code>reports/</code>. Las cifras de este informe provienen de <code>reports/RESULTADOS.md</code> y de las salidas de <code>evaluar_gold.py</code> y <code>ejecutar_experimento_robusto.py</code>.</p>
+</body></html>

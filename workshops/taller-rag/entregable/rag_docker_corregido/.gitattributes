@@ -1,0 +1,2 @@
+# Los scripts de shell se ejecutan dentro de Linux: deben conservar saltos de línea LF también en Windows.
+*.sh text eol=lf

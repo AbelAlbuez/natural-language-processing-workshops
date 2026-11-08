@@ -1,0 +1,262 @@
+{
+ "gold": "abel",
+ "split": "prueba",
+ "k": 10,
+ "umbral_api": 0.8,
+ "errores_http": 0,
+ "global_": {
+  "preguntas": 20,
+  "evaluadas": 17,
+  "recall@1": 1.0,
+  "recall@3": 1.0,
+  "recall@5": 1.0,
+  "recall@10": 1.0,
+  "mrr": 1.0,
+  "ndcg@10": 1.0
+ },
+ "por_tipo": {
+  "no_respondible": {
+   "preguntas": 3,
+   "evaluadas": 0,
+   "recall@1": null,
+   "recall@3": null,
+   "recall@5": null,
+   "recall@10": null,
+   "mrr": null,
+   "ndcg@10": null
+  },
+  "sintetica": {
+   "preguntas": 17,
+   "evaluadas": 17,
+   "recall@1": 1.0,
+   "recall@3": 1.0,
+   "recall@5": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "ndcg@10": 1.0
+  }
+ },
+ "idiomas": {
+  "en": {
+   "preguntas": 9,
+   "evaluadas": 8,
+   "recall@1": 1.0,
+   "recall@3": 1.0,
+   "recall@5": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "ndcg@10": 1.0
+  },
+  "es": {
+   "preguntas": 11,
+   "evaluadas": 9,
+   "recall@1": 1.0,
+   "recall@3": 1.0,
+   "recall@5": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "ndcg@10": 1.0
+  }
+ },
+ "sin_duplicados": {
+  "global_": {
+   "preguntas": 20,
+   "evaluadas": 17,
+   "recall@1": 1.0,
+   "recall@3": 1.0,
+   "recall@5": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "ndcg@10": 1.0
+  },
+  "por_tipo": {
+   "no_respondible": {
+    "preguntas": 3,
+    "evaluadas": 0,
+    "recall@1": null,
+    "recall@3": null,
+    "recall@5": null,
+    "recall@10": null,
+    "mrr": null,
+    "ndcg@10": null
+   },
+   "sintetica": {
+    "preguntas": 17,
+    "evaluadas": 17,
+    "recall@1": 1.0,
+    "recall@3": 1.0,
+    "recall@5": 1.0,
+    "recall@10": 1.0,
+    "mrr": 1.0,
+    "ndcg@10": 1.0
+   }
+  },
+  "preguntas_rescatadas": []
+ },
+ "abstencion_en_umbral": {
+  "vp": 1,
+  "fp": 0,
+  "fn": 2,
+  "precision": 1.0,
+  "recall": 0.333,
+  "f1": 0.5
+ },
+ "abstencion_barrido": {
+  "0.60": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.62": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.64": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.66": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.68": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.70": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.72": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.74": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.76": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.78": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 3,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.80": {
+   "vp": 1,
+   "fp": 0,
+   "fn": 2,
+   "precision": 1.0,
+   "recall": 0.333,
+   "f1": 0.5
+  },
+  "0.82": {
+   "vp": 2,
+   "fp": 0,
+   "fn": 1,
+   "precision": 1.0,
+   "recall": 0.667,
+   "f1": 0.8
+  },
+  "0.84": {
+   "vp": 2,
+   "fp": 0,
+   "fn": 1,
+   "precision": 1.0,
+   "recall": 0.667,
+   "f1": 0.8
+  },
+  "0.86": {
+   "vp": 3,
+   "fp": 2,
+   "fn": 0,
+   "precision": 0.6,
+   "recall": 1.0,
+   "f1": 0.75
+  },
+  "0.88": {
+   "vp": 3,
+   "fp": 10,
+   "fn": 0,
+   "precision": 0.231,
+   "recall": 1.0,
+   "f1": 0.375
+  },
+  "0.90": {
+   "vp": 3,
+   "fp": 11,
+   "fn": 0,
+   "precision": 0.214,
+   "recall": 1.0,
+   "f1": 0.353
+  },
+  "0.92": {
+   "vp": 3,
+   "fp": 13,
+   "fn": 0,
+   "precision": 0.188,
+   "recall": 1.0,
+   "f1": 0.316
+  },
+  "0.94": {
+   "vp": 3,
+   "fp": 17,
+   "fn": 0,
+   "precision": 0.15,
+   "recall": 1.0,
+   "f1": 0.261
+  }
+ },
+ "mejor_puntuacion_por_tipo": {
+  "no_respondible": {
+   "media": 0.817,
+   "min": 0.789,
+   "max": 0.851
+  },
+  "sintetica": {
+   "media": 0.888,
+   "min": 0.847,
+   "max": 0.933
+  }
+ }
+}

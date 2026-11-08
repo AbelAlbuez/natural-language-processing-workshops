@@ -1,0 +1,33 @@
+# Añade Apache Solr (recuperación léxica BM25) a la pila existente. No modifica docker-compose.yml.
+#   docker compose -f docker-compose.yml -f docker-compose.solr.yml up -d --build
+# Interfaz de administración de Solr: http://localhost:8983/solr
+# SIN VERIFICAR EN VIVO: escrito y probado contra un simulador, no contra Solr real (ver README).
+services:
+  solr:
+    container_name: rag-solr
+    image: solr:${SOLR_VERSION:-9.7}
+    # solr-precreate crea el core vacío con el configset _default (esquema administrable por API).
+    command: ["solr-precreate", "${SOLR_CORE:-rag_chunks}"]
+    ports: ["8983:8983"]
+    environment:
+      SOLR_HEAP: "${SOLR_HEAP:-1g}"
+    volumes: [solr_data:/var/solr]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:8983/solr/${SOLR_CORE:-rag_chunks}/admin/ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    deploy:
+      resources:
+        limits: {cpus: "${SOLR_CPUS:-2}", memory: "${SOLR_MEM:-2g}"}
+    restart: unless-stopped
+  api:
+    environment:
+      SOLR_URL: http://solr:8983/solr
+      SOLR_CORE: ${SOLR_CORE:-rag_chunks}
+      SOLR_SCORE_THRESHOLD: ${SOLR_SCORE_THRESHOLD:-0}
+    depends_on:
+      solr: {condition: service_healthy}
+volumes:
+  solr_data:

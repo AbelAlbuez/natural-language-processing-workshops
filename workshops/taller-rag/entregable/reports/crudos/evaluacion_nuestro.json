@@ -1,0 +1,362 @@
+{
+ "gold": "nuestro",
+ "split": "test",
+ "k": 10,
+ "umbral_api": 0.8,
+ "errores_http": 0,
+ "global_": {
+  "preguntas": 44,
+  "evaluadas": 34,
+  "recall@1": 0.5319,
+  "recall@3": 0.6078,
+  "recall@5": 0.6397,
+  "recall@10": 0.6691,
+  "mrr": 0.6375,
+  "ndcg@10": 0.6241
+ },
+ "por_tipo": {
+  "adversarial": {
+   "preguntas": 4,
+   "evaluadas": 4,
+   "recall@1": 0.5,
+   "recall@3": 0.5,
+   "recall@5": 0.5,
+   "recall@10": 0.5,
+   "mrr": 0.5,
+   "ndcg@10": 0.5
+  },
+  "comparativa": {
+   "preguntas": 8,
+   "evaluadas": 8,
+   "recall@1": 0.0729,
+   "recall@3": 0.2083,
+   "recall@5": 0.3438,
+   "recall@10": 0.3438,
+   "mrr": 0.4,
+   "ndcg@10": 0.2982
+  },
+  "factual": {
+   "preguntas": 15,
+   "evaluadas": 15,
+   "recall@1": 0.8667,
+   "recall@3": 0.8667,
+   "recall@5": 0.8667,
+   "recall@10": 0.8667,
+   "mrr": 0.8667,
+   "ndcg@10": 0.8667
+  },
+  "interpretativa": {
+   "preguntas": 3,
+   "evaluadas": 3,
+   "recall@1": 0.3333,
+   "recall@3": 0.6667,
+   "recall@5": 0.6667,
+   "recall@10": 0.6667,
+   "mrr": 0.4444,
+   "ndcg@10": 0.5
+  },
+  "sin_evidencia": {
+   "preguntas": 10,
+   "evaluadas": 0,
+   "recall@1": null,
+   "recall@3": null,
+   "recall@5": null,
+   "recall@10": null,
+   "mrr": null,
+   "ndcg@10": null
+  },
+  "temporal": {
+   "preguntas": 4,
+   "evaluadas": 4,
+   "recall@1": 0.375,
+   "recall@3": 0.5,
+   "recall@5": 0.5,
+   "recall@10": 0.75,
+   "mrr": 0.5357,
+   "ndcg@10": 0.5833
+  }
+ },
+ "idiomas": {
+  "en": {
+   "preguntas": 10,
+   "evaluadas": 8,
+   "recall@1": 0.625,
+   "recall@3": 0.8125,
+   "recall@5": 0.875,
+   "recall@10": 1.0,
+   "mrr": 0.747,
+   "ndcg@10": 0.8105
+  },
+  "es": {
+   "preguntas": 34,
+   "evaluadas": 26,
+   "recall@1": 0.5032,
+   "recall@3": 0.5449,
+   "recall@5": 0.5673,
+   "recall@10": 0.5673,
+   "mrr": 0.6038,
+   "ndcg@10": 0.5667
+  }
+ },
+ "sin_duplicados": {
+  "global_": {
+   "preguntas": 44,
+   "evaluadas": 34,
+   "recall@1": 0.5319,
+   "recall@3": 0.6078,
+   "recall@5": 0.6397,
+   "recall@10": 0.6691,
+   "mrr": 0.6375,
+   "ndcg@10": 0.6241
+  },
+  "por_tipo": {
+   "adversarial": {
+    "preguntas": 4,
+    "evaluadas": 4,
+    "recall@1": 0.5,
+    "recall@3": 0.5,
+    "recall@5": 0.5,
+    "recall@10": 0.5,
+    "mrr": 0.5,
+    "ndcg@10": 0.5
+   },
+   "comparativa": {
+    "preguntas": 8,
+    "evaluadas": 8,
+    "recall@1": 0.0729,
+    "recall@3": 0.2083,
+    "recall@5": 0.3438,
+    "recall@10": 0.3438,
+    "mrr": 0.4,
+    "ndcg@10": 0.2982
+   },
+   "factual": {
+    "preguntas": 15,
+    "evaluadas": 15,
+    "recall@1": 0.8667,
+    "recall@3": 0.8667,
+    "recall@5": 0.8667,
+    "recall@10": 0.8667,
+    "mrr": 0.8667,
+    "ndcg@10": 0.8667
+   },
+   "interpretativa": {
+    "preguntas": 3,
+    "evaluadas": 3,
+    "recall@1": 0.3333,
+    "recall@3": 0.6667,
+    "recall@5": 0.6667,
+    "recall@10": 0.6667,
+    "mrr": 0.4444,
+    "ndcg@10": 0.5
+   },
+   "sin_evidencia": {
+    "preguntas": 10,
+    "evaluadas": 0,
+    "recall@1": null,
+    "recall@3": null,
+    "recall@5": null,
+    "recall@10": null,
+    "mrr": null,
+    "ndcg@10": null
+   },
+   "temporal": {
+    "preguntas": 4,
+    "evaluadas": 4,
+    "recall@1": 0.375,
+    "recall@3": 0.5,
+    "recall@5": 0.5,
+    "recall@10": 0.75,
+    "mrr": 0.5357,
+    "ndcg@10": 0.5833
+   }
+  },
+  "preguntas_rescatadas": []
+ },
+ "abstencion_en_umbral": {
+  "vp": 0,
+  "fp": 0,
+  "fn": 10,
+  "precision": null,
+  "recall": 0.0,
+  "f1": null
+ },
+ "abstencion_barrido": {
+  "0.60": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.62": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.64": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.66": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.68": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.70": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.72": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.74": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.76": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.78": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.80": {
+   "vp": 0,
+   "fp": 0,
+   "fn": 10,
+   "precision": null,
+   "recall": 0.0,
+   "f1": null
+  },
+  "0.82": {
+   "vp": 1,
+   "fp": 0,
+   "fn": 9,
+   "precision": 1.0,
+   "recall": 0.1,
+   "f1": 0.182
+  },
+  "0.84": {
+   "vp": 2,
+   "fp": 1,
+   "fn": 8,
+   "precision": 0.667,
+   "recall": 0.2,
+   "f1": 0.308
+  },
+  "0.86": {
+   "vp": 6,
+   "fp": 5,
+   "fn": 4,
+   "precision": 0.545,
+   "recall": 0.6,
+   "f1": 0.571
+  },
+  "0.88": {
+   "vp": 7,
+   "fp": 14,
+   "fn": 3,
+   "precision": 0.333,
+   "recall": 0.7,
+   "f1": 0.452
+  },
+  "0.90": {
+   "vp": 7,
+   "fp": 22,
+   "fn": 3,
+   "precision": 0.241,
+   "recall": 0.7,
+   "f1": 0.359
+  },
+  "0.92": {
+   "vp": 10,
+   "fp": 31,
+   "fn": 0,
+   "precision": 0.244,
+   "recall": 1.0,
+   "f1": 0.392
+  },
+  "0.94": {
+   "vp": 10,
+   "fp": 34,
+   "fn": 0,
+   "precision": 0.227,
+   "recall": 1.0,
+   "f1": 0.37
+  }
+ },
+ "mejor_puntuacion_por_tipo": {
+  "adversarial": {
+   "media": 0.889,
+   "min": 0.874,
+   "max": 0.919
+  },
+  "comparativa": {
+   "media": 0.871,
+   "min": 0.84,
+   "max": 0.908
+  },
+  "factual": {
+   "media": 0.895,
+   "min": 0.845,
+   "max": 0.926
+  },
+  "interpretativa": {
+   "media": 0.879,
+   "min": 0.853,
+   "max": 0.902
+  },
+  "sin_evidencia": {
+   "media": 0.867,
+   "min": 0.809,
+   "max": 0.917
+  },
+  "temporal": {
+   "media": 0.901,
+   "min": 0.889,
+   "max": 0.914
+  }
+ }
+}

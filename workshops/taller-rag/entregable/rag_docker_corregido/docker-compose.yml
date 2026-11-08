@@ -1,0 +1,133 @@
+# Pila RAG: Milvus standalone (etcd embebido, almacenamiento local), Ollama, API FastAPI y frontend Streamlit.
+# Arranque:            docker compose up -d --build
+# Preparar el corpus:  docker compose --profile prep run --rm prep
+# Los límites de recursos y las versiones se ajustan en .env (ver .env.example).
+
+x-logging: &logging
+  driver: json-file
+  options: {max-size: "10m", max-file: "3"}
+
+services:
+  milvus:
+    container_name: rag-milvus
+    image: milvusdb/milvus:${MILVUS_VERSION:-v2.6.25}
+    command: ["milvus", "run", "standalone"]
+    security_opt: ["seccomp:unconfined"]
+    # Modo standalone con etcd embebido y almacenamiento local (configuración oficial de
+    # scripts/standalone_embed.sh). Evita MinIO, cuyas imágenes públicas dejaron de existir
+    # en septiembre de 2026, y ahorra memoria.
+    environment:
+      ETCD_USE_EMBED: "true"
+      ETCD_DATA_DIR: /var/lib/milvus/etcd
+      ETCD_CONFIG_PATH: /milvus/configs/embedEtcd.yaml
+      COMMON_STORAGETYPE: local
+      DEPLOY_MODE: STANDALONE
+    volumes:
+      - milvus_data:/var/lib/milvus
+      - ./config/embedEtcd.yaml:/milvus/configs/embedEtcd.yaml:ro
+      - ./config/user.yaml:/milvus/configs/user.yaml:ro
+    ports: ["19530:19530", "9091:9091"]
+    # Corrección: Milvus tarda en quedar listo; la API espera a este healthcheck.
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 30s
+      timeout: 20s
+      retries: 5
+      start_period: 90s
+    deploy:
+      resources:
+        limits: {cpus: "${MILVUS_CPUS:-2}", memory: "${MILVUS_MEM:-4g}"}
+    restart: unless-stopped
+    logging: *logging
+
+  ollama:
+    container_name: rag-ollama
+    # Corrección: versión fijada en lugar de "latest".
+    image: ollama/ollama:${OLLAMA_VERSION:-0.40.13}
+    ports: ["11434:11434"]
+    environment:
+      # Un solo modelo cargado a la vez y una petición a la vez: protege la RAM
+      # y hace comparables las latencias entre modelos.
+      OLLAMA_MAX_LOADED_MODELS: "1"
+      OLLAMA_NUM_PARALLEL: "1"
+      OLLAMA_KEEP_ALIVE: "${OLLAMA_KEEP_ALIVE:-10m}"
+    volumes: [ollama_data:/root/.ollama]
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+    deploy:
+      resources:
+        limits: {cpus: "${OLLAMA_CPUS:-4}", memory: "${OLLAMA_MEM:-6g}"}
+    restart: unless-stopped
+    logging: *logging
+
+  api:
+    container_name: rag-api
+    build: {context: ., dockerfile: Dockerfile}
+    command: uvicorn app.api:app --host 0.0.0.0 --port 8000
+    env_file: .env
+    ports: ["8000:8000"]
+    depends_on:
+      milvus: {condition: service_healthy}
+      ollama: {condition: service_healthy}
+    volumes:
+      - ./data:/work/data
+      - ./reports:/work/reports
+      # Corrección: el modelo de embeddings se descarga una vez y queda guardado.
+      - hf_cache:/root/.cache/huggingface
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits: {cpus: "${API_CPUS:-2}", memory: "${API_MEM:-3g}"}
+    restart: unless-stopped
+    logging: *logging
+
+  frontend:
+    container_name: rag-frontend
+    # Misma imagen que la API; la caché de Docker hace que no se construya dos veces.
+    build: {context: ., dockerfile: Dockerfile}
+    command: streamlit run app/frontend.py --server.address=0.0.0.0 --server.port=8501
+    env_file: .env
+    environment:
+      API_URL: http://api:8000
+    ports: ["8501:8501"]
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health', timeout=5)"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits: {cpus: "1", memory: "1g"}
+    restart: unless-stopped
+    logging: *logging
+
+  # Descarga, verifica y prepara el corpus dentro de Docker (no hace falta instalar Python).
+  # Solo se ejecuta a pedido: docker compose --profile prep run --rm prep
+  prep:
+    profiles: ["prep"]
+    build: {context: ., dockerfile: Dockerfile.prep}
+    command: ["bash", "scripts/preparar_datos.sh"]
+    environment:
+      LANGUAGES: "${LANGUAGES:-es en}"
+    volumes:
+      - ./data:/work/data
+      - ./models:/work/models
+      - corpus_cache:/root/.open_corpus_co_es
+    logging: *logging
+
+volumes:
+  milvus_data:
+  ollama_data:
+  hf_cache:
+  corpus_cache:

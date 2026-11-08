@@ -1,0 +1,12 @@
+# Solo para equipos con GPU NVIDIA (Windows con WSL2 o Linux, con el NVIDIA Container Toolkit).
+# Uso: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build
+# En Mac no aplica: Docker no tiene acceso a la GPU de Apple y Ollama corre en CPU.
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
