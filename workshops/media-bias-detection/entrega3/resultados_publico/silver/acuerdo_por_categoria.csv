@@ -1,0 +1,12 @@
+campo,categoria,persona_1,persona_2,ambas,acuerdo_especifico
+¿sesgado?,No,27,50,27,0.7012987012987013
+¿sesgado?,No se puede saber,1,0,0,0.0
+¿sesgado?,Sí,32,10,10,0.47619047619047616
+tipo principal,Atribución selectiva,1,0,0,0.0
+tipo principal,Encuadre parcial / omisión de contexto,2,0,0,0.0
+tipo principal,Lenguaje cargado,2,3,0,0.0
+tipo principal,Opinión como hecho,3,3,1,0.3333333333333333
+tipo principal,Sensacionalismo,2,4,1,0.3333333333333333
+dirección,Desfavorable,7,4,2,0.36363636363636365
+dirección,Favorable,3,1,1,0.5
+dirección,Neutra / no aplica,0,5,0,0.0

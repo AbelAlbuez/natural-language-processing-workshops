@@ -7,6 +7,7 @@ qué palabras tienden a aparecer juntas en los titulares. Las etiquetas son una
 interpretación humana (`topic_labels.csv`).
 
 Resumen de resultados para el equipo: [`RESUMEN_EJECUTIVO.md`](RESUMEN_EJECUTIVO.md).
+**Informe final con todos los hallazgos: [`INFORME_FINAL.md`](INFORME_FINAL.md).**
 Las mejoras posteriores (subcorpus de asuntos públicos, control por sección, LDA
 de consenso y BERTopic) están en la [sección final](#mejoras-subcorpus-de-asuntos-públicos-control-por-sección-lda-de-consenso-y-bertopic).
 
@@ -678,4 +679,33 @@ calibración.
 ```bash
 SCRIPT=silver.py ./run.sh - evaluar      # lee planilla_silver_persona_{1,2}.xlsx
 SCRIPT=silver.py ./run.sh - adjudicar    # desacuerdos → adjudicacion.xlsx; luego evaluar --adjudicacion …
+```
+
+### Resultados (8 de noviembre de 2026)
+
+Código: `silver_analisis.py`. Salidas en `resultados_publico/silver/analisis/`
+(figuras 36–38).
+
+- **Quién anotó.** La planilla 1 la anotó una persona y la planilla 2 **una IA
+  («Claude (IA)»)**. Todo se reporta por anotador y con dos combinaciones:
+  laxa (un desacuerdo cuenta como «Sí») y estricta (como «No»).
+- **Acuerdo:**
+  - κ = 0,30 en sesgado y ≈ 0 en tipo y dirección.
+  - La IA es más exigente: nunca dice «Sí» donde la persona dice «No».
+  - Quedan 32 desacuerdos sin adjudicar.
+- **Sesgo juzgado (ponderado):**
+  - persona: 39 % (24–56) con Duque y 21 % (11–38) con Petro;
+  - IA: 14 % y 12 %;
+  - ningún Petro − Duque por medio es significativo;
+  - Caracol tiene la tasa más alta según la IA (41 %);
+  - indicio débil: La República, menos sesgo desfavorable con Petro.
+- **Indicadores:**
+  - léxico de `carga.py`: precisión 40 % (persona) y 23 % (IA), frente a
+    prevalencias de 30 % y 12 %, con cobertura ≤ 15 %;
+  - verbos de atribución cargados y «Gobierno Petro/Duque»: no indican sesgo.
+- **Clasificador TF-IDF con regresión logística:** AUC 0,62 (persona) y 0,56
+  (IA), sin superar a una marca del léxico.
+
+```bash
+SCRIPT=silver_analisis.py ./run.sh -      # tras evaluar; --reps para el bootstrap (2000)
 ```
